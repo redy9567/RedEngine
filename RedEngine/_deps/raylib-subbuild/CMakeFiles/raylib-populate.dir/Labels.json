@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/raylib-populate"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/9cb4494661c434298b035d3c4e97f41b/raylib-populate.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/78155c0c55cf9430e1b71115c9b81561/raylib-populate-complete.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-install.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-mkdir.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-download.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-update.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-patch.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-configure.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-build.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-subbuild/CMakeFiles/3f0ece1700f195934d67c3ccbb841abd/raylib-populate-test.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"raylib-populate"
+		],
+		"name" : "raylib-populate"
+	}
+}

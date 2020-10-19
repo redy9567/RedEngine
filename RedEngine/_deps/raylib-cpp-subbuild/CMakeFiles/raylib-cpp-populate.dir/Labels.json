@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/raylib-cpp-populate"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/f35f48181f09a103d8f8dc7ae7142475/raylib-cpp-populate.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/3cd4d3f0ef317594b0ecd744ef5237f2/raylib-cpp-populate-complete.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-install.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-mkdir.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-download.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-update.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-patch.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-configure.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-build.rule"
+		},
+		{
+			"file" : "E:/RedEngine/RedEngine/_deps/raylib-cpp-subbuild/CMakeFiles/bacce6f3127c50a38e1e6724062caf9a/raylib-cpp-populate-test.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"raylib-cpp-populate"
+		],
+		"name" : "raylib-cpp-populate"
+	}
+}
