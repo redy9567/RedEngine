@@ -1,3 +1,0 @@
-﻿  GraphicsSystem.cpp
-MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
-E:\RedEngine\RedEngine\x64\Debug\RedGraphicsLib.exe : fatal error LNK1120: 1 unresolved externals
