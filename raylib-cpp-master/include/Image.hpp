@@ -168,14 +168,15 @@ namespace raylib {
 			::ImageCrop(this, crop);
 			return *this;
 		}
-		inline Image& Crop(int offsetX, int offsetY, int newWidth, int newHeight) {
-			raylib::Rectangle r;
-			
-			r.SetX((float)offsetX);
-			r.SetY((float)offsetY);
-			r.SetWidth((float)newWidth);
-			r.SetHeight((float)newHeight);
-			::ImageCrop(this, r);
+		inline Image& Crop(int offsetX, int offsetY, int newWidth, int newHeight)
+		{
+			::Rectangle rect{
+				static_cast<float>(offsetX),
+				static_cast<float>(offsetY),
+				static_cast<float>(newWidth),
+				static_cast<float>(newHeight)
+			};
+			::ImageCrop(this, rect);
 			return *this;
 		}
 

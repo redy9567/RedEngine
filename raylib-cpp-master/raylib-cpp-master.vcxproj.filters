@@ -120,9 +120,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="include\CMakeLists.txt">
-      <Filter>Header Files</Filter>
-    </Text>
-  </ItemGroup>
 </Project>
