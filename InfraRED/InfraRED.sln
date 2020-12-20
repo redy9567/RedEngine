@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InfraRED", "InfraRED\InfraRED.vcxproj", "{695DA0F8-C269-4527-B95D-EAE4F2FD7F62}"
 	ProjectSection(ProjectDependencies) = postProject
 		{29DEC576-2763-4CCF-B07B-DE61ECC036D0} = {29DEC576-2763-4CCF-B07B-DE61ECC036D0}
+		{E89D61AC-55DE-4482-AFD4-DF7242EBC859} = {E89D61AC-55DE-4482-AFD4-DF7242EBC859}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "raylib-cpp-master", "..\raylib-cpp-master\raylib-cpp-master.vcxproj", "{29DEC576-2763-4CCF-B07B-DE61ECC036D0}"

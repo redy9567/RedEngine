@@ -1,5 +1,8 @@
-#include "raylib-cpp.hpp"
+//#pragma comment(lib, "raylib.lib")
 
+//#include "raylib-cpp.hpp"
+
+#include <raylib-cpp.hpp>
 using namespace std;
 using namespace raylib;
 
@@ -11,7 +14,6 @@ int main()
 
 	raylib::Window w(screenWidth, screenHeight, "raylib-cpp - basic window");
 	raylib::Texture logo("raylib_logo.png");
-
 	SetTargetFPS(60);
 
 	while (!w.ShouldClose())
@@ -20,7 +22,7 @@ int main()
 
 		raylib::Color::RayWhite.ClearBackground();
 
-		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+		DrawText("Congrats! You created your first window!", 190, 200, 20, ::LIGHTGRAY);
 
 		// Object methods.
 		logo.Draw(

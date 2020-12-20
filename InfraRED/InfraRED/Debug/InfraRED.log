@@ -1,14 +1,2 @@
 ﻿  main.cpp
-E:\RedEngine\raylib-cpp-master\include\Image.hpp(172,12): error C2039: 'Rectangle': is not a member of 'raylib'
-E:\RedEngine\raylib-cpp-master\include\Image.hpp(15): message : see declaration of 'raylib'
-E:\RedEngine\raylib-cpp-master\include\Image.hpp(174,1): error C2039: 'SetX': is not a member of 'Rectangle'
-E:\RedEngine\raylib-master\src\raylib.h(214): message : see declaration of 'Rectangle'
-E:\RedEngine\raylib-cpp-master\include\Image.hpp(175,1): error C2039: 'SetY': is not a member of 'Rectangle'
-E:\RedEngine\raylib-master\src\raylib.h(214): message : see declaration of 'Rectangle'
-E:\RedEngine\raylib-cpp-master\include\Image.hpp(176,1): error C2039: 'SetWidth': is not a member of 'Rectangle'
-E:\RedEngine\raylib-master\src\raylib.h(214): message : see declaration of 'Rectangle'
-E:\RedEngine\raylib-cpp-master\include\Image.hpp(177,1): error C2039: 'SetHeight': is not a member of 'Rectangle'
-E:\RedEngine\raylib-master\src\raylib.h(214): message : see declaration of 'Rectangle'
-E:\RedEngine\InfraRED\InfraRED\main.cpp(23,70): error C2872: 'Color': ambiguous symbol
-E:\RedEngine\raylib-master\src\raylib.h(206,16): message : could be 'Color'
-E:\RedEngine\raylib-cpp-master\include\Color.hpp(18,8): message : or       'raylib::Color'
+  InfraRED.vcxproj -> E:\RedEngine\InfraRED\Debug\InfraRED.exe
