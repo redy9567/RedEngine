@@ -1,7 +1,6 @@
 //#pragma comment(lib, "raylib.lib")
 
 //#include "raylib-cpp.hpp"
-
 #include <raylib-cpp.hpp>
 using namespace std;
 using namespace raylib;
