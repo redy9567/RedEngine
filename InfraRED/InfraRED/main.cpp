@@ -1,9 +1,7 @@
-//#pragma comment(lib, "raylib.lib")
+#include "GraphicsSystem.h"
 
-//#include "raylib-cpp.hpp"
-#include <raylib-cpp.hpp>
 using namespace std;
-using namespace raylib;
+
 
 int main()
 {
@@ -11,27 +9,19 @@ int main()
 	int screenWidth = 800;
 	int screenHeight = 450;
 
-	raylib::Window w(screenWidth, screenHeight, "raylib-cpp - basic window");
-	raylib::Texture logo("raylib_logo.png");
-	SetTargetFPS(60);
-
-	while (!w.ShouldClose())
+	GraphicsSystem* graphicsSystem = new GraphicsSystem();
+	graphicsSystem->init(screenWidth, screenHeight);
+	
+	while (!graphicsSystem->shouldExit())
 	{
-		BeginDrawing();
 
-		raylib::Color::RayWhite.ClearBackground();
+		graphicsSystem->clearBackground();
 
-		DrawText("Congrats! You created your first window!", 190, 200, 20, ::LIGHTGRAY);
+		graphicsSystem->drawText("It works! Congrats!", 190, 200);
 
-		// Object methods.
-		logo.Draw(
-			screenWidth / 2 - logo.GetWidth() / 2,
-			screenHeight / 2 - logo.GetHeight() / 2);
+		graphicsSystem->flipGraphicsBuffer();
 
-		EndDrawing();
 	}
-
-	// UnloadTexture() and CloseWindow() are called automatically.
 
 	return 0;
 }
