@@ -19,12 +19,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "raylib", "..\raylib-master\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RedLib", "..\RedLib\RedLib\RedLib.vcxproj", "{50AE2885-AD3F-468B-AB0E-D87D6C1A445D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "..\Game\Game.vcxproj", "{1C7955FC-A408-4514-A3B6-7FAA46695A0E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{50AE2885-AD3F-468B-AB0E-D87D6C1A445D} = {50AE2885-AD3F-468B-AB0E-D87D6C1A445D}
-		{695DA0F8-C269-4527-B95D-EAE4F2FD7F62} = {695DA0F8-C269-4527-B95D-EAE4F2FD7F62}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug.DLL|x64 = Debug.DLL|x64
@@ -101,22 +95,6 @@ Global
 		{50AE2885-AD3F-468B-AB0E-D87D6C1A445D}.Release|x64.Build.0 = Release|x64
 		{50AE2885-AD3F-468B-AB0E-D87D6C1A445D}.Release|x86.ActiveCfg = Release|Win32
 		{50AE2885-AD3F-468B-AB0E-D87D6C1A445D}.Release|x86.Build.0 = Release|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug.DLL|x64.ActiveCfg = Debug|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug.DLL|x64.Build.0 = Debug|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug.DLL|x86.ActiveCfg = Debug|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug.DLL|x86.Build.0 = Debug|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug|x64.ActiveCfg = Debug|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug|x64.Build.0 = Debug|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug|x86.ActiveCfg = Debug|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Debug|x86.Build.0 = Debug|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release.DLL|x64.ActiveCfg = Release|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release.DLL|x64.Build.0 = Release|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release.DLL|x86.ActiveCfg = Release|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release.DLL|x86.Build.0 = Release|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release|x64.ActiveCfg = Release|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release|x64.Build.0 = Release|x64
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release|x86.ActiveCfg = Release|Win32
-		{1C7955FC-A408-4514-A3B6-7FAA46695A0E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
