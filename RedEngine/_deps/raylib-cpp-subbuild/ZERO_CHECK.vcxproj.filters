@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\RedEngine\RedEngine\_deps\raylib-cpp-subbuild\CMakeFiles\f35f48181f09a103d8f8dc7ae7142475\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A2E1ABC3-CB8F-3E7C-91E8-AAA3EEB6E20D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
