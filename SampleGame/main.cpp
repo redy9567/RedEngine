@@ -19,10 +19,11 @@
 *
 ********************************************************************************************/
 
-#include "raylib-cpp.hpp"
 #include "GraphicsSystem.h"
 
-int main() {
+
+int main()
+{
     // Initialization
     //--------------------------------------------------------------------------------------
     int screenWidth = 800;
@@ -30,12 +31,16 @@ int main() {
     //raylib::Color textColor = LIGHTGRAY;
     //raylib::Window window(screenWidth, screenHeight, "raylib [core] example - basic window");
     
+    
+    GraphicsSystem* gs = new GraphicsSystem();
 
-    SetTargetFPS(60);
+    gs->init(screenWidth, screenHeight);
+
+    
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!window.ShouldClose())    // Detect window close button or ESC key
+    while (gs->isRunning())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
@@ -44,13 +49,7 @@ int main() {
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-        window.ClearBackground(RAYWHITE);
-
-        textColor.DrawText("Congrats! You created your first window!", 190, 200, 20);
-
-        EndDrawing();
+        gs->debugDraw();
         //----------------------------------------------------------------------------------
     }
 

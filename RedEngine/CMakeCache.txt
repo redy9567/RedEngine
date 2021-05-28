@@ -171,7 +171,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=raylib-cpp-example
+CMAKE_PROJECT_NAME:STATIC=SampleGame
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=3.4.0
@@ -343,6 +343,18 @@ OPENGL_VERSION:STRING=OFF
 
 //Platform to build for.
 PLATFORM:STRING=Desktop
+
+//Value Computed by CMake
+RedEngine_BINARY_DIR:STATIC=E:/RedEngine/RedEngine
+
+//Value Computed by CMake
+RedEngine_SOURCE_DIR:STATIC=E:/RedEngine/raylib-cpp/projects/CMake
+
+//Value Computed by CMake
+SampleGame_BINARY_DIR:STATIC=E:/RedEngine/RedEngine
+
+//Value Computed by CMake
+SampleGame_SOURCE_DIR:STATIC=E:/RedEngine/raylib-cpp/projects/CMake
 
 //Link raylib against system GLFW instead of embedded one
 USE_EXTERNAL_GLFW:STRING=OFF
@@ -556,7 +568,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //GLFW pkg-config Libs.private
-GLFW_PKG_LIBS:INTERNAL= -lgdi32
+GLFW_PKG_LIBS:INTERNAL= -lgdi32 -lgdi32 -lgdi32 -lgdi32 -lgdi32 -lgdi32 -lgdi32 -lgdi32
 //Use Wayland for window creation
 GLFW_USE_WAYLAND:INTERNAL=
 //Replace any OFF by default with ${OFF} to have it covered by

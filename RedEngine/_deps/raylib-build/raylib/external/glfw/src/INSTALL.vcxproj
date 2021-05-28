@@ -223,7 +223,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="E:\RedEngine\RedEngine\ALL_BUILD.vcxproj">
+    <ProjectReference Include="E:\RedEngine\RedEngine\_deps\raylib-cpp-build\ALL_BUILD.vcxproj">
       <Project>{2AACC5BA-252C-3159-9B5D-BB28F05D3D47}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

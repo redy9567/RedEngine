@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
-project(raylib-cpp-example)
+project(SampleGame)
 
 # raylib
 find_package(raylib QUIET)
@@ -40,7 +40,7 @@ if (NOT raylib-cpp_FOUND)
 endif()
 
 # This is the main part:
-set(PROJECT_NAME raylib-cpp-example)
+set(PROJECT_NAME SampleGame)
 set(PROJECT_SOURCES main.cpp)
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 set(raylib_VERBOSE 1)
