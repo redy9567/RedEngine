@@ -52,18 +52,16 @@ int main()
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
 
-        Vector2D a = Vector2D(5.3f, 1.1f);
-        Vector2D b = a;
-
-        std::cout << b.getX();
-
         // Draw
         //----------------------------------------------------------------------------------
         RColor lightGrey = RColor(150, 150, 150, 255);
         RColor white = RColor(255, 255, 255, 255);
 
         gs->clearScreenToColor(white);
-        gs->drawText("Guess what, BOYS", 190, 200, lightGrey, 20);
+
+        Vector2D loc(190, 200);
+
+        gs->drawText("Guess what, BOYS", loc, lightGrey, 20);
 
         gs->flip();
         //----------------------------------------------------------------------------------

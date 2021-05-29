@@ -1,6 +1,7 @@
 #pragma once
 
 #include <raylib-cpp.hpp>
+#include "Vector2D.h"
 
 class RColor;
 
@@ -17,7 +18,7 @@ public:
 	void cleanup();
 
 	void clearScreenToColor(RColor);
-	void drawText(std::string text, int x, int y, RColor col, int fontSize = 12);
+	void drawText(std::string text, Vector2D loc, RColor col, int fontSize = 12);
 
 	void debugDraw(); //TO BE REMOVED
 

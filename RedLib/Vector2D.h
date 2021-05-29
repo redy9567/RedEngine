@@ -11,6 +11,16 @@ public:
 
 	Vector2D operator=(const Vector2D& other);
 
+	Vector2D operator+(const Vector2D& other);
+	Vector2D operator-(const Vector2D& other);
+	Vector2D operator*(const float scalar);
+	Vector2D operator/(const float scalar);
+
+	Vector2D operator+=(const Vector2D& other);
+	Vector2D operator-=(const Vector2D& other);
+	Vector2D operator*=(const float scalar);
+	Vector2D operator/=(const float scalar);
+
 	float getX() { return mX; }
 	float getY() { return mY; }
 

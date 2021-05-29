@@ -73,7 +73,7 @@ void GraphicsSystem::clearScreenToColor(RColor col)
 	mWindow->ClearBackground(col.getRayColor());
 }
 
-void GraphicsSystem::drawText(string text, int x, int y, RColor col, int fontSize)
+void GraphicsSystem::drawText(string text, Vector2D loc, RColor col, int fontSize)
 {
-	col.getRayColor().DrawText(text, x, y, fontSize);
+	col.getRayColor().DrawText(text, loc.getX(), loc.getY(), fontSize);
 }

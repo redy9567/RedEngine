@@ -29,3 +29,51 @@ Vector2D Vector2D::operator=(const Vector2D& other)
 	mY = other.mY;
 	return *this;
 }
+
+Vector2D Vector2D::operator+(const Vector2D& other)
+{
+	return Vector2D(mX + other.mX, mY + other.mY);
+}
+
+Vector2D Vector2D::operator-(const Vector2D& other)
+{
+	return Vector2D(mX - other.mX, mY - other.mY);
+}
+
+Vector2D Vector2D::operator*(const float scalar)
+{
+	return Vector2D(scalar * mX, scalar * mY);
+}
+
+Vector2D Vector2D::operator/(const float scalar)
+{
+	return Vector2D(mX / scalar, mY / scalar);
+}
+
+Vector2D Vector2D::operator+=(const Vector2D& other)
+{
+	mX += other.mX;
+	mY += other.mY;
+	return *this;
+}
+
+Vector2D Vector2D::operator-=(const Vector2D& other)
+{
+	mX -= other.mX;
+	mY -= other.mY;
+	return *this;
+}
+
+Vector2D Vector2D::operator*=(const float scalar)
+{
+	mX *= scalar;
+	mY *= scalar;
+	return *this;
+}
+
+Vector2D Vector2D::operator/=(const float scalar)
+{
+	mX /= scalar;
+	mY /= scalar;
+	return *this;
+}
