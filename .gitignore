@@ -65,8 +65,12 @@ InfraRED/.vs/InfraRED/v16/ipch/AutoPCH/3f9964f70d1d3a24/UTILS.ipch
 RedEngine/.vs/
 RedEngine/_deps/raylib-build/raylib/external/glfw/src/glfw.dir/Debug/
 RedEngine/_deps/raylib-build/raylib/external/glfw/src/glfw_objlib.dir/Debug/
-RedEngine/
 SampleGame/RedEngine.dir/Debug/RedEngine.lib.recipe
 SampleGame/RedEngine.dir/Debug/
 SampleGame/SampleGame.dir/Debug/
 SampleGame/Debug/SampleGame.ilk
+RedEngine/raylib-cpp-example.dir/Debug/
+RedEngine/RedEngine.dir/Debug/RedEngine.exe.recipe
+RedEngine/RedEngine.dir/Debug/
+RedEngine/RedEngine/Debug/
+RedEngine/_deps/raylib-build/raylib/raylib.dir/Debug/
