@@ -74,3 +74,5 @@ RedEngine/RedEngine.dir/Debug/RedEngine.exe.recipe
 RedEngine/RedEngine.dir/Debug/
 RedEngine/RedEngine/Debug/
 RedEngine/_deps/raylib-build/raylib/raylib.dir/Debug/
+RedEngine/x64/Debug/
+RedLib/x64/Debug/

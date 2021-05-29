@@ -1,4 +1,5 @@
 #include "GraphicsSystem.h"
+#include "Color.h"
 
 using namespace raylib;
 using namespace std;
@@ -65,4 +66,14 @@ void GraphicsSystem::flip()
 {
 	EndDrawing();
 	BeginDrawing();
+}
+
+void GraphicsSystem::clearScreenToColor(RColor col)
+{
+	mWindow->ClearBackground(col.getRayColor());
+}
+
+void GraphicsSystem::drawText(string text, int x, int y, RColor col, int fontSize)
+{
+	col.getRayColor().DrawText(text, x, y, fontSize);
 }
