@@ -2,10 +2,11 @@
 
 #include <raylib-cpp.hpp>
 #include "Vector2D.h"
+#include "Trackable.h"
 
 class RColor;
 
-class GraphicsSystem
+class GraphicsSystem : public Trackable
 {
 
 public:

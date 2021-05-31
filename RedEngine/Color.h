@@ -1,10 +1,11 @@
 #pragma once
 
 #include "raylib-cpp.hpp"
+#include "Trackable.h"
 
 const int MAX_COLOR_VALUE = 255;
 
-class RColor
+class RColor : public Trackable
 {
 
 public:

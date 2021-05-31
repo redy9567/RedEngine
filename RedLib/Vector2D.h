@@ -1,6 +1,7 @@
 #pragma once
+#include "Trackable.h"
 
-class Vector2D
+class Vector2D : public Trackable
 {
 
 public:

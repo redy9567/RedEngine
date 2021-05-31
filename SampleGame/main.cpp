@@ -23,6 +23,7 @@
 #include "Color.h"
 
 #include "Vector2D.h"
+#include "MemoryTracker.h"
 
 #include <iostream>
 
@@ -66,6 +67,13 @@ int main()
         gs->flip();
         //----------------------------------------------------------------------------------
     }
+
+    gs->cleanup();
+
+    delete gs;
+    gs = nullptr;
+
+    MemoryTracker::cleanupInstance();
 
     return 0;
 }
