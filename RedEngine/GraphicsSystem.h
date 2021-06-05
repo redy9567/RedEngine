@@ -3,6 +3,7 @@
 #include <raylib-cpp.hpp>
 #include "Vector2D.h"
 #include "Trackable.h"
+#include "GraphicsBuffer.h"
 
 class RColor;
 
@@ -20,8 +21,8 @@ public:
 
 	void clearScreenToColor(RColor);
 	void drawText(std::string text, Vector2D loc, RColor col, int fontSize = 12);
-
-	void debugDraw(); //TO BE REMOVED
+	void draw(GraphicsBuffer* gb);
+	void draw(GraphicsBuffer* gb, Vector2D loc);
 
 	void flip();
 
@@ -31,5 +32,6 @@ private:
 	raylib::Window* mWindow;
 	int mWidth, mHeight;
 
+	raylib::Vector2 convertVector(Vector2D vec);
 
 };

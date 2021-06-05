@@ -1,1 +1,2 @@
-﻿  Building Custom Rule E:/RedEngine/raylib-cpp/projects/CMake/CMakeLists.txt
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1947,5): warning : The referenced project 'E:\RedEngine\RedEngine\SampleGame.vcxproj' does not exist.
+  Building Custom Rule E:/RedEngine/raylib-cpp/projects/CMake/CMakeLists.txt

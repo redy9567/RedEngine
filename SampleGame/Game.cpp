@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GraphicsSystem.h"
+#include "GraphicsBuffer.h"
 #include "Color.h"
 
 Game* Game::mspInstance = nullptr;
@@ -46,10 +47,15 @@ void Game::init(int screenWidth, int screenHeight)
 	mpGraphicsSystem = new GraphicsSystem();
 
 	mpGraphicsSystem->init(screenWidth, screenHeight);
+
+	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
 }
 
 void Game::cleanup()
 {
+	delete mpSmurfBuffer;
+	mpSmurfBuffer = nullptr;
+
 	mpGraphicsSystem->cleanup();
 
 	delete mpGraphicsSystem;
@@ -76,6 +82,8 @@ void Game::render()
 	Vector2D loc(190, 200);
 
 	mpGraphicsSystem->drawText("Guess what, BOYS", loc, lightGrey, 20);
+
+	mpGraphicsSystem->draw(mpSmurfBuffer, Vector2D(300, 300));
 
 	mpGraphicsSystem->flip();
 }

@@ -49,19 +49,6 @@ void GraphicsSystem::cleanup()
 	EndDrawing();
 }
 
-void GraphicsSystem::debugDraw()
-{
-	raylib::Color textColor = raylib::LIGHTGRAY;
-
-	
-
-	mWindow->ClearBackground(raylib::RAYWHITE);
-
-	textColor.DrawText("Congrats! You created your first window!", 190, 200, 20);
-
-	flip();
-}
-
 void GraphicsSystem::flip()
 {
 	EndDrawing();
@@ -76,4 +63,19 @@ void GraphicsSystem::clearScreenToColor(RColor col)
 void GraphicsSystem::drawText(string text, Vector2D loc, RColor col, int fontSize)
 {
 	col.getRayColor().DrawText(text, loc.getX(), loc.getY(), fontSize);
+}
+
+void GraphicsSystem::draw(GraphicsBuffer* gb)
+{
+	gb->mTexture->Draw();
+}
+
+void GraphicsSystem::draw(GraphicsBuffer* gb, Vector2D loc)
+{
+	gb->mTexture->Draw(convertVector(loc));
+}
+
+raylib::Vector2 GraphicsSystem::convertVector(Vector2D vec)
+{
+	return raylib::Vector2(vec.getX(), vec.getY());
 }

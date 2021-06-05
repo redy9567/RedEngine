@@ -1,7 +1,12 @@
 #pragma once
 #include "Trackable.h"
+#include <string>
 
 class GraphicsSystem;
+class GraphicsBuffer;
+
+const std::string ASSET_PATH = "E:\\RedEngine\\SampleGame\\Assets\\";
+const std::string SMURF_FILENAME = "smurf_sprites.png";
 
 class Game : public Trackable
 {
@@ -25,4 +30,6 @@ private:
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
+
+	GraphicsBuffer* mpSmurfBuffer;
 };
