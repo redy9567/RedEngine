@@ -19,8 +19,7 @@
 *
 ********************************************************************************************/
 
-#include "GraphicsSystem.h"
-#include "Color.h"
+#include "Game.h"
 
 #include "Vector2D.h"
 #include "MemoryTracker.h"
@@ -28,58 +27,29 @@
 
 #include <iostream>
 
+const int screenWidth = 800;
+const int screenHeight = 450;
 
 int main()
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    int screenWidth = 800;
-    int screenHeight = 450;
 
     //Initialize runtime timer
-    
-    
     Timer t;
     t.start();
     
-    GraphicsSystem* gs = new GraphicsSystem();
+    //Play Game
+    Game::getInstance()->init(screenWidth, screenHeight);
+    Game::getInstance()->startGame();
+    Game::getInstance()->cleanup();
+    Game::cleanupInstance();
 
-    gs->init(screenWidth, screenHeight);
-
-    
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-    while (gs->isRunning())    // Detect window close button or ESC key
-    {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
-        RColor lightGrey = RColor(150, 150, 150, 255);
-        RColor white = RColor(255, 255, 255, 255);
-
-        gs->clearScreenToColor(white);
-
-        Vector2D loc(190, 200);
-
-        gs->drawText("Guess what, BOYS", loc, lightGrey, 20);
-
-        gs->flip();
-        //----------------------------------------------------------------------------------
-    }
-
-    gs->cleanup();
-
-    delete gs;
-    gs = nullptr;
-
+    //Track Memory Leaks
     MemoryTracker::cleanupInstance();
 
+    //Output runtime
     std::cout << "----------Total runtime: " << t.getElapsedTime() / 1000.0 << std::endl;
+
+    
 
     return 0;
 }
