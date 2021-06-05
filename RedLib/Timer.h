@@ -3,7 +3,7 @@
 #pragma once
 #include "Trackable.h"
 
-struct LARGE_INTEGER;
+union _LARGE_INTEGER; //In CPP, LARGE_INTEGER and _LARGE_INTEGER are synonymous
 
 class Timer :public Trackable
 {
@@ -18,13 +18,13 @@ public:
 	void togglePause();
 
 private:
-	LARGE_INTEGER mStartTime;
-	LARGE_INTEGER mEndTime;
-	LARGE_INTEGER mTimerFrequency;
+	_LARGE_INTEGER* mStartTime;
+	_LARGE_INTEGER* mEndTime;
+	_LARGE_INTEGER* mTimerFrequency;
 	double mElapsedTime;
 	bool mPaused;
 
 	//takes into account timer frequency
-	double calcDifferenceInMS(LARGE_INTEGER from, LARGE_INTEGER to) const;
+	double calcDifferenceInMS(_LARGE_INTEGER* from, _LARGE_INTEGER* to) const;
 
 };

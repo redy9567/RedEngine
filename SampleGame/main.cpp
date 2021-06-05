@@ -39,8 +39,8 @@ int main()
     //Initialize runtime timer
     
     
-    //Timer t;
-    //t.start();
+    Timer t;
+    t.start();
     
     GraphicsSystem* gs = new GraphicsSystem();
 
@@ -74,12 +74,12 @@ int main()
 
     gs->cleanup();
 
-    //std::cout << "Total runtime: " << t.getElapsedTime();
-
     delete gs;
     gs = nullptr;
 
     MemoryTracker::cleanupInstance();
+
+    std::cout << "----------Total runtime: " << t.getElapsedTime() / 1000.0 << std::endl;
 
     return 0;
 }
