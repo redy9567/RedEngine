@@ -142,11 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="MemoryTracker.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Trackable.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryTracker.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Trackable.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>

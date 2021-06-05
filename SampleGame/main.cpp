@@ -24,6 +24,7 @@
 
 #include "Vector2D.h"
 #include "MemoryTracker.h"
+#include "Timer.h"
 
 #include <iostream>
 
@@ -34,9 +35,12 @@ int main()
     //--------------------------------------------------------------------------------------
     int screenWidth = 800;
     int screenHeight = 450;
-    //raylib::Color textColor = LIGHTGRAY;
-    //raylib::Window window(screenWidth, screenHeight, "raylib [core] example - basic window");
+
+    //Initialize runtime timer
     
+    
+    //Timer t;
+    //t.start();
     
     GraphicsSystem* gs = new GraphicsSystem();
 
@@ -69,6 +73,8 @@ int main()
     }
 
     gs->cleanup();
+
+    //std::cout << "Total runtime: " << t.getElapsedTime();
 
     delete gs;
     gs = nullptr;

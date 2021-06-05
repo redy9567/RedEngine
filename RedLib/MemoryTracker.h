@@ -1,4 +1,4 @@
-//Inspired by Dean Lawson
+//Inspired by Dean Lawson, Champlain College
 
 #pragma once
 #include <unordered_map>

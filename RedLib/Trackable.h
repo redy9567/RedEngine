@@ -1,3 +1,5 @@
+//Inspired by Dean Lawson, Champlain College
+
 #pragma once
 
 class Trackable
