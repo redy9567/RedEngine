@@ -3,9 +3,11 @@
 #include <raylib-cpp.hpp>
 #include "Vector2D.h"
 #include "Trackable.h"
-#include "GraphicsBuffer.h"
+
 
 class RColor;
+class GraphicsBuffer;
+class Sprite;
 
 class GraphicsSystem : public Trackable
 {
@@ -21,8 +23,9 @@ public:
 
 	void clearScreenToColor(RColor);
 	void drawText(std::string text, Vector2D loc, RColor col, int fontSize = 12);
-	void draw(GraphicsBuffer* gb);
-	void draw(GraphicsBuffer* gb, Vector2D loc);
+	void draw(GraphicsBuffer* gb, Vector2D loc); //draw GraphicsBuffer to given location
+	void draw(Sprite* sprite, Vector2D loc); //draw Sprite to given location
+
 
 	void flip();
 

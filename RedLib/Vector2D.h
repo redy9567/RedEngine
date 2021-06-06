@@ -25,7 +25,9 @@ public:
 	float getX() { return mX; }
 	float getY() { return mY; }
 
+	static const Vector2D Zero() { return Vector2D(0, 0); }
+
 private:
 	float mX, mY;
-
+	
 };

@@ -1,5 +1,7 @@
 #include "GraphicsSystem.h"
 #include "Color.h"
+#include "GraphicsBuffer.h"
+#include "Sprite.h"
 
 using namespace raylib;
 using namespace std;
@@ -65,14 +67,16 @@ void GraphicsSystem::drawText(string text, Vector2D loc, RColor col, int fontSiz
 	col.getRayColor().DrawText(text, loc.getX(), loc.getY(), fontSize);
 }
 
-void GraphicsSystem::draw(GraphicsBuffer* gb)
-{
-	gb->mTexture->Draw();
-}
-
 void GraphicsSystem::draw(GraphicsBuffer* gb, Vector2D loc)
 {
 	gb->mTexture->Draw(convertVector(loc));
+}
+
+void GraphicsSystem::draw(Sprite* sprite, Vector2D loc)
+{
+	sprite->mpGraphicsBuffer->mTexture->Draw(
+		raylib::Rectangle(sprite->mLoc.getX(), sprite->mLoc.getY(), sprite->mSize.getX(), sprite->mSize.getY()), //Dimentions of the sprite on the Texture
+		convertVector(loc)); //Location to draw on screen
 }
 
 raylib::Vector2 GraphicsSystem::convertVector(Vector2D vec)
