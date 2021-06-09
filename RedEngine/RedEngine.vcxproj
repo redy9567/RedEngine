@@ -272,6 +272,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="GraphicsBuffer.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
@@ -279,6 +280,7 @@
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="GraphicsBuffer.h" />
     <ClInclude Include="GraphicsSystem.h" />
