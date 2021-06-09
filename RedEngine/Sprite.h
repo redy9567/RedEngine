@@ -13,7 +13,7 @@ public:
 	~Sprite();
 
 	Vector2D getSize() { return mSize; }
-	Vector2D getLoc() { return mLoc; }
+	Vector2D getLocation() { return mLoc; }
 	
 private:
 	Sprite() = delete;

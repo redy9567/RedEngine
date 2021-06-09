@@ -5,6 +5,8 @@
 class GraphicsSystem;
 class GraphicsBuffer;
 class Sprite;
+class InputSystem;
+class Unit;
 
 const std::string ASSET_PATH = "E:\\RedEngine\\SampleGame\\Assets\\";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -31,8 +33,10 @@ private:
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
+	InputSystem* mpInputSystem;
 
 	GraphicsBuffer* mpSmurfBuffer;
 	Sprite* mpSmurfSprite;
+	Unit* mpSmurfUnit;
 	
 };
