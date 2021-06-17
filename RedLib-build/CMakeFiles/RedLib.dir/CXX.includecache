@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/redy9567/RedEngine/RedLib/Timer.cpp
+Timer.h
+/home/redy9567/RedEngine/RedLib/Timer.h
+Windows.h
+/home/redy9567/RedEngine/RedLib/Windows.h
+
+/home/redy9567/RedEngine/RedLib/Timer.h
+Trackable.h
+/home/redy9567/RedEngine/RedLib/Trackable.h
+
+/home/redy9567/RedEngine/RedLib/Trackable.h
+cstdlib
+-
+

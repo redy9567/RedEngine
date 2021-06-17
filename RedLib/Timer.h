@@ -2,8 +2,7 @@
 
 #pragma once
 #include "Trackable.h"
-
-union _LARGE_INTEGER; //In CPP, LARGE_INTEGER and _LARGE_INTEGER are synonymous
+#include <chrono>
 
 class Timer :public Trackable
 {
@@ -18,13 +17,9 @@ public:
 	void togglePause();
 
 private:
-	_LARGE_INTEGER* mStartTime;
-	_LARGE_INTEGER* mEndTime;
-	_LARGE_INTEGER* mTimerFrequency;
+	std::chrono::steady_clock::time_point mStartTime;
+	std::chrono::steady_clock::time_point mEndTime;
 	double mElapsedTime;
 	bool mPaused;
-
-	//takes into account timer frequency
-	double calcDifferenceInMS(_LARGE_INTEGER* from, _LARGE_INTEGER* to) const;
 
 };

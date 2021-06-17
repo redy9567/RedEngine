@@ -20,15 +20,13 @@
 ********************************************************************************************/
 
 #include "raylib-cpp.hpp"
-#include "GraphicsSystem.h"
-
 int main() {
     // Initialization
     //--------------------------------------------------------------------------------------
     int screenWidth = 800;
     int screenHeight = 450;
-    //raylib::Color textColor = LIGHTGRAY;
-    //raylib::Window window(screenWidth, screenHeight, "raylib [core] example - basic window");
+    raylib::Color textColor = LIGHTGRAY;
+    raylib::Window window(screenWidth, screenHeight, "raylib [core] example - basic window");
     
 
     SetTargetFPS(60);

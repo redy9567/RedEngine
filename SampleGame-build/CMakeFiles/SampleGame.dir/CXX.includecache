@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/redy9567/RedEngine/SampleGame/Game.h
+Trackable.h
+/home/redy9567/RedEngine/SampleGame/Trackable.h
+string
+-
+
+/home/redy9567/RedEngine/SampleGame/main.cpp
+Game.h
+/home/redy9567/RedEngine/SampleGame/Game.h
+MemoryTracker.h
+/home/redy9567/RedEngine/SampleGame/MemoryTracker.h
+Timer.h
+/home/redy9567/RedEngine/SampleGame/Timer.h
+iostream
+-
+

@@ -1,34 +1,27 @@
 #include "Timer.h"
-#include <Windows.h>
+
+#ifdef _WIN32
+#include "Windows.h"
+#elif __linux__
+#include "unistd.h"
+#endif
+
+using namespace std;
 
 Timer::Timer()
 	:mElapsedTime(0.0)
 	, mPaused(true)
 {
-	mStartTime = new LARGE_INTEGER();
-	mEndTime = new LARGE_INTEGER();
-	mTimerFrequency = new LARGE_INTEGER();
-
-	QueryPerformanceFrequency(mTimerFrequency);
-	mStartTime->QuadPart = 0;
-	mEndTime->QuadPart = 0;
+	
 }
 
 Timer::~Timer()
 {
-	delete mStartTime;
-	delete mEndTime;
-	delete mTimerFrequency;
-	mStartTime = nullptr;
-	mEndTime = nullptr;
-	mTimerFrequency = nullptr;
+	std::chrono::system_clock;
 }
 
 void Timer::start()
 {
-	QueryPerformanceCounter(mStartTime);
-
-	mEndTime->QuadPart = 0;
 	mElapsedTime = 0.0;
 
 	togglePause();
@@ -36,8 +29,14 @@ void Timer::start()
 
 void Timer::stop()
 {
-	QueryPerformanceCounter(mEndTime);
-	mElapsedTime = calcDifferenceInMS(mStartTime, mEndTime);
+	if(!mPaused)
+	{
+		mPaused = true;
+		mEndTime = chrono::steady_clock::now();
+		chrono::nanoseconds diff = (mEndTime - mStartTime);
+		mElapsedTime += chrono::duration_cast<chrono::seconds>(diff).count();
+	}
+	
 }
 
 void Timer::togglePause()
@@ -45,41 +44,46 @@ void Timer::togglePause()
 	if (!mPaused)
 	{
 		mPaused = true;
-		QueryPerformanceCounter(mEndTime);
-		mElapsedTime += calcDifferenceInMS(mStartTime, mEndTime);
+		mEndTime = chrono::steady_clock::now();
+		chrono::nanoseconds diff = (mEndTime - mStartTime);
+		mElapsedTime += chrono::duration_cast<chrono::seconds>(diff).count();
 	}
 	else
 	{
 		mPaused = false;
-		QueryPerformanceCounter(mStartTime);
+		mStartTime = chrono::steady_clock::now();
 	}
 }
 
 double Timer::getElapsedTime() const
 {
-	if (mEndTime->QuadPart != 0)
+	if (mPaused)
 	{
 		return mElapsedTime;
 	}
 	else
 	{
-		LARGE_INTEGER currentTime;
-		QueryPerformanceCounter(&currentTime);
-		return calcDifferenceInMS(mStartTime, &currentTime);
+		std::chrono::steady_clock::time_point currentTime;
+		currentTime = chrono::steady_clock::now();
+		chrono::nanoseconds diff = (currentTime - mStartTime);
+		return chrono::duration_cast<chrono::seconds>(diff).count();
 	}
 }
 
+#ifdef _WIN32
 void Timer::sleepUntilElapsed(double ms)
 {
-	LARGE_INTEGER currentTime, lastTime;
-	QueryPerformanceCounter(&currentTime);
-	double timeToSleep = ms - calcDifferenceInMS(mStartTime, &currentTime);
+	std::chrono::steady_clock::time_point currentTime, lastTime;
+	currentTime = std::chrono::steady_clock::now();
+	chrono::nanoseconds diff = (currentTime - mStartTime);
+	double timeToSleep = ms - chrono::duration_cast<chrono::milliseconds>(diff).count();
 	
 	while (timeToSleep > 0.0)
 	{
 		lastTime = currentTime;
-		QueryPerformanceCounter(&currentTime);
-		double timeElapsed = calcDifferenceInMS(&lastTime, &currentTime);
+		currentTime = std::chrono::steady_clock::now();
+		diff = (currentTime - lastTime);
+		double timeElapsed = chrono::duration_cast<chrono::milliseconds>(diff).count();
 		timeToSleep -= timeElapsed;
 		if (timeToSleep > 10.0)
 		{
@@ -87,9 +91,25 @@ void Timer::sleepUntilElapsed(double ms)
 		}
 	}
 }
-
-double Timer::calcDifferenceInMS(LARGE_INTEGER* from, LARGE_INTEGER* to) const
+#elif __linux__
+void Timer::sleepUntilElapsed(double ms)
 {
-	double difference = (double)(to->QuadPart - from->QuadPart) / (double)mTimerFrequency->QuadPart;
-	return difference * 1000;
+	std::chrono::steady_clock::time_point currentTime, lastTime;
+	currentTime = std::chrono::steady_clock::now();
+	chrono::nanoseconds diff = (currentTime - mStartTime);
+	double timeToSleep = ms - chrono::duration_cast<chrono::milliseconds>(diff).count();
+	
+	while (timeToSleep > 0.0)
+	{
+		lastTime = currentTime;
+		currentTime = std::chrono::steady_clock::now();
+		diff = (currentTime - lastTime);
+		double timeElapsed = chrono::duration_cast<chrono::milliseconds>(diff).count();
+		timeToSleep -= timeElapsed;
+		if (timeToSleep > 10.0)
+		{
+			sleep(10);
+		}
+	}
 }
+#endif
