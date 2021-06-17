@@ -17,7 +17,7 @@ Timer::Timer()
 
 Timer::~Timer()
 {
-	std::chrono::system_clock;
+	
 }
 
 void Timer::start()

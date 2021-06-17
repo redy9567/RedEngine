@@ -1,0 +1,16 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.20/Modules/CPack.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CPackComponent.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-3.20/Templates/CPackConfig.cmake.in
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/CompileDefinitions.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/GlfwImport.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/InstallConfigurations.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/JoinPaths.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/LibraryConfigurations.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/LibraryPathToLinkerFlags.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/PackConfigurations.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/PopulateConfigVariablesLocally.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/cmake/raylib-config-version.cmake
+E:/RedEngine/RedEngine/_deps/raylib-src/raylib.pc.in
+E:/RedEngine/RedEngine/_deps/raylib-src/src/CMakeLists.txt
