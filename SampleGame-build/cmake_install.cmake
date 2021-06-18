@@ -41,6 +41,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/redy9567/RedEngine/SampleGame-build/_deps/raylib-build/cmake_install.cmake")
   include("/home/redy9567/RedEngine/SampleGame-build/_deps/raylib-cpp-build/cmake_install.cmake")
+  include("/home/redy9567/RedEngine/RedEngine-build/cmake_install.cmake")
 
 endif()
 

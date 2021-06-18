@@ -4,6 +4,9 @@
 #include "Trackable.h"
 #include <chrono>
 
+const double NANO_TO_SEC = 1000000000.0;
+const double MILLI_TO_SEC = 1000.0;
+
 class Timer :public Trackable
 {
 public:

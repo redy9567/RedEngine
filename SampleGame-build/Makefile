@@ -230,6 +230,86 @@ glfw_objlib/fast:
 	$(MAKE) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/build
 .PHONY : glfw_objlib/fast
 
+#=============================================================================
+# Target rules for targets named RedEngine
+
+# Build rule for target.
+RedEngine: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 RedEngine
+.PHONY : RedEngine
+
+# fast build rule for target.
+RedEngine/fast:
+	$(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build
+.PHONY : RedEngine/fast
+
+#=============================================================================
+# Target rules for targets named RedLib
+
+# Build rule for target.
+RedLib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 RedLib
+.PHONY : RedLib
+
+# fast build rule for target.
+RedLib/fast:
+	$(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build
+.PHONY : RedLib/fast
+
+Game.o: Game.cpp.o
+
+.PHONY : Game.o
+
+# target to build an object file
+Game.cpp.o:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Game.cpp.o
+.PHONY : Game.cpp.o
+
+Game.i: Game.cpp.i
+
+.PHONY : Game.i
+
+# target to preprocess a source file
+Game.cpp.i:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Game.cpp.i
+.PHONY : Game.cpp.i
+
+Game.s: Game.cpp.s
+
+.PHONY : Game.s
+
+# target to generate assembly for a file
+Game.cpp.s:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Game.cpp.s
+.PHONY : Game.cpp.s
+
+Unit.o: Unit.cpp.o
+
+.PHONY : Unit.o
+
+# target to build an object file
+Unit.cpp.o:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Unit.cpp.o
+.PHONY : Unit.cpp.o
+
+Unit.i: Unit.cpp.i
+
+.PHONY : Unit.i
+
+# target to preprocess a source file
+Unit.cpp.i:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Unit.cpp.i
+.PHONY : Unit.cpp.i
+
+Unit.s: Unit.cpp.s
+
+.PHONY : Unit.s
+
+# target to generate assembly for a file
+Unit.cpp.s:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Unit.cpp.s
+.PHONY : Unit.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -275,6 +355,14 @@ help:
 	@echo "... raylib"
 	@echo "... glfw"
 	@echo "... glfw_objlib"
+	@echo "... RedEngine"
+	@echo "... RedLib"
+	@echo "... Game.o"
+	@echo "... Game.i"
+	@echo "... Game.s"
+	@echo "... Unit.o"
+	@echo "... Unit.i"
+	@echo "... Unit.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -3,7 +3,7 @@
 #pragma once
 #include "Trackable.h"
 
-union _LARGE_INTEGER; //In CPP, LARGE_INTEGER and _LARGE_INTEGER are synonymous
+union _LARGE_INTEGER; //In Windows.h, LARGE_INTEGER and _LARGE_INTEGER are synonymous
 
 class Timer :public Trackable
 {

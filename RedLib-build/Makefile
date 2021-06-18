@@ -48,24 +48,37 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/redy9567/RedEngine/RedLib
+CMAKE_SOURCE_DIR = /home/redy9567/RedEngine/SampleGame
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/redy9567/RedEngine/RedLib-build
+CMAKE_BINARY_DIR = /home/redy9567/RedEngine/SampleGame-build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
-.PHONY : rebuild_cache/fast
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -78,16 +91,71 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/redy9567/RedEngine/SampleGame-build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/redy9567/RedEngine/SampleGame-build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/redy9567/RedEngine/SampleGame-build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
+
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/RedLib-build/CMakeFiles /home/redy9567/RedEngine/RedLib-build/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/RedLib-build/CMakeFiles 0
+	cd /home/redy9567/RedEngine/SampleGame-build && $(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles /home/redy9567/RedEngine/RedLib-build/CMakeFiles/progress.marks
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedLib-build/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedLib-build/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,30 +165,32 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedLib-build/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedLib-build/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/redy9567/RedEngine/SampleGame-build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named RedLib
+# Convenience name for target.
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule
 
-# Build rule for target.
-RedLib: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 RedLib
+# Convenience name for target.
+RedLib: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule
+
 .PHONY : RedLib
 
 # fast build rule for target.
 RedLib/fast:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/build
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build
 .PHONY : RedLib/fast
 
 MemoryTracker.o: MemoryTracker.cpp.o
@@ -129,7 +199,7 @@ MemoryTracker.o: MemoryTracker.cpp.o
 
 # target to build an object file
 MemoryTracker.cpp.o:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/MemoryTracker.cpp.o
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.o
 .PHONY : MemoryTracker.cpp.o
 
 MemoryTracker.i: MemoryTracker.cpp.i
@@ -138,7 +208,7 @@ MemoryTracker.i: MemoryTracker.cpp.i
 
 # target to preprocess a source file
 MemoryTracker.cpp.i:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/MemoryTracker.cpp.i
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.i
 .PHONY : MemoryTracker.cpp.i
 
 MemoryTracker.s: MemoryTracker.cpp.s
@@ -147,7 +217,7 @@ MemoryTracker.s: MemoryTracker.cpp.s
 
 # target to generate assembly for a file
 MemoryTracker.cpp.s:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/MemoryTracker.cpp.s
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.s
 .PHONY : MemoryTracker.cpp.s
 
 Timer.o: Timer.cpp.o
@@ -156,7 +226,7 @@ Timer.o: Timer.cpp.o
 
 # target to build an object file
 Timer.cpp.o:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Timer.cpp.o
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.o
 .PHONY : Timer.cpp.o
 
 Timer.i: Timer.cpp.i
@@ -165,7 +235,7 @@ Timer.i: Timer.cpp.i
 
 # target to preprocess a source file
 Timer.cpp.i:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Timer.cpp.i
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.i
 .PHONY : Timer.cpp.i
 
 Timer.s: Timer.cpp.s
@@ -174,7 +244,7 @@ Timer.s: Timer.cpp.s
 
 # target to generate assembly for a file
 Timer.cpp.s:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Timer.cpp.s
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.s
 .PHONY : Timer.cpp.s
 
 Trackable.o: Trackable.cpp.o
@@ -183,7 +253,7 @@ Trackable.o: Trackable.cpp.o
 
 # target to build an object file
 Trackable.cpp.o:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Trackable.cpp.o
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.o
 .PHONY : Trackable.cpp.o
 
 Trackable.i: Trackable.cpp.i
@@ -192,7 +262,7 @@ Trackable.i: Trackable.cpp.i
 
 # target to preprocess a source file
 Trackable.cpp.i:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Trackable.cpp.i
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.i
 .PHONY : Trackable.cpp.i
 
 Trackable.s: Trackable.cpp.s
@@ -201,7 +271,7 @@ Trackable.s: Trackable.cpp.s
 
 # target to generate assembly for a file
 Trackable.cpp.s:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Trackable.cpp.s
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.s
 .PHONY : Trackable.cpp.s
 
 Vector2D.o: Vector2D.cpp.o
@@ -210,7 +280,7 @@ Vector2D.o: Vector2D.cpp.o
 
 # target to build an object file
 Vector2D.cpp.o:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Vector2D.cpp.o
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.o
 .PHONY : Vector2D.cpp.o
 
 Vector2D.i: Vector2D.cpp.i
@@ -219,7 +289,7 @@ Vector2D.i: Vector2D.cpp.i
 
 # target to preprocess a source file
 Vector2D.cpp.i:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Vector2D.cpp.i
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.i
 .PHONY : Vector2D.cpp.i
 
 Vector2D.s: Vector2D.cpp.s
@@ -228,7 +298,7 @@ Vector2D.s: Vector2D.cpp.s
 
 # target to generate assembly for a file
 Vector2D.cpp.s:
-	$(MAKE) -f CMakeFiles/RedLib.dir/build.make CMakeFiles/RedLib.dir/Vector2D.cpp.s
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.s
 .PHONY : Vector2D.cpp.s
 
 # Help Target
@@ -237,8 +307,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
+	@echo "... install/strip"
+	@echo "... install/local"
 	@echo "... edit_cache"
+	@echo "... package_source"
+	@echo "... install"
+	@echo "... list_install_components"
+	@echo "... rebuild_cache"
+	@echo "... package"
 	@echo "... RedLib"
 	@echo "... MemoryTracker.o"
 	@echo "... MemoryTracker.i"
@@ -263,6 +339,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/redy9567/RedEngine/SampleGame-build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

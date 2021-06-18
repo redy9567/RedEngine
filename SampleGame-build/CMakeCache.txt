@@ -415,6 +415,27 @@ PLATFORM:STRING=Desktop
 //Path to a library.
 RT_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/librt.so
 
+//Path to a library.
+RedEngine:FILEPATH=RedEngine-NOTFOUND
+
+//Value Computed by CMake
+RedEngine_BINARY_DIR:STATIC=/home/redy9567/RedEngine/RedEngine-build
+
+//Dependencies for the target
+RedEngine_LIB_DEPENDS:STATIC=general;raylib;general;RedLib;
+
+//Value Computed by CMake
+RedEngine_SOURCE_DIR:STATIC=/home/redy9567/RedEngine/RedEngine
+
+//Path to a library.
+RedLib:FILEPATH=RedLib-NOTFOUND
+
+//Value Computed by CMake
+RedLib_BINARY_DIR:STATIC=/home/redy9567/RedEngine/RedLib-build
+
+//Value Computed by CMake
+RedLib_SOURCE_DIR:STATIC=/home/redy9567/RedEngine/RedLib
+
 //Value Computed by CMake
 SampleGame_BINARY_DIR:STATIC=/home/redy9567/RedEngine/SampleGame-build
 
@@ -789,7 +810,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -851,9 +872,9 @@ FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding X11
 FIND_PACKAGE_MESSAGE_DETAILS_X11:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libX11.so][c ][v()]
 //GLFW pkg-config Requires.private
-GLFW_PKG_DEPS:INTERNAL= x11
+GLFW_PKG_DEPS:INTERNAL= x11 x11
 //GLFW pkg-config Libs.private
-GLFW_PKG_LIBS:INTERNAL= -lrt -lm -ldl
+GLFW_PKG_LIBS:INTERNAL= -lrt -lm -ldl -lrt -lm -ldl
 //ADVANCED property for variable: MATH_LIBRARY
 MATH_LIBRARY-ADVANCED:INTERNAL=1
 //Replace any OFF by default with ${OFF} to have it covered by

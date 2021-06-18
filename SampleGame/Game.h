@@ -8,7 +8,7 @@ class Sprite;
 class InputSystem;
 class Unit;
 
-const std::string ASSET_PATH = "E:\\RedEngine\\SampleGame\\Assets\\";
+const std::string ASSET_PATH = "/home/redy9567/RedEngine/SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
 
 class Game : public Trackable

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libRedLib.a  CMakeFiles/RedLib.dir/MemoryTracker.cpp.o CMakeFiles/RedLib.dir/Trackable.cpp.o CMakeFiles/RedLib.dir/Timer.cpp.o CMakeFiles/RedLib.dir/Vector2D.cpp.o
+/usr/bin/ranlib libRedLib.a

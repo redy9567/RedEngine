@@ -34,7 +34,8 @@ void Timer::stop()
 		mPaused = true;
 		mEndTime = chrono::steady_clock::now();
 		chrono::nanoseconds diff = (mEndTime - mStartTime);
-		mElapsedTime += chrono::duration_cast<chrono::seconds>(diff).count();
+		chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
+		mElapsedTime += floor.count() / MILLI_TO_SEC;
 	}
 	
 }
@@ -46,7 +47,8 @@ void Timer::togglePause()
 		mPaused = true;
 		mEndTime = chrono::steady_clock::now();
 		chrono::nanoseconds diff = (mEndTime - mStartTime);
-		mElapsedTime += chrono::duration_cast<chrono::seconds>(diff).count();
+		chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
+		mElapsedTime += floor.count() / MILLI_TO_SEC;
 	}
 	else
 	{
@@ -66,7 +68,8 @@ double Timer::getElapsedTime() const
 		std::chrono::steady_clock::time_point currentTime;
 		currentTime = chrono::steady_clock::now();
 		chrono::nanoseconds diff = (currentTime - mStartTime);
-		return chrono::duration_cast<chrono::seconds>(diff).count();
+		chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
+		return floor.count() / MILLI_TO_SEC;
 	}
 }
 

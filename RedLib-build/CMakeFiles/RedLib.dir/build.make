@@ -43,71 +43,71 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/redy9567/RedEngine/RedLib
+CMAKE_SOURCE_DIR = /home/redy9567/RedEngine/SampleGame
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/redy9567/RedEngine/RedLib-build
+CMAKE_BINARY_DIR = /home/redy9567/RedEngine/SampleGame-build
 
 # Include any dependencies generated for this target.
-include CMakeFiles/RedLib.dir/depend.make
+include /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/depend.make
 
 # Include the progress variables for this target.
-include CMakeFiles/RedLib.dir/progress.make
+include /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/progress.make
 
 # Include the compile flags for this target's objects.
-include CMakeFiles/RedLib.dir/flags.make
+include /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/flags.make
 
-CMakeFiles/RedLib.dir/MemoryTracker.cpp.o: CMakeFiles/RedLib.dir/flags.make
-CMakeFiles/RedLib.dir/MemoryTracker.cpp.o: /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/RedLib-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/RedLib.dir/MemoryTracker.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/MemoryTracker.cpp.o -c /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.o: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/flags.make
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.o: /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.o"
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/MemoryTracker.cpp.o -c /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp
 
-CMakeFiles/RedLib.dir/MemoryTracker.cpp.i: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedLib.dir/MemoryTracker.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp > CMakeFiles/RedLib.dir/MemoryTracker.cpp.i
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp > CMakeFiles/RedLib.dir/MemoryTracker.cpp.i
 
-CMakeFiles/RedLib.dir/MemoryTracker.cpp.s: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedLib.dir/MemoryTracker.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp -o CMakeFiles/RedLib.dir/MemoryTracker.cpp.s
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/MemoryTracker.cpp -o CMakeFiles/RedLib.dir/MemoryTracker.cpp.s
 
-CMakeFiles/RedLib.dir/Trackable.cpp.o: CMakeFiles/RedLib.dir/flags.make
-CMakeFiles/RedLib.dir/Trackable.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/RedLib-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/RedLib.dir/Trackable.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/Trackable.cpp.o -c /home/redy9567/RedEngine/RedLib/Trackable.cpp
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.o: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/flags.make
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.o"
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/Trackable.cpp.o -c /home/redy9567/RedEngine/RedLib/Trackable.cpp
 
-CMakeFiles/RedLib.dir/Trackable.cpp.i: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedLib.dir/Trackable.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/Trackable.cpp > CMakeFiles/RedLib.dir/Trackable.cpp.i
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/Trackable.cpp > CMakeFiles/RedLib.dir/Trackable.cpp.i
 
-CMakeFiles/RedLib.dir/Trackable.cpp.s: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedLib.dir/Trackable.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/Trackable.cpp -o CMakeFiles/RedLib.dir/Trackable.cpp.s
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/Trackable.cpp -o CMakeFiles/RedLib.dir/Trackable.cpp.s
 
-CMakeFiles/RedLib.dir/Timer.cpp.o: CMakeFiles/RedLib.dir/flags.make
-CMakeFiles/RedLib.dir/Timer.cpp.o: /home/redy9567/RedEngine/RedLib/Timer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/RedLib-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/RedLib.dir/Timer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/Timer.cpp.o -c /home/redy9567/RedEngine/RedLib/Timer.cpp
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.o: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/flags.make
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.o: /home/redy9567/RedEngine/RedLib/Timer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.o"
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/Timer.cpp.o -c /home/redy9567/RedEngine/RedLib/Timer.cpp
 
-CMakeFiles/RedLib.dir/Timer.cpp.i: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedLib.dir/Timer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/Timer.cpp > CMakeFiles/RedLib.dir/Timer.cpp.i
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/Timer.cpp > CMakeFiles/RedLib.dir/Timer.cpp.i
 
-CMakeFiles/RedLib.dir/Timer.cpp.s: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedLib.dir/Timer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/Timer.cpp -o CMakeFiles/RedLib.dir/Timer.cpp.s
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/Timer.cpp -o CMakeFiles/RedLib.dir/Timer.cpp.s
 
-CMakeFiles/RedLib.dir/Vector2D.cpp.o: CMakeFiles/RedLib.dir/flags.make
-CMakeFiles/RedLib.dir/Vector2D.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/RedLib-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/RedLib.dir/Vector2D.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/Vector2D.cpp.o -c /home/redy9567/RedEngine/RedLib/Vector2D.cpp
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.o: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/flags.make
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.o"
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedLib.dir/Vector2D.cpp.o -c /home/redy9567/RedEngine/RedLib/Vector2D.cpp
 
-CMakeFiles/RedLib.dir/Vector2D.cpp.i: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedLib.dir/Vector2D.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/Vector2D.cpp > CMakeFiles/RedLib.dir/Vector2D.cpp.i
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedLib/Vector2D.cpp > CMakeFiles/RedLib.dir/Vector2D.cpp.i
 
-CMakeFiles/RedLib.dir/Vector2D.cpp.s: cmake_force
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedLib.dir/Vector2D.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/Vector2D.cpp -o CMakeFiles/RedLib.dir/Vector2D.cpp.s
+	cd /home/redy9567/RedEngine/RedLib-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedLib/Vector2D.cpp -o CMakeFiles/RedLib.dir/Vector2D.cpp.s
 
 # Object files for target RedLib
 RedLib_OBJECTS = \
@@ -119,26 +119,26 @@ RedLib_OBJECTS = \
 # External object files for target RedLib
 RedLib_EXTERNAL_OBJECTS =
 
-libRedLib.a: CMakeFiles/RedLib.dir/MemoryTracker.cpp.o
-libRedLib.a: CMakeFiles/RedLib.dir/Trackable.cpp.o
-libRedLib.a: CMakeFiles/RedLib.dir/Timer.cpp.o
-libRedLib.a: CMakeFiles/RedLib.dir/Vector2D.cpp.o
-libRedLib.a: CMakeFiles/RedLib.dir/build.make
-libRedLib.a: CMakeFiles/RedLib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/redy9567/RedEngine/RedLib-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libRedLib.a"
-	$(CMAKE_COMMAND) -P CMakeFiles/RedLib.dir/cmake_clean_target.cmake
-	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RedLib.dir/link.txt --verbose=$(VERBOSE)
+/home/redy9567/RedEngine/RedLib-build/libRedLib.a: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/MemoryTracker.cpp.o
+/home/redy9567/RedEngine/RedLib-build/libRedLib.a: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Trackable.cpp.o
+/home/redy9567/RedEngine/RedLib-build/libRedLib.a: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Timer.cpp.o
+/home/redy9567/RedEngine/RedLib-build/libRedLib.a: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/Vector2D.cpp.o
+/home/redy9567/RedEngine/RedLib-build/libRedLib.a: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make
+/home/redy9567/RedEngine/RedLib-build/libRedLib.a: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libRedLib.a"
+	cd /home/redy9567/RedEngine/RedLib-build && $(CMAKE_COMMAND) -P CMakeFiles/RedLib.dir/cmake_clean_target.cmake
+	cd /home/redy9567/RedEngine/RedLib-build && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RedLib.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/RedLib.dir/build: libRedLib.a
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build: /home/redy9567/RedEngine/RedLib-build/libRedLib.a
 
-.PHONY : CMakeFiles/RedLib.dir/build
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build
 
-CMakeFiles/RedLib.dir/clean:
-	$(CMAKE_COMMAND) -P CMakeFiles/RedLib.dir/cmake_clean.cmake
-.PHONY : CMakeFiles/RedLib.dir/clean
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/clean:
+	cd /home/redy9567/RedEngine/RedLib-build && $(CMAKE_COMMAND) -P CMakeFiles/RedLib.dir/cmake_clean.cmake
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/clean
 
-CMakeFiles/RedLib.dir/depend:
-	cd /home/redy9567/RedEngine/RedLib-build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/redy9567/RedEngine/RedLib /home/redy9567/RedEngine/RedLib /home/redy9567/RedEngine/RedLib-build /home/redy9567/RedEngine/RedLib-build /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/DependInfo.cmake --color=$(COLOR)
-.PHONY : CMakeFiles/RedLib.dir/depend
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/depend:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/redy9567/RedEngine/SampleGame /home/redy9567/RedEngine/RedLib /home/redy9567/RedEngine/SampleGame-build /home/redy9567/RedEngine/RedLib-build /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/DependInfo.cmake --color=$(COLOR)
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/depend
 

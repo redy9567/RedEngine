@@ -50,18 +50,58 @@ CMAKE_SOURCE_DIR = /home/redy9567/RedEngine/SampleGame
 CMAKE_BINARY_DIR = /home/redy9567/RedEngine/SampleGame-build
 
 #=============================================================================
+# Directory level rules for directory /home/redy9567/RedEngine/RedEngine-build
+
+# Recursive "all" directory target.
+/home/redy9567/RedEngine/RedEngine-build/all: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all
+/home/redy9567/RedEngine/RedEngine-build/all: /home/redy9567/RedEngine/RedLib-build/all
+
+.PHONY : /home/redy9567/RedEngine/RedEngine-build/all
+
+# Recursive "preinstall" directory target.
+/home/redy9567/RedEngine/RedEngine-build/preinstall: /home/redy9567/RedEngine/RedLib-build/preinstall
+
+.PHONY : /home/redy9567/RedEngine/RedEngine-build/preinstall
+
+# Recursive "clean" directory target.
+/home/redy9567/RedEngine/RedEngine-build/clean: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/clean
+/home/redy9567/RedEngine/RedEngine-build/clean: /home/redy9567/RedEngine/RedLib-build/clean
+
+.PHONY : /home/redy9567/RedEngine/RedEngine-build/clean
+
+#=============================================================================
+# Directory level rules for directory /home/redy9567/RedEngine/RedLib-build
+
+# Recursive "all" directory target.
+/home/redy9567/RedEngine/RedLib-build/all: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/all
+
+.PHONY : /home/redy9567/RedEngine/RedLib-build/all
+
+# Recursive "preinstall" directory target.
+/home/redy9567/RedEngine/RedLib-build/preinstall:
+
+.PHONY : /home/redy9567/RedEngine/RedLib-build/preinstall
+
+# Recursive "clean" directory target.
+/home/redy9567/RedEngine/RedLib-build/clean: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/clean
+
+.PHONY : /home/redy9567/RedEngine/RedLib-build/clean
+
+#=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
 all: CMakeFiles/SampleGame.dir/all
 all: _deps/raylib-build/all
 all: _deps/raylib-cpp-build/all
+all: /home/redy9567/RedEngine/RedEngine-build/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: _deps/raylib-build/preinstall
 preinstall: _deps/raylib-cpp-build/preinstall
+preinstall: /home/redy9567/RedEngine/RedEngine-build/preinstall
 
 .PHONY : preinstall
 
@@ -69,6 +109,7 @@ preinstall: _deps/raylib-cpp-build/preinstall
 clean: CMakeFiles/SampleGame.dir/clean
 clean: _deps/raylib-build/clean
 clean: _deps/raylib-cpp-build/clean
+clean: /home/redy9567/RedEngine/RedEngine-build/clean
 
 .PHONY : clean
 
@@ -190,14 +231,16 @@ _deps/raylib-cpp-build/include/clean:
 # All Build rule for target.
 CMakeFiles/SampleGame.dir/all: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
 CMakeFiles/SampleGame.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+CMakeFiles/SampleGame.dir/all: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all
+CMakeFiles/SampleGame.dir/all: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/all
 	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/depend
 	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=1,2 "Built target SampleGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=13,14,15,16 "Built target SampleGame"
 .PHONY : CMakeFiles/SampleGame.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/SampleGame.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 27
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 41
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/SampleGame.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 0
 .PHONY : CMakeFiles/SampleGame.dir/rule
@@ -220,7 +263,7 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all: _deps/raylib-build/raylib/e
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/all
 	$(MAKE) -f _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/depend
 	$(MAKE) -f _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=20,21,22,23,24,25,26,27 "Built target raylib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=34,35,36,37,38,39,40,41 "Built target raylib"
 .PHONY : _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -247,7 +290,7 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/clean:
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/all
 	$(MAKE) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/depend
 	$(MAKE) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=3 "Built target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=17 "Built target glfw"
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
@@ -274,7 +317,7 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/clean:
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/all:
 	$(MAKE) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/depend
 	$(MAKE) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 "Built target glfw_objlib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33 "Built target glfw_objlib"
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -293,6 +336,62 @@ glfw_objlib: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/clean:
 	$(MAKE) -f _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/clean
 .PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw_objlib.dir/clean
+
+#=============================================================================
+# Target rules for target /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir
+
+# All Build rule for target.
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/all
+	$(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/depend
+	$(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target RedEngine"
+.PHONY : /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all
+
+# Build rule for subdir invocation for target.
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 37
+	$(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 0
+.PHONY : /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/rule
+
+# Convenience name for target.
+RedEngine: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/rule
+
+.PHONY : RedEngine
+
+# clean rule for target.
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/clean:
+	$(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/clean
+.PHONY : /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/clean
+
+#=============================================================================
+# Target rules for target /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir
+
+# All Build rule for target.
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/all:
+	$(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/depend
+	$(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=8,9,10,11,12 "Built target RedLib"
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/all
+
+# Build rule for subdir invocation for target.
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/redy9567/RedEngine/SampleGame-build/CMakeFiles 0
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule
+
+# Convenience name for target.
+RedLib: /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/rule
+
+.PHONY : RedLib
+
+# clean rule for target.
+/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/clean:
+	$(MAKE) -f /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/build.make /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/clean
+.PHONY : /home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

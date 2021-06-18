@@ -39,11 +39,19 @@ if (NOT raylib-cpp_FOUND)
     endif()
 endif()
 
+# RedLib
+# find_library(RedLib RedLib)
+# add_subdirectory(../RedLib ../RedLib-build)
+
+# RedEngine
+find_library(RedEngine RedEngine)
+add_subdirectory(../RedEngine ../RedEngine-build)
+
 # This is the main part:
 set(PROJECT_NAME SampleGame)
-set(PROJECT_SOURCES main.cpp)
+set(PROJECT_SOURCES Unit.cpp Game.cpp main.cpp)
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 set(raylib_VERBOSE 1)
-target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib-cpp)
-
+target_include_directories(RedEngine PUBLIC ../RedLib ../RedLib-build ../RedEngine ../RedEngine-build)
+target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib-cpp RedLib RedEngine)
 # That's it! You should have an example executable that you can run. Have fun!

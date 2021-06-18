@@ -46,7 +46,7 @@ int main()
     MemoryTracker::cleanupInstance();
 
     //Output runtime
-    std::cout << "----------Total runtime: " << t.getElapsedTime() / 1000.0 << std::endl;
+    std::cout << "----------Total runtime: " << t.getElapsedTime() << std::endl;
 
     
 
