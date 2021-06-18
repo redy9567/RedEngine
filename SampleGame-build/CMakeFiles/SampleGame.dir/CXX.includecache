@@ -40,12 +40,6 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/RedEngine/Vector2D.h
 
-/home/redy9567/RedEngine/RedEngine/Sprite.h
-Trackable.h
-/home/redy9567/RedEngine/RedEngine/Trackable.h
-Vector2D.h
-/home/redy9567/RedEngine/RedEngine/Vector2D.h
-
 /home/redy9567/RedEngine/RedLib/Timer.h
 Trackable.h
 /home/redy9567/RedEngine/RedLib/Trackable.h
@@ -86,25 +80,11 @@ Trackable.h
 string
 -
 
-/home/redy9567/RedEngine/SampleGame/Player.cpp
-Player.h
-/home/redy9567/RedEngine/SampleGame/Player.h
-
 /home/redy9567/RedEngine/SampleGame/Player.h
 Unit.h
 /home/redy9567/RedEngine/SampleGame/Unit.h
 Vector2D.h
 /home/redy9567/RedEngine/SampleGame/Vector2D.h
-
-/home/redy9567/RedEngine/SampleGame/Unit.cpp
-Unit.h
-/home/redy9567/RedEngine/SampleGame/Unit.h
-GraphicsSystem.h
-/home/redy9567/RedEngine/SampleGame/GraphicsSystem.h
-Animation.h
-/home/redy9567/RedEngine/SampleGame/Animation.h
-Sprite.h
-/home/redy9567/RedEngine/SampleGame/Sprite.h
 
 /home/redy9567/RedEngine/SampleGame/Unit.h
 Trackable.h

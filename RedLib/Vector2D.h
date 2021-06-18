@@ -8,19 +8,27 @@ public:
 	Vector2D();
 	Vector2D(float x, float y);
 	Vector2D(int x, int y);
+	Vector2D(double x, double y);
 	~Vector2D();
 
 	Vector2D operator=(const Vector2D& other);
 
 	Vector2D operator+(const Vector2D& other);
 	Vector2D operator-(const Vector2D& other);
-	Vector2D operator*(const float scalar);
-	Vector2D operator/(const float scalar);
+	Vector2D operator*(const float scalar) const;
+	Vector2D operator/(const float scalar) const;
+	Vector2D operator*(const int scalar) const;
+	Vector2D operator/(const int scalar) const;
+	Vector2D operator*(const double scalar) const;
+	Vector2D operator/(const double scalar) const;
 
 	Vector2D operator+=(const Vector2D& other);
 	Vector2D operator-=(const Vector2D& other);
 	Vector2D operator*=(const float scalar);
 	Vector2D operator/=(const float scalar);
+
+	float length();
+	void normalize();
 
 	float getX() { return mX; }
 	float getY() { return mY; }

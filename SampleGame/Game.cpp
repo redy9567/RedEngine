@@ -98,26 +98,28 @@ void Game::cleanup()
 void Game::getInput()
 {
 
+	Vector2D dir = Vector2D::Zero();
+
 	if(mpInputSystem->getKey(Key_A))
 	{
-		mpPlayerUnit->setMoveDirection(Vector2D::Left());
+		dir += Vector2D::Left();
 	}
-	else if(mpInputSystem->getKey(Key_S))
+	if(mpInputSystem->getKey(Key_S))
 	{
-		mpPlayerUnit->setMoveDirection(Vector2D::Down());
+		dir += Vector2D::Down();
 	}
-	else if(mpInputSystem->getKey(Key_D))
+	if(mpInputSystem->getKey(Key_D))
 	{
-		mpPlayerUnit->setMoveDirection(Vector2D::Right());
+		dir += Vector2D::Right();
 	}
-	else if(mpInputSystem->getKey(Key_W))
+	if(mpInputSystem->getKey(Key_W))
 	{
-		mpPlayerUnit->setMoveDirection(Vector2D::Up());
+		dir += Vector2D::Up();
 	}
-	else
-	{
-		mpPlayerUnit->setMoveDirection(Vector2D::Zero());
-	}
+
+	dir.normalize();
+	
+	mpPlayerUnit->setMoveDirection(dir);
 }
 
 void Game::update()
