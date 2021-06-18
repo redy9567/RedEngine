@@ -8,6 +8,7 @@ class Animation;
 class InputSystem;
 class Player;
 class Timer;
+class UnitManager;
 
 const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -31,10 +32,14 @@ private:
 	void update();
 	void render();
 
+	void createRandomUnit();
+
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
 	InputSystem* mpInputSystem;
+
+	UnitManager* mpUnitManager;
 
 	GraphicsBuffer* mpSmurfBuffer;
 	Animation* mpSmurfAnimation;

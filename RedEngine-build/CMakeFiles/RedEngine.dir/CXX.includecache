@@ -6,29 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/redy9567/RedEngine/RedEngine/Animation.cpp
-Animation.h
-/home/redy9567/RedEngine/RedEngine/Animation.h
-Sprite.h
-/home/redy9567/RedEngine/RedEngine/Sprite.h
-GraphicsBuffer.h
-/home/redy9567/RedEngine/RedEngine/GraphicsBuffer.h
-
-/home/redy9567/RedEngine/RedEngine/Animation.h
-Trackable.h
-/home/redy9567/RedEngine/RedEngine/Trackable.h
-vector
--
-
 /home/redy9567/RedEngine/RedEngine/Color.h
 raylib-cpp.hpp
 /home/redy9567/RedEngine/RedEngine/raylib-cpp.hpp
 Trackable.h
 /home/redy9567/RedEngine/RedEngine/Trackable.h
-
-/home/redy9567/RedEngine/RedEngine/GraphicsBuffer.cpp
-GraphicsBuffer.h
-/home/redy9567/RedEngine/RedEngine/GraphicsBuffer.h
 
 /home/redy9567/RedEngine/RedEngine/GraphicsBuffer.h
 raylib-cpp.hpp
@@ -55,24 +37,6 @@ Vector2D.h
 /home/redy9567/RedEngine/RedEngine/Vector2D.h
 Trackable.h
 /home/redy9567/RedEngine/RedEngine/Trackable.h
-
-/home/redy9567/RedEngine/RedEngine/InputSystem.cpp
-InputSystem.h
-/home/redy9567/RedEngine/RedEngine/InputSystem.h
-raylib.hpp
-/home/redy9567/RedEngine/RedEngine/raylib.hpp
-
-/home/redy9567/RedEngine/RedEngine/InputSystem.h
-Trackable.h
-/home/redy9567/RedEngine/RedEngine/Trackable.h
-Vector2D.h
-/home/redy9567/RedEngine/RedEngine/Vector2D.h
-
-/home/redy9567/RedEngine/RedEngine/Sprite.cpp
-Sprite.h
-/home/redy9567/RedEngine/RedEngine/Sprite.h
-GraphicsBuffer.h
-/home/redy9567/RedEngine/RedEngine/GraphicsBuffer.h
 
 /home/redy9567/RedEngine/RedEngine/Sprite.h
 Trackable.h

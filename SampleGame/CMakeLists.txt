@@ -49,7 +49,7 @@ add_subdirectory(../RedEngine ../RedEngine-build)
 
 # This is the main part:
 set(PROJECT_NAME SampleGame)
-set(PROJECT_SOURCES Unit.cpp Game.cpp main.cpp Player.cpp)
+set(PROJECT_SOURCES Unit.cpp Game.cpp main.cpp Player.cpp UnitManager.cpp)
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 set(raylib_VERBOSE 1)
 target_include_directories(RedEngine PUBLIC ../RedLib ../RedLib-build ../RedEngine ../RedEngine-build)

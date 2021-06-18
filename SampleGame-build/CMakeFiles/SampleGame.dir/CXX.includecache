@@ -71,6 +71,8 @@ Player.h
 /home/redy9567/RedEngine/SampleGame/Player.h
 Timer.h
 /home/redy9567/RedEngine/SampleGame/Timer.h
+UnitManager.h
+/home/redy9567/RedEngine/SampleGame/UnitManager.h
 iostream
 -
 
@@ -91,6 +93,14 @@ Trackable.h
 /home/redy9567/RedEngine/SampleGame/Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/SampleGame/Vector2D.h
+
+/home/redy9567/RedEngine/SampleGame/UnitManager.h
+Trackable.h
+/home/redy9567/RedEngine/SampleGame/Trackable.h
+Vector2D.h
+/home/redy9567/RedEngine/SampleGame/Vector2D.h
+vector
+-
 
 _deps/raylib-cpp-src/include/AudioDevice.hpp
 ./raylib.hpp

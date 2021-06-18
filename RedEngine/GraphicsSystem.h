@@ -26,6 +26,8 @@ public:
 	void draw(GraphicsBuffer* gb, Vector2D loc); //draw GraphicsBuffer to given location
 	void draw(Sprite* sprite, Vector2D loc); //draw Sprite to given location
 
+	int getScreenWidth() { return mWidth; }
+	int getScreenHeight() { return mHeight; }
 
 	void flip();
 

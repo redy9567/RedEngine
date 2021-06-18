@@ -337,6 +337,33 @@ Unit.cpp.s:
 	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Unit.cpp.s
 .PHONY : Unit.cpp.s
 
+UnitManager.o: UnitManager.cpp.o
+
+.PHONY : UnitManager.o
+
+# target to build an object file
+UnitManager.cpp.o:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/UnitManager.cpp.o
+.PHONY : UnitManager.cpp.o
+
+UnitManager.i: UnitManager.cpp.i
+
+.PHONY : UnitManager.i
+
+# target to preprocess a source file
+UnitManager.cpp.i:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/UnitManager.cpp.i
+.PHONY : UnitManager.cpp.i
+
+UnitManager.s: UnitManager.cpp.s
+
+.PHONY : UnitManager.s
+
+# target to generate assembly for a file
+UnitManager.cpp.s:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/UnitManager.cpp.s
+.PHONY : UnitManager.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -393,6 +420,9 @@ help:
 	@echo "... Unit.o"
 	@echo "... Unit.i"
 	@echo "... Unit.s"
+	@echo "... UnitManager.o"
+	@echo "... UnitManager.i"
+	@echo "... UnitManager.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -6,8 +6,11 @@
 #include "Animation.h"
 #include "Player.h"
 #include "Timer.h"
+#include "UnitManager.h"
 
 #include <iostream>
+
+using namespace std;
 
 Game* Game::mspInstance = nullptr;
 
@@ -50,6 +53,7 @@ Game::Game()
 	mpSmurfAnimation = nullptr;
 	mpPlayerUnit = nullptr;
 	mpGameTimer = nullptr;
+	mpUnitManager = nullptr;
 }
 
 Game::~Game()
@@ -64,11 +68,15 @@ void Game::init(int screenWidth, int screenHeight)
 
 	mpGraphicsSystem->init(screenWidth, screenHeight);
 
+	mpUnitManager = new UnitManager();
+
 	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
 	mpSmurfAnimation = new Animation(mpSmurfBuffer, 4, 4, 16);
 	mpPlayerUnit = new Player(mpSmurfAnimation, 200.0f, Vector2D(300, 300));
 
 	mpGameTimer = new Timer();
+
+	srand(time(NULL));
 }
 
 void Game::cleanup()
@@ -76,6 +84,9 @@ void Game::cleanup()
 
 	delete mpPlayerUnit;
 	mpPlayerUnit = nullptr;
+
+	delete mpUnitManager;
+	mpUnitManager = nullptr;
 
 	delete mpSmurfAnimation;
 	mpSmurfAnimation = nullptr;
@@ -120,6 +131,19 @@ void Game::getInput()
 	dir.normalize();
 	
 	mpPlayerUnit->setMoveDirection(dir);
+
+	if(mpInputSystem->getKeyDown(Key_Space))
+	{
+		createRandomUnit();
+	}
+}
+
+void Game::createRandomUnit()
+{
+	Vector2D randomLoc = Vector2D(rand() % mpGraphicsSystem->getScreenWidth(),
+		rand() % mpGraphicsSystem->getScreenHeight());
+
+	mpUnitManager->createAndManageUnit(mpSmurfAnimation, randomLoc);
 }
 
 void Game::update()
@@ -140,6 +164,8 @@ void Game::render()
 	mpGraphicsSystem->drawText("Guess what, BOYS", loc, lightGrey, 20);
 
 	mpPlayerUnit->draw(mpGraphicsSystem);
+
+	mpUnitManager->draw(mpGraphicsSystem);
 
 	mpGraphicsSystem->flip();
 }
