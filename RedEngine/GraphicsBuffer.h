@@ -15,6 +15,9 @@ public:
 
 	void unload();
 
+	int getWidth() { return mWidth; }
+	int getHeight() { return mHeight; }
+
 private:
 	GraphicsBuffer() = delete;
 

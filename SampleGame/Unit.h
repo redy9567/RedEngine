@@ -3,22 +3,22 @@
 #include "Trackable.h"
 #include "Vector2D.h"
 
-class Sprite;
 class GraphicsSystem;
+class Animation;
 
 class Unit : public Trackable
 {
 public:
 	Unit();
-	Unit(Sprite* sprite, Vector2D loc = Vector2D::Zero());
+	Unit(Animation* anim, Vector2D loc = Vector2D::Zero());
 	~Unit();
 
 	void draw(GraphicsSystem* gs);
 
 	void setLocation(Vector2D loc) { mLoc = loc; }
 
-private:
-	Sprite* mSprite;
+protected:
+	Animation* mAnimation;
 	Vector2D mLoc;
 
 };

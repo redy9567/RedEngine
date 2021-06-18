@@ -283,6 +283,33 @@ Game.cpp.s:
 	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Game.cpp.s
 .PHONY : Game.cpp.s
 
+Player.o: Player.cpp.o
+
+.PHONY : Player.o
+
+# target to build an object file
+Player.cpp.o:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Player.cpp.o
+.PHONY : Player.cpp.o
+
+Player.i: Player.cpp.i
+
+.PHONY : Player.i
+
+# target to preprocess a source file
+Player.cpp.i:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Player.cpp.i
+.PHONY : Player.cpp.i
+
+Player.s: Player.cpp.s
+
+.PHONY : Player.s
+
+# target to generate assembly for a file
+Player.cpp.s:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Player.cpp.s
+.PHONY : Player.cpp.s
+
 Unit.o: Unit.cpp.o
 
 .PHONY : Unit.o
@@ -360,6 +387,9 @@ help:
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
+	@echo "... Player.o"
+	@echo "... Player.i"
+	@echo "... Player.s"
 	@echo "... Unit.o"
 	@echo "... Unit.i"
 	@echo "... Unit.s"

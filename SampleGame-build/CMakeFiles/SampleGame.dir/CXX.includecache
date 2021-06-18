@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/home/redy9567/RedEngine/RedEngine/Animation.h
+Trackable.h
+/home/redy9567/RedEngine/RedEngine/Trackable.h
+vector
+-
+
 /home/redy9567/RedEngine/RedEngine/Color.h
 raylib-cpp.hpp
 /home/redy9567/RedEngine/RedEngine/raylib-cpp.hpp
@@ -40,10 +46,6 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/RedEngine/Vector2D.h
 
-/home/redy9567/RedEngine/RedLib/MemoryTracker.h
-unordered_map
--
-
 /home/redy9567/RedEngine/RedLib/Timer.h
 Trackable.h
 /home/redy9567/RedEngine/RedLib/Trackable.h
@@ -69,10 +71,14 @@ GraphicsBuffer.h
 /home/redy9567/RedEngine/SampleGame/GraphicsBuffer.h
 Color.h
 /home/redy9567/RedEngine/SampleGame/Color.h
-Sprite.h
-/home/redy9567/RedEngine/SampleGame/Sprite.h
-Unit.h
-/home/redy9567/RedEngine/SampleGame/Unit.h
+Animation.h
+/home/redy9567/RedEngine/SampleGame/Animation.h
+Player.h
+/home/redy9567/RedEngine/SampleGame/Player.h
+Timer.h
+/home/redy9567/RedEngine/SampleGame/Timer.h
+iostream
+-
 
 /home/redy9567/RedEngine/SampleGame/Game.h
 Trackable.h
@@ -80,21 +86,31 @@ Trackable.h
 string
 -
 
+/home/redy9567/RedEngine/SampleGame/Player.cpp
+Player.h
+/home/redy9567/RedEngine/SampleGame/Player.h
+
+/home/redy9567/RedEngine/SampleGame/Player.h
+Unit.h
+/home/redy9567/RedEngine/SampleGame/Unit.h
+Vector2D.h
+/home/redy9567/RedEngine/SampleGame/Vector2D.h
+
+/home/redy9567/RedEngine/SampleGame/Unit.cpp
+Unit.h
+/home/redy9567/RedEngine/SampleGame/Unit.h
+GraphicsSystem.h
+/home/redy9567/RedEngine/SampleGame/GraphicsSystem.h
+Animation.h
+/home/redy9567/RedEngine/SampleGame/Animation.h
+Sprite.h
+/home/redy9567/RedEngine/SampleGame/Sprite.h
+
 /home/redy9567/RedEngine/SampleGame/Unit.h
 Trackable.h
 /home/redy9567/RedEngine/SampleGame/Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/SampleGame/Vector2D.h
-
-/home/redy9567/RedEngine/SampleGame/main.cpp
-Game.h
-/home/redy9567/RedEngine/SampleGame/Game.h
-MemoryTracker.h
-/home/redy9567/RedEngine/SampleGame/MemoryTracker.h
-Timer.h
-/home/redy9567/RedEngine/SampleGame/Timer.h
-iostream
--
 
 _deps/raylib-cpp-src/include/AudioDevice.hpp
 ./raylib.hpp

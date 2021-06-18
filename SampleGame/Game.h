@@ -4,11 +4,12 @@
 
 class GraphicsSystem;
 class GraphicsBuffer;
-class Sprite;
+class Animation;
 class InputSystem;
-class Unit;
+class Player;
+class Timer;
 
-const std::string ASSET_PATH = "/home/redy9567/RedEngine/SampleGame/Assets/";
+const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
 
 class Game : public Trackable
@@ -36,7 +37,11 @@ private:
 	InputSystem* mpInputSystem;
 
 	GraphicsBuffer* mpSmurfBuffer;
-	Sprite* mpSmurfSprite;
-	Unit* mpSmurfUnit;
+	Animation* mpSmurfAnimation;
+	Player* mpPlayerUnit;
+
+	Timer* mpGameTimer;
+
+	double deltaTime;
 	
 };

@@ -3,8 +3,11 @@
 #include "InputSystem.h"
 #include "GraphicsBuffer.h"
 #include "Color.h"
-#include "Sprite.h"
-#include "Unit.h"
+#include "Animation.h"
+#include "Player.h"
+#include "Timer.h"
+
+#include <iostream>
 
 Game* Game::mspInstance = nullptr;
 
@@ -27,8 +30,12 @@ void Game::cleanupInstance()
 
 void Game::startGame()
 {
+	mpGameTimer->start();
 	while (mpGraphicsSystem->isRunning())    // Detect window close button or ESC key
 	{
+		deltaTime = mpGameTimer->getElapsedTime();
+		mpGameTimer->start();
+
 		getInput();
 		update();
 		render();
@@ -40,8 +47,9 @@ Game::Game()
 	mpGraphicsSystem = nullptr;
 	mpInputSystem = nullptr;
 	mpSmurfBuffer = nullptr;
-	mpSmurfSprite = nullptr;
-	mpSmurfUnit = nullptr;
+	mpSmurfAnimation = nullptr;
+	mpPlayerUnit = nullptr;
+	mpGameTimer = nullptr;
 }
 
 Game::~Game()
@@ -57,17 +65,20 @@ void Game::init(int screenWidth, int screenHeight)
 	mpGraphicsSystem->init(screenWidth, screenHeight);
 
 	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
-	mpSmurfSprite = new Sprite(mpSmurfBuffer, Vector2D::Zero(), Vector2D(60, 60));
-	mpSmurfUnit = new Unit(mpSmurfSprite, Vector2D(300, 300));
+	mpSmurfAnimation = new Animation(mpSmurfBuffer, 4, 4, 16);
+	mpPlayerUnit = new Player(mpSmurfAnimation, 200.0f, Vector2D(300, 300));
+
+	mpGameTimer = new Timer();
 }
 
 void Game::cleanup()
 {
-	delete mpSmurfUnit;
-	mpSmurfUnit = nullptr;
 
-	delete mpSmurfSprite;
-	mpSmurfSprite = nullptr;
+	delete mpPlayerUnit;
+	mpPlayerUnit = nullptr;
+
+	delete mpSmurfAnimation;
+	mpSmurfAnimation = nullptr;
 
 	delete mpSmurfBuffer;
 	mpSmurfBuffer = nullptr;
@@ -79,19 +90,40 @@ void Game::cleanup()
 
 	delete mpGraphicsSystem;
 	mpGraphicsSystem = nullptr;
+
+	delete mpGameTimer;
+	mpGameTimer = nullptr;
 }
 
 void Game::getInput()
 {
-	if (mpInputSystem->getMouseButtonDown(0))
+
+	if(mpInputSystem->getKey(Key_A))
 	{
-		mpSmurfUnit->setLocation(mpInputSystem->getMousePosition());
+		mpPlayerUnit->setMoveDirection(Vector2D::Left());
+	}
+	else if(mpInputSystem->getKey(Key_S))
+	{
+		mpPlayerUnit->setMoveDirection(Vector2D::Down());
+	}
+	else if(mpInputSystem->getKey(Key_D))
+	{
+		mpPlayerUnit->setMoveDirection(Vector2D::Right());
+	}
+	else if(mpInputSystem->getKey(Key_W))
+	{
+		mpPlayerUnit->setMoveDirection(Vector2D::Up());
+	}
+	else
+	{
+		mpPlayerUnit->setMoveDirection(Vector2D::Zero());
 	}
 }
 
 void Game::update()
 {
-
+	mpSmurfAnimation->update(deltaTime);
+	mpPlayerUnit->update(deltaTime);
 }
 
 void Game::render()
@@ -105,7 +137,7 @@ void Game::render()
 
 	mpGraphicsSystem->drawText("Guess what, BOYS", loc, lightGrey, 20);
 
-	mpSmurfUnit->draw(mpGraphicsSystem);
+	mpPlayerUnit->draw(mpGraphicsSystem);
 
 	mpGraphicsSystem->flip();
 }

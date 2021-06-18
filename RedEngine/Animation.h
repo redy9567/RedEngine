@@ -1,22 +1,26 @@
 #pragma once
 #include "Trackable.h"
+#include <vector>
 
 class Sprite;
+class GraphicsBuffer;
 
 class Animation : public Trackable
 {
 
 public:
 	Animation(Sprite* frames, int numOfFrames, int fps);
+	Animation(GraphicsBuffer* gb, int rows, int columns, int fps);
 	~Animation();
 
 	void update(double deltaTime);
 
+	Sprite* getCurrentSprite();
+
 private:
 	Animation() = delete;
 
-	Sprite* mFrames;
-	int mNumOfFrames;
+	std::vector<Sprite*> mSprites;
 	int mCurrentFrame;
 	bool mOwnsSprites;
 	

@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/redy9567/RedEngine/SampleGame/Game.cpp" "/home/redy9567/RedEngine/SampleGame-build/CMakeFiles/SampleGame.dir/Game.cpp.o"
+  "/home/redy9567/RedEngine/SampleGame/Player.cpp" "/home/redy9567/RedEngine/SampleGame-build/CMakeFiles/SampleGame.dir/Player.cpp.o"
   "/home/redy9567/RedEngine/SampleGame/Unit.cpp" "/home/redy9567/RedEngine/SampleGame-build/CMakeFiles/SampleGame.dir/Unit.cpp.o"
   "/home/redy9567/RedEngine/SampleGame/main.cpp" "/home/redy9567/RedEngine/SampleGame-build/CMakeFiles/SampleGame.dir/main.cpp.o"
   )
