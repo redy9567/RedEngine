@@ -18,14 +18,14 @@ UnitManager::~UnitManager()
     }
 }
 
-Unit* UnitManager::createUnit(Animation* anim, Vector2D loc)
+Unit* UnitManager::createUnit(Animation* anim, Vector2D loc, Vector2D moveDir, float speed)
 {
-    return new Unit(anim, loc);
+    return new Unit(anim, loc, moveDir, speed);
 }
 
-Unit* UnitManager::createAndManageUnit(Animation* anim, Vector2D loc)
+Unit* UnitManager::createAndManageUnit(Animation* anim, Vector2D loc, Vector2D moveDir, float speed)
 {
-    Unit* unit = new Unit(anim, loc);
+    Unit* unit = new Unit(anim, loc, moveDir, speed);
     mUnits.push_back(unit);
     return unit;
 }
@@ -100,6 +100,14 @@ void UnitManager::draw(GraphicsSystem* gs)
     for(vector<Unit*>::iterator i = mUnits.begin(); i != mUnits.end(); i++)
     {
         (*i)->draw(gs);
+    }
+}
+
+void UnitManager::update(float deltaTime)
+{
+    for(vector<Unit*>::iterator i = mUnits.begin(); i != mUnits.end(); i++)
+    {
+        (*i)->update(deltaTime);
     }
 }
 

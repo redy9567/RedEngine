@@ -12,6 +12,9 @@ class UnitManager;
 
 const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
+const std::string PROJECTILE_FILENAME = "Sphere_Glow.png";
+
+const float PROJECTILE_SPEED = 100.0f;
 
 class Game : public Trackable
 {
@@ -32,8 +35,6 @@ private:
 	void update();
 	void render();
 
-	void createRandomUnit();
-
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
@@ -42,7 +43,9 @@ private:
 	UnitManager* mpUnitManager;
 
 	GraphicsBuffer* mpSmurfBuffer;
+	GraphicsBuffer* mpProjBuffer;
 	Animation* mpSmurfAnimation;
+	Animation* mpProjAnimation;
 	Player* mpPlayerUnit;
 
 	Timer* mpGameTimer;

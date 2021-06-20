@@ -19,7 +19,7 @@ Animation::Animation(Sprite* frames, int numOfFrames, int fps)
 	mTimer = 0.0;
 }
 
-Animation::Animation(GraphicsBuffer* gb, int rows, int columns, int fps)
+Animation::Animation(GraphicsBuffer* gb, int rows, int columns, int fps, float scale)
 {
 	mCurrentFrame = 0;
 	mOwnsSprites = true;
@@ -36,7 +36,7 @@ Animation::Animation(GraphicsBuffer* gb, int rows, int columns, int fps)
 	{
 		for(int i = 0; i < columns; i++)
 		{
-			Sprite* spr = new Sprite(gb, Vector2D(i * spriteWidth, j * spriteHeight), Vector2D(spriteWidth, spriteHeight));
+			Sprite* spr = new Sprite(gb, Vector2D(i * spriteWidth, j * spriteHeight), Vector2D(spriteWidth, spriteHeight), scale);
 			mSprites.push_back(spr);
 		}
 	}

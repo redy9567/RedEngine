@@ -54,6 +54,8 @@ Game::Game()
 	mpPlayerUnit = nullptr;
 	mpGameTimer = nullptr;
 	mpUnitManager = nullptr;
+	mpProjAnimation = nullptr;
+	mpProjBuffer = nullptr;
 }
 
 Game::~Game()
@@ -71,7 +73,9 @@ void Game::init(int screenWidth, int screenHeight)
 	mpUnitManager = new UnitManager();
 
 	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
+	mpProjBuffer = new GraphicsBuffer(ASSET_PATH + PROJECTILE_FILENAME);
 	mpSmurfAnimation = new Animation(mpSmurfBuffer, 4, 4, 16);
+	mpProjAnimation = new Animation(mpProjBuffer, 1, 13, 13, 0.25f);
 	mpPlayerUnit = new Player(mpSmurfAnimation, 200.0f, Vector2D(300, 300));
 
 	mpGameTimer = new Timer();
@@ -91,8 +95,14 @@ void Game::cleanup()
 	delete mpSmurfAnimation;
 	mpSmurfAnimation = nullptr;
 
+	delete mpProjAnimation;
+	mpProjAnimation = nullptr;
+
 	delete mpSmurfBuffer;
 	mpSmurfBuffer = nullptr;
+
+	delete mpProjBuffer;
+	mpProjBuffer = nullptr;
 
 	delete mpInputSystem;
 	mpInputSystem = nullptr;
@@ -132,23 +142,20 @@ void Game::getInput()
 	
 	mpPlayerUnit->setMoveDirection(dir);
 
-	if(mpInputSystem->getKeyDown(Key_Space))
+	if(mpInputSystem->getMouseButtonDown(0))
 	{
-		createRandomUnit();
+		Vector2D dir = Vector2D(mpInputSystem->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), mpInputSystem->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
+		dir.normalize();
+		mpUnitManager->createAndManageUnit(mpProjAnimation, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 	}
-}
-
-void Game::createRandomUnit()
-{
-	Vector2D randomLoc = Vector2D(rand() % mpGraphicsSystem->getScreenWidth(),
-		rand() % mpGraphicsSystem->getScreenHeight());
-
-	mpUnitManager->createAndManageUnit(mpSmurfAnimation, randomLoc);
 }
 
 void Game::update()
 {
+	mpUnitManager->update(deltaTime);
+
 	mpSmurfAnimation->update(deltaTime);
+	mpProjAnimation->update(deltaTime);
 	mpPlayerUnit->update(deltaTime);
 }
 

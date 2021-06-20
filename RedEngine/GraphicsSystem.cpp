@@ -67,16 +67,16 @@ void GraphicsSystem::drawText(string text, Vector2D loc, RColor col, int fontSiz
 	col.getRayColor().DrawText(text, loc.getX(), loc.getY(), fontSize);
 }
 
-void GraphicsSystem::draw(GraphicsBuffer* gb, Vector2D loc)
+void GraphicsSystem::draw(GraphicsBuffer* gb, Vector2D loc, float scale)
 {
-	gb->mTexture->Draw(convertVector(loc));
+	gb->mTexture->Draw(convertVector(loc), 0.0f, scale);
 }
 
 void GraphicsSystem::draw(Sprite* sprite, Vector2D loc)
 {
 	sprite->mpGraphicsBuffer->mTexture->Draw(
 		raylib::Rectangle(sprite->mLoc.getX(), sprite->mLoc.getY(), sprite->mSize.getX(), sprite->mSize.getY()), //Dimentions of the sprite on the Texture
-		convertVector(loc)); //Location to draw on screen
+		raylib::Rectangle(loc.getX(), loc.getY(), sprite->mSize.getX() * sprite->mScale, sprite->mSize.getY() * sprite->mScale)); //convertVector(loc)); //Location to draw on screen
 }
 
 raylib::Vector2 GraphicsSystem::convertVector(Vector2D vec)

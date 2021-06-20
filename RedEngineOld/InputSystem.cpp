@@ -28,6 +28,7 @@ bool InputSystem::getKeyUp(KeyCode key)
 
 bool InputSystem::getMouseButtonDown(int button)
 {
+	std::cout << "Y";kjjkjkj
 	return IsMouseButtonPressed(button);
 }
 

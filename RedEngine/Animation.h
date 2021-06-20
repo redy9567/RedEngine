@@ -10,7 +10,7 @@ class Animation : public Trackable
 
 public:
 	Animation(Sprite* frames, int numOfFrames, int fps);
-	Animation(GraphicsBuffer* gb, int rows, int columns, int fps);
+	Animation(GraphicsBuffer* gb, int rows, int columns, int fps, float scale = 1.0f);
 	~Animation();
 
 	void update(double deltaTime);

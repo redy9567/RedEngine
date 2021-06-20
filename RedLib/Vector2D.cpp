@@ -119,10 +119,22 @@ void Vector2D::normalize()
 {
 	float len = length();
 
-	if(len == 0.0f)
+	if(len == 0.0f || len == 1.0f)
 		return;
 
 	mX /= len;
 	mY /= len;
+}
+
+Vector2D Vector2D::normalized()
+{
+	float len = length();
+
+	if(len == 0.0f)
+		return Zero();
+	else if(len == 1.0f)
+		return Vector2D(mX, mY);
+
+	return Vector2D(mX / len, mY / len);
 }
 

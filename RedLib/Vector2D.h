@@ -30,6 +30,8 @@ public:
 	float length();
 	void normalize();
 
+	Vector2D normalized();
+
 	float getX() { return mX; }
 	float getY() { return mY; }
 

@@ -40,6 +40,10 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/RedEngine/Vector2D.h
 
+/home/redy9567/RedEngine/RedLib/MemoryTracker.h
+unordered_map
+-
+
 /home/redy9567/RedEngine/RedLib/Timer.h
 Trackable.h
 /home/redy9567/RedEngine/RedLib/Trackable.h
@@ -100,6 +104,16 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/SampleGame/Vector2D.h
 vector
+-
+
+/home/redy9567/RedEngine/SampleGame/main.cpp
+Game.h
+/home/redy9567/RedEngine/SampleGame/Game.h
+MemoryTracker.h
+/home/redy9567/RedEngine/SampleGame/MemoryTracker.h
+Timer.h
+/home/redy9567/RedEngine/SampleGame/Timer.h
+iostream
 -
 
 _deps/raylib-cpp-src/include/AudioDevice.hpp

@@ -1,5 +1,6 @@
 #include "InputSystem.h"
 #include "raylib.hpp"
+#include <iostream>
 
 InputSystem::InputSystem()
 {
