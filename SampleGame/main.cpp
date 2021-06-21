@@ -37,7 +37,7 @@ int main()
     t.start();
     
     //Play Game
-    Game::getInstance()->init(screenWidth, screenHeight);
+    Game::getInstance()->init(screenWidth, screenHeight, 60, true);
     Game::getInstance()->startGame();
     Game::getInstance()->cleanup();
     Game::cleanupInstance();

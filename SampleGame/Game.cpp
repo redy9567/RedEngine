@@ -33,8 +33,9 @@ void Game::cleanupInstance()
 
 void Game::startGame()
 {
+	mIsPlaying = true;
 	mpGameTimer->start();
-	while (mpGraphicsSystem->isRunning())    // Detect window close button or ESC key
+	while (mIsPlaying)    // Detect window close button or ESC key
 	{
 		deltaTime = mpGameTimer->getElapsedTime();
 		mpGameTimer->start();
@@ -42,6 +43,12 @@ void Game::startGame()
 		getInput();
 		update();
 		render();
+
+		debug();
+
+		while(mpGameTimer->getElapsedTime() < mTimePerFrame)
+			mpGameTimer->sleepUntilElapsed(mTimePerFrame);
+			
 	}
 }
 
@@ -56,6 +63,10 @@ Game::Game()
 	mpUnitManager = nullptr;
 	mpProjAnimation = nullptr;
 	mpProjBuffer = nullptr;
+
+	mDebugMode = false;
+	mIsPlaying = false;
+	mTimePerFrame = 0.0f;
 }
 
 Game::~Game()
@@ -63,8 +74,11 @@ Game::~Game()
 	
 }
 
-void Game::init(int screenWidth, int screenHeight)
+void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 {
+	SetExitKey(-1);
+	SetTargetFPS(999);
+
 	mpGraphicsSystem = new GraphicsSystem();
 	mpInputSystem = new InputSystem();
 
@@ -79,6 +93,9 @@ void Game::init(int screenWidth, int screenHeight)
 	mpPlayerUnit = new Player(mpSmurfAnimation, 200.0f, Vector2D(300, 300));
 
 	mpGameTimer = new Timer();
+
+	mTimePerFrame = 1.0f / fps;
+	mDebugMode = debugMode;
 
 	srand(time(NULL));
 }
@@ -148,6 +165,12 @@ void Game::getInput()
 		dir.normalize();
 		mpUnitManager->createAndManageUnit(mpProjAnimation, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 	}
+
+	if(mpInputSystem->getKeyDown(Key_Escape))
+	{
+		mIsPlaying = false;
+		cout << "QUIT" << endl;
+	}
 }
 
 void Game::update()
@@ -175,4 +198,12 @@ void Game::render()
 	mpUnitManager->draw(mpGraphicsSystem);
 
 	mpGraphicsSystem->flip();
+}
+
+void Game::debug()
+{
+	if(mDebugMode)
+	{
+		cout << "Frame Length: " << deltaTime << ", which is equal to " << 1 / deltaTime << " FPS." << endl;
+	}
 }

@@ -24,7 +24,8 @@ void Timer::start()
 {
 	mElapsedTime = 0.0;
 
-	togglePause();
+	mPaused = false;
+	mStartTime = chrono::steady_clock::now();
 }
 
 void Timer::stop()

@@ -22,7 +22,7 @@ public:
 	static Game* getInstance();
 	static void cleanupInstance();
 
-	void init(int screenWidth, int screenHeight);
+	void init(int screenWidth, int screenHeight, int fps = 60, bool debugMode = false);
 	void cleanup();
 
 	void startGame();
@@ -34,6 +34,8 @@ private:
 	void getInput();
 	void update();
 	void render();
+
+	void debug(); //Just a bunch of stuff to do in Debug Mode
 
 	static Game* mspInstance;
 
@@ -51,5 +53,8 @@ private:
 	Timer* mpGameTimer;
 
 	double deltaTime;
+	bool mDebugMode, mIsPlaying;
+
+	float mTimePerFrame;
 	
 };

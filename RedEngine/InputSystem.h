@@ -33,7 +33,8 @@ enum KeyCode
 
 	Key_Enter = 257,
 	Key_Space = 32,
-	Key_Escape = 256
+	Key_Escape = 256,
+	Key_Tab = 258
 };
 
 class InputSystem : public Trackable
