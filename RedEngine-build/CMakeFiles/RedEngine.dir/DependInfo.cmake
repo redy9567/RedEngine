@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/redy9567/RedEngine/RedEngine/Animation.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Animation.cpp.o"
+  "/home/redy9567/RedEngine/RedEngine/AnimationData.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationData.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/Color.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/GraphicsBuffer.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/GraphicsSystem.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o"

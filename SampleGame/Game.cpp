@@ -4,6 +4,7 @@
 #include "GraphicsBuffer.h"
 #include "Color.h"
 #include "Animation.h"
+#include "AnimationData.h"
 #include "Player.h"
 #include "Timer.h"
 #include "UnitManager.h"
@@ -63,6 +64,8 @@ Game::Game()
 	mpUnitManager = nullptr;
 	mpProjAnimation = nullptr;
 	mpProjBuffer = nullptr;
+	mpSmurfAnimationData = nullptr;
+	mpProjAnimationData = nullptr;
 
 	mDebugMode = false;
 	mIsPlaying = false;
@@ -88,8 +91,12 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
 	mpProjBuffer = new GraphicsBuffer(ASSET_PATH + PROJECTILE_FILENAME);
-	mpSmurfAnimation = new Animation(mpSmurfBuffer, 4, 4, 16);
-	mpProjAnimation = new Animation(mpProjBuffer, 1, 13, 13, 0.25f);
+
+	mpSmurfAnimationData = new AnimationData(mpSmurfBuffer, 4, 4);
+	mpProjAnimationData = new AnimationData(mpProjBuffer, 1, 13, 0.25f);
+	mpSmurfAnimation = new Animation(mpSmurfAnimationData, 16);
+	mpProjAnimation = new Animation(mpProjAnimationData, 13);
+
 	mpPlayerUnit = new Player(mpSmurfAnimation, 200.0f, Vector2D(300, 300));
 
 	mpGameTimer = new Timer();
@@ -114,6 +121,12 @@ void Game::cleanup()
 
 	delete mpProjAnimation;
 	mpProjAnimation = nullptr;
+
+	delete mpSmurfAnimationData;
+	mpSmurfAnimationData = nullptr;
+
+	delete mpProjAnimationData;
+	mpProjAnimationData = nullptr;
 
 	delete mpSmurfBuffer;
 	mpSmurfBuffer = nullptr;

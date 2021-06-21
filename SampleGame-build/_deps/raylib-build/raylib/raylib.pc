@@ -8,6 +8,6 @@ Description: Simple and easy-to-use library to enjoy videogames programming
 URL: http://github.com/raysan5/raylib
 Version: 3.5.0
 Libs: -L"${libdir}" -lraylib 
-Libs.private: -lglfw  -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl
-Requires.private:  x11 x11 x11 x11 x11 x11 x11 x11
+Libs.private: -lglfw  -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl -lrt -lm -ldl
+Requires.private:  x11 x11 x11 x11 x11 x11 x11 x11 x11
 Cflags: -I"${includedir}"

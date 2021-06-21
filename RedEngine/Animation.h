@@ -4,13 +4,13 @@
 
 class Sprite;
 class GraphicsBuffer;
+class AnimationData;
 
 class Animation : public Trackable
 {
 
 public:
-	Animation(Sprite* frames, int numOfFrames, int fps);
-	Animation(GraphicsBuffer* gb, int rows, int columns, int fps, float scale = 1.0f);
+	Animation(AnimationData* data, int fps);
 	~Animation();
 
 	void update(double deltaTime);
@@ -20,9 +20,8 @@ public:
 private:
 	Animation() = delete;
 
-	std::vector<Sprite*> mSprites;
+	AnimationData* mAnimData;
 	int mCurrentFrame;
-	bool mOwnsSprites;
 	
 	int mFPS;
 	double mTimePerFrame;

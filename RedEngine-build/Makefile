@@ -220,6 +220,33 @@ Animation.cpp.s:
 	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Animation.cpp.s
 .PHONY : Animation.cpp.s
 
+AnimationData.o: AnimationData.cpp.o
+
+.PHONY : AnimationData.o
+
+# target to build an object file
+AnimationData.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationData.cpp.o
+.PHONY : AnimationData.cpp.o
+
+AnimationData.i: AnimationData.cpp.i
+
+.PHONY : AnimationData.i
+
+# target to preprocess a source file
+AnimationData.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationData.cpp.i
+.PHONY : AnimationData.cpp.i
+
+AnimationData.s: AnimationData.cpp.s
+
+.PHONY : AnimationData.s
+
+# target to generate assembly for a file
+AnimationData.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationData.cpp.s
+.PHONY : AnimationData.cpp.s
+
 Color.o: Color.cpp.o
 
 .PHONY : Color.o
@@ -373,6 +400,9 @@ help:
 	@echo "... Animation.o"
 	@echo "... Animation.i"
 	@echo "... Animation.s"
+	@echo "... AnimationData.o"
+	@echo "... AnimationData.i"
+	@echo "... AnimationData.s"
 	@echo "... Color.o"
 	@echo "... Color.i"
 	@echo "... Color.s"

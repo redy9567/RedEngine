@@ -4,6 +4,7 @@
 
 class GraphicsSystem;
 class GraphicsBuffer;
+class AnimationData;
 class Animation;
 class InputSystem;
 class Player;
@@ -46,6 +47,8 @@ private:
 
 	GraphicsBuffer* mpSmurfBuffer;
 	GraphicsBuffer* mpProjBuffer;
+	AnimationData* mpSmurfAnimationData;
+	AnimationData* mpProjAnimationData;
 	Animation* mpSmurfAnimation;
 	Animation* mpProjAnimation;
 	Player* mpPlayerUnit;
