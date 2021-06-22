@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Timer.h"
 #include "UnitManager.h"
+#include "AnimationManager.h"
 
 #include <iostream>
 
@@ -58,14 +59,14 @@ Game::Game()
 	mpGraphicsSystem = nullptr;
 	mpInputSystem = nullptr;
 	mpSmurfBuffer = nullptr;
-	mpSmurfAnimation = nullptr;
 	mpPlayerUnit = nullptr;
 	mpGameTimer = nullptr;
 	mpUnitManager = nullptr;
-	mpProjAnimation = nullptr;
 	mpProjBuffer = nullptr;
 	mpSmurfAnimationData = nullptr;
 	mpProjAnimationData = nullptr;
+
+	mpAnimationManager = nullptr;
 
 	mDebugMode = false;
 	mIsPlaying = false;
@@ -94,10 +95,10 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpSmurfAnimationData = new AnimationData(mpSmurfBuffer, 4, 4);
 	mpProjAnimationData = new AnimationData(mpProjBuffer, 1, 13, 0.25f);
-	mpSmurfAnimation = new Animation(mpSmurfAnimationData, 16);
-	mpProjAnimation = new Animation(mpProjAnimationData, 13);
+	mpAnimationManager = new AnimationManager();
 
-	mpPlayerUnit = new Player(mpSmurfAnimation, 200.0f, Vector2D(300, 300));
+	Animation* playerAnim = mpAnimationManager->createAndManageAnimation(mpSmurfAnimationData, 16);
+	mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
 
 	mpGameTimer = new Timer();
 
@@ -116,17 +117,14 @@ void Game::cleanup()
 	delete mpUnitManager;
 	mpUnitManager = nullptr;
 
-	delete mpSmurfAnimation;
-	mpSmurfAnimation = nullptr;
-
-	delete mpProjAnimation;
-	mpProjAnimation = nullptr;
-
 	delete mpSmurfAnimationData;
 	mpSmurfAnimationData = nullptr;
 
 	delete mpProjAnimationData;
 	mpProjAnimationData = nullptr;
+
+	delete mpAnimationManager;
+	mpAnimationManager = nullptr;
 
 	delete mpSmurfBuffer;
 	mpSmurfBuffer = nullptr;
@@ -176,7 +174,10 @@ void Game::getInput()
 	{
 		Vector2D dir = Vector2D(mpInputSystem->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), mpInputSystem->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
 		dir.normalize();
-		mpUnitManager->createAndManageUnit(mpProjAnimation, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
+
+		Animation* projAnim = mpAnimationManager->createAndManageAnimation(mpProjAnimationData, 13);
+
+		mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 	}
 
 	if(mpInputSystem->getKeyDown(Key_Escape))
@@ -190,8 +191,7 @@ void Game::update()
 {
 	mpUnitManager->update(deltaTime);
 
-	mpSmurfAnimation->update(deltaTime);
-	mpProjAnimation->update(deltaTime);
+	mpAnimationManager->update(deltaTime);
 	mpPlayerUnit->update(deltaTime);
 }
 

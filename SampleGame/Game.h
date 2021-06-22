@@ -4,12 +4,12 @@
 
 class GraphicsSystem;
 class GraphicsBuffer;
-class AnimationData;
-class Animation;
+class AnimationData; //To Be Removed
 class InputSystem;
 class Player;
 class Timer;
 class UnitManager;
+class AnimationManager;
 
 const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -44,13 +44,12 @@ private:
 	InputSystem* mpInputSystem;
 
 	UnitManager* mpUnitManager;
+	AnimationManager* mpAnimationManager;
 
 	GraphicsBuffer* mpSmurfBuffer;
 	GraphicsBuffer* mpProjBuffer;
-	AnimationData* mpSmurfAnimationData;
-	AnimationData* mpProjAnimationData;
-	Animation* mpSmurfAnimation;
-	Animation* mpProjAnimation;
+	AnimationData* mpSmurfAnimationData; //TBD
+	AnimationData* mpProjAnimationData; //TBD
 	Player* mpPlayerUnit;
 
 	Timer* mpGameTimer;

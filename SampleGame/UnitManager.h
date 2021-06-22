@@ -21,7 +21,6 @@ public:
     void addUnit(Unit* unit);
     void removeUnit(Unit* unit);
     void removeAndDeleteUnit(Unit* unit);
-
     void deleteUnit(Unit* unit);
 
     int find(Unit* unit);
