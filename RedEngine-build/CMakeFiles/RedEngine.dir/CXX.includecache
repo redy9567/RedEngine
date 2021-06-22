@@ -31,6 +31,10 @@ Trackable.h
 /home/redy9567/RedEngine/RedEngine/Trackable.h
 vector
 -
+unordered_map
+-
+string
+-
 
 /home/redy9567/RedEngine/RedLib/Trackable.h
 cstdlib

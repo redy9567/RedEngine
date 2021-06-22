@@ -4,7 +4,6 @@
 
 class GraphicsSystem;
 class GraphicsBuffer;
-class AnimationData; //To Be Removed
 class InputSystem;
 class Player;
 class Timer;
@@ -48,8 +47,6 @@ private:
 
 	GraphicsBuffer* mpSmurfBuffer;
 	GraphicsBuffer* mpProjBuffer;
-	AnimationData* mpSmurfAnimationData; //TBD
-	AnimationData* mpProjAnimationData; //TBD
 	Player* mpPlayerUnit;
 
 	Timer* mpGameTimer;

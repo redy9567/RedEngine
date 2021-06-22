@@ -63,8 +63,6 @@ Game::Game()
 	mpGameTimer = nullptr;
 	mpUnitManager = nullptr;
 	mpProjBuffer = nullptr;
-	mpSmurfAnimationData = nullptr;
-	mpProjAnimationData = nullptr;
 
 	mpAnimationManager = nullptr;
 
@@ -93,11 +91,12 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
 	mpProjBuffer = new GraphicsBuffer(ASSET_PATH + PROJECTILE_FILENAME);
 
-	mpSmurfAnimationData = new AnimationData(mpSmurfBuffer, 4, 4);
-	mpProjAnimationData = new AnimationData(mpProjBuffer, 1, 13, 0.25f);
 	mpAnimationManager = new AnimationManager();
 
-	Animation* playerAnim = mpAnimationManager->createAndManageAnimation(mpSmurfAnimationData, 16);
+	AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", mpSmurfBuffer, 4, 4);
+	mpAnimationManager->createAndManageAnimationData("proj", mpProjBuffer, 1, 13, 0.25f);
+
+	Animation* playerAnim = mpAnimationManager->createAndManageAnimation(playerAnimData, 16);
 	mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
 
 	mpGameTimer = new Timer();
@@ -116,12 +115,6 @@ void Game::cleanup()
 
 	delete mpUnitManager;
 	mpUnitManager = nullptr;
-
-	delete mpSmurfAnimationData;
-	mpSmurfAnimationData = nullptr;
-
-	delete mpProjAnimationData;
-	mpProjAnimationData = nullptr;
 
 	delete mpAnimationManager;
 	mpAnimationManager = nullptr;
@@ -175,7 +168,8 @@ void Game::getInput()
 		Vector2D dir = Vector2D(mpInputSystem->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), mpInputSystem->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
 		dir.normalize();
 
-		Animation* projAnim = mpAnimationManager->createAndManageAnimation(mpProjAnimationData, 13);
+		AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");
+		Animation* projAnim = mpAnimationManager->createAndManageAnimation(projAnimData, 13);
 
 		mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 	}

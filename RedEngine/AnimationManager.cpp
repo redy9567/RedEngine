@@ -112,5 +112,74 @@ void AnimationManager::clear()
         }
     }
 
+    if(mAnimData.size() > 0)
+    {
+        for(unordered_map<string, AnimationData*>::iterator i = mAnimData.begin(); i != mAnimData.end(); i++)
+        {
+            delete (*i).second;
+        }
+    }
+
     mAnimations.clear();
+    mAnimData.clear();
+}
+
+AnimationData* AnimationManager::createAnimationData(Sprite* frames, int numOfFrames)
+{
+    return new AnimationData(frames, numOfFrames);
+}
+
+AnimationData* AnimationManager::createAnimationData(GraphicsBuffer* gb, int rows, int columns, float scale)
+{
+    return new AnimationData(gb, rows, columns, scale);
+}
+
+AnimationData* AnimationManager::createAndManageAnimationData(string key, Sprite* frames, int numOfFrames)
+{
+    AnimationData* data = new AnimationData(frames, numOfFrames);
+    mAnimData.emplace(key, data);
+    return data;
+}
+
+AnimationData* AnimationManager::createAndManageAnimationData(string key, GraphicsBuffer* gb, int rows, int columns, float scale)
+{
+    AnimationData* data = new AnimationData(gb, rows, columns, scale);
+    mAnimData.emplace(key, data);
+    return data;
+}
+
+void AnimationManager::addAnimationData(string key, AnimationData* data)
+{
+    mAnimData.emplace(key, data);
+}
+
+void AnimationManager::removeAnimationData(string key)
+{
+    mAnimData.erase(key);
+}
+
+void AnimationManager::removeAndDeleteAnimationData(string key)
+{
+    delete mAnimData.at(key);
+    mAnimData.erase(key);
+}
+
+void AnimationManager::deleteAnimationData(AnimationData* data)
+{
+    delete data;
+}
+
+string AnimationManager::findAnimationDataKey(AnimationData* data)
+{
+    for(unordered_map<string, AnimationData*>::iterator i = mAnimData.begin(); i != mAnimData.end(); i++)
+    {
+        if(data == (*i).second)
+            return (*i).first;
+    }
+    return "";
+}
+
+AnimationData* AnimationManager::getAnimationData(string key)
+{
+    return mAnimData.at(key);
 }
