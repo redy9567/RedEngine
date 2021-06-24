@@ -328,6 +328,33 @@ GraphicsBuffer.cpp.s:
 	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.s
 .PHONY : GraphicsBuffer.cpp.s
 
+GraphicsBufferManager.o: GraphicsBufferManager.cpp.o
+
+.PHONY : GraphicsBufferManager.o
+
+# target to build an object file
+GraphicsBufferManager.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o
+.PHONY : GraphicsBufferManager.cpp.o
+
+GraphicsBufferManager.i: GraphicsBufferManager.cpp.i
+
+.PHONY : GraphicsBufferManager.i
+
+# target to preprocess a source file
+GraphicsBufferManager.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.i
+.PHONY : GraphicsBufferManager.cpp.i
+
+GraphicsBufferManager.s: GraphicsBufferManager.cpp.s
+
+.PHONY : GraphicsBufferManager.s
+
+# target to generate assembly for a file
+GraphicsBufferManager.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.s
+.PHONY : GraphicsBufferManager.cpp.s
+
 GraphicsSystem.o: GraphicsSystem.cpp.o
 
 .PHONY : GraphicsSystem.o
@@ -439,6 +466,9 @@ help:
 	@echo "... GraphicsBuffer.o"
 	@echo "... GraphicsBuffer.i"
 	@echo "... GraphicsBuffer.s"
+	@echo "... GraphicsBufferManager.o"
+	@echo "... GraphicsBufferManager.i"
+	@echo "... GraphicsBufferManager.s"
 	@echo "... GraphicsSystem.o"
 	@echo "... GraphicsSystem.i"
 	@echo "... GraphicsSystem.s"

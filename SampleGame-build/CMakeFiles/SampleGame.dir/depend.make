@@ -5,7 +5,7 @@ CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/Animati
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/AnimationData.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/AnimationManager.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/Color.h
-CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsBuffer.h
+CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsBufferManager.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsSystem.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/InputSystem.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedLib/Timer.h

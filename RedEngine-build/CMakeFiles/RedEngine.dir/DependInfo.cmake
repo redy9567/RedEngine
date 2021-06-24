@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/redy9567/RedEngine/RedEngine/AnimationManager.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationManager.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/Color.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/GraphicsBuffer.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o"
+  "/home/redy9567/RedEngine/RedEngine/GraphicsBufferManager.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/GraphicsSystem.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/InputSystem.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/Sprite.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o"

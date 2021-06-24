@@ -10,8 +10,7 @@ class Animation : public Trackable
 {
 
 public:
-	Animation(AnimationData* data, int fps);
-	~Animation();
+	friend class AnimationManager;
 
 	void update(double deltaTime);
 
@@ -19,6 +18,8 @@ public:
 
 private:
 	Animation() = delete;
+	Animation(AnimationData* data, int fps);
+	~Animation();
 
 	AnimationData* mAnimData;
 	int mCurrentFrame;

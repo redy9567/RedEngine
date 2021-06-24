@@ -7,9 +7,7 @@ class GraphicsBuffer : public Trackable
 {
 public:
 	friend class GraphicsSystem;
-
-	GraphicsBuffer(std::string filename);
-	~GraphicsBuffer();
+	friend class GraphicsBufferManager;
 
 	void loadFromFile(std::string filename);
 
@@ -20,6 +18,8 @@ public:
 
 private:
 	GraphicsBuffer() = delete;
+	GraphicsBuffer(std::string filename);
+	~GraphicsBuffer();
 
 	raylib::Texture* mTexture;
 	int mWidth, mHeight;

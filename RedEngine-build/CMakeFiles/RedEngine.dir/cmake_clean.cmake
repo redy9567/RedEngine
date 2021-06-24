@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RedEngine.dir/AnimationManager.cpp.o"
   "CMakeFiles/RedEngine.dir/Color.cpp.o"
   "CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o"
+  "CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o"
   "CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o"
   "CMakeFiles/RedEngine.dir/InputSystem.cpp.o"
   "CMakeFiles/RedEngine.dir/Sprite.cpp.o"

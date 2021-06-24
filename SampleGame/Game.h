@@ -3,12 +3,12 @@
 #include <string>
 
 class GraphicsSystem;
-class GraphicsBuffer;
 class InputSystem;
 class Player;
 class Timer;
 class UnitManager;
 class AnimationManager;
+class GraphicsBufferManager;
 
 const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -44,9 +44,8 @@ private:
 
 	UnitManager* mpUnitManager;
 	AnimationManager* mpAnimationManager;
+	GraphicsBufferManager* mpGraphicsBufferManager;
 
-	GraphicsBuffer* mpSmurfBuffer;
-	GraphicsBuffer* mpProjBuffer;
 	Player* mpPlayerUnit;
 
 	Timer* mpGameTimer;

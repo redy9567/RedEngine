@@ -1,7 +1,6 @@
 #include "Game.h"
 #include "GraphicsSystem.h"
 #include "InputSystem.h"
-#include "GraphicsBuffer.h"
 #include "Color.h"
 #include "Animation.h"
 #include "AnimationData.h"
@@ -9,6 +8,7 @@
 #include "Timer.h"
 #include "UnitManager.h"
 #include "AnimationManager.h"
+#include "GraphicsBufferManager.h"
 
 #include <iostream>
 
@@ -58,12 +58,11 @@ Game::Game()
 {
 	mpGraphicsSystem = nullptr;
 	mpInputSystem = nullptr;
-	mpSmurfBuffer = nullptr;
 	mpPlayerUnit = nullptr;
 	mpGameTimer = nullptr;
-	mpUnitManager = nullptr;
-	mpProjBuffer = nullptr;
 
+	mpUnitManager = nullptr;
+	mpGraphicsBufferManager = nullptr;
 	mpAnimationManager = nullptr;
 
 	mDebugMode = false;
@@ -88,13 +87,14 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpUnitManager = new UnitManager();
 
-	mpSmurfBuffer = new GraphicsBuffer(ASSET_PATH + SMURF_FILENAME);
-	mpProjBuffer = new GraphicsBuffer(ASSET_PATH + PROJECTILE_FILENAME);
+	mpGraphicsBufferManager = new GraphicsBufferManager();
+	GraphicsBuffer* smurfBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("smurf", ASSET_PATH + SMURF_FILENAME);
+	GraphicsBuffer* projBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("proj", ASSET_PATH + PROJECTILE_FILENAME);
 
 	mpAnimationManager = new AnimationManager();
 
-	AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", mpSmurfBuffer, 4, 4);
-	mpAnimationManager->createAndManageAnimationData("proj", mpProjBuffer, 1, 13, 0.25f);
+	AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", smurfBuffer, 4, 4);
+	mpAnimationManager->createAndManageAnimationData("proj", projBuffer, 1, 13, 0.25f);
 
 	Animation* playerAnim = mpAnimationManager->createAndManageAnimation(playerAnimData, 16);
 	mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
@@ -119,11 +119,8 @@ void Game::cleanup()
 	delete mpAnimationManager;
 	mpAnimationManager = nullptr;
 
-	delete mpSmurfBuffer;
-	mpSmurfBuffer = nullptr;
-
-	delete mpProjBuffer;
-	mpProjBuffer = nullptr;
+	delete mpGraphicsBufferManager;
+	mpGraphicsBufferManager = nullptr;
 
 	delete mpInputSystem;
 	mpInputSystem = nullptr;
