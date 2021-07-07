@@ -1,5 +1,6 @@
 #pragma once
 #include "Trackable.h"
+#include <ostream>
 
 class Vector2D : public Trackable
 {
@@ -27,6 +28,8 @@ public:
 	Vector2D operator*=(const float scalar);
 	Vector2D operator/=(const float scalar);
 
+	std::ostream& write(std::ostream& out) const;
+
 	float length();
 	void normalize();
 
@@ -45,3 +48,6 @@ private:
 	float mX, mY;
 	
 };
+
+//global operator overloads (to get better implementation with ostream)
+std::ostream& operator<<(std::ostream& out, Vector2D const &vec);

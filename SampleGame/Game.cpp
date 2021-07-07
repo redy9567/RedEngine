@@ -157,6 +157,8 @@ void Game::getInput()
 	}
 
 	dir.normalize();
+
+	//cout << dir << endl;
 	
 	mpPlayerUnit->setMoveDirection(dir);
 

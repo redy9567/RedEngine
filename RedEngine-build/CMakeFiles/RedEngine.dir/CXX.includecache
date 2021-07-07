@@ -36,24 +36,6 @@ Trackable.h
 vector
 -
 
-/home/redy9567/RedEngine/RedEngine/AnimationManager.cpp
-AnimationManager.h
-/home/redy9567/RedEngine/RedEngine/AnimationManager.h
-AnimationData.h
-/home/redy9567/RedEngine/RedEngine/AnimationData.h
-Animation.h
-/home/redy9567/RedEngine/RedEngine/Animation.h
-
-/home/redy9567/RedEngine/RedEngine/AnimationManager.h
-Trackable.h
-/home/redy9567/RedEngine/RedEngine/Trackable.h
-vector
--
-unordered_map
--
-string
--
-
 /home/redy9567/RedEngine/RedEngine/Color.h
 raylib-cpp.hpp
 /home/redy9567/RedEngine/RedEngine/raylib-cpp.hpp
@@ -102,6 +84,20 @@ Vector2D.h
 Trackable.h
 /home/redy9567/RedEngine/RedEngine/Trackable.h
 
+/home/redy9567/RedEngine/RedEngine/InputSystem.cpp
+InputSystem.h
+/home/redy9567/RedEngine/RedEngine/InputSystem.h
+raylib.hpp
+/home/redy9567/RedEngine/RedEngine/raylib.hpp
+iostream
+-
+
+/home/redy9567/RedEngine/RedEngine/InputSystem.h
+Trackable.h
+/home/redy9567/RedEngine/RedEngine/Trackable.h
+Vector2D.h
+/home/redy9567/RedEngine/RedEngine/Vector2D.h
+
 /home/redy9567/RedEngine/RedEngine/Sprite.cpp
 Sprite.h
 /home/redy9567/RedEngine/RedEngine/Sprite.h
@@ -121,6 +117,8 @@ cstdlib
 /home/redy9567/RedEngine/RedLib/Vector2D.h
 Trackable.h
 /home/redy9567/RedEngine/RedLib/Trackable.h
+ostream
+-
 
 /home/redy9567/RedEngine/SampleGame-build/_deps/raylib-cpp-src/include/AudioDevice.hpp
 ./raylib.hpp

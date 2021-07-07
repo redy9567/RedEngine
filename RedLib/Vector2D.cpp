@@ -1,6 +1,8 @@
 #include "Vector2D.h"
 #include <math.h>
 
+using namespace std;
+
 Vector2D::Vector2D()
 {
 	mX = 0.0f;
@@ -107,7 +109,7 @@ Vector2D Vector2D::operator/=(const float scalar)
 
 float Vector2D::length()
 {
-	if(mX + mY == 0.0f)
+	if(!mX && !mY)
 		return 0.0f;
 
 	float x2 = mX * mX;
@@ -138,3 +140,14 @@ Vector2D Vector2D::normalized()
 	return Vector2D(mX / len, mY / len);
 }
 
+ostream& Vector2D::write(ostream& out) const
+{
+	out << "(" << mX << ", " << mY << ")";
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, Vector2D const &vec)
+{
+	vec.write(out);
+	return out;
+}
