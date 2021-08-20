@@ -151,3 +151,13 @@ std::ostream& operator<<(std::ostream& out, Vector2D const &vec)
 	vec.write(out);
 	return out;
 }
+
+bool Vector2D::operator==(const Vector2D& other) const
+{
+	return (mX == other.getX() && mY == other.getY());
+}
+
+bool Vector2D::operator!=(const Vector2D& other) const
+{
+	return !(mX == other.getX() && mY == other.getY());
+}

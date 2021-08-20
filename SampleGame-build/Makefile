@@ -283,6 +283,33 @@ Game.cpp.s:
 	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Game.cpp.s
 .PHONY : Game.cpp.s
 
+GameListener.o: GameListener.cpp.o
+
+.PHONY : GameListener.o
+
+# target to build an object file
+GameListener.cpp.o:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/GameListener.cpp.o
+.PHONY : GameListener.cpp.o
+
+GameListener.i: GameListener.cpp.i
+
+.PHONY : GameListener.i
+
+# target to preprocess a source file
+GameListener.cpp.i:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/GameListener.cpp.i
+.PHONY : GameListener.cpp.i
+
+GameListener.s: GameListener.cpp.s
+
+.PHONY : GameListener.s
+
+# target to generate assembly for a file
+GameListener.cpp.s:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/GameListener.cpp.s
+.PHONY : GameListener.cpp.s
+
 Player.o: Player.cpp.o
 
 .PHONY : Player.o
@@ -309,6 +336,33 @@ Player.s: Player.cpp.s
 Player.cpp.s:
 	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/Player.cpp.s
 .PHONY : Player.cpp.s
+
+PlayerMoveEvent.o: PlayerMoveEvent.cpp.o
+
+.PHONY : PlayerMoveEvent.o
+
+# target to build an object file
+PlayerMoveEvent.cpp.o:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.o
+.PHONY : PlayerMoveEvent.cpp.o
+
+PlayerMoveEvent.i: PlayerMoveEvent.cpp.i
+
+.PHONY : PlayerMoveEvent.i
+
+# target to preprocess a source file
+PlayerMoveEvent.cpp.i:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.i
+.PHONY : PlayerMoveEvent.cpp.i
+
+PlayerMoveEvent.s: PlayerMoveEvent.cpp.s
+
+.PHONY : PlayerMoveEvent.s
+
+# target to generate assembly for a file
+PlayerMoveEvent.cpp.s:
+	$(MAKE) -f CMakeFiles/SampleGame.dir/build.make CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.s
+.PHONY : PlayerMoveEvent.cpp.s
 
 Unit.o: Unit.cpp.o
 
@@ -414,9 +468,15 @@ help:
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
+	@echo "... GameListener.o"
+	@echo "... GameListener.i"
+	@echo "... GameListener.s"
 	@echo "... Player.o"
 	@echo "... Player.i"
 	@echo "... Player.s"
+	@echo "... PlayerMoveEvent.o"
+	@echo "... PlayerMoveEvent.i"
+	@echo "... PlayerMoveEvent.s"
 	@echo "... Unit.o"
 	@echo "... Unit.i"
 	@echo "... Unit.s"

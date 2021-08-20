@@ -5,6 +5,9 @@ CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/Animati
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/AnimationData.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/AnimationManager.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/Color.h
+CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/Event.h
+CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/EventListener.h
+CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/EventSystem.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsBufferManager.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsSystem.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedEngine/InputSystem.h
@@ -13,6 +16,7 @@ CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/SampleGame/Game.cpp
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/SampleGame/Game.h
+CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/SampleGame/GameListener.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/SampleGame/Player.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/SampleGame/Unit.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: /home/redy9567/RedEngine/SampleGame/UnitManager.h
@@ -54,11 +58,29 @@ CMakeFiles/SampleGame.dir/Game.cpp.o: _deps/raylib-cpp-src/include/raymath.hpp
 CMakeFiles/SampleGame.dir/Game.cpp.o: _deps/raylib-src/src/raylib.h
 CMakeFiles/SampleGame.dir/Game.cpp.o: _deps/raylib-src/src/raymath.h
 
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/Event.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/EventListener.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/SampleGame/Game.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/SampleGame/GameListener.cpp
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/SampleGame/GameListener.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
+
+CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/RedEngine/Event.h
+CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/RedEngine/EventSystem.h
 CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
 CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
 CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/SampleGame/Player.cpp
 CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/SampleGame/Player.h
+CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
 CMakeFiles/SampleGame.dir/Player.cpp.o: /home/redy9567/RedEngine/SampleGame/Unit.h
+
+CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.o: /home/redy9567/RedEngine/RedEngine/Event.h
+CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
+CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
+CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.o: /home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.cpp
+CMakeFiles/SampleGame.dir/PlayerMoveEvent.cpp.o: /home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
 
 CMakeFiles/SampleGame.dir/Unit.cpp.o: /home/redy9567/RedEngine/RedEngine/Animation.h
 CMakeFiles/SampleGame.dir/Unit.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsSystem.h

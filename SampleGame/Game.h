@@ -9,6 +9,9 @@ class Timer;
 class UnitManager;
 class AnimationManager;
 class GraphicsBufferManager;
+class GameListener;
+class EventSystem;
+class Vector2D;
 
 const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -19,6 +22,8 @@ const float PROJECTILE_SPEED = 100.0f;
 class Game : public Trackable
 {
 public:
+	friend class GameListener;
+
 	static Game* getInstance();
 	static void cleanupInstance();
 
@@ -37,6 +42,8 @@ private:
 
 	void debug(); //Just a bunch of stuff to do in Debug Mode
 
+	void DPlayerMove(Vector2D loc);
+
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
@@ -45,6 +52,8 @@ private:
 	UnitManager* mpUnitManager;
 	AnimationManager* mpAnimationManager;
 	GraphicsBufferManager* mpGraphicsBufferManager;
+
+	GameListener* mpGameListener;
 
 	Player* mpPlayerUnit;
 

@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "EventSystem.h"
+#include "PlayerMoveEvent.h"
 
 Player::Player()
     : Unit()
@@ -16,12 +18,17 @@ Player::Player(Animation* anim, float moveSpeed, Vector2D loc)
 
 Player::~Player()
 {
-
+    
 }
 
 void Player::update(double deltaTime)
 {
-    mLoc += mMoveDirection * deltaTime * mMovementSpeed;
+
+    if(mMoveDirection != Vector2D::Zero())
+	{
+		mLoc += mMoveDirection * deltaTime * mMovementSpeed;
+		EventSystem::getInstance()->fireEvent(PlayerMoveEvent(mLoc));
+	}
 }
 
 void Player::setMoveDirection(Vector2D dir)

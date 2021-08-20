@@ -301,6 +301,87 @@ Color.cpp.s:
 	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.s
 .PHONY : Color.cpp.s
 
+Event.o: Event.cpp.o
+
+.PHONY : Event.o
+
+# target to build an object file
+Event.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Event.cpp.o
+.PHONY : Event.cpp.o
+
+Event.i: Event.cpp.i
+
+.PHONY : Event.i
+
+# target to preprocess a source file
+Event.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Event.cpp.i
+.PHONY : Event.cpp.i
+
+Event.s: Event.cpp.s
+
+.PHONY : Event.s
+
+# target to generate assembly for a file
+Event.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Event.cpp.s
+.PHONY : Event.cpp.s
+
+EventListener.o: EventListener.cpp.o
+
+.PHONY : EventListener.o
+
+# target to build an object file
+EventListener.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventListener.cpp.o
+.PHONY : EventListener.cpp.o
+
+EventListener.i: EventListener.cpp.i
+
+.PHONY : EventListener.i
+
+# target to preprocess a source file
+EventListener.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventListener.cpp.i
+.PHONY : EventListener.cpp.i
+
+EventListener.s: EventListener.cpp.s
+
+.PHONY : EventListener.s
+
+# target to generate assembly for a file
+EventListener.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventListener.cpp.s
+.PHONY : EventListener.cpp.s
+
+EventSystem.o: EventSystem.cpp.o
+
+.PHONY : EventSystem.o
+
+# target to build an object file
+EventSystem.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventSystem.cpp.o
+.PHONY : EventSystem.cpp.o
+
+EventSystem.i: EventSystem.cpp.i
+
+.PHONY : EventSystem.i
+
+# target to preprocess a source file
+EventSystem.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventSystem.cpp.i
+.PHONY : EventSystem.cpp.i
+
+EventSystem.s: EventSystem.cpp.s
+
+.PHONY : EventSystem.s
+
+# target to generate assembly for a file
+EventSystem.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventSystem.cpp.s
+.PHONY : EventSystem.cpp.s
+
 GraphicsBuffer.o: GraphicsBuffer.cpp.o
 
 .PHONY : GraphicsBuffer.o
@@ -463,6 +544,15 @@ help:
 	@echo "... Color.o"
 	@echo "... Color.i"
 	@echo "... Color.s"
+	@echo "... Event.o"
+	@echo "... Event.i"
+	@echo "... Event.s"
+	@echo "... EventListener.o"
+	@echo "... EventListener.i"
+	@echo "... EventListener.s"
+	@echo "... EventSystem.o"
+	@echo "... EventSystem.i"
+	@echo "... EventSystem.s"
 	@echo "... GraphicsBuffer.o"
 	@echo "... GraphicsBuffer.i"
 	@echo "... GraphicsBuffer.s"

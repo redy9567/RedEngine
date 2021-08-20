@@ -28,6 +28,9 @@ public:
 	Vector2D operator*=(const float scalar);
 	Vector2D operator/=(const float scalar);
 
+	bool operator==(const Vector2D& other) const;
+	bool operator!=(const Vector2D& other) const;
+
 	std::ostream& write(std::ostream& out) const;
 
 	float length();
@@ -35,8 +38,8 @@ public:
 
 	Vector2D normalized();
 
-	float getX() { return mX; }
-	float getY() { return mY; }
+	float getX() const { return mX; }
+	float getY() const { return mY; }
 
 	static const Vector2D Zero() { return Vector2D(0, 0); }
 	static const Vector2D Left() { return Vector2D(-1, 0); }

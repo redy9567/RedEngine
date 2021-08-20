@@ -9,6 +9,8 @@
 #include "UnitManager.h"
 #include "AnimationManager.h"
 #include "GraphicsBufferManager.h"
+#include "EventSystem.h"
+#include "GameListener.h"
 
 #include <iostream>
 
@@ -65,6 +67,8 @@ Game::Game()
 	mpGraphicsBufferManager = nullptr;
 	mpAnimationManager = nullptr;
 
+	mpGameListener = nullptr;
+
 	mDebugMode = false;
 	mIsPlaying = false;
 	mTimePerFrame = 0.0f;
@@ -99,6 +103,9 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 	Animation* playerAnim = mpAnimationManager->createAndManageAnimation(playerAnimData, 16);
 	mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
 
+	mpGameListener = new GameListener();
+	EventSystem::getInstance()->addListener(PLAYER_MOVE_EVENT, mpGameListener);
+
 	mpGameTimer = new Timer();
 
 	mTimePerFrame = 1.0f / fps;
@@ -109,6 +116,9 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 void Game::cleanup()
 {
+	EventSystem::getInstance()->removeListenerFromAllEvents(mpGameListener);
+	delete mpGameListener;
+	mpGameListener = nullptr;
 
 	delete mpPlayerUnit;
 	mpPlayerUnit = nullptr;
@@ -121,6 +131,8 @@ void Game::cleanup()
 
 	delete mpGraphicsBufferManager;
 	mpGraphicsBufferManager = nullptr;
+
+	EventSystem::cleanupInstance();
 
 	delete mpInputSystem;
 	mpInputSystem = nullptr;
@@ -212,4 +224,9 @@ void Game::debug()
 	{
 		cout << "Frame Length: " << deltaTime << ", which is equal to " << 1 / deltaTime << " FPS." << endl;
 	}
+}
+
+void Game::DPlayerMove(Vector2D loc)
+{
+	cout << "Player move to: " << loc << endl;
 }
