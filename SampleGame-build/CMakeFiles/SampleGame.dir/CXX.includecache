@@ -70,10 +70,6 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/RedEngine/Vector2D.h
 
-/home/redy9567/RedEngine/RedLib/MemoryTracker.h
-unordered_map
--
-
 /home/redy9567/RedEngine/RedLib/Timer.h
 Trackable.h
 /home/redy9567/RedEngine/RedLib/Trackable.h
@@ -95,8 +91,6 @@ Game.h
 /home/redy9567/RedEngine/SampleGame/Game.h
 GraphicsSystem.h
 /home/redy9567/RedEngine/SampleGame/GraphicsSystem.h
-InputSystem.h
-/home/redy9567/RedEngine/SampleGame/InputSystem.h
 Color.h
 /home/redy9567/RedEngine/SampleGame/Color.h
 Animation.h
@@ -123,20 +117,22 @@ iostream
 /home/redy9567/RedEngine/SampleGame/Game.h
 Trackable.h
 /home/redy9567/RedEngine/SampleGame/Trackable.h
+InputSystem.h
+/home/redy9567/RedEngine/SampleGame/InputSystem.h
 string
 -
-
-/home/redy9567/RedEngine/SampleGame/GameListener.cpp
-GameListener.h
-/home/redy9567/RedEngine/SampleGame/GameListener.h
-PlayerMoveEvent.h
-/home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
-Game.h
-/home/redy9567/RedEngine/SampleGame/Game.h
 
 /home/redy9567/RedEngine/SampleGame/GameListener.h
 EventListener.h
 /home/redy9567/RedEngine/SampleGame/EventListener.h
+
+/home/redy9567/RedEngine/SampleGame/Player.cpp
+Player.h
+/home/redy9567/RedEngine/SampleGame/Player.h
+EventSystem.h
+/home/redy9567/RedEngine/SampleGame/EventSystem.h
+PlayerMoveEvent.h
+/home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
 
 /home/redy9567/RedEngine/SampleGame/Player.h
 Unit.h
@@ -162,16 +158,6 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/SampleGame/Vector2D.h
 vector
--
-
-/home/redy9567/RedEngine/SampleGame/main.cpp
-Game.h
-/home/redy9567/RedEngine/SampleGame/Game.h
-MemoryTracker.h
-/home/redy9567/RedEngine/SampleGame/MemoryTracker.h
-Timer.h
-/home/redy9567/RedEngine/SampleGame/Timer.h
-iostream
 -
 
 _deps/raylib-cpp-src/include/AudioDevice.hpp

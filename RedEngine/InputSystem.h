@@ -34,8 +34,18 @@ enum KeyCode
 	Key_Enter = 257,
 	Key_Space = 32,
 	Key_Escape = 256,
-	Key_Tab = 258
+	Key_Tab = 258,
+	Key_Max
 };
+
+enum ButtonState
+{
+	BUTTON_DOWN,
+	BUTTON_HELD,
+	BUTTON_UP
+};
+
+const int MOUSE_BUTTON_MAX = 2;
 
 class InputSystem : public Trackable
 {
@@ -44,6 +54,13 @@ public:
 	InputSystem();
 	~InputSystem();
 
+	void inputUpdate();
+
+	int getMouseX();
+	int getMouseY();
+	Vector2D getMousePosition();
+
+private:
 	bool getKeyDown(KeyCode key);
 	bool getKeyUp(KeyCode key);
 	bool getKey(KeyCode key);
@@ -51,12 +68,6 @@ public:
 	bool getMouseButtonDown(int button);
 	bool getMouseButtonUp(int button);
 	bool getMouseButton(int button);
-
-	int getMouseX();
-	int getMouseY();
-	Vector2D getMousePosition();
-
-private:
 	
 
 };

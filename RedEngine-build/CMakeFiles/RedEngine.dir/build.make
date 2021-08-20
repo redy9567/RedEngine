@@ -148,9 +148,35 @@ include /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedEngine.dir/EventSystem.cpp.s"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedEngine/EventSystem.cpp -o CMakeFiles/RedEngine.dir/EventSystem.cpp.s
 
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o: /home/redy9567/RedEngine/RedEngine/KeyboardEvent.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o -c /home/redy9567/RedEngine/RedEngine/KeyboardEvent.cpp
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.i"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedEngine/KeyboardEvent.cpp > CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.i
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.s"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedEngine/KeyboardEvent.cpp -o CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.s
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.o: /home/redy9567/RedEngine/RedEngine/MouseEvent.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.o"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/MouseEvent.cpp.o -c /home/redy9567/RedEngine/RedEngine/MouseEvent.cpp
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedEngine.dir/MouseEvent.cpp.i"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedEngine/MouseEvent.cpp > CMakeFiles/RedEngine.dir/MouseEvent.cpp.i
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedEngine.dir/MouseEvent.cpp.s"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedEngine/MouseEvent.cpp -o CMakeFiles/RedEngine.dir/MouseEvent.cpp.s
+
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsBuffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o -c /home/redy9567/RedEngine/RedEngine/GraphicsBuffer.cpp
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.i: cmake_force
@@ -163,7 +189,7 @@ include /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsBufferManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o -c /home/redy9567/RedEngine/RedEngine/GraphicsBufferManager.cpp
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.i: cmake_force
@@ -176,7 +202,7 @@ include /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsSystem.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o -c /home/redy9567/RedEngine/RedEngine/GraphicsSystem.cpp
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.i: cmake_force
@@ -189,7 +215,7 @@ include /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.o: /home/redy9567/RedEngine/RedEngine/InputSystem.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.o"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/InputSystem.cpp.o -c /home/redy9567/RedEngine/RedEngine/InputSystem.cpp
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.i: cmake_force
@@ -202,7 +228,7 @@ include /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o: /home/redy9567/RedEngine/RedEngine/Sprite.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/Sprite.cpp.o -c /home/redy9567/RedEngine/RedEngine/Sprite.cpp
 
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.i: cmake_force
@@ -222,6 +248,8 @@ RedEngine_OBJECTS = \
 "CMakeFiles/RedEngine.dir/Event.cpp.o" \
 "CMakeFiles/RedEngine.dir/EventListener.cpp.o" \
 "CMakeFiles/RedEngine.dir/EventSystem.cpp.o" \
+"CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o" \
+"CMakeFiles/RedEngine.dir/MouseEvent.cpp.o" \
 "CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o" \
 "CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o" \
 "CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o" \
@@ -238,6 +266,8 @@ RedEngine_EXTERNAL_OBJECTS =
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Event.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventListener.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventSystem.cpp.o
+/home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o
+/home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBuffer.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o
@@ -245,7 +275,7 @@ RedEngine_EXTERNAL_OBJECTS =
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX static library libRedEngine.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libRedEngine.a"
 	cd /home/redy9567/RedEngine/RedEngine-build && $(CMAKE_COMMAND) -P CMakeFiles/RedEngine.dir/cmake_clean_target.cmake
 	cd /home/redy9567/RedEngine/RedEngine-build && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RedEngine.dir/link.txt --verbose=$(VERBOSE)
 

@@ -490,6 +490,60 @@ InputSystem.cpp.s:
 	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.s
 .PHONY : InputSystem.cpp.s
 
+KeyboardEvent.o: KeyboardEvent.cpp.o
+
+.PHONY : KeyboardEvent.o
+
+# target to build an object file
+KeyboardEvent.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o
+.PHONY : KeyboardEvent.cpp.o
+
+KeyboardEvent.i: KeyboardEvent.cpp.i
+
+.PHONY : KeyboardEvent.i
+
+# target to preprocess a source file
+KeyboardEvent.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.i
+.PHONY : KeyboardEvent.cpp.i
+
+KeyboardEvent.s: KeyboardEvent.cpp.s
+
+.PHONY : KeyboardEvent.s
+
+# target to generate assembly for a file
+KeyboardEvent.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.s
+.PHONY : KeyboardEvent.cpp.s
+
+MouseEvent.o: MouseEvent.cpp.o
+
+.PHONY : MouseEvent.o
+
+# target to build an object file
+MouseEvent.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.o
+.PHONY : MouseEvent.cpp.o
+
+MouseEvent.i: MouseEvent.cpp.i
+
+.PHONY : MouseEvent.i
+
+# target to preprocess a source file
+MouseEvent.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.i
+.PHONY : MouseEvent.cpp.i
+
+MouseEvent.s: MouseEvent.cpp.s
+
+.PHONY : MouseEvent.s
+
+# target to generate assembly for a file
+MouseEvent.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/MouseEvent.cpp.s
+.PHONY : MouseEvent.cpp.s
+
 Sprite.o: Sprite.cpp.o
 
 .PHONY : Sprite.o
@@ -565,6 +619,12 @@ help:
 	@echo "... InputSystem.o"
 	@echo "... InputSystem.i"
 	@echo "... InputSystem.s"
+	@echo "... KeyboardEvent.o"
+	@echo "... KeyboardEvent.i"
+	@echo "... KeyboardEvent.s"
+	@echo "... MouseEvent.o"
+	@echo "... MouseEvent.i"
+	@echo "... MouseEvent.s"
 	@echo "... Sprite.o"
 	@echo "... Sprite.i"
 	@echo "... Sprite.s"

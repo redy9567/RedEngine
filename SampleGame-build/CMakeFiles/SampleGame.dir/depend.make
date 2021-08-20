@@ -60,6 +60,9 @@ CMakeFiles/SampleGame.dir/Game.cpp.o: _deps/raylib-src/src/raymath.h
 
 CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/Event.h
 CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/EventListener.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/InputSystem.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/KeyboardEvent.h
+CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedEngine/MouseEvent.h
 CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
 CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
 CMakeFiles/SampleGame.dir/GameListener.cpp.o: /home/redy9567/RedEngine/SampleGame/Game.h
@@ -172,9 +175,11 @@ CMakeFiles/SampleGame.dir/UnitManager.cpp.o: _deps/raylib-cpp-src/include/raymat
 CMakeFiles/SampleGame.dir/UnitManager.cpp.o: _deps/raylib-src/src/raylib.h
 CMakeFiles/SampleGame.dir/UnitManager.cpp.o: _deps/raylib-src/src/raymath.h
 
+CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/RedEngine/InputSystem.h
 CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/RedLib/MemoryTracker.h
 CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/RedLib/Timer.h
 CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
+CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
 CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/SampleGame/Game.h
 CMakeFiles/SampleGame.dir/main.cpp.o: /home/redy9567/RedEngine/SampleGame/main.cpp
 

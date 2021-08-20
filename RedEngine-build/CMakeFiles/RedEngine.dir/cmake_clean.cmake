@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o"
   "CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o"
   "CMakeFiles/RedEngine.dir/InputSystem.cpp.o"
+  "CMakeFiles/RedEngine.dir/KeyboardEvent.cpp.o"
+  "CMakeFiles/RedEngine.dir/MouseEvent.cpp.o"
   "CMakeFiles/RedEngine.dir/Sprite.cpp.o"
   "libRedEngine.a"
   "libRedEngine.pdb"

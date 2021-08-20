@@ -1,5 +1,6 @@
 #pragma once
 #include "Trackable.h"
+#include "InputSystem.h"
 #include <string>
 
 class GraphicsSystem;
@@ -42,7 +43,16 @@ private:
 
 	void debug(); //Just a bunch of stuff to do in Debug Mode
 
-	void DPlayerMove(Vector2D loc);
+	void DPlayerMove(Vector2D loc); //Functions that begin with the prefix D are debug functions
+	void DKeyPress(KeyCode);
+	void DMousePress(int);
+	void DKeyRelease(KeyCode);
+	void DMouseRelease(int);
+
+	void setPlayerMoveDir(Vector2D);
+	void fireProj();
+
+	void quitGame();
 
 	static Game* mspInstance;
 

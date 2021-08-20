@@ -1,6 +1,9 @@
 #include "InputSystem.h"
 #include "raylib.hpp"
 #include <iostream>
+#include "EventSystem.h"
+#include "KeyboardEvent.h"
+#include "MouseEvent.h"
 
 InputSystem::InputSystem()
 {
@@ -55,4 +58,39 @@ int InputSystem::getMouseY()
 Vector2D InputSystem::getMousePosition()
 {
 	return Vector2D(GetMouseX(), getMouseY());
+}
+
+void InputSystem::inputUpdate()
+{
+	for(int i = Key_A; i != Key_Max; i++)
+	{
+		if(getKeyDown((KeyCode)i))
+		{
+			EventSystem::getInstance()->fireEvent(KeyboardEvent((KeyCode)i, BUTTON_DOWN));
+		}
+		else if(getKey((KeyCode)i))
+		{
+			EventSystem::getInstance()->fireEvent(KeyboardEvent((KeyCode)i, BUTTON_HELD));
+		}
+		else if(getKeyUp((KeyCode)i))
+		{
+			EventSystem::getInstance()->fireEvent(KeyboardEvent((KeyCode)i, BUTTON_UP));
+		}
+	}
+
+	for(int i = 0; i <= MOUSE_BUTTON_MAX; i++)
+	{
+		if(getMouseButtonDown(i))
+		{
+			EventSystem::getInstance()->fireEvent(MouseEvent(i, BUTTON_DOWN));
+		}
+		else if(getMouseButton(i))
+		{
+			EventSystem::getInstance()->fireEvent(MouseEvent(i, BUTTON_HELD));
+		}
+		else if(getMouseButtonUp(i))
+		{
+			EventSystem::getInstance()->fireEvent(MouseEvent(i, BUTTON_UP));
+		}
+	}
 }

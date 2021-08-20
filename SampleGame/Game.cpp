@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "GraphicsSystem.h"
-#include "InputSystem.h"
 #include "Color.h"
 #include "Animation.h"
 #include "AnimationData.h"
@@ -105,6 +104,8 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpGameListener = new GameListener();
 	EventSystem::getInstance()->addListener(PLAYER_MOVE_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener(KEYBOARD_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener(MOUSE_EVENT, mpGameListener);
 
 	mpGameTimer = new Timer();
 
@@ -148,48 +149,7 @@ void Game::cleanup()
 
 void Game::getInput()
 {
-
-	Vector2D dir = Vector2D::Zero();
-
-	if(mpInputSystem->getKey(Key_A))
-	{
-		dir += Vector2D::Left();
-	}
-	if(mpInputSystem->getKey(Key_S))
-	{
-		dir += Vector2D::Down();
-	}
-	if(mpInputSystem->getKey(Key_D))
-	{
-		dir += Vector2D::Right();
-	}
-	if(mpInputSystem->getKey(Key_W))
-	{
-		dir += Vector2D::Up();
-	}
-
-	dir.normalize();
-
-	//cout << dir << endl;
-	
-	mpPlayerUnit->setMoveDirection(dir);
-
-	if(mpInputSystem->getMouseButtonDown(0))
-	{
-		Vector2D dir = Vector2D(mpInputSystem->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), mpInputSystem->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
-		dir.normalize();
-
-		AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");
-		Animation* projAnim = mpAnimationManager->createAndManageAnimation(projAnimData, 13);
-
-		mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
-	}
-
-	if(mpInputSystem->getKeyDown(Key_Escape))
-	{
-		mIsPlaying = false;
-		cout << "QUIT" << endl;
-	}
+	mpInputSystem->inputUpdate();
 }
 
 void Game::update()
@@ -229,4 +189,46 @@ void Game::debug()
 void Game::DPlayerMove(Vector2D loc)
 {
 	cout << "Player move to: " << loc << endl;
+}
+
+void Game::DKeyPress(KeyCode key)
+{
+	cout << "Key pressed with ID: " << key << endl;
+}
+
+void Game::DMousePress(int button)
+{
+	cout << "Mouse Button pressed with ID: " << button << endl;
+}
+
+void Game::DKeyRelease(KeyCode key)
+{
+	cout << "Key released with ID: " << key << endl;
+}
+
+void Game::DMouseRelease(int button)
+{
+	cout << "Mouse Button released with ID: " << button << endl;
+}
+
+void Game::setPlayerMoveDir(Vector2D dir)
+{
+	mpPlayerUnit->setMoveDirection(dir);
+}
+
+void Game::quitGame()
+{
+	mIsPlaying = false;
+	cout << "QUIT" << endl;
+}
+
+void Game::fireProj()
+{
+	Vector2D dir = Vector2D(mpInputSystem->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), mpInputSystem->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
+	dir.normalize();
+
+	AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");
+	Animation* projAnim = mpAnimationManager->createAndManageAnimation(projAnimData, 13);
+
+	mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 }
