@@ -49,7 +49,6 @@ private:
 	void DKeyRelease(KeyCode);
 	void DMouseRelease(int);
 
-	void setPlayerMoveDir(Vector2D);
 	void fireProj();
 
 	void quitGame();

@@ -28,31 +28,7 @@ void GameListener::handleEvent(const Event& event)
 
         if(keyboardEvent.getButtonState() == BUTTON_DOWN)
         {
-            Vector2D dir = Vector2D::Zero();
-
-	        if(keyboardEvent.getKey() == Key_A)
-	        {
-		        dir += Vector2D::Left();
-	        }
-	        if(keyboardEvent.getKey() == Key_S)
-	        {
-		        dir += Vector2D::Down();
-	        }
-	        if(keyboardEvent.getKey() == Key_D)
-	        {
-		        dir += Vector2D::Right();
-	        }
-	        if(keyboardEvent.getKey() == Key_W)
-	        {
-		        dir += Vector2D::Up();
-	        }
-
-	        dir.normalize();
-
-	        //cout << dir << endl;
-	
-	        Game::getInstance()->setPlayerMoveDir(dir);
-
+	        
             if(keyboardEvent.getKey() == Key_Escape)
 	        {
                 Game::getInstance()->quitGame();
@@ -60,8 +36,36 @@ void GameListener::handleEvent(const Event& event)
 
             //Game::getInstance()->DKeyPress(keyboardEvent.getKey());
         }
+        else if(keyboardEvent.getButtonState() == BUTTON_HELD)
+        {
+            if(keyboardEvent.getKey() == Key_A)
+	        {
+                InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Left().getX());
+	        }
+	        if(keyboardEvent.getKey() == Key_S)
+	        {
+		        InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Down().getY());
+	        }
+	        if(keyboardEvent.getKey() == Key_D)
+	        {
+		        InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Right().getX());
+	        }
+	        if(keyboardEvent.getKey() == Key_W)
+	        {
+		        InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Up().getY());
+	        }
+        }
         else if(keyboardEvent.getButtonState() == BUTTON_UP)
         {
+            if(keyboardEvent.getKey() == Key_A || keyboardEvent.getKey() == Key_D)
+	        {
+                InputSystem::getInstance()->setHorizonalMovementAxis(0.0f);
+	        }
+	        if(keyboardEvent.getKey() == Key_S || keyboardEvent.getKey() == Key_W)
+	        {
+		        InputSystem::getInstance()->setVerticalMovementAxis(0.0f);
+	        }
+
             //Game::getInstance()->DKeyRelease(keyboardEvent.getKey());
         }
     }

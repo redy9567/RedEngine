@@ -154,6 +154,8 @@ void Game::update()
 	mpUnitManager->update(deltaTime);
 
 	mpAnimationManager->update(deltaTime);
+
+	mpPlayerUnit->setMoveDirection(InputSystem::getInstance()->getMovementAxis().normalized());
 	mpPlayerUnit->update(deltaTime);
 }
 
@@ -206,11 +208,6 @@ void Game::DKeyRelease(KeyCode key)
 void Game::DMouseRelease(int button)
 {
 	cout << "Mouse Button released with ID: " << button << endl;
-}
-
-void Game::setPlayerMoveDir(Vector2D dir)
-{
-	mpPlayerUnit->setMoveDirection(dir);
 }
 
 void Game::quitGame()

@@ -60,6 +60,12 @@ public:
 	int getMouseY();
 	Vector2D getMousePosition();
 
+	void setHorizonalMovementAxis(float);
+	void setVerticalMovementAxis(float);
+	void setMovementAxis(Vector2D);
+
+	Vector2D getMovementAxis() const { return mMovementAxis; }
+
 private:
 	InputSystem();
 	~InputSystem();
@@ -71,6 +77,8 @@ private:
 	bool getMouseButtonDown(int button);
 	bool getMouseButtonUp(int button);
 	bool getMouseButton(int button);
+
+	Vector2D mMovementAxis;
 	
 	static InputSystem* mspInstance;
 };

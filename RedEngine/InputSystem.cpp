@@ -110,3 +110,41 @@ void InputSystem::inputUpdate()
 		}
 	}
 }
+
+void InputSystem::setHorizonalMovementAxis(float val)
+{
+	if(val > 1.0f)
+		val = 1.0f;
+	else if(val < -1.0f)
+		val = -1.0f;
+
+	mMovementAxis = Vector2D(val, mMovementAxis.getY());
+}
+
+void InputSystem::setVerticalMovementAxis(float val)
+{
+	if(val > 1.0f)
+		val = 1.0f;
+	else if(val < -1.0f)
+		val = -1.0f;
+
+	mMovementAxis = Vector2D(mMovementAxis.getX(), val);
+}
+
+void InputSystem::setMovementAxis(Vector2D axis)
+{
+	float x = axis.getX();
+	float y = axis.getY();
+
+	if(x > 1.0f)
+		x = 1.0f;
+	else if(x < -1.0f)
+		x = -1.0f;
+
+	if(y > 1.0f)
+		y = 1.0f;
+	else if(y < -1.0f)
+		y = -1.0f;
+
+	mMovementAxis = Vector2D(x, y);
+}
