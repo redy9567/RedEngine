@@ -57,7 +57,6 @@ private:
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
-	InputSystem* mpInputSystem;
 
 	UnitManager* mpUnitManager;
 	AnimationManager* mpAnimationManager;

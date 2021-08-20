@@ -38,12 +38,6 @@ Trackable.h
 Vector2D.h
 /home/redy9567/RedEngine/RedEngine/Vector2D.h
 
-/home/redy9567/RedEngine/RedEngine/KeyboardEvent.cpp
-InputSystem.h
-/home/redy9567/RedEngine/RedEngine/InputSystem.h
-KeyboardEvent.h
-/home/redy9567/RedEngine/RedEngine/KeyboardEvent.h
-
 /home/redy9567/RedEngine/RedEngine/KeyboardEvent.h
 Event.h
 /home/redy9567/RedEngine/RedEngine/Event.h

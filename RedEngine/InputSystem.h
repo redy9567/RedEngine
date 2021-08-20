@@ -51,8 +51,8 @@ class InputSystem : public Trackable
 {
 
 public:
-	InputSystem();
-	~InputSystem();
+	static InputSystem* getInstance();
+	static void cleanupInstance();
 
 	void inputUpdate();
 
@@ -61,6 +61,9 @@ public:
 	Vector2D getMousePosition();
 
 private:
+	InputSystem();
+	~InputSystem();
+
 	bool getKeyDown(KeyCode key);
 	bool getKeyUp(KeyCode key);
 	bool getKey(KeyCode key);
@@ -69,5 +72,5 @@ private:
 	bool getMouseButtonUp(int button);
 	bool getMouseButton(int button);
 	
-
+	static InputSystem* mspInstance;
 };

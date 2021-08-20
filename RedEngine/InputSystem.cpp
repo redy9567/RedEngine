@@ -5,6 +5,8 @@
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
 
+InputSystem* InputSystem::mspInstance = nullptr;
+
 InputSystem::InputSystem()
 {
 	
@@ -13,6 +15,20 @@ InputSystem::InputSystem()
 InputSystem::~InputSystem()
 {
 
+}
+
+InputSystem* InputSystem::getInstance()
+{
+	if(!mspInstance)
+		mspInstance = new InputSystem;
+
+	return mspInstance;
+}
+
+void InputSystem::cleanupInstance()
+{
+	if(mspInstance)
+		delete mspInstance;
 }
 
 bool InputSystem::getKey(KeyCode key)

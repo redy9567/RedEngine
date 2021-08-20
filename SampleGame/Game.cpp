@@ -58,7 +58,6 @@ void Game::startGame()
 Game::Game()
 {
 	mpGraphicsSystem = nullptr;
-	mpInputSystem = nullptr;
 	mpPlayerUnit = nullptr;
 	mpGameTimer = nullptr;
 
@@ -84,7 +83,6 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 	SetTargetFPS(999);
 
 	mpGraphicsSystem = new GraphicsSystem();
-	mpInputSystem = new InputSystem();
 
 	mpGraphicsSystem->init(screenWidth, screenHeight);
 
@@ -135,8 +133,7 @@ void Game::cleanup()
 
 	EventSystem::cleanupInstance();
 
-	delete mpInputSystem;
-	mpInputSystem = nullptr;
+	InputSystem::cleanupInstance();
 
 	mpGraphicsSystem->cleanup();
 
@@ -149,7 +146,7 @@ void Game::cleanup()
 
 void Game::getInput()
 {
-	mpInputSystem->inputUpdate();
+	InputSystem::getInstance()->inputUpdate();
 }
 
 void Game::update()
@@ -224,7 +221,7 @@ void Game::quitGame()
 
 void Game::fireProj()
 {
-	Vector2D dir = Vector2D(mpInputSystem->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), mpInputSystem->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
+	Vector2D dir = Vector2D(InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
 	dir.normalize();
 
 	AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");

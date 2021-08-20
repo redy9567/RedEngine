@@ -126,23 +126,9 @@ string
 EventListener.h
 /home/redy9567/RedEngine/SampleGame/EventListener.h
 
-/home/redy9567/RedEngine/SampleGame/Player.cpp
-Player.h
-/home/redy9567/RedEngine/SampleGame/Player.h
-EventSystem.h
-/home/redy9567/RedEngine/SampleGame/EventSystem.h
-PlayerMoveEvent.h
-/home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
-
 /home/redy9567/RedEngine/SampleGame/Player.h
 Unit.h
 /home/redy9567/RedEngine/SampleGame/Unit.h
-Vector2D.h
-/home/redy9567/RedEngine/SampleGame/Vector2D.h
-
-/home/redy9567/RedEngine/SampleGame/PlayerMoveEvent.h
-Event.h
-/home/redy9567/RedEngine/SampleGame/Event.h
 Vector2D.h
 /home/redy9567/RedEngine/SampleGame/Vector2D.h
 
