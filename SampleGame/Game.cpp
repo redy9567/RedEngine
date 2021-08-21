@@ -91,6 +91,7 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 	mpGraphicsBufferManager = new GraphicsBufferManager();
 	GraphicsBuffer* smurfBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("smurf", ASSET_PATH + SMURF_FILENAME);
 	GraphicsBuffer* projBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("proj", ASSET_PATH + PROJECTILE_FILENAME);
+	mpGraphicsBufferManager->createAndManageGraphicsBuffer("background", ASSET_PATH + BACKGROUND_FILEPATH);
 
 	mpAnimationManager = new AnimationManager();
 
@@ -166,9 +167,7 @@ void Game::render()
 
 	mpGraphicsSystem->clearScreenToColor(white);
 
-	Vector2D loc(190, 200);
-
-	mpGraphicsSystem->drawText("Guess what, BOYS", loc, lightGrey, 20);
+	mpGraphicsSystem->draw(mpGraphicsBufferManager->getGraphicsBuffer("background"), Vector2D::Zero());
 
 	mpPlayerUnit->draw(mpGraphicsSystem);
 
@@ -218,7 +217,9 @@ void Game::quitGame()
 
 void Game::fireProj()
 {
-	Vector2D dir = Vector2D(InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX(), InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY());
+	Vector2D dir = Vector2D(
+		InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX() + mpGraphicsSystem->getCameraLocation().getX(), 
+		InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY() + mpGraphicsSystem->getCameraLocation().getY());
 	dir.normalize();
 
 	AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");

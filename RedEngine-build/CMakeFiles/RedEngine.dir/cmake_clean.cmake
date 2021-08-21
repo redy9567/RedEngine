@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RedEngine.dir/Animation.cpp.o"
   "CMakeFiles/RedEngine.dir/AnimationData.cpp.o"
   "CMakeFiles/RedEngine.dir/AnimationManager.cpp.o"
+  "CMakeFiles/RedEngine.dir/Camera2D.cpp.o"
   "CMakeFiles/RedEngine.dir/Color.cpp.o"
   "CMakeFiles/RedEngine.dir/Event.cpp.o"
   "CMakeFiles/RedEngine.dir/EventListener.cpp.o"

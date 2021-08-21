@@ -274,6 +274,33 @@ AnimationManager.cpp.s:
 	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationManager.cpp.s
 .PHONY : AnimationManager.cpp.s
 
+Camera2D.o: Camera2D.cpp.o
+
+.PHONY : Camera2D.o
+
+# target to build an object file
+Camera2D.cpp.o:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o
+.PHONY : Camera2D.cpp.o
+
+Camera2D.i: Camera2D.cpp.i
+
+.PHONY : Camera2D.i
+
+# target to preprocess a source file
+Camera2D.cpp.i:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.i
+.PHONY : Camera2D.cpp.i
+
+Camera2D.s: Camera2D.cpp.s
+
+.PHONY : Camera2D.s
+
+# target to generate assembly for a file
+Camera2D.cpp.s:
+	cd /home/redy9567/RedEngine/SampleGame-build && $(MAKE) -f /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.s
+.PHONY : Camera2D.cpp.s
+
 Color.o: Color.cpp.o
 
 .PHONY : Color.o
@@ -595,6 +622,9 @@ help:
 	@echo "... AnimationManager.o"
 	@echo "... AnimationManager.i"
 	@echo "... AnimationManager.s"
+	@echo "... Camera2D.o"
+	@echo "... Camera2D.i"
+	@echo "... Camera2D.s"
 	@echo "... Color.o"
 	@echo "... Color.i"
 	@echo "... Color.s"

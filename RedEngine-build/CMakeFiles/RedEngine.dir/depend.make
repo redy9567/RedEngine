@@ -96,6 +96,11 @@
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationManager.cpp.o: /home/redy9567/RedEngine/RedEngine/AnimationManager.h
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationManager.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
 
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o: /home/redy9567/RedEngine/RedEngine/Camera2D.cpp
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o: /home/redy9567/RedEngine/RedEngine/Camera2D.h
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o: /home/redy9567/RedEngine/RedLib/Vector2D.h
+
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.o: /home/redy9567/RedEngine/RedEngine/Color.cpp
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.o: /home/redy9567/RedEngine/RedEngine/Color.h
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.o: /home/redy9567/RedEngine/RedLib/Trackable.h
@@ -236,6 +241,7 @@
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o: /home/redy9567/RedEngine/SampleGame-build/_deps/raylib-src/src/raylib.h
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o: /home/redy9567/RedEngine/SampleGame-build/_deps/raylib-src/src/raymath.h
 
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o: /home/redy9567/RedEngine/RedEngine/Camera2D.h
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o: /home/redy9567/RedEngine/RedEngine/Color.h
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsBuffer.h
 /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o: /home/redy9567/RedEngine/RedEngine/GraphicsSystem.cpp

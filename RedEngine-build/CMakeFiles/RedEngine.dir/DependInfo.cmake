@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/redy9567/RedEngine/RedEngine/Animation.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Animation.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/AnimationData.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationData.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/AnimationManager.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/AnimationManager.cpp.o"
+  "/home/redy9567/RedEngine/RedEngine/Camera2D.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/Color.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Color.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/Event.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Event.cpp.o"
   "/home/redy9567/RedEngine/RedEngine/EventListener.cpp" "/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/EventListener.cpp.o"

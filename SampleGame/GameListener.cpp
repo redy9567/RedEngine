@@ -3,6 +3,7 @@
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
 #include "Game.h"
+#include "GraphicsSystem.h"
 
 GameListener::GameListener()
 {
@@ -28,7 +29,31 @@ void GameListener::handleEvent(const Event& event)
 
         if(keyboardEvent.getButtonState() == BUTTON_DOWN)
         {
-	        
+	        if(keyboardEvent.getKey() == Key_Right)
+            {
+                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(20, 0));
+            }
+
+            if(keyboardEvent.getKey() == Key_Left)
+            {
+                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(-20, 0));
+            }
+
+            if(keyboardEvent.getKey() == Key_Down)
+            {
+                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, 20));
+            }
+
+            if(keyboardEvent.getKey() == Key_Up)
+            {
+                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, -20));
+            }
+
+
             if(keyboardEvent.getKey() == Key_Escape)
 	        {
                 Game::getInstance()->quitGame();

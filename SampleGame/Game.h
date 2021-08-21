@@ -17,6 +17,7 @@ class Vector2D;
 const std::string ASSET_PATH = "../SampleGame/Assets/";
 const std::string SMURF_FILENAME = "smurf_sprites.png";
 const std::string PROJECTILE_FILENAME = "Sphere_Glow.png";
+const std::string BACKGROUND_FILEPATH = "room/room0000.png";
 
 const float PROJECTILE_SPEED = 100.0f;
 

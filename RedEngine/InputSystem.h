@@ -35,6 +35,12 @@ enum KeyCode
 	Key_Space = 32,
 	Key_Escape = 256,
 	Key_Tab = 258,
+
+	Key_Right = 262,
+	Key_Left,
+	Key_Down,
+	Key_Up,
+
 	Key_Max
 };
 

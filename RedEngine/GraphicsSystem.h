@@ -8,6 +8,7 @@
 class RColor;
 class GraphicsBuffer;
 class Sprite;
+class RCamera2D;
 
 class GraphicsSystem : public Trackable
 {
@@ -29,6 +30,9 @@ public:
 	int getScreenWidth() { return mWidth; }
 	int getScreenHeight() { return mHeight; }
 
+	void setCameraLocation(Vector2D location);
+	Vector2D getCameraLocation();
+
 	void flip();
 
 	bool isRunning();
@@ -36,6 +40,8 @@ public:
 private:
 	raylib::Window* mWindow;
 	int mWidth, mHeight;
+
+	RCamera2D* mCamera;
 
 	raylib::Vector2 convertVector(Vector2D vec);
 

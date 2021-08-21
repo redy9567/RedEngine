@@ -45,7 +45,7 @@ add_subdirectory(../RedLib ../RedLib-build)
 
 # This is the main part:
 set(PROJECT_NAME RedEngine)
-set(PROJECT_SOURCES Animation.cpp AnimationData.cpp AnimationManager.cpp Color.cpp Event.cpp EventListener.cpp EventSystem.cpp KeyboardEvent.cpp MouseEvent.cpp GraphicsBuffer.cpp GraphicsBufferManager.cpp GraphicsSystem.cpp InputSystem.cpp Sprite.cpp)
+set(PROJECT_SOURCES Animation.cpp AnimationData.cpp AnimationManager.cpp Color.cpp Event.cpp EventListener.cpp EventSystem.cpp KeyboardEvent.cpp MouseEvent.cpp GraphicsBuffer.cpp GraphicsBufferManager.cpp GraphicsSystem.cpp InputSystem.cpp Sprite.cpp Camera2D.cpp)
 add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
 set(raylib_VERBOSE 1)
 target_include_directories(RedEngine PUBLIC ../RedLib ../RedLib-build)

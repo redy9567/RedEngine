@@ -239,6 +239,19 @@ include /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedEngine.dir/Sprite.cpp.s"
 	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedEngine/Sprite.cpp -o CMakeFiles/RedEngine.dir/Sprite.cpp.s
 
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/flags.make
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o: /home/redy9567/RedEngine/RedEngine/Camera2D.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/RedEngine.dir/Camera2D.cpp.o -c /home/redy9567/RedEngine/RedEngine/Camera2D.cpp
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/RedEngine.dir/Camera2D.cpp.i"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/redy9567/RedEngine/RedEngine/Camera2D.cpp > CMakeFiles/RedEngine.dir/Camera2D.cpp.i
+
+/home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/RedEngine.dir/Camera2D.cpp.s"
+	cd /home/redy9567/RedEngine/RedEngine-build && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/redy9567/RedEngine/RedEngine/Camera2D.cpp -o CMakeFiles/RedEngine.dir/Camera2D.cpp.s
+
 # Object files for target RedEngine
 RedEngine_OBJECTS = \
 "CMakeFiles/RedEngine.dir/Animation.cpp.o" \
@@ -254,7 +267,8 @@ RedEngine_OBJECTS = \
 "CMakeFiles/RedEngine.dir/GraphicsBufferManager.cpp.o" \
 "CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o" \
 "CMakeFiles/RedEngine.dir/InputSystem.cpp.o" \
-"CMakeFiles/RedEngine.dir/Sprite.cpp.o"
+"CMakeFiles/RedEngine.dir/Sprite.cpp.o" \
+"CMakeFiles/RedEngine.dir/Camera2D.cpp.o"
 
 # External object files for target RedEngine
 RedEngine_EXTERNAL_OBJECTS =
@@ -273,9 +287,10 @@ RedEngine_EXTERNAL_OBJECTS =
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/GraphicsSystem.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/InputSystem.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Sprite.cpp.o
+/home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/Camera2D.cpp.o
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/build.make
 /home/redy9567/RedEngine/RedEngine-build/libRedEngine.a: /home/redy9567/RedEngine/RedEngine-build/CMakeFiles/RedEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libRedEngine.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/redy9567/RedEngine/SampleGame-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libRedEngine.a"
 	cd /home/redy9567/RedEngine/RedEngine-build && $(CMAKE_COMMAND) -P CMakeFiles/RedEngine.dir/cmake_clean_target.cmake
 	cd /home/redy9567/RedEngine/RedEngine-build && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/RedEngine.dir/link.txt --verbose=$(VERBOSE)
 
