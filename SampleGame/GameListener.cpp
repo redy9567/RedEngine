@@ -29,56 +29,11 @@ void GameListener::handleEvent(const Event& event)
 
         if(keyboardEvent.getButtonState() == BUTTON_DOWN)
         {
-	        if(keyboardEvent.getKey() == Key_Right)
-            {
-                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(20, 0));
-            }
-
-            if(keyboardEvent.getKey() == Key_Left)
-            {
-                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(-20, 0));
-            }
-
-            if(keyboardEvent.getKey() == Key_Down)
-            {
-                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, 20));
-            }
-
-            if(keyboardEvent.getKey() == Key_Up)
-            {
-                Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-                Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, -20));
-            }
-
-
-            if(keyboardEvent.getKey() == Key_Escape)
-	        {
-                Game::getInstance()->quitGame();
-	        }
-
-            //Game::getInstance()->DKeyPress(keyboardEvent.getKey());
+	        processKeyDown(keyboardEvent.getKey());
         }
         else if(keyboardEvent.getButtonState() == BUTTON_HELD)
         {
-            if(keyboardEvent.getKey() == Key_A)
-	        {
-                InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Left().getX());
-	        }
-	        if(keyboardEvent.getKey() == Key_S)
-	        {
-		        InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Down().getY());
-	        }
-	        if(keyboardEvent.getKey() == Key_D)
-	        {
-		        InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Right().getX());
-	        }
-	        if(keyboardEvent.getKey() == Key_W)
-	        {
-		        InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Up().getY());
-	        }
+            processKey(keyboardEvent.getKey());
         }
         else if(keyboardEvent.getButtonState() == BUTTON_UP)
         {
@@ -113,4 +68,61 @@ void GameListener::handleEvent(const Event& event)
             //Game::getInstance()->DMouseRelease(mouseEvent.getMouseButton());
         }
     }
+}
+
+void GameListener::processKeyDown(KeyCode key)
+{
+
+    switch(key)
+    {
+        case Key_Escape:
+            Game::getInstance()->quitGame();
+            break;
+    }
+
+    //Game::getInstance()->DKeyPress(keyboardEvent.getKey());
+}
+
+void GameListener::processKey(KeyCode key)
+{
+
+    switch(key)
+    {
+        case Key_Right:
+            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(20, 0));
+            break;
+
+        case Key_Left:
+            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(-20, 0));
+            break;
+
+        case Key_Down:
+            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, 20));
+            break;
+
+        case Key_Up:
+            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, -20));
+            break;
+
+        case Key_A:
+            InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Left().getX());
+            break;
+
+        case Key_S:
+            InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Down().getY());
+            break;
+
+        case Key_D:
+            InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Right().getX());
+            break;
+
+        case Key_W:
+            InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Up().getY());
+            break;
+    }
+
 }
