@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EventListener.h"
+#include "InputSystem.h"
 
 
 class GameListener : public EventListener

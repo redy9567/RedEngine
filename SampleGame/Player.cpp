@@ -5,15 +5,14 @@
 Player::Player()
     : Unit()
 {
-    mMoveDirection = Vector2D::Zero();
-    mMovementSpeed = 0.0f;
+    
 }
 
 Player::Player(Animation* anim, float moveSpeed, Vector2D loc)
     : Unit(anim, loc)
 {
-    mMoveDirection = Vector2D::Zero();
-    mMovementSpeed = moveSpeed;
+    mMoveDir = Vector2D::Zero();
+    mSpeed = moveSpeed;
 }
 
 Player::~Player()
@@ -24,14 +23,14 @@ Player::~Player()
 void Player::update(double deltaTime)
 {
 
-    if(mMoveDirection != Vector2D::Zero())
+    if(mMoveDir != Vector2D::Zero())
 	{
-		mLoc += mMoveDirection * deltaTime * mMovementSpeed;
+		mLoc += mMoveDir * deltaTime * mSpeed;
 		EventSystem::getInstance()->fireEvent(PlayerMoveEvent(mLoc));
 	}
 }
 
 void Player::setMoveDirection(Vector2D dir)
 {
-    mMoveDirection = dir;
+    mMoveDir = dir;
 }

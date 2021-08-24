@@ -86,25 +86,26 @@ void GameListener::processKeyDown(KeyCode key)
 void GameListener::processKey(KeyCode key)
 {
 
+    Vector2D loc;
     switch(key)
     {
         case Key_Right:
-            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
             Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(20, 0));
             break;
 
         case Key_Left:
-            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
             Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(-20, 0));
             break;
 
         case Key_Down:
-            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
             Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, 20));
             break;
 
         case Key_Up:
-            Vector2D loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
+            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
             Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, -20));
             break;
 

@@ -11,7 +11,4 @@ public:
     void update(double deltaTime);
     void setMoveDirection(Vector2D dir);
 
-private:
-    Vector2D mMoveDirection;
-    float mMovementSpeed;
 };
