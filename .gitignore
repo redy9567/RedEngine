@@ -75,4 +75,11 @@ RedEngine/RedEngine.dir/Debug/
 RedEngine/RedEngine/Debug/
 RedEngine/_deps/raylib-build/raylib/raylib.dir/Debug/
 RedEngine/x64/Debug/
+RedEngine-build/
+RedLib-build/
+SampleGame-build/
 RedLib/x64/Debug/
+.vscode/
+RedEnginePhysics/.cproject
+RedEnginePhysics/.project
+build/

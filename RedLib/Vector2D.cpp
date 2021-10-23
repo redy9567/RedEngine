@@ -143,6 +143,7 @@ Vector2D Vector2D::normalized()
 ostream& Vector2D::write(ostream& out) const
 {
 	out << "(" << mX << ", " << mY << ")";
+	
 	return out;
 }
 
