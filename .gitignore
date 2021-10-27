@@ -83,3 +83,6 @@ RedLib/x64/Debug/
 RedEnginePhysics/.cproject
 RedEnginePhysics/.project
 build/
+
+.vs/
+*/.vs/

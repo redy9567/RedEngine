@@ -7,7 +7,7 @@
 const double NANO_TO_SEC = 1000000000.0;
 const double MILLI_TO_SEC = 1000.0;
 
-class Timer :public Trackable
+class Timer : public Trackable
 {
 public:
 	Timer();

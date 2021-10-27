@@ -47,7 +47,7 @@ endif()
 find_library(RedEngine RedEngine)
 add_subdirectory(../RedEngine ../RedEngine-build)
 
-include_directories("Header Files" "Source Files")
+include_directories("Header Files" "../RedEngine/Header Files" "../RedLib/Header Files")
 
 set(PROJECT_NAME SampleGame)
 set(PROJECT_SOURCES "Source Files/Unit.cpp" "Source Files/Game.cpp" "Source Files/main.cpp" "Source Files/Player.cpp" "Source Files/UnitManager.cpp" "Source Files/PlayerMoveEvent.cpp" "Source Files/GameListener.cpp")

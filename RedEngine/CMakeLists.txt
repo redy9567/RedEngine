@@ -43,9 +43,11 @@ endif()
 find_library(RedLib RedLib)
 add_subdirectory(../RedLib ../RedLib-build)
 
+include_directories("Header Files" "../RedLib/Header Files")
+
 # This is the main part:
 set(PROJECT_NAME RedEngine)
-set(PROJECT_SOURCES Animation.cpp AnimationData.cpp AnimationManager.cpp Color.cpp Event.cpp EventListener.cpp EventSystem.cpp KeyboardEvent.cpp MouseEvent.cpp GraphicsBuffer.cpp GraphicsBufferManager.cpp GraphicsSystem.cpp InputSystem.cpp Sprite.cpp Camera2D.cpp)
+set(PROJECT_SOURCES "Source Files/Animation.cpp" "Source Files/AnimationData.cpp" "Source Files/AnimationManager.cpp" "Source Files/Color.cpp" "Source Files/Event.cpp" "Source Files/EventListener.cpp" "Source Files/EventSystem.cpp" "Source Files/KeyboardEvent.cpp" "Source Files/MouseEvent.cpp" "Source Files/GraphicsBuffer.cpp" "Source Files/GraphicsBufferManager.cpp" "Source Files/GraphicsSystem.cpp" "Source Files/InputSystem.cpp" "Source Files/Sprite.cpp" "Source Files/Camera2D.cpp")
 add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
 set(raylib_VERBOSE 1)
 target_include_directories(RedEngine PUBLIC ../RedLib ../RedLib-build)
