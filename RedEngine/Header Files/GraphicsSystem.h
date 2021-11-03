@@ -43,6 +43,8 @@ private:
 
 	RCamera2D* mCamera;
 
+	bool mIsInit;
+
 	raylib::Vector2 convertVector(Vector2D vec);
 
 };

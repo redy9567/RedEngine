@@ -35,8 +35,8 @@ void Timer::stop()
 		mPaused = true;
 		mEndTime = chrono::steady_clock::now();
 		chrono::nanoseconds diff = (mEndTime - mStartTime);
-		chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
-		mElapsedTime += floor.count() / MILLI_TO_SEC;
+		//chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
+		mElapsedTime += diff.count() / NANO_TO_SEC;
 	}
 	
 }
@@ -48,8 +48,8 @@ void Timer::togglePause()
 		mPaused = true;
 		mEndTime = chrono::steady_clock::now();
 		chrono::nanoseconds diff = (mEndTime - mStartTime);
-		chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
-		mElapsedTime += floor.count() / MILLI_TO_SEC;
+		//chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
+		mElapsedTime += diff.count() / NANO_TO_SEC;
 	}
 	else
 	{
@@ -69,8 +69,8 @@ double Timer::getElapsedTime() const
 		std::chrono::steady_clock::time_point currentTime;
 		currentTime = chrono::steady_clock::now();
 		chrono::nanoseconds diff = (currentTime - mStartTime);
-		chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
-		return floor.count() / MILLI_TO_SEC;
+		//chrono::milliseconds floor = chrono::duration_cast<chrono::milliseconds>(diff);
+		return diff.count() / NANO_TO_SEC;
 	}
 }
 
@@ -80,21 +80,22 @@ void Timer::sleepUntilElapsed(double ms)
 	std::chrono::steady_clock::time_point currentTime, lastTime;
 	currentTime = std::chrono::steady_clock::now();
 	chrono::nanoseconds diff = (currentTime - mStartTime);
-	double timeToSleep = ms - chrono::duration_cast<chrono::milliseconds>(diff).count();
+	double timeToSleep = (ms * NANO_TO_MILLI) - diff.count();
 	
 	while (timeToSleep > 0.0)
 	{
 		lastTime = currentTime;
 		currentTime = std::chrono::steady_clock::now();
 		diff = (currentTime - lastTime);
-		double timeElapsed = chrono::duration_cast<chrono::milliseconds>(diff).count();
+		double timeElapsed = diff.count();
 		timeToSleep -= timeElapsed;
-		if (timeToSleep > 10.0)
+		if (timeToSleep > (10.0 * NANO_TO_MILLI))
 		{
 			Sleep(10);
 		}
 	}
 }
+//UPDATE LINUX VERSION
 #elif __linux__
 void Timer::sleepUntilElapsed(double ms)
 {

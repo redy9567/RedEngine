@@ -1,3 +1,0 @@
-/home/redy9567/RedEngine/RedLib-build/CMakeFiles/rebuild_cache.dir
-/home/redy9567/RedEngine/RedLib-build/CMakeFiles/edit_cache.dir
-/home/redy9567/RedEngine/RedLib-build/CMakeFiles/RedLib.dir

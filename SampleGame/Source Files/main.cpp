@@ -37,7 +37,7 @@ int main()
     t.start();
     
     //Play Game
-    Game::getInstance()->init(screenWidth, screenHeight, 60, false);
+    Game::getInstance()->init(screenWidth, screenHeight, 60, true);
     Game::getInstance()->startGame();
     Game::getInstance()->cleanup();
     Game::cleanupInstance();
@@ -48,7 +48,8 @@ int main()
     //Output runtime
     std::cout << "----------Total runtime: " << t.getElapsedTime() << std::endl;
 
-    
+    std::string temp;
+    std::cin >> temp;
 
     return 0;
 }

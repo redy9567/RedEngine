@@ -13,12 +13,12 @@ GraphicsSystem::GraphicsSystem()
 	mHeight = 0;
 	mWindow = nullptr;
 	mCamera = nullptr;
+	mIsInit = false;
 }
 
 GraphicsSystem::~GraphicsSystem()
 {
-	delete mWindow;
-	mWindow = nullptr;
+	cleanup();
 }
 
 bool GraphicsSystem::isRunning()
@@ -28,31 +28,58 @@ bool GraphicsSystem::isRunning()
 
 void GraphicsSystem::init(int width, int height, std::string title)
 {
-	mWidth = width;
-	mHeight = height;
-	mWindow = new Window(width, height, title);
+	if (!mIsInit)
+	{
+		mWidth = width;
+		mHeight = height;
+		mWindow = new Window(width, height, title);
 
-	mCamera = new RCamera2D();
+		mIsInit = true;
 
-	SetTargetFPS(60);
+		mCamera = new RCamera2D();
 
-	BeginDrawing();
+		SetTargetFPS(60);
+
+		BeginDrawing();
+	}
+	
 }
 
 void GraphicsSystem::init()
 {
-	mWidth = 800;
-	mHeight = 450;
-	mWindow = new Window();
+	if (!mIsInit)
+	{
+		mWidth = 800;
+		mHeight = 450;
+		mWindow = new Window();
 
-	SetTargetFPS(60);
+		mIsInit = true;
 
-	BeginDrawing();
+		mCamera = new RCamera2D();
+
+		SetTargetFPS(60);
+
+		BeginDrawing();
+	}
+	
 }
 
 void GraphicsSystem::cleanup()
 {
-	EndDrawing();
+
+	if (mIsInit)
+	{
+		EndDrawing();
+
+		delete mCamera;
+		mCamera = nullptr;
+
+		delete mWindow;
+		mWindow = nullptr;
+
+		mIsInit = false;
+	}
+	
 }
 
 void GraphicsSystem::flip()
