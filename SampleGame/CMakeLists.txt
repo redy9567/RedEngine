@@ -54,5 +54,5 @@ set(PROJECT_SOURCES "Source Files/Unit.cpp" "Source Files/Game.cpp" "Source File
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 set(raylib_VERBOSE 1)
 target_include_directories(RedEngine PUBLIC ../RedLib ../RedLib-build ../RedEngine ../RedEngine-build)
-target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib-cpp RedLib RedEngine)
+target_link_libraries(${PROJECT_NAME} PUBLIC raylib RedLib RedEngine)
 # That's it! You should have an example executable that you can run. Have fun!
