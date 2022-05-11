@@ -5,15 +5,25 @@
 
 Unit::Unit()
 {
-	mAnimation = nullptr;
+	mIsAnimated = false;
 }
 
 Unit::Unit(Animation* anim, Vector2D loc, Vector2D moveDir, float speed)
 {
-	mAnimation = anim;
+	mVisual.anim = anim;
 	mLoc = loc;
 	mMoveDir = moveDir.normalized();
 	mSpeed = speed;
+	mIsAnimated = true;
+}
+
+Unit::Unit(Sprite* sprite, Vector2D loc, Vector2D moveDir, float speed)
+{
+	mVisual.sprite = sprite;
+	mLoc = loc;
+	mMoveDir = moveDir.normalized();
+	mSpeed = speed;
+	mIsAnimated = false;
 }
 
 Unit::~Unit()
@@ -23,8 +33,14 @@ Unit::~Unit()
 
 void Unit::draw(GraphicsSystem* gs)
 {
-	
-	gs->draw(mAnimation->getCurrentSprite(), mLoc - (mAnimation->getCurrentSprite()->getSize() * mAnimation->getCurrentSprite()->getScale()) / 2.0f); //Draw the sprite at the center of the unit location
+	Sprite* currentSprite;
+
+	if (mIsAnimated)
+		currentSprite = mVisual.anim->getCurrentSprite();
+	else
+		currentSprite = mVisual.sprite;
+
+	gs->draw(currentSprite, mLoc - (currentSprite->getSize() * currentSprite->getScale()) / 2.0f); //Draw the sprite at the center of the unit location
 }
 
 void Unit::update(float deltaTime)

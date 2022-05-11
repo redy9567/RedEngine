@@ -2,9 +2,10 @@
 
 #include "Trackable.h"
 #include "Vector2D.h"
+#include "Animation.h"
+#include "Sprite.h"
 
 class GraphicsSystem;
-class Animation;
 
 class Unit : public Trackable
 {
@@ -20,12 +21,20 @@ public:
 	Vector2D getLocation() { return mLoc; }
 
 protected:
+	union Visual
+	{
+		Animation* anim;
+		Sprite* sprite;
+	};
+
 	Unit();
 	Unit(Animation* anim, Vector2D loc = Vector2D::Zero(), Vector2D moveDir = Vector2D::Zero(), float speed = 1.0f);
+	Unit(Sprite* anim, Vector2D loc = Vector2D::Zero(), Vector2D moveDir = Vector2D::Zero(), float speed = 1.0f);
 	~Unit();
 
-	Animation* mAnimation;
+	Visual mVisual;
 	Vector2D mLoc, mMoveDir;
 	float mSpeed;
+	bool mIsAnimated;
 
 };
