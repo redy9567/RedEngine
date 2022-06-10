@@ -91,8 +91,8 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpAnimationManager = new AnimationManager();
 
-	AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", smurfBuffer, 4, 4);
-	mpAnimationManager->createAndManageAnimationData("proj", projBuffer, 1, 13, 0.25f);
+	//AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", smurfBuffer, 4, 4);
+	//mpAnimationManager->createAndManageAnimationData("proj", projBuffer, 1, 13, 0.25f);
 
 	mpGameListener = new GameListener();
 	EventSystem::getInstance()->addListener(KEYBOARD_EVENT, mpGameListener);
@@ -178,9 +178,6 @@ void Game::cleanup()
 	delete mpGameListener;
 	mpGameListener = nullptr;
 
-	delete mpPlayerUnit;
-	mpPlayerUnit = nullptr;
-
 	delete mpUnitManager;
 	mpUnitManager = nullptr;
 
@@ -213,9 +210,6 @@ void Game::update()
 	mpUnitManager->update(deltaTime);
 
 	mpAnimationManager->update(deltaTime);
-
-	mpPlayerUnit->setMoveDirection(InputSystem::getInstance()->getMovementAxis().normalized());
-	mpPlayerUnit->update(deltaTime);
 }
 
 void Game::render()
@@ -226,8 +220,6 @@ void Game::render()
 	mpGraphicsSystem->clearScreenToColor(white);
 
 	mpGraphicsSystem->draw(mpGraphicsBufferManager->getGraphicsBuffer("background"), Vector2D::Zero());
-
-	mpPlayerUnit->draw(mpGraphicsSystem);
 
 	mpUnitManager->draw(mpGraphicsSystem);
 
@@ -271,17 +263,4 @@ void Game::quitGame()
 {
 	mIsPlaying = false;
 	cout << "QUIT" << endl;
-}
-
-void Game::fireProj()
-{
-	Vector2D dir = Vector2D(
-		InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX() + mpGraphicsSystem->getCameraLocation().getX(), 
-		InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY() + mpGraphicsSystem->getCameraLocation().getY());
-	dir.normalize();
-
-	AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");
-	Animation* projAnim = mpAnimationManager->createAndManageAnimation(projAnimData, 13);
-
-	mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 }

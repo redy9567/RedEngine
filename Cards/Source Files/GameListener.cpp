@@ -1,5 +1,4 @@
 #include "GameListener.h"
-#include "PlayerMoveEvent.h"
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
 #include "Game.h"
@@ -17,13 +16,7 @@ GameListener::~GameListener()
 
 void GameListener::handleEvent(const Event& event)
 {
-    if(event.getType() == PLAYER_MOVE_EVENT)
-    {
-        const PlayerMoveEvent& moveEvent = (const PlayerMoveEvent&)event;
-
-        Game::getInstance()->DPlayerMove(moveEvent.getMoveLoc());
-    }
-    else if(event.getType() == KEYBOARD_EVENT)
+    if(event.getType() == KEYBOARD_EVENT)
     {
         const KeyboardEvent& keyboardEvent = (const KeyboardEvent&)event;
 
@@ -58,7 +51,7 @@ void GameListener::handleEvent(const Event& event)
 
             if(mouseEvent.getMouseButton() == 0)
 	        {
-		        Game::getInstance()->fireProj();
+		        
 	        }
 
             //Game::getInstance()->DMousePress(mouseEvent.getMouseButton());
@@ -89,6 +82,7 @@ void GameListener::processKey(KeyCode key)
     Vector2D loc;
     switch(key)
     {
+        /*
         case Key_Right:
             loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
             Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(20, 0));
@@ -108,6 +102,7 @@ void GameListener::processKey(KeyCode key)
             loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
             Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, -20));
             break;
+        */
 
         case Key_A:
             InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Left().getX());

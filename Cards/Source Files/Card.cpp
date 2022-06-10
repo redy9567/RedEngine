@@ -7,5 +7,5 @@ Card::Card()
 	mSuit = Suit::Spades;
 	mValue = Value::A;
 
-	mVisual.sprite = Game::getInstance()->mpGraphicsBufferManager->getGraphicsBuffer()
+	mVisual.sprite = Game::getInstance()->mpGraphicsBufferManager->getGraphicsBuffer() //Make Sprite Manager
 }

@@ -110,8 +110,6 @@ private:
 	void DKeyRelease(KeyCode);
 	void DMouseRelease(int);
 
-	void fireProj();
-
 	void quitGame();
 
 	//Init functions to break up large overall init function
