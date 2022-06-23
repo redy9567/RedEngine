@@ -39,12 +39,12 @@ Vector2D Vector2D::operator=(const Vector2D& other)
 	return *this;
 }
 
-Vector2D Vector2D::operator+(const Vector2D& other)
+Vector2D Vector2D::operator+(const Vector2D& other) const
 {
 	return Vector2D(mX + other.mX, mY + other.mY);
 }
 
-Vector2D Vector2D::operator-(const Vector2D& other)
+Vector2D Vector2D::operator-(const Vector2D& other) const
 {
 	return Vector2D(mX - other.mX, mY - other.mY);
 }
@@ -107,7 +107,7 @@ Vector2D Vector2D::operator/=(const float scalar)
 	return *this;
 }
 
-float Vector2D::length()
+float Vector2D::length() const
 {
 	if(!mX && !mY)
 		return 0.0f;
@@ -128,7 +128,7 @@ void Vector2D::normalize()
 	mY /= len;
 }
 
-Vector2D Vector2D::normalized()
+Vector2D Vector2D::normalized() const
 {
 	float len = length();
 

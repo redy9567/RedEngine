@@ -1,0 +1,175 @@
+#include "Vector3D.h"
+#include <math.h>
+
+using namespace std;
+
+Vector3D::Vector3D()
+{
+	mX = 0.0f;
+	mY = 0.0f;
+	mZ = 0.0f;
+}
+
+Vector3D::~Vector3D()
+{
+
+}
+
+Vector3D::Vector3D(float x, float y, float z)
+{
+	mX = x;
+	mY = y;
+	mZ = z;
+}
+
+Vector3D::Vector3D(int x, int y, int z)
+{
+	mX = (float)x;
+	mY = (float)y;
+	mZ = (float)z;
+}
+
+Vector3D::Vector3D(double x, double y, double z) //NOTE: loss of precision, used to remove ambiguity
+{
+	mX = (float)x;
+	mY = (float)y;
+	mZ = (float)z;
+}
+
+Vector3D Vector3D::operator=(const Vector3D& other)
+{
+	mX = other.mX;
+	mY = other.mY;
+	mZ = other.mZ;
+	return *this;
+}
+
+Vector3D Vector3D::operator+(const Vector3D& other) const
+{
+	return Vector3D(mX + other.mX, mY + other.mY, mZ + other.mZ);
+}
+
+Vector3D Vector3D::operator-(const Vector3D& other) const
+{
+	return Vector3D(mX - other.mX, mY - other.mY, mZ - other.mZ);
+}
+
+Vector3D Vector3D::operator*(const float scalar) const
+{
+	return Vector3D(scalar * mX, scalar * mY, scalar * mZ);
+}
+
+Vector3D Vector3D::operator/(const float scalar) const
+{
+	return Vector3D(mX / scalar, mY / scalar, mZ / scalar);
+}
+
+Vector3D Vector3D::operator*(const int scalar) const
+{
+	return Vector3D(scalar * mX, scalar * mY, scalar * mZ);
+}
+
+Vector3D Vector3D::operator/(const int scalar) const
+{
+	return Vector3D(mX / scalar, mY / scalar, mZ / scalar);
+}
+
+Vector3D Vector3D::operator*(const double scalar) const
+{
+	return Vector3D(scalar * mX, scalar * mY, scalar * mZ);
+}
+
+Vector3D Vector3D::operator/(const double scalar) const
+{
+	return Vector3D(mX / scalar, mY / scalar, mZ / scalar);
+}
+
+Vector3D Vector3D::operator+=(const Vector3D& other)
+{
+	mX += other.mX;
+	mY += other.mY;
+	mZ += other.mZ;
+	return *this;
+}
+
+Vector3D Vector3D::operator-=(const Vector3D& other)
+{
+	mX -= other.mX;
+	mY -= other.mY;
+	mZ -= other.mZ;
+	return *this;
+}
+
+Vector3D Vector3D::operator*=(const float scalar)
+{
+	mX *= scalar;
+	mY *= scalar;
+	mZ *= scalar;
+	return *this;
+}
+
+Vector3D Vector3D::operator/=(const float scalar)
+{
+	mX /= scalar;
+	mY /= scalar;
+	mZ /= scalar;
+	return *this;
+}
+
+float Vector3D::length() const
+{
+	if(!mX && !mY && !mZ)
+		return 0.0f;
+
+	float x2 = mX * mX;
+	float y2 = mY * mY;
+	float z2 = mZ * mZ;
+	return sqrt(x2 + y2 + z2);
+}
+
+void Vector3D::normalize()
+{
+	float len = length();
+
+	if(len == 0.0f || len == 1.0f)
+		return;
+
+	mX /= len;
+	mY /= len;
+	mZ /= len;
+}
+
+Vector3D Vector3D::normalized() const
+{
+	float len = length();
+
+	if(len == 0.0f)
+		return Zero();
+	else if(len == 1.0f)
+		return Vector3D(mX, mY, mZ);
+
+	return Vector3D(mX / len, mY / len, mZ / len);
+}
+
+ostream& Vector3D::write(ostream& out) const
+{
+	out << "(" << mX << ", " << mY << ", " << mZ << ")";
+	
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, Vector3D const &vec)
+{
+	vec.write(out);
+	return out;
+}
+
+bool Vector3D::operator==(const Vector3D& other) const
+{
+	return (mX == other.getX() && mY == other.getY() && mZ == other.getZ());
+}
+
+bool Vector3D::operator!=(const Vector3D& other) const
+{
+	return !(mX == other.getX() && mY == other.getY() && mZ == other.getZ());
+}
