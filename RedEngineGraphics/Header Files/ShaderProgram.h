@@ -1,10 +1,11 @@
 #pragma once
+#include "Trackable.h"
 
 typedef unsigned int ShaderProgramIndex;
 
 class Shader;
 
-class ShaderProgram
+class ShaderProgram : public Trackable
 {
 
 public:

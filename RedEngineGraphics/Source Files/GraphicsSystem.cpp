@@ -34,6 +34,7 @@ GraphicsSystem::GraphicsSystem()
 {
 	mInit = false;
 	mWindow = nullptr;
+	mDrawMode = DrawMode::Fill;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -70,6 +71,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	//Tell OpenGL our rendering frame/viewport
 	glViewport(0, 0, displayWidth, displayHeight);
 
+	//Determine default background color
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 	//Set our callback function for resizing the window
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 
@@ -92,6 +96,8 @@ bool GraphicsSystem::render()
 
 	glfwSwapBuffers(mWindow);
 	glfwPollEvents();
+
+	glClear(GL_COLOR_BUFFER_BIT);
 	return true;
 }
 
@@ -133,6 +139,15 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 		delete[] verticies;
 		verticies = nullptr;
 
+		//Setup Element Buffer Object
+		glGenBuffers(1, &mesh.mEBO);
+
+		//Bind EBO to VAO (Don't unbind EBO before VAO [VAO remembers all])
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.mEBO);
+
+		//Copy draw order data into bound buffer (EBO)
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh.mDrawCount, mesh.mDrawOrder, GL_STATIC_DRAW);
+
 		//Linking Vertex Attributes
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
@@ -142,7 +157,8 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 		glBindVertexArray(mesh.mVAO);
 	}
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
 ShaderObjectIndex GraphicsSystem::sdCreateShader(SHADER_TYPE type)
@@ -227,12 +243,55 @@ void GraphicsSystem::setActiveShaderProgram(ShaderProgram program)
 	glUseProgram(program.mSPI);
 }
 
-bool GraphicsSystem::debugProcessInput()
+bool GraphicsSystem::getKey(Key key)
 {
-	if (glfwGetKey(mWindow, GLFW_KEY_F4))
+	unsigned int glfwKey = 0;
+
+	switch (key)
 	{
-		return true;
-	}
-	else
+	case Key::F1:
+		glfwKey = GLFW_KEY_F1;
+		break;
+
+	case Key::F2:
+		glfwKey = GLFW_KEY_F2;
+		break;
+
+	case Key::F4:
+		glfwKey = GLFW_KEY_F4;
+		break;
+
+	default:
 		return false;
+	}
+
+	return glfwGetKey(mWindow, glfwKey);
+}
+
+void GraphicsSystem::setDrawMode(DrawMode mode)
+{
+	switch (mode)
+	{
+	case DrawMode::Fill:
+		mDrawMode = DrawMode::Fill;
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+
+	case DrawMode::Wireframe:
+		mDrawMode = DrawMode::Wireframe;
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		break;
+	}
+}
+
+void GraphicsSystem::setFloatUniform(ShaderProgram program, string uniformName, float value)
+{
+	int uniformLocation = glGetUniformLocation(program.mSPI, uniformName.c_str());
+	glUseProgram(program.mSPI);
+	glUniform1f(uniformLocation, value);
+}
+
+float GraphicsSystem::getTime()
+{
+	return glfwGetTime();
 }

@@ -29,10 +29,10 @@ void Shader::loadFromFile(string filename)
 	switch (mType)
 	{
 	case VERTEX_SHADER:
-		filepath = "../../../Vertex Shaders/";
+		filepath = "Vertex Shaders/";
 		break;
 	case FRAGMENT_SHADER:
-		filepath = "../../../Fragment Shaders/";
+		filepath = "Fragment Shaders/";
 	}
 
 	filepath += filename;

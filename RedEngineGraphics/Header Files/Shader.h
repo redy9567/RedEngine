@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Trackable.h"
 
 typedef unsigned int ShaderObjectIndex;
 
@@ -9,7 +10,7 @@ enum SHADER_TYPE
 	FRAGMENT_SHADER
 };
 
-class Shader
+class Shader : public Trackable
 {
 
 public:

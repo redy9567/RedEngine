@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Trackable.h"
 
 struct GLFWwindow;
 
@@ -10,10 +11,25 @@ enum SHADER_TYPE;
 typedef unsigned int ShaderObjectIndex;
 typedef unsigned int ShaderProgramIndex;
 
-class GraphicsSystem
+class ShaderProgram;
+
+class GraphicsSystem : public Trackable
 {
 
 public:
+	enum class Key
+	{
+		F1,
+		F2,
+		F4
+	};
+
+	enum class DrawMode
+	{
+		Fill,
+		Wireframe
+	};
+
 	friend class Shader;
 	friend class ShaderProgram;
 
@@ -25,10 +41,17 @@ public:
 
 	void setActiveShaderProgram(ShaderProgram program);
 	void draw(Mesh2D& mesh);
+	void setDrawMode(DrawMode);
 
-	bool debugProcessInput();
+	void setFloatUniform(ShaderProgram program, std::string uniformName, float value);
+
+	DrawMode getDrawMode() { return mDrawMode; }
+
+	bool getKey(Key);
 
 	bool render();
+
+	float getTime();
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -53,6 +76,8 @@ private:
 	GLFWwindow* mWindow;
 
 	static GraphicsSystem* mspInstance;
+
+	DrawMode mDrawMode;
 
 	bool mInit;
 
