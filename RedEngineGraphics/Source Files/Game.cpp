@@ -3,6 +3,7 @@
 #include "GraphicsSystem.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
+#include "Texture2D.h"
 
 #include <assert.h>
 
@@ -27,6 +28,7 @@ Game::Game()
 	mpBasicFragmentShader = nullptr;
 	mpGraphicsSystem = nullptr;
 	mpBasicShaderProgram = nullptr;
+	mpWallTexture = nullptr;
 	mpTriangle = nullptr;
 	mpBasicVertexShader = nullptr;
 
@@ -48,6 +50,9 @@ Game::~Game()
 
 void Game::init()
 {
+	//Texture for objects
+	mpWallTexture = new Texture2D("Resource Files/wall.jpg");
+
 	//Verticies for our triangle
 	Vector2D verticies[] = {
 		Vector2D(-0.5f, -0.5f),
@@ -56,12 +61,29 @@ void Game::init()
 		Vector2D(-0.5f, 0.5f)
 	};
 
+	//Colors for our verticies
+	Vector3D vertexColors[] = {
+		Vector3D(1.0f, 0.0f, 0.0f),
+		Vector3D(0.0f, 1.0f, 0.0f),
+		Vector3D(0.0f, 0.0f, 1.0f),
+		Vector3D(1.0f, 1.0f, 1.0f)
+	};
+
+	Vector2D textureCoords[]
+	{
+		Vector2D(0.0f, 0.0f),
+		Vector2D(1.0f, 0.0f),
+		Vector2D(1.0f, 1.0f),
+		Vector2D(0.0f, 1.0f),
+	};
+
+	//Vertex draw order
 	unsigned int drawOrder[] = {
 		0, 1, 2,
 		2, 0, 3
 	};
 
-	mpTriangle = new Mesh2D(verticies, 4, drawOrder, 6);
+	mpTriangle = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpWallTexture, textureCoords);
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
@@ -126,6 +148,9 @@ void Game::cleanup()
 	//Delete Mesh2D objects
 	delete mpTriangle;
 	mpTriangle = nullptr;
+
+	delete mpWallTexture;
+	mpWallTexture = nullptr;
 
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();

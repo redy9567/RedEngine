@@ -5,6 +5,7 @@ class GraphicsSystem;
 class Shader;
 class ShaderProgram;
 class Mesh2D;
+class Texture2D;
 
 class Game : public Trackable
 {
@@ -47,6 +48,7 @@ private:
 	bool mInputLastF2State;
 	bool mInputLastF4State;
 
+	Texture2D* mpWallTexture;
 	Mesh2D* mpTriangle;
 
 };

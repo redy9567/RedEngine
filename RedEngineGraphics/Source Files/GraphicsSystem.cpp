@@ -1,8 +1,13 @@
+//stb_image setup
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb\stb_image.h"
+
 #include "GraphicsSystem.h"
 #include "glad\glad.h"
 #include "GLFW\glfw3.h"
 #include <iostream>
 #include "Mesh2D.h"
+#include "Texture2D.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
 
@@ -122,15 +127,42 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 		//Bind VBO to OpenGL
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.mVBO);
 
-		unsigned int numOfFloats = 3 * (double)mesh.mVertexCount;
+		if (mesh.mHasTextureData && mesh.mTextureData->mTOI == -1)
+		{
+			glGenTextures(1, &mesh.mTextureData->mTOI);
+			glBindTexture(GL_TEXTURE_2D, mesh.mTextureData->mTOI);
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, mesh.mTextureData->mWidth, mesh.mTextureData->mHeight, 0, GL_RGB,
+				GL_UNSIGNED_BYTE, mesh.mTextureData->mData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			mesh.mTextureData->freeRawData();
+		}
+
+		unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
+		valuesPerVertex += (mesh.mHasTextureData) ? 2 : 0;
+		unsigned int numOfFloats = valuesPerVertex * (double)mesh.mVertexCount;
 
 		float* verticies = new float[numOfFloats];
 
 		for (int i = 0; i < mesh.mVertexCount; i++)
 		{
-			verticies[i * 3] = mesh.getVertexAt(i).getX();
-			verticies[i * 3 + 1] = mesh.getVertexAt(i).getY();
-			verticies[i * 3 + 2] = 0.0f;
+			verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX();
+			verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY();
+			verticies[i * valuesPerVertex + 2] = 0.0f;
+
+			if (mesh.mHasColorData)
+			{
+				verticies[i * valuesPerVertex + 3] = mesh.mColorData[i].getX();
+				verticies[i * valuesPerVertex + 4] = mesh.mColorData[i].getY();
+				verticies[i * valuesPerVertex + 5] = mesh.mColorData[i].getZ();
+
+				if (mesh.mHasTextureData)
+				{
+					verticies[i * valuesPerVertex + 6] = mesh.mTextureCoords[i].getX();
+					verticies[i * valuesPerVertex + 7] = mesh.mTextureCoords[i].getY();
+				}
+			}
 		}
 
 		//Copy data into bound buffer (VBO)
@@ -149,15 +181,37 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh.mDrawCount, mesh.mDrawOrder, GL_STATIC_DRAW);
 
 		//Linking Vertex Attributes
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
+		if (mesh.mHasTextureData)
+		{
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+			glEnableVertexAttribArray(0);					
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			glEnableVertexAttribArray(2);
+		}
+		else if (mesh.mHasColorData)
+		{
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(1);
+		}
+		else
+		{
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+			glEnableVertexAttribArray(0);
+		}
+		
 	}
 	else
 	{
+		if (mesh.mHasTextureData)
+			glBindTexture(GL_TEXTURE_2D, mesh.mTextureData->mTOI);
+
 		glBindVertexArray(mesh.mVAO);
 	}
 
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
@@ -238,7 +292,7 @@ void GraphicsSystem::spSetFloatAttribute(int index, int dimensions)
 	glEnableVertexAttribArray(index);
 }
 
-void GraphicsSystem::setActiveShaderProgram(ShaderProgram program)
+void GraphicsSystem::setActiveShaderProgram(ShaderProgram& program)
 {
 	glUseProgram(program.mSPI);
 }
@@ -284,9 +338,13 @@ void GraphicsSystem::setDrawMode(DrawMode mode)
 	}
 }
 
-void GraphicsSystem::setFloatUniform(ShaderProgram program, string uniformName, float value)
+void GraphicsSystem::setFloatUniform(ShaderProgram& program, string uniformName, float value)
 {
 	int uniformLocation = glGetUniformLocation(program.mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
 	glUseProgram(program.mSPI);
 	glUniform1f(uniformLocation, value);
 }

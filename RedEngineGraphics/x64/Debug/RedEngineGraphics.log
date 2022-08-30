@@ -1,10 +1,5 @@
-﻿  Game.cpp
-  GraphicsSystem.cpp
-C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(125,28): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(129,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(296,20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  Shader.cpp
-  ShaderProgram.cpp
-  main.cpp
-  Generating Code...
+﻿  GraphicsSystem.cpp
+C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(144,28): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
+C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(148,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(354,20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
   RedEngineGraphics.vcxproj -> C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\x64\Debug\RedEngineGraphics.exe

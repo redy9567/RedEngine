@@ -39,11 +39,11 @@ public:
 	bool init(int displayWidth, int displayHeight);
 	void cleanup();
 
-	void setActiveShaderProgram(ShaderProgram program);
+	void setActiveShaderProgram(ShaderProgram& program);
 	void draw(Mesh2D& mesh);
 	void setDrawMode(DrawMode);
 
-	void setFloatUniform(ShaderProgram program, std::string uniformName, float value);
+	void setFloatUniform(ShaderProgram& program, std::string uniformName, float value);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
