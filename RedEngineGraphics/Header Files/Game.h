@@ -49,6 +49,8 @@ private:
 	bool mInputLastF4State;
 
 	Texture2D* mpWallTexture;
+	Texture2D* mpFaceTexture;
+	Texture2D** mpTextureCollection;
 	Mesh2D* mpTriangle;
 
 };

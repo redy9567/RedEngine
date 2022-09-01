@@ -12,6 +12,7 @@ typedef unsigned int ShaderObjectIndex;
 typedef unsigned int ShaderProgramIndex;
 
 class ShaderProgram;
+class Texture2D;
 
 class GraphicsSystem : public Trackable
 {
@@ -44,6 +45,7 @@ public:
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(ShaderProgram& program, std::string uniformName, float value);
+	void setIntegerUniform(ShaderProgram& program, std::string uniformName, int value);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
@@ -71,6 +73,16 @@ private:
 	bool spLinkProgram(ShaderProgramIndex spi);
 	std::string spCollectDebugInfo(ShaderProgramIndex spi);
 	void spSetFloatAttribute(int index, int dimensions);
+
+	//GLInitFunctions
+	void initMesh2D(Mesh2D*);
+	void initTexture2D(Texture2D*);
+
+	//Helper Draw Functions
+	void bindMesh2D(Mesh2D*);
+	void bindTexture2D(Texture2D*, unsigned int textureLocation);
+	void packGPUData(Mesh2D&);
+	void linkGPUData(Mesh2D&);
 
 
 	GLFWwindow* mWindow;

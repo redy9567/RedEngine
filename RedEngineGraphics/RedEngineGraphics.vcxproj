@@ -173,6 +173,7 @@
     <None Include="Vertex Shaders\test.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource Files\awesomeface.png" />
     <Image Include="Resource Files\wall.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

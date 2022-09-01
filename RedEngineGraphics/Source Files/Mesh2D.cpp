@@ -25,7 +25,7 @@ Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int dr
 
 	mHasColorData = false;
 	mColorData = nullptr;
-	mHasTextureData = false;
+	mTextureDataCount = 0;
 	mTextureData = nullptr;
 }
 
@@ -42,18 +42,22 @@ Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int dr
 
 	mHasColorData = true;
 
-	mHasTextureData = false;
+	mTextureDataCount = 0;
 	mTextureData = nullptr;
 
 }
 
 Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[],
-	Texture2D* textureData, Vector2D textureCoords[])
+	Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[])
 	: Mesh2D(vertexArray, vertexCount, drawOrder, drawCount, colorData)
 {
 
 	mTextureData = textureData;
-	mTextureData->mReferences++;
+	for (int i = 0; i < textureDataCount; i++)
+	{
+		mTextureData[i]->mReferences++;
+	}
+	
 
 	mTextureCoords = new Vector2D[vertexCount];
 
@@ -62,7 +66,7 @@ Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int dr
 		mTextureCoords[i] = textureCoords[i];
 	}
 
-	mHasTextureData = true;
+	mTextureDataCount = textureDataCount;
 
 }
 
@@ -80,9 +84,13 @@ Mesh2D::~Mesh2D()
 		mColorData = nullptr;
 	}
 
-	if (mHasTextureData)
+	if (mTextureDataCount)
 	{
-		mTextureData->mReferences--;
+		for (int i = 0; i < mTextureDataCount; i++)
+		{
+			mTextureData[i]->mReferences--;
+		}
 		mTextureData = nullptr;
+		mTextureDataCount = 0;
 	}
 }

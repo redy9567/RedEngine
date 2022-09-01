@@ -105,5 +105,8 @@
     <Image Include="Resource Files\wall.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resource Files\awesomeface.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ public:
 	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount);
 	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[]);
 	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[],
-		Texture2D* textureData, Vector2D textureCoords[]);
+		Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[]);
 	~Mesh2D();
 
 	Vector2D getVertexAt(int index) { return mVerticies[index]; }
@@ -38,8 +38,8 @@ private:
 	bool mHasColorData;
 	Vector3D* mColorData;
 
-	bool mHasTextureData;
-	Texture2D* mTextureData;
+	unsigned int mTextureDataCount;
+	Texture2D** mTextureData;
 	Vector2D* mTextureCoords;
 
 	VertexBufferIndex mVBO;

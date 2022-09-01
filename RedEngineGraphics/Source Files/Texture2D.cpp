@@ -5,8 +5,9 @@
 
 using namespace std;
 
-Texture2D::Texture2D(string filepath)
+Texture2D::Texture2D(string filepath, bool hasAlpha)
 {
+	stbi_set_flip_vertically_on_load(true);
 	mData = stbi_load(filepath.c_str(), &mWidth, &mHeight, &mNRChannels, 0);
 
 	if (!mData)
@@ -17,6 +18,8 @@ Texture2D::Texture2D(string filepath)
 	mTOI = -1; //Not yet registered in OpenGL. GraphicsSystem will handle these
 
 	mReferences = 0;
+
+	mHasAlpha = hasAlpha;
 }
 
 Texture2D::~Texture2D()

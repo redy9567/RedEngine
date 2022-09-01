@@ -9,7 +9,7 @@ public:
 	friend class GraphicsSystem;
 	friend class Mesh2D;
 
-	Texture2D(std::string filepath);
+	Texture2D(std::string filepath, bool hasAlpha = false);
 	~Texture2D();
 
 	int getHeight() { return mHeight; }
@@ -23,6 +23,8 @@ private:
 	int mHeight;
 	int mWidth;
 	int mNRChannels;
+
+	bool mHasAlpha;
 
 	unsigned int mTOI;
 

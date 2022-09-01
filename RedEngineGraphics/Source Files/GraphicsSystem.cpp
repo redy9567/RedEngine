@@ -115,101 +115,36 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 {
 	if (mesh.mVBO == -1)
 	{
-		//Setup Vertex Buffer Object (VBO)
-		glGenBuffers(1, &mesh.mVBO);
+		initMesh2D(&mesh);
 
-		//Setup Vertex Array Object (VAO)
-		glGenVertexArrays(1, &mesh.mVAO);
+		bindMesh2D(&mesh);
 
-		//Bind VAO to OpenGL
-		glBindVertexArray(mesh.mVAO);
-
-		//Bind VBO to OpenGL
-		glBindBuffer(GL_ARRAY_BUFFER, mesh.mVBO);
-
-		if (mesh.mHasTextureData && mesh.mTextureData->mTOI == -1)
+		
+		for (int i = 0; i < mesh.mTextureDataCount; i++)
 		{
-			glGenTextures(1, &mesh.mTextureData->mTOI);
-			glBindTexture(GL_TEXTURE_2D, mesh.mTextureData->mTOI);
-
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, mesh.mTextureData->mWidth, mesh.mTextureData->mHeight, 0, GL_RGB,
-				GL_UNSIGNED_BYTE, mesh.mTextureData->mData);
-			glGenerateMipmap(GL_TEXTURE_2D);
-
-			mesh.mTextureData->freeRawData();
+			if (mesh.mTextureData[i]->mTOI == -1)
+				initTexture2D(mesh.mTextureData[i]);
+			bindTexture2D(mesh.mTextureData[i], i);
 		}
 
-		unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
-		valuesPerVertex += (mesh.mHasTextureData) ? 2 : 0;
-		unsigned int numOfFloats = valuesPerVertex * (double)mesh.mVertexCount;
 
-		float* verticies = new float[numOfFloats];
-
-		for (int i = 0; i < mesh.mVertexCount; i++)
-		{
-			verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX();
-			verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY();
-			verticies[i * valuesPerVertex + 2] = 0.0f;
-
-			if (mesh.mHasColorData)
-			{
-				verticies[i * valuesPerVertex + 3] = mesh.mColorData[i].getX();
-				verticies[i * valuesPerVertex + 4] = mesh.mColorData[i].getY();
-				verticies[i * valuesPerVertex + 5] = mesh.mColorData[i].getZ();
-
-				if (mesh.mHasTextureData)
-				{
-					verticies[i * valuesPerVertex + 6] = mesh.mTextureCoords[i].getX();
-					verticies[i * valuesPerVertex + 7] = mesh.mTextureCoords[i].getY();
-				}
-			}
-		}
-
-		//Copy data into bound buffer (VBO)
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numOfFloats, verticies, GL_STATIC_DRAW);
-
-		delete[] verticies;
-		verticies = nullptr;
-
-		//Setup Element Buffer Object
-		glGenBuffers(1, &mesh.mEBO);
-
-		//Bind EBO to VAO (Don't unbind EBO before VAO [VAO remembers all])
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.mEBO);
+		//Packing and linking only need to occur on mesh init, as the data is stored in the VAO
+		packGPUData(mesh);
 
 		//Copy draw order data into bound buffer (EBO)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh.mDrawCount, mesh.mDrawOrder, GL_STATIC_DRAW);
 
-		//Linking Vertex Attributes
-		if (mesh.mHasTextureData)
-		{
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);					
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-			glEnableVertexAttribArray(2);
-		}
-		else if (mesh.mHasColorData)
-		{
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(1);
-		}
-		else
-		{
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-			glEnableVertexAttribArray(0);
-		}
+		linkGPUData(mesh);
 		
 	}
 	else
 	{
-		if (mesh.mHasTextureData)
-			glBindTexture(GL_TEXTURE_2D, mesh.mTextureData->mTOI);
+		for (int i = 0; i < mesh.mTextureDataCount; i++)
+		{
+			bindTexture2D(mesh.mTextureData[i], i);
+		}
 
-		glBindVertexArray(mesh.mVAO);
+		bindMesh2D(&mesh);
 	}
 
 	glDrawElements(GL_TRIANGLES, mesh.mDrawCount, GL_UNSIGNED_INT, 0);
@@ -349,7 +284,124 @@ void GraphicsSystem::setFloatUniform(ShaderProgram& program, string uniformName,
 	glUniform1f(uniformLocation, value);
 }
 
+void GraphicsSystem::setIntegerUniform(ShaderProgram& program, string uniformName, int value)
+{
+	int uniformLocation = glGetUniformLocation(program.mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(program.mSPI);
+	glUniform1i(uniformLocation, value);
+}
+
 float GraphicsSystem::getTime()
 {
 	return glfwGetTime();
+}
+
+void GraphicsSystem::initTexture2D(Texture2D* texture)
+{
+	glGenTextures(1, &texture->mTOI);
+	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
+
+	if(texture->mHasAlpha)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->mWidth, texture->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->mData);
+	else
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->mWidth, texture->mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->mData);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	texture->freeRawData();
+}
+
+void GraphicsSystem::initMesh2D(Mesh2D* mesh)
+{
+	//Setup Vertex Buffer Object (VBO)
+	glGenBuffers(1, &mesh->mVBO);
+
+	//Setup Vertex Array Object (VAO)
+	glGenVertexArrays(1, &mesh->mVAO);
+	
+	//Setup Element Buffer Object
+	glGenBuffers(1, &mesh->mEBO);
+}
+
+void GraphicsSystem::bindMesh2D(Mesh2D* mesh)
+{
+	//Bind VAO to OpenGL
+	glBindVertexArray(mesh->mVAO);
+
+	//Bind VBO to OpenGL
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->mVBO);
+
+	//Bind EBO to VAO (Don't unbind EBO before VAO [VAO remembers all])
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->mEBO);
+}
+
+void GraphicsSystem::bindTexture2D(Texture2D* texture, unsigned int textureLocation)
+{
+	glActiveTexture(GL_TEXTURE0 + textureLocation);
+	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
+}
+
+void GraphicsSystem::packGPUData(Mesh2D& mesh)
+{
+	unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
+	valuesPerVertex += (mesh.mTextureDataCount) ? 2 : 0;
+	unsigned int numOfFloats = valuesPerVertex * (double)mesh.mVertexCount;
+
+	float* verticies = new float[numOfFloats];
+
+	for (int i = 0; i < mesh.mVertexCount; i++)
+	{
+		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX();
+		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY();
+		verticies[i * valuesPerVertex + 2] = 0.0f;
+
+		if (mesh.mHasColorData)
+		{
+			verticies[i * valuesPerVertex + 3] = mesh.mColorData[i].getX();
+			verticies[i * valuesPerVertex + 4] = mesh.mColorData[i].getY();
+			verticies[i * valuesPerVertex + 5] = mesh.mColorData[i].getZ();
+
+			if (mesh.mTextureDataCount)
+			{
+				verticies[i * valuesPerVertex + 6] = mesh.mTextureCoords[i].getX();
+				verticies[i * valuesPerVertex + 7] = mesh.mTextureCoords[i].getY();
+			}
+		}
+	}
+
+	//Copy data into bound buffer (VBO)
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numOfFloats, verticies, GL_STATIC_DRAW);
+
+	delete[] verticies;
+	verticies = nullptr;
+}
+
+void GraphicsSystem::linkGPUData(Mesh2D& mesh)
+{
+	//Linking Vertex Attributes
+	if (mesh.mTextureDataCount)
+	{
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+	}
+	else if (mesh.mHasColorData)
+	{
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+	}
+	else
+	{
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+	}
 }

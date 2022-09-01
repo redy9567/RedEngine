@@ -29,6 +29,7 @@ Game::Game()
 	mpGraphicsSystem = nullptr;
 	mpBasicShaderProgram = nullptr;
 	mpWallTexture = nullptr;
+	mpFaceTexture = nullptr;
 	mpTriangle = nullptr;
 	mpBasicVertexShader = nullptr;
 
@@ -52,6 +53,11 @@ void Game::init()
 {
 	//Texture for objects
 	mpWallTexture = new Texture2D("Resource Files/wall.jpg");
+	mpFaceTexture = new Texture2D("Resource Files/awesomeface.png", true);
+
+	mpTextureCollection = new Texture2D * [2];
+	mpTextureCollection[0] = mpWallTexture;
+	mpTextureCollection[1] = mpFaceTexture;
 
 	//Verticies for our triangle
 	Vector2D verticies[] = {
@@ -83,7 +89,7 @@ void Game::init()
 		2, 0, 3
 	};
 
-	mpTriangle = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpWallTexture, textureCoords);
+	mpTriangle = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
@@ -149,8 +155,14 @@ void Game::cleanup()
 	delete mpTriangle;
 	mpTriangle = nullptr;
 
+	delete mpTextureCollection;
+	mpTextureCollection = nullptr;
+
 	delete mpWallTexture;
 	mpWallTexture = nullptr;
+
+	delete mpFaceTexture;
+	mpFaceTexture = nullptr;
 
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();
@@ -225,6 +237,8 @@ void Game::input()
 void Game::update()
 {
 	mpGraphicsSystem->setFloatUniform(*mpTestShaderProgram, "uTime", mpGraphicsSystem->getTime());
+	mpGraphicsSystem->setIntegerUniform(*mpTestShaderProgram, "uTexture0", 0);
+	mpGraphicsSystem->setIntegerUniform(*mpTestShaderProgram, "uTexture1", 1);
 }
 
 bool Game::render()

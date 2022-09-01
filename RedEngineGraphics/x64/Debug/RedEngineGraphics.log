@@ -1,5 +1,2 @@
-﻿  GraphicsSystem.cpp
-C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(144,28): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
-C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(148,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Source Files\GraphicsSystem.cpp(354,20): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+﻿  Texture2D.cpp
   RedEngineGraphics.vcxproj -> C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\x64\Debug\RedEngineGraphics.exe
