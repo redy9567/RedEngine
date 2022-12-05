@@ -30,7 +30,7 @@ Game::Game()
 	mpBasicShaderProgram = nullptr;
 	mpWallTexture = nullptr;
 	mpFaceTexture = nullptr;
-	mpTriangle = nullptr;
+	mpTriangles = nullptr;
 	mpBasicVertexShader = nullptr;
 
 	mpTestFragmentShader = nullptr;
@@ -42,6 +42,8 @@ Game::Game()
 	mInputLastF1State = false;
 	mInputLastF2State = false;
 	mInputLastF4State = false;
+
+	mpTextureCollection = nullptr;
 }
 
 Game::~Game()
@@ -59,7 +61,7 @@ void Game::init()
 	mpTextureCollection[0] = mpWallTexture;
 	mpTextureCollection[1] = mpFaceTexture;
 
-	//Verticies for our triangle
+	//Verticies for our triangles
 	Vector2D verticies[] = {
 		Vector2D(-0.5f, -0.5f),
 		Vector2D(0.5f, -0.5f),
@@ -89,7 +91,7 @@ void Game::init()
 		2, 0, 3
 	};
 
-	mpTriangle = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
+	mpTriangles = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
@@ -152,8 +154,8 @@ void Game::cleanup()
 	mpTestFragmentShader = nullptr;
 
 	//Delete Mesh2D objects
-	delete mpTriangle;
-	mpTriangle = nullptr;
+	delete mpTriangles;
+	mpTriangles = nullptr;
 
 	delete mpTextureCollection;
 	mpTextureCollection = nullptr;
@@ -245,7 +247,7 @@ bool Game::render()
 {
 	mpGraphicsSystem->setActiveShaderProgram(*mpCurrentShaderProgram);
 
-	mpGraphicsSystem->draw(*mpTriangle);
+	mpGraphicsSystem->draw(*mpTriangles);
 
 	return mpGraphicsSystem->render();
 }

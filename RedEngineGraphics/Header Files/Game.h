@@ -51,6 +51,6 @@ private:
 	Texture2D* mpWallTexture;
 	Texture2D* mpFaceTexture;
 	Texture2D** mpTextureCollection;
-	Mesh2D* mpTriangle;
+	Mesh2D* mpTriangles;
 
 };
