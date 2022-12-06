@@ -40,12 +40,12 @@ public:
 	bool init(int displayWidth, int displayHeight);
 	void cleanup();
 
-	void setActiveShaderProgram(ShaderProgram& program);
+	void setActiveShaderProgram(std::string program);
 	void draw(Mesh2D& mesh);
 	void setDrawMode(DrawMode);
 
-	void setFloatUniform(ShaderProgram& program, std::string uniformName, float value);
-	void setIntegerUniform(ShaderProgram& program, std::string uniformName, int value);
+	void setFloatUniform(std::string program, std::string uniformName, float value);
+	void setIntegerUniform(std::string program, std::string uniformName, int value);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
@@ -54,6 +54,7 @@ public:
 	bool render();
 
 	float getTime();
+	std::string getCurrentShaderProgram() { return mCurrentShaderProgram; }
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -72,7 +73,7 @@ private:
 	void spAttachShaderToProgram(ShaderProgramIndex spi, ShaderObjectIndex soi);
 	bool spLinkProgram(ShaderProgramIndex spi);
 	std::string spCollectDebugInfo(ShaderProgramIndex spi);
-	void spSetFloatAttribute(int index, int dimensions);
+	void spActivateFloatAttribute(int index, int dimensions);
 
 	//GLInitFunctions
 	void initMesh2D(Mesh2D*);
@@ -90,6 +91,8 @@ private:
 	static GraphicsSystem* mspInstance;
 
 	DrawMode mDrawMode;
+
+	std::string mCurrentShaderProgram;
 
 	bool mInit;
 

@@ -151,6 +151,7 @@
     <ClInclude Include="Header Files\GraphicsSystem.h" />
     <ClInclude Include="Header Files\Mesh2D.h" />
     <ClInclude Include="Header Files\Shader.h" />
+    <ClInclude Include="Header Files\ShaderManager.h" />
     <ClInclude Include="Header Files\ShaderProgram.h" />
     <ClInclude Include="Header Files\stb\stb_image.h" />
     <ClInclude Include="Header Files\Texture2D.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\Mesh2D.cpp" />
     <ClCompile Include="Source Files\Shader.cpp" />
+    <ClCompile Include="Source Files\ShaderManager.cpp" />
     <ClCompile Include="Source Files\ShaderProgram.cpp" />
     <ClCompile Include="Source Files\Texture2D.cpp" />
   </ItemGroup>

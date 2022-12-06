@@ -2,10 +2,9 @@
 #include "Trackable.h"
 
 class GraphicsSystem;
-class Shader;
-class ShaderProgram;
 class Mesh2D;
 class Texture2D;
+class ShaderManager;
 
 class Game : public Trackable
 {
@@ -33,16 +32,7 @@ private:
 
 	static Game* mspInstance;
 	GraphicsSystem* mpGraphicsSystem;
-
-	Shader* mpBasicVertexShader;
-	Shader* mpBasicFragmentShader;
-	Shader* mpTestFragmentShader;
-	Shader* mpTestVertexShader;
-
-	ShaderProgram* mpBasicShaderProgram;
-	ShaderProgram* mpTestShaderProgram;
-
-	ShaderProgram* mpCurrentShaderProgram;
+	ShaderManager* mpShaderManager;
 
 	bool mInputLastF1State;
 	bool mInputLastF2State;

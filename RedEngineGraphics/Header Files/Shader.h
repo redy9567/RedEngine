@@ -15,17 +15,16 @@ class Shader : public Trackable
 
 public:
 	friend class ShaderProgram;
+	friend class ShaderManager;
 
+private:
 	Shader(SHADER_TYPE type, std::string filename);
 	~Shader();
 
 	SHADER_TYPE getType() { return mType; }
 
-	void reloadFromFile();
 	bool compile();
-
-private:
-	void loadFromFile(std::string filename);
+	bool loadFromFile();
 
 	Shader() = delete;
 

@@ -92,5 +92,7 @@ Mesh2D::~Mesh2D()
 		}
 		mTextureData = nullptr;
 		mTextureDataCount = 0;
+
+		delete[] mTextureCoords;
 	}
 }

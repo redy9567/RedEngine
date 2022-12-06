@@ -10,6 +10,7 @@
 #include "Texture2D.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
+#include "ShaderManager.h"
 
 using namespace std;
 
@@ -84,6 +85,8 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 	cout << "Well here we are!" << endl;
 
+	mCurrentShaderProgram = "Test";
+
 	mInit = true;
 	return true;
 }
@@ -113,6 +116,8 @@ void GraphicsSystem::framebuffer_size_callback(GLFWwindow* window, int width, in
 
 void GraphicsSystem::draw(Mesh2D& mesh)
 {
+	setActiveShaderProgram(mCurrentShaderProgram);
+
 	if (mesh.mVBO == -1)
 	{
 		initMesh2D(&mesh);
@@ -221,15 +226,19 @@ void GraphicsSystem::sdDeleteShader(ShaderObjectIndex shader)
 	glDeleteShader(shader);
 }
 
-void GraphicsSystem::spSetFloatAttribute(int index, int dimensions)
+void GraphicsSystem::spActivateFloatAttribute(int index, int dimensions)
 {
 	glVertexAttribPointer(index, dimensions, GL_FLOAT, GL_FALSE, dimensions * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(index);
 }
 
-void GraphicsSystem::setActiveShaderProgram(ShaderProgram& program)
+void GraphicsSystem::setActiveShaderProgram(string program)
 {
-	glUseProgram(program.mSPI);
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	glUseProgram(sp->mSPI);
+
+	mCurrentShaderProgram = program;
 }
 
 bool GraphicsSystem::getKey(Key key)
@@ -273,25 +282,29 @@ void GraphicsSystem::setDrawMode(DrawMode mode)
 	}
 }
 
-void GraphicsSystem::setFloatUniform(ShaderProgram& program, string uniformName, float value)
+void GraphicsSystem::setFloatUniform(string program, string uniformName, float value)
 {
-	int uniformLocation = glGetUniformLocation(program.mSPI, uniformName.c_str());
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
 
 	if (uniformLocation == -1)
 		return;
 
-	glUseProgram(program.mSPI);
+	glUseProgram(sp->mSPI);
 	glUniform1f(uniformLocation, value);
 }
 
-void GraphicsSystem::setIntegerUniform(ShaderProgram& program, string uniformName, int value)
+void GraphicsSystem::setIntegerUniform(string program, string uniformName, int value)
 {
-	int uniformLocation = glGetUniformLocation(program.mSPI, uniformName.c_str());
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
 
 	if (uniformLocation == -1)
 		return;
 
-	glUseProgram(program.mSPI);
+	glUseProgram(sp->mSPI);
 	glUniform1i(uniformLocation, value);
 }
 
@@ -357,7 +370,7 @@ void GraphicsSystem::packGPUData(Mesh2D& mesh)
 	{
 		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX();
 		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY();
-		verticies[i * valuesPerVertex + 2] = 0.0f;
+		verticies[i * valuesPerVertex + 2] = 0.0f; //2D Objects are drawn at Z = 0
 
 		if (mesh.mHasColorData)
 		{

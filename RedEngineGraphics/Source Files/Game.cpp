@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "Texture2D.h"
+#include "ShaderManager.h"
 
 #include <assert.h>
 
@@ -20,24 +21,18 @@ Game* Game::getInstance()
 void Game::cleanupInstance()
 {
 	if (mspInstance)
+	{
 		delete mspInstance;
+		mspInstance = nullptr;
+	}
 }
 
 Game::Game()
 {
-	mpBasicFragmentShader = nullptr;
 	mpGraphicsSystem = nullptr;
-	mpBasicShaderProgram = nullptr;
 	mpWallTexture = nullptr;
 	mpFaceTexture = nullptr;
 	mpTriangles = nullptr;
-	mpBasicVertexShader = nullptr;
-
-	mpTestFragmentShader = nullptr;
-	mpTestVertexShader = nullptr;
-	mpTestShaderProgram = nullptr;
-
-	mpCurrentShaderProgram = nullptr;
 
 	mInputLastF1State = false;
 	mInputLastF2State = false;
@@ -97,62 +92,35 @@ void Game::init()
 
 	assert(mpGraphicsSystem->init(800, 600));
 
+	mpShaderManager = ShaderManager::getInstance();
+	mpShaderManager->init();
+
 	initShaderObjects();
 
 	initShaderPrograms();
-
-	mpCurrentShaderProgram = mpTestShaderProgram;
 }
 
 void Game::initShaderObjects()
 {
-	mpBasicVertexShader = new Shader(VERTEX_SHADER, "basic.vert");
-	assert(mpBasicVertexShader->compile());
-
-	mpBasicFragmentShader = new Shader(FRAGMENT_SHADER, "basic.frag");
-	assert(mpBasicFragmentShader->compile());
-
-	mpTestVertexShader = new Shader(VERTEX_SHADER, "test.vert");
-	assert(mpTestVertexShader->compile());
-
-	mpTestFragmentShader = new Shader(FRAGMENT_SHADER, "test.frag");
-	assert(mpTestFragmentShader->compile());
+	mpShaderManager->createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
+	mpShaderManager->createAndAddShader("Basic Frag", FRAGMENT_SHADER, "basic.frag");
+	mpShaderManager->createAndAddShader("Test Vert", VERTEX_SHADER, "test.vert");
+	mpShaderManager->createAndAddShader("Test Frag", FRAGMENT_SHADER, "test.frag");
 }
 
 void Game::initShaderPrograms()
 {
-	mpBasicShaderProgram = new ShaderProgram(mpBasicVertexShader, mpBasicFragmentShader);
-	assert(mpBasicShaderProgram->linkProgram());
+	mpShaderManager->createAndAddShaderProgram("Basic", "Basic Vert", "Basic Frag");
+	mpShaderManager->linkShaderProgram("Basic");
+	mpShaderManager->activateFloatAttributeOnProgram("Basic", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
 
-	mpBasicShaderProgram->setFloatAttribute(0, 3); //Sets Attribute 0 to a 3 dimentional float value
-
-
-	mpTestShaderProgram = new ShaderProgram(mpTestVertexShader, mpTestFragmentShader);
-	assert(mpTestShaderProgram->linkProgram());
-
-	mpTestShaderProgram->setFloatAttribute(0, 3); //Sets Attribute 0 to a 3 dimentional float value
+	mpShaderManager->createAndAddShaderProgram("Test", "Test Vert", "Test Frag");
+	mpShaderManager->linkShaderProgram("Test");
+	mpShaderManager->activateFloatAttributeOnProgram("Test", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
 }
 
 void Game::cleanup()
 {
-	//Cleanup Shader Programs
-	delete mpBasicShaderProgram;
-	mpBasicShaderProgram = nullptr;
-	delete mpTestShaderProgram;
-	mpTestShaderProgram = nullptr;
-
-	mpCurrentShaderProgram = nullptr; // Don't Delete as this pointer has no ownership
-
-	//Cleanup Shader Objects
-	delete mpBasicVertexShader;
-	mpBasicVertexShader = nullptr;
-	delete mpBasicFragmentShader;
-	mpBasicFragmentShader = nullptr;
-	delete mpTestVertexShader;
-	mpTestVertexShader = nullptr;
-	delete mpTestFragmentShader;
-	mpTestFragmentShader = nullptr;
-
 	//Delete Mesh2D objects
 	delete mpTriangles;
 	mpTriangles = nullptr;
@@ -165,6 +133,9 @@ void Game::cleanup()
 
 	delete mpFaceTexture;
 	mpFaceTexture = nullptr;
+
+	mpShaderManager->cleanup();
+	ShaderManager::cleanupInstance();
 
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();
@@ -209,44 +180,36 @@ void Game::input()
 	keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F2);
 	if (keyState && !mInputLastF2State)
 	{
-		if (mpCurrentShaderProgram == mpTestShaderProgram)
-			mpCurrentShaderProgram = mpBasicShaderProgram;
+		if (mpGraphicsSystem->getCurrentShaderProgram() == "Basic")
+			mpGraphicsSystem->setActiveShaderProgram("Test");
 		else
-			mpCurrentShaderProgram = mpTestShaderProgram;
+			mpGraphicsSystem->setActiveShaderProgram("Basic");
 	}
 	mInputLastF2State = keyState;
 
 	keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F4);
 	if (keyState && !mInputLastF4State)
 	{
-		mpBasicVertexShader->reloadFromFile();
-		mpBasicVertexShader->compile();
-		mpBasicFragmentShader->reloadFromFile();
-		mpBasicFragmentShader->compile();
+		mpShaderManager->reloadShader("Basic Vert");
+		mpShaderManager->reloadShader("Basic Frag");
+		mpShaderManager->reloadShader("Test Vert");
+		mpShaderManager->reloadShader("Test Frag");
 
-		mpTestVertexShader->reloadFromFile();
-		mpTestVertexShader->compile();
-		mpTestFragmentShader->reloadFromFile();
-		mpTestFragmentShader->compile();
-
-
-		mpBasicShaderProgram->linkProgram();
-		mpTestShaderProgram->linkProgram();
+		mpShaderManager->linkShaderProgram("Basic");
+		mpShaderManager->linkShaderProgram("Test");
 	}
 	mInputLastF4State = keyState;
 }
 
 void Game::update()
 {
-	mpGraphicsSystem->setFloatUniform(*mpTestShaderProgram, "uTime", mpGraphicsSystem->getTime());
-	mpGraphicsSystem->setIntegerUniform(*mpTestShaderProgram, "uTexture0", 0);
-	mpGraphicsSystem->setIntegerUniform(*mpTestShaderProgram, "uTexture1", 1);
+	mpGraphicsSystem->setFloatUniform("Test", "uTime", mpGraphicsSystem->getTime());
+	mpGraphicsSystem->setIntegerUniform("Test", "uTexture0", 0);
+	mpGraphicsSystem->setIntegerUniform("Test", "uTexture1", 1);
 }
 
 bool Game::render()
 {
-	mpGraphicsSystem->setActiveShaderProgram(*mpCurrentShaderProgram);
-
 	mpGraphicsSystem->draw(*mpTriangles);
 
 	return mpGraphicsSystem->render();
