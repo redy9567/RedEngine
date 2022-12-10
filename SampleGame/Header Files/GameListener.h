@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EventListener.h"
-#include "InputSystem.h"
 
 
 class GameListener : public EventListener
@@ -13,9 +12,9 @@ public:
 
     void handleEvent(const Event&);
 
-    void processKeyUp(KeyCode key);
-    void processKey(KeyCode key);
-    void processKeyDown(KeyCode key);
+    //void processKeyUp(KeyCode key);
+    //void processKey(KeyCode key);
+    //void processKeyDown(KeyCode key);
 
     void processMouseButtonUp(int button);
     void processMouseButton(int button);

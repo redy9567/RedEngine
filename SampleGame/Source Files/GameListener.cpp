@@ -15,6 +15,7 @@ GameListener::~GameListener()
 
 }
 
+/*
 void GameListener::handleEvent(const Event& event)
 {
     if(event.getType() == PLAYER_MOVE_EVENT)
@@ -23,6 +24,7 @@ void GameListener::handleEvent(const Event& event)
 
         Game::getInstance()->DPlayerMove(moveEvent.getMoveLoc());
     }
+    
     else if(event.getType() == KEYBOARD_EVENT)
     {
         const KeyboardEvent& keyboardEvent = (const KeyboardEvent&)event;
@@ -68,6 +70,7 @@ void GameListener::handleEvent(const Event& event)
             //Game::getInstance()->DMouseRelease(mouseEvent.getMouseButton());
         }
     }
+    
 }
 
 void GameListener::processKeyDown(KeyCode key)
@@ -127,3 +130,4 @@ void GameListener::processKey(KeyCode key)
     }
 
 }
+*/

@@ -40,7 +40,7 @@ void Unit::draw(GraphicsSystem* gs)
 	else
 		currentSprite = mVisual.sprite;
 
-	gs->draw(currentSprite, mLoc - (currentSprite->getSize() * currentSprite->getScale()) / 2.0f); //Draw the sprite at the center of the unit location
+	//gs->draw(currentSprite, mLoc - (currentSprite->getSize() * currentSprite->getScale()) / 2.0f); //Draw the sprite at the center of the unit location
 }
 
 void Unit::update(float deltaTime)

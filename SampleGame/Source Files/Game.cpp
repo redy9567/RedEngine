@@ -7,7 +7,6 @@
 #include "Timer.h"
 #include "UnitManager.h"
 #include "AnimationManager.h"
-#include "GraphicsBufferManager.h"
 #include "EventSystem.h"
 #include "GameListener.h"
 
@@ -79,27 +78,25 @@ Game::~Game()
 
 void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 {
-	SetExitKey(-1);
-	SetTargetFPS(999);
 
-	mpGraphicsSystem = new GraphicsSystem();
+	mpGraphicsSystem = GraphicsSystem::getInstance();
 
 	mpGraphicsSystem->init(screenWidth, screenHeight);
 
 	mpUnitManager = new UnitManager();
 
-	mpGraphicsBufferManager = new GraphicsBufferManager();
-	GraphicsBuffer* smurfBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("smurf", ASSET_PATH + SMURF_FILENAME);
-	GraphicsBuffer* projBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("proj", ASSET_PATH + PROJECTILE_FILENAME);
-	mpGraphicsBufferManager->createAndManageGraphicsBuffer("background", ASSET_PATH + BACKGROUND_FILEPATH);
+	//mpGraphicsBufferManager = new GraphicsBufferManager();
+	//GraphicsBuffer* smurfBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("smurf", ASSET_PATH + SMURF_FILENAME);
+	//GraphicsBuffer* projBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("proj", ASSET_PATH + PROJECTILE_FILENAME);
+	//mpGraphicsBufferManager->createAndManageGraphicsBuffer("background", ASSET_PATH + BACKGROUND_FILEPATH);
 
 	mpAnimationManager = new AnimationManager();
 
-	AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", smurfBuffer, 4, 4);
-	mpAnimationManager->createAndManageAnimationData("proj", projBuffer, 1, 13, 0.25f);
+	//AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", smurfBuffer, 4, 4);
+	//mpAnimationManager->createAndManageAnimationData("proj", projBuffer, 1, 13, 0.25f);
 
-	Animation* playerAnim = mpAnimationManager->createAndManageAnimation(playerAnimData, 16);
-	mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
+	//Animation* playerAnim = mpAnimationManager->createAndManageAnimation(playerAnimData, 16);
+	//mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
 
 	mpGameListener = new GameListener();
 	EventSystem::getInstance()->addListener(PLAYER_MOVE_EVENT, mpGameListener);
@@ -134,11 +131,10 @@ void Game::cleanup()
 
 	EventSystem::cleanupInstance();
 
-	InputSystem::cleanupInstance();
 
 	mpGraphicsSystem->cleanup();
 
-	delete mpGraphicsSystem;
+	GraphicsSystem::cleanupInstance();
 	mpGraphicsSystem = nullptr;
 
 	delete mpGameTimer;
@@ -147,7 +143,7 @@ void Game::cleanup()
 
 void Game::getInput()
 {
-	InputSystem::getInstance()->inputUpdate();
+	//InputSystem::getInstance()->inputUpdate();
 }
 
 void Game::update()
@@ -156,7 +152,7 @@ void Game::update()
 
 	mpAnimationManager->update(deltaTime);
 
-	mpPlayerUnit->setMoveDirection(InputSystem::getInstance()->getMovementAxis().normalized());
+	//mpPlayerUnit->setMoveDirection(InputSystem::getInstance()->getMovementAxis().normalized());
 	mpPlayerUnit->update(deltaTime);
 }
 
@@ -165,15 +161,15 @@ void Game::render()
 	RColor lightGrey = RColor(150, 150, 150, 255);
 	RColor white = RColor(255, 255, 255, 255);
 
-	mpGraphicsSystem->clearScreenToColor(white);
+	//mpGraphicsSystem->clearScreenToColor(white);
 
-	mpGraphicsSystem->draw(mpGraphicsBufferManager->getGraphicsBuffer("background"), Vector2D::Zero());
+	//mpGraphicsSystem->draw(mpGraphicsBufferManager->getGraphicsBuffer("background"), Vector2D::Zero());
 
 	mpPlayerUnit->draw(mpGraphicsSystem);
 
 	mpUnitManager->draw(mpGraphicsSystem);
 
-	mpGraphicsSystem->flip();
+	//mpGraphicsSystem->flip();
 }
 
 void Game::debug()
@@ -188,21 +184,23 @@ void Game::DPlayerMove(Vector2D loc)
 {
 	cout << "Player move to: " << loc << endl;
 }
-
+/*
 void Game::DKeyPress(KeyCode key)
 {
 	cout << "Key pressed with ID: " << key << endl;
 }
+*/
 
 void Game::DMousePress(int button)
 {
 	cout << "Mouse Button pressed with ID: " << button << endl;
 }
-
+/*
 void Game::DKeyRelease(KeyCode key)
 {
 	cout << "Key released with ID: " << key << endl;
 }
+*/
 
 void Game::DMouseRelease(int button)
 {
@@ -215,11 +213,12 @@ void Game::quitGame()
 	cout << "QUIT" << endl;
 }
 
+/*
 void Game::fireProj()
 {
 	Vector2D dir = Vector2D(
-		InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX() + mpGraphicsSystem->getCameraLocation().getX(), 
-		InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY() + mpGraphicsSystem->getCameraLocation().getY());
+		//InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX() + mpGraphicsSystem->getCameraLocation().getX(), 
+		//InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY() + mpGraphicsSystem->getCameraLocation().getY());
 	dir.normalize();
 
 	AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");
@@ -227,3 +226,4 @@ void Game::fireProj()
 
 	mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
 }
+*/
