@@ -48,9 +48,6 @@
     <ClInclude Include="..\glad\KHR\khrplatform.h">
       <Filter>Header Files\glad</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\stb\stb_image.h">
       <Filter>Header Files\stb</Filter>
     </ClInclude>
@@ -65,9 +62,6 @@
     <ClCompile Include="Source Files\GraphicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source Files\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source Files\Mesh2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,9 +73,6 @@
     </ClCompile>
     <ClCompile Include="Source Files\glad\glad.c">
       <Filter>Source Files\glad</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Files\Game.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\Texture2D.cpp">
       <Filter>Source Files</Filter>

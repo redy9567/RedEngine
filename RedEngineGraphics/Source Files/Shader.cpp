@@ -27,10 +27,10 @@ bool Shader::loadFromFile()
 	switch (mType)
 	{
 	case VERTEX_SHADER:
-		filepath = "Vertex Shaders/";
+		filepath = "../RedEngineGraphics/Vertex Shaders/";
 		break;
 	case FRAGMENT_SHADER:
-		filepath = "Fragment Shaders/";
+		filepath = "../RedEngineGraphics/Fragment Shaders/";
 	}
 
 	filepath += mFilename;

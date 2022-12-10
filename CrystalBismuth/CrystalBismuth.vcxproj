@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bbfafb32-6a47-4ff0-afd5-36ce159a1b68}</ProjectGuid>
-    <RootNamespace>RedEngineGraphics</RootNamespace>
+    <ProjectGuid>{f82aee51-07a5-4753-9da2-d4b5c6f91747}</ProjectGuid>
+    <RootNamespace>CrystalBismuth</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -70,31 +70,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\spyid\Documents\RedEngine\RedLib\Header Files;C:\Users\spyid\Documents\RedEngine\glad;C:\Users\spyid\Documents\RedEngine\glfw-3.3.8\include;C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\spyid\Documents\RedEngine\RedLib\Debug;C:\Users\spyid\Documents\RedEngine\glfw-3.3.8\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3_mt.lib;RedLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\spyid\Documents\RedEngine\glfw-3.3.8\include;C:\Users\spyid\Documents\RedEngine\RedLib\Header Files;C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedLib\Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedEnginePhysics\Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedEngineGraphics\Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\spyid\Documents\RedEngine\glfw-3.3.8\lib-vc2022;C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>RedLib.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\spyid\Documents\CrystalBismuth\glfw-3.3.8;C:\Users\spyid\Documents\CrystalBismuth\CrystalBismuth\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RedLib.lib;RedEngine.lib;RedEnginePhysics.lib;RedEngineGraphics.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,31 +130,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\glad\glad\glad.h" />
-    <ClInclude Include="..\glad\KHR\khrplatform.h" />
-    <ClInclude Include="Header Files\GraphicsSystem.h" />
-    <ClInclude Include="Header Files\Mesh2D.h" />
-    <ClInclude Include="Header Files\Shader.h" />
-    <ClInclude Include="Header Files\ShaderManager.h" />
-    <ClInclude Include="Header Files\ShaderProgram.h" />
-    <ClInclude Include="Header Files\stb\stb_image.h" />
-    <ClInclude Include="Header Files\Texture2D.h" />
+    <ClInclude Include="Header Files\Game.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source Files\glad\glad.c" />
-    <ClCompile Include="Source Files\GraphicsSystem.cpp" />
-    <ClCompile Include="Source Files\Mesh2D.cpp" />
-    <ClCompile Include="Source Files\Shader.cpp" />
-    <ClCompile Include="Source Files\ShaderManager.cpp" />
-    <ClCompile Include="Source Files\ShaderProgram.cpp" />
-    <ClCompile Include="Source Files\Texture2D.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Fragment Shaders\basic.frag" />
-    <None Include="Fragment Shaders\test.frag" />
-    <None Include="Fragment Shaders\triColor.frag" />
-    <None Include="Vertex Shaders\basic.vert" />
-    <None Include="Vertex Shaders\test.vert" />
+    <ClCompile Include="Source Files\Game.cpp" />
+    <ClCompile Include="Source Files\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />
