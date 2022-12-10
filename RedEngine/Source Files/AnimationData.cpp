@@ -1,6 +1,5 @@
 #include "AnimationData.h"
 #include "Sprite.h"
-#include "GraphicsBuffer.h"
 
 AnimationData::AnimationData(Sprite* frames, int numOfFrames)
 {
@@ -14,6 +13,7 @@ AnimationData::AnimationData(Sprite* frames, int numOfFrames)
 	mOwnsSprites = false;
 }
 
+/*
 AnimationData::AnimationData(GraphicsBuffer* gb, int rows, int columns, float scale)
 {
 	mOwnsSprites = true;
@@ -31,6 +31,7 @@ AnimationData::AnimationData(GraphicsBuffer* gb, int rows, int columns, float sc
 		}
 	}
 }
+*/
 
 AnimationData::~AnimationData()
 {

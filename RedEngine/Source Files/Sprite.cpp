@@ -1,5 +1,4 @@
 #include "Sprite.h"
-#include "GraphicsBuffer.h"
 
 Sprite::Sprite(GraphicsBuffer* gb, Vector2D loc, Vector2D size, float scale)
 {

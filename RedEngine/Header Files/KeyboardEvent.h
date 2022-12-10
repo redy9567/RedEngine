@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Event.h"
-#include "InputSystem.h"
-
+/*
 class KeyboardEvent : public Event
 {
 
@@ -20,3 +19,4 @@ private:
     ButtonState mState;
 
 };
+*/

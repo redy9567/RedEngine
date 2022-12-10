@@ -1,6 +1,5 @@
 #pragma once
 
-#include "LibraryIncludes.h"
 #include "Trackable.h"
 
 const int MAX_COLOR_VALUE = 255;
@@ -19,6 +18,6 @@ public:
 private:
 	int mR, mG, mB, mA;
 
-	raylib::Color getRayColor();
+	//raylib::Color getRayColor();
 
 };

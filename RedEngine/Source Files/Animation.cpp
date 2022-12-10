@@ -1,6 +1,5 @@
 #include "Animation.h"
 #include "Sprite.h"
-#include "GraphicsBuffer.h"
 #include "AnimationData.h"
 
 Animation::Animation(AnimationData* data, int fps)

@@ -1,6 +1,6 @@
-#include "InputSystem.h"
 #include "KeyboardEvent.h"
 
+/*
 KeyboardEvent::KeyboardEvent(KeyCode key, ButtonState state)
     : Event(KEYBOARD_EVENT)
 {
@@ -12,3 +12,4 @@ KeyboardEvent::~KeyboardEvent()
 {
 
 }
+*/

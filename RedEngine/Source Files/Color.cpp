@@ -28,8 +28,3 @@ RColor::RColor(float red, float green, float blue, float alpha)
 	mB = (int)(blue * MAX_COLOR_VALUE);
 	mA = (int)(alpha * MAX_COLOR_VALUE);
 }
-
-raylib::Color RColor::getRayColor()
-{
-	return raylib::Color(mR, mG, mB, mA);
-}
