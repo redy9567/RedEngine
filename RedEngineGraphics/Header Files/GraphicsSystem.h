@@ -13,6 +13,7 @@ typedef unsigned int ShaderProgramIndex;
 
 class ShaderProgram;
 class Texture2D;
+class ShaderManager;
 
 class GraphicsSystem : public Trackable
 {
@@ -46,6 +47,19 @@ public:
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
 	void setIntegerUniform(std::string program, std::string uniformName, int value);
+
+	//Shaders
+	bool createAndAddShader(std::string key, SHADER_TYPE type, std::string filename);
+	void removeShader(std::string key);
+	bool reloadShader(std::string key);
+
+	//ShaderPrograms
+	void createAndAddShaderProgram(std::string key);
+	bool createAndAddShaderProgram(std::string key, std::string vertexShader, std::string fragmentShader);
+	void removeShaderProgram(std::string key);
+	bool attachShaderToProgram(std::string programKey, std::string shaderKey);
+	void activateFloatAttributeOnProgram(std::string key, int index, int dimensions);
+	bool linkShaderProgram(std::string key);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
@@ -89,6 +103,8 @@ private:
 	GLFWwindow* mWindow;
 
 	static GraphicsSystem* mspInstance;
+
+	ShaderManager* mpShaderManager;
 
 	DrawMode mDrawMode;
 

@@ -14,6 +14,7 @@ class ShaderManager : public Trackable
 public:
 	friend class GraphicsSystem;
 
+private:
 	static ShaderManager* getInstance();
 	static void cleanupInstance();
 
@@ -33,7 +34,6 @@ public:
 	void activateFloatAttributeOnProgram(std::string key, int index, int dimensions);
 	bool linkShaderProgram(std::string key);
 
-private:
 	ShaderProgram* getShaderProgram(std::string key) { return mShaderPrograms.at(key); }
 
 	ShaderManager();

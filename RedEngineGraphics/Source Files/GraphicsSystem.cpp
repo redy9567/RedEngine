@@ -41,6 +41,7 @@ GraphicsSystem::GraphicsSystem()
 	mInit = false;
 	mWindow = nullptr;
 	mDrawMode = DrawMode::Fill;
+	mpShaderManager = nullptr;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -83,6 +84,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	//Set our callback function for resizing the window
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 
+	mpShaderManager = ShaderManager::getInstance();
+	mpShaderManager->init();
+
 	cout << "Well here we are!" << endl;
 
 	mCurrentShaderProgram = "Test";
@@ -93,6 +97,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 void GraphicsSystem::cleanup()
 {
+	mpShaderManager->cleanup();
+	ShaderManager::cleanupInstance();
+
 	glfwTerminate();
 	mInit = false;
 }
@@ -417,4 +424,49 @@ void GraphicsSystem::linkGPUData(Mesh2D& mesh)
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 	}
+}
+
+bool GraphicsSystem::createAndAddShader(string key, SHADER_TYPE type, string filename)
+{
+	return mpShaderManager->createAndAddShader(key, type, filename);
+}
+
+void GraphicsSystem::removeShader(string key)
+{
+	mpShaderManager->removeShader(key);
+}
+
+bool GraphicsSystem::reloadShader(string key)
+{
+	return mpShaderManager->reloadShader(key);
+}
+
+void GraphicsSystem::createAndAddShaderProgram(string key)
+{
+	mpShaderManager->createAndAddShaderProgram(key);
+}
+
+bool GraphicsSystem::createAndAddShaderProgram(string key, string vertexShader, string fragmentShader)
+{
+	return mpShaderManager->createAndAddShaderProgram(key, vertexShader, fragmentShader);
+}
+
+void GraphicsSystem::removeShaderProgram(string key)
+{
+	mpShaderManager->removeShaderProgram(key);
+}
+
+bool GraphicsSystem::attachShaderToProgram(string programKey, string shaderKey)
+{
+	return mpShaderManager->attachShaderToProgram(programKey, shaderKey);
+}
+
+void GraphicsSystem::activateFloatAttributeOnProgram(string key, int index, int dimensions)
+{
+	mpShaderManager->activateFloatAttributeOnProgram(key, index, dimensions);
+}
+
+bool GraphicsSystem::linkShaderProgram(string key)
+{
+	return mpShaderManager->linkShaderProgram(key);
 }

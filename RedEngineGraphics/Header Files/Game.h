@@ -32,7 +32,6 @@ private:
 
 	static Game* mspInstance;
 	GraphicsSystem* mpGraphicsSystem;
-	ShaderManager* mpShaderManager;
 
 	bool mInputLastF1State;
 	bool mInputLastF2State;
