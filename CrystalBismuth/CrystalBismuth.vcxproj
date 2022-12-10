@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedLib\Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedEnginePhysics\Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedEngineGraphics\Header Files;C:\Users\spyid\Documents\CrystalBismuth\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Header Files;..\RedLib\Header Files;..\RedEnginePhysics\Header Files;..\RedEngineGraphics\Header Files;..\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\spyid\Documents\CrystalBismuth\glfw-3.3.8;C:\Users\spyid\Documents\CrystalBismuth\CrystalBismuth\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\glfw-3.3.8;x64\Debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>RedLib.lib;RedEngine.lib;RedEnginePhysics.lib;RedEngineGraphics.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
