@@ -1,16 +1,24 @@
 #pragma once
 #include "Vector2D.h"
+#include "Vector3D.h"
+#include "Trackable.h"
 
 typedef unsigned int VertexBufferIndex;
 typedef unsigned int VertexArrayIndex;
+typedef unsigned int ElementBufferIndex;
 
-class Mesh2D
+class Texture2D;
+
+class Mesh2D : public Trackable
 {
 
 public:
 	friend class GraphicsSystem;
 
-	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount);
+	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount);
+	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[]);
+	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[],
+		Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[]);
 	~Mesh2D();
 
 	Vector2D getVertexAt(int index) { return mVerticies[index]; }
@@ -24,7 +32,18 @@ private:
 	Vector2D* mVerticies;
 	unsigned int mVertexCount;
 
+	unsigned int* mDrawOrder;
+	unsigned int mDrawCount;
+
+	bool mHasColorData;
+	Vector3D* mColorData;
+
+	unsigned int mTextureDataCount;
+	Texture2D** mTextureData;
+	Vector2D* mTextureCoords;
+
 	VertexBufferIndex mVBO;
 	VertexArrayIndex mVAO;
+	ElementBufferIndex mEBO;
 
 };

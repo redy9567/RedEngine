@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Trackable.h"
 
 typedef unsigned int ShaderObjectIndex;
 
@@ -9,22 +10,21 @@ enum SHADER_TYPE
 	FRAGMENT_SHADER
 };
 
-class Shader
+class Shader : public Trackable
 {
 
 public:
 	friend class ShaderProgram;
+	friend class ShaderManager;
 
+private:
 	Shader(SHADER_TYPE type, std::string filename);
 	~Shader();
 
 	SHADER_TYPE getType() { return mType; }
 
-	void reloadFromFile();
 	bool compile();
-
-private:
-	void loadFromFile(std::string filename);
+	bool loadFromFile();
 
 	Shader() = delete;
 

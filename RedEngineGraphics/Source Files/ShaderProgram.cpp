@@ -44,7 +44,7 @@ bool ShaderProgram::linkProgram()
 	return success;
 }
 
-void ShaderProgram::setFloatAttribute(int index, int dimensions)
+void ShaderProgram::activateFloatAttribute(int index, int dimensions)
 {
-	GraphicsSystem::getInstance()->spSetFloatAttribute(index, dimensions);
+	GraphicsSystem::getInstance()->spActivateFloatAttribute(index, dimensions);
 }

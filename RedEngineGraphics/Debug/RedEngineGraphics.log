@@ -1,0 +1,13 @@
+﻿GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwInit referenced in function "public: bool __thiscall GraphicsSystem::init(int,int)" (?init@GraphicsSystem@@QAE_NHH@Z)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwTerminate referenced in function "public: void __thiscall GraphicsSystem::cleanup(void)" (?cleanup@GraphicsSystem@@QAEXXZ)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwWindowHint referenced in function "public: bool __thiscall GraphicsSystem::init(int,int)" (?init@GraphicsSystem@@QAE_NHH@Z)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwCreateWindow referenced in function "public: bool __thiscall GraphicsSystem::init(int,int)" (?init@GraphicsSystem@@QAE_NHH@Z)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwWindowShouldClose referenced in function "public: bool __thiscall GraphicsSystem::render(void)" (?render@GraphicsSystem@@QAE_NXZ)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwSetFramebufferSizeCallback referenced in function "public: bool __thiscall GraphicsSystem::init(int,int)" (?init@GraphicsSystem@@QAE_NHH@Z)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwPollEvents referenced in function "public: bool __thiscall GraphicsSystem::render(void)" (?render@GraphicsSystem@@QAE_NXZ)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwGetKey referenced in function "public: bool __thiscall GraphicsSystem::debugProcessInput(void)" (?debugProcessInput@GraphicsSystem@@QAE_NXZ)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwMakeContextCurrent referenced in function "public: bool __thiscall GraphicsSystem::init(int,int)" (?init@GraphicsSystem@@QAE_NHH@Z)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwSwapBuffers referenced in function "public: bool __thiscall GraphicsSystem::render(void)" (?render@GraphicsSystem@@QAE_NXZ)
+GraphicsSystem.obj : error LNK2019: unresolved external symbol _glfwGetProcAddress referenced in function "public: bool __thiscall GraphicsSystem::init(int,int)" (?init@GraphicsSystem@@QAE_NHH@Z)
+C:\Users\spyid\Documents\RedEngine\glfw-3.3.8\lib-vc2019\glfw3_mt.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Debug\RedEngineGraphics.exe : fatal error LNK1120: 11 unresolved externals

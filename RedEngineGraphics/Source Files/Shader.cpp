@@ -13,8 +13,6 @@ Shader::Shader(SHADER_TYPE type, string filename)
 	mSOI = GraphicsSystem::getInstance()->sdCreateShader(type);
 
 	mFilename = filename;
-
-	loadFromFile(filename);
 }
 
 Shader::~Shader()
@@ -22,26 +20,29 @@ Shader::~Shader()
 	GraphicsSystem::getInstance()->sdDeleteShader(mSOI);
 }
 
-void Shader::loadFromFile(string filename)
+bool Shader::loadFromFile()
 {
 	string filepath = "";
 
 	switch (mType)
 	{
 	case VERTEX_SHADER:
-		filepath = "../../../Vertex Shaders/";
+		filepath = "Vertex Shaders/";
 		break;
 	case FRAGMENT_SHADER:
-		filepath = "../../../Fragment Shaders/";
+		filepath = "Fragment Shaders/";
 	}
 
-	filepath += filename;
+	filepath += mFilename;
 
 	ifstream in = ifstream(filepath);
 	string input = "";
 
 	if (!in.is_open())
+	{
 		cout << "ERROR: SHADER FILEPATH \"" << filepath << "\" NOT FOUND!" << endl;
+		return false;
+	}
 
 	string temp;
 	while (!in.eof())
@@ -52,6 +53,7 @@ void Shader::loadFromFile(string filename)
 	}
 
 	mCode = input;
+	return true;
 }
 
 bool Shader::compile()
@@ -67,9 +69,4 @@ bool Shader::compile()
 	}
 
 	return success;
-}
-
-void Shader::reloadFromFile()
-{
-	loadFromFile(mFilename);
 }
