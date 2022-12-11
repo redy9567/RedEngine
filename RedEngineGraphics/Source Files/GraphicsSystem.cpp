@@ -11,6 +11,7 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 #include "ShaderManager.h"
+#include "Sprite.h"
 
 using namespace std;
 
@@ -89,7 +90,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 	cout << "Well here we are!" << endl;
 
-	mCurrentShaderProgram = "Test";
+	mCurrentShaderProgram = "";
 
 	mInit = true;
 	return true;
@@ -123,6 +124,7 @@ void GraphicsSystem::framebuffer_size_callback(GLFWwindow* window, int width, in
 
 void GraphicsSystem::draw(Mesh2D& mesh)
 {
+	assert(mCurrentShaderProgram != "");
 	setActiveShaderProgram(mCurrentShaderProgram);
 
 	if (mesh.mVBO == -1)
@@ -160,6 +162,47 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	}
 
 	glDrawElements(GL_TRIANGLES, mesh.mDrawCount, GL_UNSIGNED_INT, 0);
+}
+
+void GraphicsSystem::draw(Sprite& sprite)
+{
+	setActiveShaderProgram(mCurrentShaderProgram);
+
+	if (sprite.mpMesh->mVBO == -1)
+	{
+		initMesh2D(sprite.mpMesh);
+
+		bindMesh2D(sprite.mpMesh);
+
+
+		for (int i = 0; i < sprite.mpMesh->mTextureDataCount; i++)
+		{
+			if (sprite.mpMesh->mTextureData[i]->mTOI == -1)
+				initTexture2D(sprite.mpMesh->mTextureData[i]);
+			bindTexture2D(sprite.mpMesh->mTextureData[i], i);
+		}
+
+
+		//Packing and linking only need to occur on mesh init, as the data is stored in the VAO
+		packGPUData(*sprite.mpMesh);
+
+		//Copy draw order data into bound buffer (EBO)
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * sprite.mpMesh->mDrawCount, sprite.mpMesh->mDrawOrder, GL_STATIC_DRAW);
+
+		linkGPUData(*sprite.mpMesh);
+
+	}
+	else
+	{
+		for (int i = 0; i < sprite.mpMesh->mTextureDataCount; i++)
+		{
+			bindTexture2D(sprite.mpMesh->mTextureData[i], i);
+		}
+
+		bindMesh2D(sprite.mpMesh);
+	}
+
+	glDrawElements(GL_TRIANGLES, sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
 ShaderObjectIndex GraphicsSystem::sdCreateShader(SHADER_TYPE type)

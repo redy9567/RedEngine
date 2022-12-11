@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Mesh2D.h"
+#include "Sprite.h"
 #include "GraphicsSystem.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
@@ -32,7 +33,7 @@ Game::Game()
 	mpGraphicsSystem = nullptr;
 	mpWallTexture = nullptr;
 	mpFaceTexture = nullptr;
-	mpTriangles = nullptr;
+	mpTestSprite = nullptr;
 
 	mInputLastF1State = false;
 	mInputLastF2State = false;
@@ -86,7 +87,8 @@ void Game::init()
 		2, 0, 3
 	};
 
-	mpTriangles = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
+	// = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
+	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D::Zero(), Vector2D::Zero(), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight()));
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
@@ -99,28 +101,30 @@ void Game::init()
 
 void Game::initShaderObjects()
 {
+	mpGraphicsSystem->createAndAddShader("Textured Vert", VERTEX_SHADER, "textured.vert");
+	mpGraphicsSystem->createAndAddShader("Textured Frag", FRAGMENT_SHADER, "textured.frag");
 	mpGraphicsSystem->createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
-	mpGraphicsSystem->createAndAddShader("Basic Frag", FRAGMENT_SHADER, "basic.frag");
-	mpGraphicsSystem->createAndAddShader("Test Vert", VERTEX_SHADER, "test.vert");
-	mpGraphicsSystem->createAndAddShader("Test Frag", FRAGMENT_SHADER, "test.frag");
+	mpGraphicsSystem->createAndAddShader("Yellow Frag", FRAGMENT_SHADER, "yellow.frag");
 }
 
 void Game::initShaderPrograms()
 {
-	mpGraphicsSystem->createAndAddShaderProgram("Basic", "Basic Vert", "Basic Frag");
-	mpGraphicsSystem->linkShaderProgram("Basic");
-	mpGraphicsSystem->activateFloatAttributeOnProgram("Basic", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+	mpGraphicsSystem->createAndAddShaderProgram("Textured", "Textured Vert", "Textured Frag");
+	mpGraphicsSystem->linkShaderProgram("Textured");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("Textured", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
 
-	mpGraphicsSystem->createAndAddShaderProgram("Test", "Test Vert", "Test Frag");
-	mpGraphicsSystem->linkShaderProgram("Test");
-	mpGraphicsSystem->activateFloatAttributeOnProgram("Test", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+	mpGraphicsSystem->createAndAddShaderProgram("Yellow", "Basic Vert", "Yellow Frag");
+	mpGraphicsSystem->linkShaderProgram("Yellow");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("Yellow", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	mpGraphicsSystem->setActiveShaderProgram("Textured");
 }
 
 void Game::cleanup()
 {
 	//Delete Mesh2D objects
-	delete mpTriangles;
-	mpTriangles = nullptr;
+	delete mpTestSprite;
+	mpTestSprite = nullptr;
 
 	delete mpTextureCollection;
 	mpTextureCollection = nullptr;
@@ -174,37 +178,35 @@ void Game::input()
 	keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F2);
 	if (keyState && !mInputLastF2State)
 	{
-		if (mpGraphicsSystem->getCurrentShaderProgram() == "Basic")
-			mpGraphicsSystem->setActiveShaderProgram("Test");
+		if (mpGraphicsSystem->getCurrentShaderProgram() == "Textured")
+			mpGraphicsSystem->setActiveShaderProgram("Yellow");
 		else
-			mpGraphicsSystem->setActiveShaderProgram("Basic");
+			mpGraphicsSystem->setActiveShaderProgram("Textured");
 	}
 	mInputLastF2State = keyState;
 	
 	keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F4);
 	if (keyState && !mInputLastF4State)
 	{
+		mpGraphicsSystem->reloadShader("Textured Vert");
+		mpGraphicsSystem->reloadShader("Textured Frag");
 		mpGraphicsSystem->reloadShader("Basic Vert");
-		mpGraphicsSystem->reloadShader("Basic Frag");
-		mpGraphicsSystem->reloadShader("Test Vert");
-		mpGraphicsSystem->reloadShader("Test Frag");
+		mpGraphicsSystem->reloadShader("Yellow Frag");
 
-		mpGraphicsSystem->linkShaderProgram("Basic");
-		mpGraphicsSystem->linkShaderProgram("Test");
+		mpGraphicsSystem->linkShaderProgram("Textured");
+		mpGraphicsSystem->linkShaderProgram("Yellow");
 	}
 	mInputLastF4State = keyState;
 }
 
 void Game::update()
 {
-	mpGraphicsSystem->setFloatUniform("Test", "uTime", mpGraphicsSystem->getTime());
-	mpGraphicsSystem->setIntegerUniform("Test", "uTexture0", 0);
-	mpGraphicsSystem->setIntegerUniform("Test", "uTexture1", 1);
+	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 }
 
 bool Game::render()
 {
-	mpGraphicsSystem->draw(*mpTriangles);
+	mpGraphicsSystem->draw(*mpTestSprite);
 
 	return mpGraphicsSystem->render();
 }

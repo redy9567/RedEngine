@@ -2,7 +2,7 @@
 #include "Trackable.h"
 
 class GraphicsSystem;
-class Mesh2D;
+class Sprite;
 class Texture2D;
 class ShaderManager;
 
@@ -40,6 +40,6 @@ private:
 	Texture2D* mpWallTexture;
 	Texture2D* mpFaceTexture;
 	Texture2D** mpTextureCollection;
-	Mesh2D* mpTriangles;
+	Sprite* mpTestSprite;
 
 };
