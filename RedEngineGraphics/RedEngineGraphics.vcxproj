@@ -152,6 +152,7 @@
     <ClInclude Include="Header Files\Shader.h" />
     <ClInclude Include="Header Files\ShaderManager.h" />
     <ClInclude Include="Header Files\ShaderProgram.h" />
+    <ClInclude Include="Header Files\Sprite.h" />
     <ClInclude Include="Header Files\stb\stb_image.h" />
     <ClInclude Include="Header Files\Texture2D.h" />
   </ItemGroup>
@@ -162,14 +163,17 @@
     <ClCompile Include="Source Files\Shader.cpp" />
     <ClCompile Include="Source Files\ShaderManager.cpp" />
     <ClCompile Include="Source Files\ShaderProgram.cpp" />
+    <ClCompile Include="Source Files\Sprite.cpp" />
     <ClCompile Include="Source Files\Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fragment Shaders\basic.frag" />
+    <None Include="Fragment Shaders\yellow.frag" />
     <None Include="Fragment Shaders\test.frag" />
+    <None Include="Fragment Shaders\textured.frag" />
     <None Include="Fragment Shaders\triColor.frag" />
     <None Include="Vertex Shaders\basic.vert" />
     <None Include="Vertex Shaders\test.vert" />
+    <None Include="Vertex Shaders\textured.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

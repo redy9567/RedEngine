@@ -57,6 +57,9 @@
     <ClInclude Include="Header Files\ShaderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\GraphicsSystem.cpp">
@@ -80,9 +83,12 @@
     <ClCompile Include="Source Files\ShaderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fragment Shaders\basic.frag">
+    <None Include="Fragment Shaders\yellow.frag">
       <Filter>Fragment Shaders</Filter>
     </None>
     <None Include="Vertex Shaders\basic.vert">
@@ -96,6 +102,12 @@
     </None>
     <None Include="Vertex Shaders\test.vert">
       <Filter>Vertex Shaders</Filter>
+    </None>
+    <None Include="Vertex Shaders\textured.vert">
+      <Filter>Vertex Shaders</Filter>
+    </None>
+    <None Include="Fragment Shaders\textured.frag">
+      <Filter>Fragment Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
