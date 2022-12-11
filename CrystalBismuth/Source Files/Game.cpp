@@ -88,7 +88,7 @@ void Game::init()
 	};
 
 	// = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
-	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D::Zero(), Vector2D::Zero(), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight()));
+	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D(0, 100), Vector2D::Zero(), Vector2D(mpFaceTexture->getWidth(), 256));
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 

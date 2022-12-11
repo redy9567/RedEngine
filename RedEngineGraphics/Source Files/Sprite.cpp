@@ -4,13 +4,6 @@
 
 Sprite::Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, float scale)
 {
-	//Square vertex definition
-	Vector2D verticies[] = {
-		Vector2D(-0.5f, -0.5f),
-		Vector2D(0.5f, -0.5f),
-		Vector2D(0.5f, 0.5f),
-		Vector2D(-0.5f, 0.5f)
-	};
 
 	//Full Vertex Colors
 	Vector3D vertexColors[] = {
@@ -41,6 +34,36 @@ Sprite::Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vect
 			2, 0, 3
 	};
 
+	float aspect = size.getX() / size.getY();
+	Vector2D verticies[4];
+
+	if (aspect > 1.0f)
+	{
+		float normalizedHalfSide = size.getY() / size.getX() / 2;
+		//Horizontal Rectangle vertex definition
+		verticies[0] = Vector2D(-0.5f, -normalizedHalfSide);
+		verticies[1] = Vector2D(0.5f, -normalizedHalfSide);
+		verticies[2] = Vector2D(0.5f, normalizedHalfSide);
+		verticies[3] = Vector2D(-0.5f, normalizedHalfSide);
+	}
+	else if (aspect < 1.0f)
+	{
+		float normalizedHalfSide = aspect / 2;
+		//Vertical Rectangle vertex definition
+		verticies[0] = Vector2D(-normalizedHalfSide, -0.5f);
+		verticies[1] = Vector2D(normalizedHalfSide, -0.5f);
+		verticies[2] = Vector2D(normalizedHalfSide, 0.5f);
+		verticies[3] = Vector2D(-normalizedHalfSide, 0.5f);
+	}
+	else
+	{
+		//Square vertex definition
+		verticies[0] = Vector2D(-0.5f, -0.5f);
+		verticies[1] = Vector2D(0.5f, -0.5f);
+		verticies[2] = Vector2D(0.5f, 0.5f);
+		verticies[3] = Vector2D(-0.5f, 0.5f);
+	}
+	
 	mpMesh = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, texture, 1, textureCoords);
 
 	mLoc = loc;
