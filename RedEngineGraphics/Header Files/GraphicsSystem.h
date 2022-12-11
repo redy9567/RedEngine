@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Trackable.h"
+#include "Vector2D.h"
 
 struct GLFWwindow;
 
@@ -49,6 +50,8 @@ public:
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
 	void setIntegerUniform(std::string program, std::string uniformName, int value);
+	void setVec2Uniform(std::string program, std::string uniformName, Vector2D value);
+	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite); //Make this not use sprite in the future? Need Mat implementations
 
 	//Shaders
 	bool createAndAddShader(std::string key, SHADER_TYPE type, std::string filename);
@@ -98,7 +101,7 @@ private:
 	//Helper Draw Functions
 	void bindMesh2D(Mesh2D*);
 	void bindTexture2D(Texture2D*, unsigned int textureLocation);
-	void packGPUData(Mesh2D&);
+	void packGPUData(Mesh2D&, Vector2D scale = Vector2D::One());
 	void linkGPUData(Mesh2D&);
 
 

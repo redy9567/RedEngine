@@ -88,11 +88,11 @@ void Game::init()
 	};
 
 	// = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
-	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D(0, 100), Vector2D::Zero(), Vector2D(mpFaceTexture->getWidth(), 256));
+	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D(0.0f, 100.0f), Vector2D(0.0f, 500.0f), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight() / 2));
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
-	assert(mpGraphicsSystem->init(800, 600));
+	assert(mpGraphicsSystem->init(600, 600));
 
 	initShaderObjects();
 
@@ -202,6 +202,8 @@ void Game::input()
 void Game::update()
 {
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
+	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", Vector2D(600.0f, 600.0f));
+	mpGraphicsSystem->setVec2Uniform("Yellow", "uResolution", Vector2D(600.0f, 600.0f));
 }
 
 bool Game::render()

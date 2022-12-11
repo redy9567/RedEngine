@@ -42,6 +42,7 @@ public:
 	float getY() const { return mY; }
 
 	static const Vector2D Zero() { return Vector2D(0, 0); }
+	static const Vector2D One() { return Vector2D(1, 1); }
 	static const Vector2D Left() { return Vector2D(-1, 0); }
 	static const Vector2D Right() { return Vector2D(1, 0); }
 	static const Vector2D Up() { return Vector2D(0, -1); }

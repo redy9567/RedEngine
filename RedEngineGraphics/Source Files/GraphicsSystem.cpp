@@ -184,7 +184,9 @@ void GraphicsSystem::draw(Sprite& sprite)
 
 
 		//Packing and linking only need to occur on mesh init, as the data is stored in the VAO
-		packGPUData(*sprite.mpMesh);
+		packGPUData(*sprite.mpMesh, sprite.mSize);
+		setMat3Uniform("Textured", "uModelMat", sprite);
+		setMat3Uniform("Yellow", "uModelMat", sprite);
 
 		//Copy draw order data into bound buffer (EBO)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * sprite.mpMesh->mDrawCount, sprite.mpMesh->mDrawOrder, GL_STATIC_DRAW);
@@ -358,6 +360,37 @@ void GraphicsSystem::setIntegerUniform(string program, string uniformName, int v
 	glUniform1i(uniformLocation, value);
 }
 
+void GraphicsSystem::setVec2Uniform(std::string program, std::string uniformName, Vector2D value)
+{
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(sp->mSPI);
+	glUniform2f(uniformLocation, value.getX(), value.getY());
+}
+
+void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite)
+{
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(sp->mSPI);
+	float mat[] = {
+		sprite.mScale.getX(), 0.0f, sprite.mLoc.getX(),
+		0.0f, sprite.mScale.getY(), sprite.mLoc.getY(),
+		0.0f, 0.0f, 1.0f
+	};
+	glUniformMatrix3fv(uniformLocation, 1, false, mat);
+}
+
 float GraphicsSystem::getTime()
 {
 	return glfwGetTime();
@@ -408,7 +441,7 @@ void GraphicsSystem::bindTexture2D(Texture2D* texture, unsigned int textureLocat
 	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
 }
 
-void GraphicsSystem::packGPUData(Mesh2D& mesh)
+void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D scale)
 {
 	unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
 	valuesPerVertex += (mesh.mTextureDataCount) ? 2 : 0;
@@ -416,11 +449,13 @@ void GraphicsSystem::packGPUData(Mesh2D& mesh)
 
 	float* verticies = new float[numOfFloats];
 
+	float largerSide = scale.getX() > scale.getY() ? scale.getX() : scale.getY();
+
 	for (int i = 0; i < mesh.mVertexCount; i++)
 	{
-		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX();
-		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY();
-		verticies[i * valuesPerVertex + 2] = 0.0f; //2D Objects are drawn at Z = 0
+		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() * largerSide;
+		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() * largerSide;
+		verticies[i * valuesPerVertex + 2] = 1.0f; //2D Objects are drawn at Z = 1
 
 		if (mesh.mHasColorData)
 		{
