@@ -128,9 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Header Files\Animation.h" />
-    <ClInclude Include="Header Files\AnimationData.h" />
-    <ClInclude Include="Header Files\AnimationManager.h" />
     <ClInclude Include="Header Files\Camera2D.h" />
     <ClInclude Include="Header Files\Color.h" />
     <ClInclude Include="Header Files\Event.h" />
@@ -140,9 +137,6 @@
     <ClInclude Include="Header Files\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source Files\Animation.cpp" />
-    <ClCompile Include="Source Files\AnimationData.cpp" />
-    <ClCompile Include="Source Files\AnimationManager.cpp" />
     <ClCompile Include="Source Files\Camera2D.cpp" />
     <ClCompile Include="Source Files\Color.cpp" />
     <ClCompile Include="Source Files\Event.cpp" />

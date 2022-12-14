@@ -7,6 +7,7 @@ struct GLFWwindow;
 
 class Mesh2D;
 class Sprite;
+class Animation;
 
 enum SHADER_TYPE;
 
@@ -46,6 +47,7 @@ public:
 	void setActiveShaderProgram(std::string program);
 	void draw(Mesh2D& mesh);
 	void draw(Sprite& sprite);
+	void draw(Animation& anim);
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);

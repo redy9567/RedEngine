@@ -10,5 +10,6 @@ in vec2 vTexCoord;
 void main()
 {
 	vec4 ColorVal = vec4(vColor.xyz, 1.0f);
-	FragColor = texture(uTexture0, vTexCoord) * ColorVal;
+	vec4 tex = texture(uTexture0, vTexCoord);
+	FragColor = tex;
 }

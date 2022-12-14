@@ -12,6 +12,7 @@
 #include "ShaderProgram.h"
 #include "ShaderManager.h"
 #include "Sprite.h"
+#include "Animation.h"
 
 using namespace std;
 
@@ -84,6 +85,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 	//Set our callback function for resizing the window
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
@@ -185,8 +189,6 @@ void GraphicsSystem::draw(Sprite& sprite)
 
 		//Packing and linking only need to occur on mesh init, as the data is stored in the VAO
 		packGPUData(*sprite.mpMesh, sprite.mSize);
-		setMat3Uniform("Textured", "uModelMat", sprite);
-		setMat3Uniform("Yellow", "uModelMat", sprite);
 
 		//Copy draw order data into bound buffer (EBO)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * sprite.mpMesh->mDrawCount, sprite.mpMesh->mDrawOrder, GL_STATIC_DRAW);
@@ -204,7 +206,21 @@ void GraphicsSystem::draw(Sprite& sprite)
 		bindMesh2D(sprite.mpMesh);
 	}
 
+	setMat3Uniform("Textured", "uModelMat", sprite);
+	setMat3Uniform("Yellow", "uModelMat", sprite);
+
+	setActiveShaderProgram(mCurrentShaderProgram);
+
 	glDrawElements(GL_TRIANGLES, sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
+}
+
+void GraphicsSystem::draw(Animation& anim)
+{
+	Sprite* currentSprite = anim.getCurrentSprite();
+	if (currentSprite == nullptr)
+		return;
+
+	draw(*currentSprite);
 }
 
 ShaderObjectIndex GraphicsSystem::sdCreateShader(SHADER_TYPE type)
@@ -402,7 +418,7 @@ void GraphicsSystem::initTexture2D(Texture2D* texture)
 	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
 
 	if(texture->mHasAlpha)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->mWidth, texture->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->mData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->mWidth, texture->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->mData);
 	else
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->mWidth, texture->mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->mData);
 

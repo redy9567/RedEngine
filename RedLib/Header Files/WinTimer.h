@@ -1,4 +1,5 @@
 //Inspired by Dean Lawson, Champlain College
+#ifdef WINTIMER
 
 #pragma once
 #include "Trackable.h"
@@ -28,3 +29,5 @@ private:
 	double calcDifferenceInMS(_LARGE_INTEGER* from, _LARGE_INTEGER* to) const;
 
 };
+
+#endif

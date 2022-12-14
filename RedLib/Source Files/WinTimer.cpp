@@ -1,3 +1,5 @@
+#ifdef WINTIMER
+
 #include "WinTimer.h"
 #include "Windows.h"
 
@@ -93,3 +95,5 @@ double Timer::calcDifferenceInMS(LARGE_INTEGER* from, LARGE_INTEGER* to) const
 	double difference = (double)(to->QuadPart - from->QuadPart) / (double)mTimerFrequency->QuadPart;
 	return difference * 1000;
 }
+
+#endif

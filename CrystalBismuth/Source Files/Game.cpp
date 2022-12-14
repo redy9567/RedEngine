@@ -248,7 +248,7 @@ void Game::update()
 
 bool Game::render()
 {
-	//mpGraphicsSystem->draw(*mpTestSprite);
+	mpGraphicsSystem->draw(*mpTestSprite);
 	mpGraphicsSystem->draw(*mpChickWalking);
 
 	return mpGraphicsSystem->render();
