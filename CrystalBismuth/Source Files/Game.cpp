@@ -6,8 +6,14 @@
 #include "Shader.h"
 #include "Texture2D.h"
 #include "ShaderManager.h"
+#include "Animation.h"
+#include "AnimationData.h"
+#include "Timer.h"
 
 #include <assert.h>
+#include <iostream>
+
+using namespace std;
 
 Game* Game::mspInstance = nullptr;
 
@@ -40,6 +46,10 @@ Game::Game()
 	mInputLastF4State = false;
 
 	mpTextureCollection = nullptr;
+
+	mpChickWalking = nullptr;
+	mpChickWalkingData = nullptr;
+	mpChickWalkingTexture = nullptr;
 }
 
 Game::~Game()
@@ -47,11 +57,12 @@ Game::~Game()
 
 }
 
-void Game::init()
+void Game::init(int mFPS)
 {
 	//Texture for objects
 	mpWallTexture = new Texture2D("Resource Files/wall.jpg");
 	mpFaceTexture = new Texture2D("Resource Files/awesomeface.png", true);
+	mpChickWalkingTexture = new Texture2D("Resource Files/Chick Walking.png", true);
 
 	mpTextureCollection = new Texture2D * [2];
 	mpTextureCollection[0] = mpWallTexture;
@@ -97,6 +108,13 @@ void Game::init()
 	initShaderObjects();
 
 	initShaderPrograms();
+
+	mpChickWalkingData = new AnimationData(&mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
+	mpChickWalking = new Animation(mpChickWalkingData, 8);
+
+	mTimePerFrame = 1.0f / mFPS;
+	mDeltaTime = 0.0f;
+	mpTimer = new Timer();
 }
 
 void Game::initShaderObjects()
@@ -135,6 +153,18 @@ void Game::cleanup()
 	delete mpFaceTexture;
 	mpFaceTexture = nullptr;
 
+	delete mpChickWalking;
+	mpChickWalking = nullptr;
+
+	delete mpChickWalkingData;
+	mpChickWalkingData = nullptr;
+
+	delete mpChickWalkingTexture;
+	mpChickWalkingTexture = nullptr;
+
+	delete mpTimer;
+	mpTimer = nullptr;
+
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();
 	mpGraphicsSystem = nullptr;
@@ -152,9 +182,17 @@ void Game::play()
 
 bool Game::gameLoop()
 {
+
 	input();
 	update();
-	return render();
+	bool result = render();
+
+	mpTimer->sleepUntilElapsed(mTimePerFrame * 1000);
+	mDeltaTime = mpTimer->getElapsedTime();
+	cout << "Delta Time: " << mDeltaTime << endl;
+	mpTimer->start();
+
+	return result;
 }
 
 void Game::input()
@@ -201,6 +239,8 @@ void Game::input()
 
 void Game::update()
 {
+	mpChickWalking->update(mDeltaTime);
+
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", Vector2D(600.0f, 600.0f));
 	mpGraphicsSystem->setVec2Uniform("Yellow", "uResolution", Vector2D(600.0f, 600.0f));
@@ -208,7 +248,8 @@ void Game::update()
 
 bool Game::render()
 {
-	mpGraphicsSystem->draw(*mpTestSprite);
+	//mpGraphicsSystem->draw(*mpTestSprite);
+	mpGraphicsSystem->draw(*mpChickWalking);
 
 	return mpGraphicsSystem->render();
 }

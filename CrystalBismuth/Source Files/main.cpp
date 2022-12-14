@@ -13,7 +13,7 @@ int main()
 
 	Game* game = Game::getInstance();
 
-	game->init();
+	game->init(60);
 
 	game->play();
 
