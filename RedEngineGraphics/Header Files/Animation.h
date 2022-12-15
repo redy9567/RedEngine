@@ -9,7 +9,9 @@ class Animation : public Trackable
 
 public:
 	friend class GraphicsSystem;
+	friend class AnimationManager;
 
+private:
 	Animation(AnimationData* data, int mFPS);
 	~Animation();
 
@@ -17,7 +19,6 @@ public:
 
 	void update(float deltaTime);
 
-private:
 	Animation() = delete;
 
 	Sprite* getCurrentSprite();

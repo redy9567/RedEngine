@@ -17,6 +17,7 @@ typedef unsigned int ShaderProgramIndex;
 class ShaderProgram;
 class Texture2D;
 class ShaderManager;
+class AnimationManager;
 
 class GraphicsSystem : public Trackable
 {
@@ -44,10 +45,12 @@ public:
 	bool init(int displayWidth, int displayHeight);
 	void cleanup();
 
+	void update(float deltaTime);
+
 	void setActiveShaderProgram(std::string program);
 	void draw(Mesh2D& mesh);
 	void draw(Sprite& sprite);
-	void draw(Animation& anim);
+	void draw(std::string animationKey);
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
@@ -67,6 +70,14 @@ public:
 	bool attachShaderToProgram(std::string programKey, std::string shaderKey);
 	void activateFloatAttributeOnProgram(std::string key, int index, int dimensions);
 	bool linkShaderProgram(std::string key);
+
+	//AnimationData
+	void createAndAddAnimationData(std::string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
+	void removeAnimationData(std::string key);
+
+	//Animation
+	bool createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
+	void removeAnimation(std::string key);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
@@ -112,6 +123,7 @@ private:
 	static GraphicsSystem* mspInstance;
 
 	ShaderManager* mpShaderManager;
+	AnimationManager* mpAnimationManager;
 
 	DrawMode mDrawMode;
 

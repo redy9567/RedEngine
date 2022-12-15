@@ -149,6 +149,7 @@
     <ClInclude Include="..\glad\KHR\khrplatform.h" />
     <ClInclude Include="Header Files\Animation.h" />
     <ClInclude Include="Header Files\AnimationData.h" />
+    <ClInclude Include="Header Files\AnimationManager.h" />
     <ClInclude Include="Header Files\GraphicsSystem.h" />
     <ClInclude Include="Header Files\Mesh2D.h" />
     <ClInclude Include="Header Files\Shader.h" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="Source Files\Animation.cpp" />
     <ClCompile Include="Source Files\AnimationData.cpp" />
+    <ClCompile Include="Source Files\AnimationManager.cpp" />
     <ClCompile Include="Source Files\glad\glad.c" />
     <ClCompile Include="Source Files\GraphicsSystem.cpp" />
     <ClCompile Include="Source Files\Mesh2D.cpp" />

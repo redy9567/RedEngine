@@ -50,7 +50,4 @@ private:
 	Texture2D** mpTextureCollection;
 	Sprite* mpTestSprite;
 
-	AnimationData* mpChickWalkingData;
-	Animation* mpChickWalking;
-
 };

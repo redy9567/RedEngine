@@ -10,11 +10,11 @@ class AnimationData : public Trackable
 
 public:
 	friend class Animation;
-
-	AnimationData(Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
-	~AnimationData();
+	friend class AnimationManager;
 
 private:
+	AnimationData(Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
+	~AnimationData();
 	AnimationData() = delete;
 
 	Sprite* getSprite(int index);

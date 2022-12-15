@@ -13,6 +13,7 @@
 #include "ShaderManager.h"
 #include "Sprite.h"
 #include "Animation.h"
+#include "AnimationManager.h"
 
 using namespace std;
 
@@ -92,6 +93,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
 
+	mpAnimationManager = AnimationManager::getInstance();
+	mpAnimationManager->init();
+
 	cout << "Well here we are!" << endl;
 
 	mCurrentShaderProgram = "";
@@ -104,6 +108,9 @@ void GraphicsSystem::cleanup()
 {
 	mpShaderManager->cleanup();
 	ShaderManager::cleanupInstance();
+
+	mpAnimationManager->cleanup();
+	AnimationManager::cleanupInstance();
 
 	glfwTerminate();
 	mInit = false;
@@ -214,9 +221,11 @@ void GraphicsSystem::draw(Sprite& sprite)
 	glDrawElements(GL_TRIANGLES, sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(Animation& anim)
+void GraphicsSystem::draw(std::string animationKey)
 {
-	Sprite* currentSprite = anim.getCurrentSprite();
+	Animation* anim = mpAnimationManager->getAnimation(animationKey);
+
+	Sprite* currentSprite = anim->getCurrentSprite();
 	if (currentSprite == nullptr)
 		return;
 
@@ -563,4 +572,29 @@ void GraphicsSystem::activateFloatAttributeOnProgram(string key, int index, int 
 bool GraphicsSystem::linkShaderProgram(string key)
 {
 	return mpShaderManager->linkShaderProgram(key);
+}
+
+void GraphicsSystem::createAndAddAnimationData(string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale)
+{
+	mpAnimationManager->createAndAddAnimationData(key, texture, numHorizontal, numVertical, scale);
+}
+
+void GraphicsSystem::removeAnimationData(string key)
+{
+	mpAnimationManager->removeAnimationData(key);
+}
+
+bool GraphicsSystem::createAndAddAnimation(string key, string animationDataKey, int mFPS)
+{
+	return mpAnimationManager->createAndAddAnimation(key, animationDataKey, mFPS);
+}
+
+void GraphicsSystem::removeAnimation(string key)
+{
+	mpAnimationManager->removeAnimation(key);
+}
+
+void GraphicsSystem::update(float deltaTime)
+{
+	mpAnimationManager->update(deltaTime);
 }

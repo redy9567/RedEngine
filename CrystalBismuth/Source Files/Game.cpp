@@ -47,8 +47,6 @@ Game::Game()
 
 	mpTextureCollection = nullptr;
 
-	mpChickWalking = nullptr;
-	mpChickWalkingData = nullptr;
 	mpChickWalkingTexture = nullptr;
 }
 
@@ -109,8 +107,8 @@ void Game::init(int mFPS)
 
 	initShaderPrograms();
 
-	mpChickWalkingData = new AnimationData(&mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
-	mpChickWalking = new Animation(mpChickWalkingData, 8);
+	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
+	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
 
 	mTimePerFrame = 1.0f / mFPS;
 	mDeltaTime = 0.0f;
@@ -152,12 +150,6 @@ void Game::cleanup()
 
 	delete mpFaceTexture;
 	mpFaceTexture = nullptr;
-
-	delete mpChickWalking;
-	mpChickWalking = nullptr;
-
-	delete mpChickWalkingData;
-	mpChickWalkingData = nullptr;
 
 	delete mpChickWalkingTexture;
 	mpChickWalkingTexture = nullptr;
@@ -239,7 +231,7 @@ void Game::input()
 
 void Game::update()
 {
-	mpChickWalking->update(mDeltaTime);
+	mpGraphicsSystem->update(mDeltaTime);
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", Vector2D(600.0f, 600.0f));
@@ -249,7 +241,7 @@ void Game::update()
 bool Game::render()
 {
 	mpGraphicsSystem->draw(*mpTestSprite);
-	mpGraphicsSystem->draw(*mpChickWalking);
+	mpGraphicsSystem->draw("Chicken1");
 
 	return mpGraphicsSystem->render();
 }
