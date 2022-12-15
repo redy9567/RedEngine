@@ -1,6 +1,6 @@
 #include "Color.h"
 
-RColor::RColor()
+Color::Color()
 {
 	mR = 0;
 	mG = 0;
@@ -8,12 +8,12 @@ RColor::RColor()
 	mA = 255;
 }
 
-RColor::~RColor()
+Color::~Color()
 {
 
 }
 
-RColor::RColor(int red, int green, int blue, int alpha)
+Color::Color(int red, int green, int blue, int alpha)
 {
 	mR = red;
 	mG = green;
@@ -21,7 +21,7 @@ RColor::RColor(int red, int green, int blue, int alpha)
 	mA = alpha;
 }
 
-RColor::RColor(float red, float green, float blue, float alpha)
+Color::Color(float red, float green, float blue, float alpha)
 {
 	mR = (int)(red * MAX_COLOR_VALUE);
 	mG = (int)(green * MAX_COLOR_VALUE);

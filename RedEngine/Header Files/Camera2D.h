@@ -3,13 +3,13 @@
 #include "Trackable.h"
 #include "Vector2D.h"
 
-class RCamera2D : public Trackable
+class Camera2D : public Trackable
 {
 
 public:
-    RCamera2D();
-    RCamera2D(Vector2D location);
-    ~RCamera2D();
+    Camera2D();
+    Camera2D(Vector2D location);
+    ~Camera2D();
 
     void setLoc(Vector2D location) { mLoc = location; }
 
