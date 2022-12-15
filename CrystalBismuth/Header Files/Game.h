@@ -8,6 +8,7 @@ class ShaderManager;
 class AnimationData;
 class Animation;
 class Timer;
+class InputSystem;
 
 class Game : public Trackable
 {
@@ -35,6 +36,7 @@ private:
 
 	static Game* mspInstance;
 	GraphicsSystem* mpGraphicsSystem;
+	InputSystem* mpInputSystem;
 
 	float mTimePerFrame;
 	Timer* mpTimer;

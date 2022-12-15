@@ -35,6 +35,7 @@ void GraphicsSystem::cleanupInstance()
 			mspInstance->cleanup();
 
 		delete mspInstance;
+		mspInstance = nullptr;
 	}
 		
 }
@@ -318,31 +319,6 @@ void GraphicsSystem::setActiveShaderProgram(string program)
 	mCurrentShaderProgram = program;
 }
 
-bool GraphicsSystem::getKey(Key key)
-{
-	unsigned int glfwKey = 0;
-
-	switch (key)
-	{
-	case Key::F1:
-		glfwKey = GLFW_KEY_F1;
-		break;
-
-	case Key::F2:
-		glfwKey = GLFW_KEY_F2;
-		break;
-
-	case Key::F4:
-		glfwKey = GLFW_KEY_F4;
-		break;
-
-	default:
-		return false;
-	}
-
-	return glfwGetKey(mWindow, glfwKey);
-}
-
 void GraphicsSystem::setDrawMode(DrawMode mode)
 {
 	switch (mode)
@@ -597,4 +573,9 @@ void GraphicsSystem::removeAnimation(string key)
 void GraphicsSystem::update(float deltaTime)
 {
 	mpAnimationManager->update(deltaTime);
+}
+
+bool GraphicsSystem::_imGetKey(unsigned int keyCode, GraphicsSystemIMKey key)
+{
+	return glfwGetKey(mWindow, keyCode);
 }

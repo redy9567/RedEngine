@@ -23,11 +23,13 @@ class GraphicsSystem : public Trackable
 {
 
 public:
-	enum class Key
+	class GraphicsSystemIMKey
 	{
-		F1,
-		F2,
-		F4
+	public:
+		friend class InputSystem;
+
+	private:
+		GraphicsSystemIMKey() {};
 	};
 
 	enum class DrawMode
@@ -79,9 +81,10 @@ public:
 	bool createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
 	void removeAnimation(std::string key);
 
-	DrawMode getDrawMode() { return mDrawMode; }
+	//IM functions intended for Input Manager Class use
+	bool _imGetKey(unsigned int keyCode, GraphicsSystemIMKey key);
 
-	bool getKey(Key);
+	DrawMode getDrawMode() { return mDrawMode; }
 
 	bool render();
 

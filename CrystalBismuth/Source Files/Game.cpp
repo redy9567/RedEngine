@@ -9,6 +9,7 @@
 #include "Animation.h"
 #include "AnimationData.h"
 #include "Timer.h"
+#include "InputSystem.h"
 
 #include <assert.h>
 #include <iostream>
@@ -100,6 +101,7 @@ void Game::init(int mFPS)
 	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D(0.0f, 100.0f), Vector2D(0.0f, 500.0f), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight() / 2));
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
+	mpInputSystem = InputSystem::getInstance();
 
 	assert(mpGraphicsSystem->init(600, 600));
 
@@ -157,6 +159,8 @@ void Game::cleanup()
 	delete mpTimer;
 	mpTimer = nullptr;
 
+	InputSystem::cleanupInstance();
+
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();
 	mpGraphicsSystem = nullptr;
@@ -189,7 +193,7 @@ bool Game::gameLoop()
 
 void Game::input()
 {
-	bool keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F1);
+	bool keyState = mpInputSystem->getKey(InputSystem::KeyCode::F1);
 	if (keyState && !mInputLastF1State)
 	{
 		switch (mpGraphicsSystem->getDrawMode())
@@ -205,7 +209,7 @@ void Game::input()
 	}
 	mInputLastF1State = keyState;
 
-	keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F2);
+	keyState = mpInputSystem->getKey(InputSystem::KeyCode::F2);
 	if (keyState && !mInputLastF2State)
 	{
 		if (mpGraphicsSystem->getCurrentShaderProgram() == "Textured")
@@ -215,7 +219,7 @@ void Game::input()
 	}
 	mInputLastF2State = keyState;
 	
-	keyState = mpGraphicsSystem->getKey(GraphicsSystem::Key::F4);
+	keyState = mpInputSystem->getKey(InputSystem::KeyCode::F4);
 	if (keyState && !mInputLastF4State)
 	{
 		mpGraphicsSystem->reloadShader("Textured Vert");
