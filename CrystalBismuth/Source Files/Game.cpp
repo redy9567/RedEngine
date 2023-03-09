@@ -112,6 +112,8 @@ void Game::init(int mFPS)
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
 
+	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 36);
+
 	mTimePerFrame = 1.0f / mFPS;
 	mDeltaTime = 0.0f;
 	mpTimer = new Timer();
@@ -123,6 +125,8 @@ void Game::initShaderObjects()
 	mpGraphicsSystem->createAndAddShader("Textured Frag", FRAGMENT_SHADER, "textured.frag");
 	mpGraphicsSystem->createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
 	mpGraphicsSystem->createAndAddShader("Yellow Frag", FRAGMENT_SHADER, "yellow.frag");
+	mpGraphicsSystem->createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
+	mpGraphicsSystem->createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
 }
 
 void Game::initShaderPrograms()
@@ -134,6 +138,9 @@ void Game::initShaderPrograms()
 	mpGraphicsSystem->createAndAddShaderProgram("Yellow", "Basic Vert", "Yellow Frag");
 	mpGraphicsSystem->linkShaderProgram("Yellow");
 	mpGraphicsSystem->activateFloatAttributeOnProgram("Yellow", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	mpGraphicsSystem->createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
+	mpGraphicsSystem->linkShaderProgram("Text");
 
 	mpGraphicsSystem->setActiveShaderProgram("Textured");
 }
@@ -240,12 +247,15 @@ void Game::update()
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", Vector2D(600.0f, 600.0f));
 	mpGraphicsSystem->setVec2Uniform("Yellow", "uResolution", Vector2D(600.0f, 600.0f));
+	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", Vector2D(600.0f, 600.0f));
 }
 
 bool Game::render()
 {
 	mpGraphicsSystem->draw(*mpTestSprite);
 	mpGraphicsSystem->draw("Chicken1");
+
+	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 
 	return mpGraphicsSystem->render();
 }
