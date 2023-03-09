@@ -22,6 +22,8 @@ class ShaderManager;
 class AnimationManager;
 class FontManager;
 
+class DebugHUD;
+
 class GraphicsSystem : public Trackable
 {
 
@@ -43,6 +45,8 @@ public:
 
 	friend class Shader; // Change to the Graphics Key System
 	friend class ShaderProgram;
+
+	friend class DebugHUD; //So that the HUD can access private getter functions
 
 	static GraphicsSystem* getInstance();
 	static void cleanupInstance();
@@ -90,12 +94,19 @@ public:
 	void createAndAddFont(std::string key, std::string filepath, int pointSize = 12);
 	void removeAndDeleteFont(std::string key);
 
+	
+
+	//DebugHUD
+	void addToDebugHUD(std::string text);
+
 	//IM functions intended for Input Manager Class use
 	bool _imGetKey(unsigned int keyCode, GraphicsSystemIMKey key);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
 	bool render();
+
+	void setDebugMode(bool val) { mDebugMode = val; }
 
 	float getTime();
 	std::string getCurrentShaderProgram() { return mCurrentShaderProgram; }
@@ -133,6 +144,7 @@ private:
 	int getDisplayWidth() { return mDisplayWidth; }
 	int getDisplayHeight() { return mDisplayHeight; }
 
+	void drawDebugInfo();
 
 	GLFWwindow* mWindow;
 
@@ -142,11 +154,14 @@ private:
 	AnimationManager* mpAnimationManager;
 	FontManager* mpFontManager;
 
+	DebugHUD* mpDebugHUD;
+
 	DrawMode mDrawMode;
 
 	std::string mCurrentShaderProgram;
 
 	bool mInit;
+	bool mDebugMode;
 
 	int mDisplayWidth;
 	int mDisplayHeight;

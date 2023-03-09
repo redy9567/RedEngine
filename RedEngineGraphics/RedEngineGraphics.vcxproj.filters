@@ -448,7 +448,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fragment Shaders\yellow.frag">
+    <None Include="Fragment Shaders\green.frag">
       <Filter>Fragment Shaders</Filter>
     </None>
     <None Include="Vertex Shaders\basic.vert">

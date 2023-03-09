@@ -7,6 +7,8 @@ uniform vec2 uResolution;
 void main()
 {
 	vec2 normalizedPosition = vertex.xy / uResolution;
-	gl_Position = vec4(normalizedPosition, 0.0, 1.0f);
+	vec2 offsetPosition = (normalizedPosition * 2.0f - 1.0f) ; //Makes the bottom left (0,0)
+
+	gl_Position = vec4(offsetPosition, 0.0, 1.0f);
 	TexCoords = vertex.zw;
 }

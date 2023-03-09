@@ -15,7 +15,7 @@ void main()
 	
 	vec3 newPos = aPos * uModelMat;
 	vec2 normalizedPosition = newPos.xy / uResolution;
-	vec2 offsetPosition = (normalizedPosition - 1.0f); //Makes the bottom left (0,0)
+	vec2 offsetPosition = (normalizedPosition * 2.0f - 1.0f); //Makes the bottom left (0,0)
 
 	vColor = aColor;
 	vTexCoord = aTexCoord;

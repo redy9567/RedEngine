@@ -282,7 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\text.frag" />
-    <None Include="Fragment Shaders\yellow.frag" />
+    <None Include="Fragment Shaders\green.frag" />
     <None Include="Fragment Shaders\test.frag" />
     <None Include="Fragment Shaders\textured.frag" />
     <None Include="Fragment Shaders\triColor.frag" />

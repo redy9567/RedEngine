@@ -21,6 +21,8 @@ public:
 	void cleanup();
 	void play();
 
+	int debugGetFPS() { return mDebugMode ? 1 / mDeltaTime : -1; }
+
 private:
 	Game();
 	~Game();
@@ -41,10 +43,12 @@ private:
 	float mTimePerFrame;
 	Timer* mpTimer;
 	float mDeltaTime;
+	bool mDebugMode;
 
 	bool mInputLastF1State;
 	bool mInputLastF2State;
 	bool mInputLastF4State;
+	bool mInputLastF5State;
 
 	Texture2D* mpWallTexture;
 	Texture2D* mpFaceTexture;

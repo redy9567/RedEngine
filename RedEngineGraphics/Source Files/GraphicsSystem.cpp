@@ -16,6 +16,7 @@
 #include "AnimationManager.h"
 #include "Font.h"
 #include "FontManager.h"
+#include "DebugHUD.h"
 
 using namespace std;
 
@@ -45,6 +46,7 @@ void GraphicsSystem::cleanupInstance()
 GraphicsSystem::GraphicsSystem()
 {
 	mInit = false;
+	mDebugMode = false;
 	mWindow = nullptr;
 	mDrawMode = DrawMode::Fill;
 	mpShaderManager = nullptr;
@@ -108,6 +110,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpFontManager = FontManager::getInstance();
 	mpFontManager->init();
 
+	mpDebugHUD = DebugHUD::getInstance();
+	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
+
 	cout << "Well here we are!" << endl;
 
 	mCurrentShaderProgram = "";
@@ -127,12 +132,17 @@ void GraphicsSystem::cleanup()
 	mpFontManager->cleanup();
 	FontManager::cleanupInstance();
 
+	DebugHUD::cleanupInstnace();
+
 	glfwTerminate();
 	mInit = false;
 }
 
 bool GraphicsSystem::render()
 {
+	if(mDebugMode)
+		drawDebugInfo();
+
 	if (glfwWindowShouldClose(mWindow))
 		return false;
 
@@ -228,8 +238,8 @@ void GraphicsSystem::draw(Sprite& sprite)
 		bindMesh2D(sprite.mpMesh);
 	}
 
-	setMat3Uniform("Textured", "uModelMat", sprite);
-	setMat3Uniform("Yellow", "uModelMat", sprite);
+	setMat3Uniform("Textured", "uModelMat", sprite); //These game objects shouldn't need these uModelMats sent here. Need some gs funciton to be called by game.
+	setMat3Uniform("Green", "uModelMat", sprite);
 
 	setActiveShaderProgram(mCurrentShaderProgram);
 
@@ -310,6 +320,11 @@ void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vec
 	}
 
 	setActiveShaderProgram(mCurrentShaderProgram);
+}
+
+void GraphicsSystem::drawDebugInfo()
+{
+	mpDebugHUD->draw();
 }
 
 ShaderObjectIndex GraphicsSystem::sdCreateShader(SHADER_TYPE type)
@@ -728,4 +743,9 @@ void GraphicsSystem::createAndAddFont(string key, string filepath, int pointSize
 void GraphicsSystem::removeAndDeleteFont(string key)
 {
 	mpFontManager->removeAndDeleteFont(key);
+}
+
+void GraphicsSystem::addToDebugHUD(std::string text) 
+{
+	mpDebugHUD->addDebugValue(text); 
 }
