@@ -10,6 +10,7 @@ public:
 	Vector2D(float x, float y);
 	Vector2D(int x, int y);
 	Vector2D(double x, double y);
+	Vector2D(unsigned int x, unsigned int y);
 	~Vector2D();
 
 	Vector2D operator=(const Vector2D& other);
@@ -40,6 +41,14 @@ public:
 
 	float getX() const { return mX; }
 	float getY() const { return mY; }
+
+	void setX(float x) { mX = x; }
+	void setX(int x) { mX = (float)x; }
+	void setX(double x) { mX = (float)x; }
+
+	void setY(float y) { mY = y; }
+	void setY(int y) { mY = (float)y; }
+	void setY(double y) { mY = (float)y; }
 
 	static const Vector2D Zero() { return Vector2D(0, 0); }
 	static const Vector2D One() { return Vector2D(1, 1); }

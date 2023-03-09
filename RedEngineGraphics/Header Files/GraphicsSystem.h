@@ -2,12 +2,14 @@
 #include <string>
 #include "Trackable.h"
 #include "Vector2D.h"
+#include "Vector3D.h"
 
 struct GLFWwindow;
 
 class Mesh2D;
 class Sprite;
 class Animation;
+class Font;
 
 enum SHADER_TYPE;
 
@@ -18,6 +20,7 @@ class ShaderProgram;
 class Texture2D;
 class ShaderManager;
 class AnimationManager;
+class FontManager;
 
 class GraphicsSystem : public Trackable
 {
@@ -38,7 +41,7 @@ public:
 		Wireframe
 	};
 
-	friend class Shader;
+	friend class Shader; // Change to the Graphics Key System
 	friend class ShaderProgram;
 
 	static GraphicsSystem* getInstance();
@@ -53,11 +56,13 @@ public:
 	void draw(Mesh2D& mesh);
 	void draw(Sprite& sprite);
 	void draw(std::string animationKey);
+	void draw(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
 	void setIntegerUniform(std::string program, std::string uniformName, int value);
 	void setVec2Uniform(std::string program, std::string uniformName, Vector2D value);
+	void setVec3Uniform(std::string program, std::string uniformName, Vector3D value);
 	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite); //Make this not use sprite in the future? Need Mat implementations
 
 	//Shaders
@@ -80,6 +85,10 @@ public:
 	//Animation
 	bool createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
 	void removeAnimation(std::string key);
+
+	//Font
+	void createAndAddFont(std::string key, std::string filepath, int pointSize = 12);
+	void removeAndDeleteFont(std::string key);
 
 	//IM functions intended for Input Manager Class use
 	bool _imGetKey(unsigned int keyCode, GraphicsSystemIMKey key);
@@ -113,12 +122,16 @@ private:
 	//GLInitFunctions
 	void initMesh2D(Mesh2D*);
 	void initTexture2D(Texture2D*);
+	void initFont(Font*);
 
 	//Helper Draw Functions
 	void bindMesh2D(Mesh2D*);
 	void bindTexture2D(Texture2D*, unsigned int textureLocation);
 	void packGPUData(Mesh2D&, Vector2D scale = Vector2D::One());
 	void linkGPUData(Mesh2D&);
+
+	int getDisplayWidth() { return mDisplayWidth; }
+	int getDisplayHeight() { return mDisplayHeight; }
 
 
 	GLFWwindow* mWindow;
@@ -127,11 +140,15 @@ private:
 
 	ShaderManager* mpShaderManager;
 	AnimationManager* mpAnimationManager;
+	FontManager* mpFontManager;
 
 	DrawMode mDrawMode;
 
 	std::string mCurrentShaderProgram;
 
 	bool mInit;
+
+	int mDisplayWidth;
+	int mDisplayHeight;
 
 };

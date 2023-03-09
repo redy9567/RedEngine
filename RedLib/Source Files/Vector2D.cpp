@@ -32,6 +32,12 @@ Vector2D::Vector2D(double x, double y) //NOTE: loss of precision, used to remove
 	mY = (float)y;
 }
 
+Vector2D::Vector2D(unsigned int x, unsigned int y)
+{
+	mX = (float)x;
+	mY = (float)y;
+}
+
 Vector2D Vector2D::operator=(const Vector2D& other)
 {
 	mX = other.mX;

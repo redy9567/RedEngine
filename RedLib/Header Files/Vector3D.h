@@ -43,6 +43,7 @@ public:
 	float getZ() const { return mZ; }
 
 	static const Vector3D Zero() { return Vector3D(0, 0, 0); }
+	static const Vector3D One() { return Vector3D(1, 1, 1); }
 	static const Vector3D Left() { return Vector3D(-1, 0, 0); }
 	static const Vector3D Right() { return Vector3D(1, 0, 0); }
 	static const Vector3D Up() { return Vector3D(0, -1, 0); }

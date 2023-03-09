@@ -14,6 +14,8 @@
 #include "Sprite.h"
 #include "Animation.h"
 #include "AnimationManager.h"
+#include "Font.h"
+#include "FontManager.h"
 
 using namespace std;
 
@@ -46,6 +48,9 @@ GraphicsSystem::GraphicsSystem()
 	mWindow = nullptr;
 	mDrawMode = DrawMode::Fill;
 	mpShaderManager = nullptr;
+	mpAnimationManager = nullptr;
+	mDisplayHeight = 0;
+	mDisplayWidth = 0;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -56,6 +61,9 @@ GraphicsSystem::~GraphicsSystem()
 
 bool GraphicsSystem::init(int displayWidth, int displayHeight)
 {
+	mDisplayHeight = displayHeight;
+	mDisplayWidth = displayHeight;
+
 	//Initialize OpenGL, and set our context
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -97,6 +105,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpAnimationManager = AnimationManager::getInstance();
 	mpAnimationManager->init();
 
+	mpFontManager = FontManager::getInstance();
+	mpFontManager->init();
+
 	cout << "Well here we are!" << endl;
 
 	mCurrentShaderProgram = "";
@@ -112,6 +123,9 @@ void GraphicsSystem::cleanup()
 
 	mpAnimationManager->cleanup();
 	AnimationManager::cleanupInstance();
+
+	mpFontManager->cleanup();
+	FontManager::cleanupInstance();
 
 	glfwTerminate();
 	mInit = false;
@@ -222,7 +236,7 @@ void GraphicsSystem::draw(Sprite& sprite)
 	glDrawElements(GL_TRIANGLES, sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(std::string animationKey)
+void GraphicsSystem::draw(string animationKey)
 {
 	Animation* anim = mpAnimationManager->getAnimation(animationKey);
 
@@ -231,6 +245,71 @@ void GraphicsSystem::draw(std::string animationKey)
 		return;
 
 	draw(*currentSprite);
+}
+
+void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
+{
+	//No need to set active shader program, as setting a uniform sets the shader program as active
+	setVec3Uniform(shaderProgram, "textColor", color);
+
+	Font* font = mpFontManager->getFont(fontKey);
+
+	//Init
+	if (font->mCharacters.empty())
+	{
+		initFont(font);
+	}
+
+	if (mpFontManager->mVBO == -1)
+	{
+		glGenVertexArrays(1, &mpFontManager->mVAO);
+		glGenBuffers(1, &mpFontManager->mVBO);
+		glBindVertexArray(mpFontManager->mVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, mpFontManager->mVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+	}
+	//Bind
+	else
+	{
+		glBindVertexArray(mpFontManager->mVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, mpFontManager->mVBO);
+	}
+
+	//Pack Data & Draw
+
+	for (string::const_iterator c = text.begin(); c != text.end(); c++)
+	{
+		Font::Character ch = font->mCharacters.at(*c);
+
+		float x = loc.getX() + ch.bearing.getX() * scale;
+		float y = loc.getY() - (ch.size.getY() - ch.bearing.getY()) * scale;
+
+		float w = ch.size.getX() * scale;
+		float h = ch.size.getY() * scale;
+
+		float verticies[6][4] = { //Should this be changed? I think the x, y position might be flipped from game on y.
+			{x,		y + h,	0.0f, 0.0f },
+			{x,		y,		0.0f, 1.0f },
+			{x + w,	y,		1.0f, 1.0f },
+
+			{x,		y + h,	0.0f, 0.0f },
+			{x + w,	y,		1.0f, 1.0f },
+			{x + w, y + h,	1.0f, 0.0f }
+		};
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, ch.textureID);
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verticies), verticies);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		loc.setX(loc.getX() + (ch.advance >> 6) * scale);
+	}
+
+	setActiveShaderProgram(mCurrentShaderProgram);
 }
 
 ShaderObjectIndex GraphicsSystem::sdCreateShader(SHADER_TYPE type)
@@ -374,6 +453,19 @@ void GraphicsSystem::setVec2Uniform(std::string program, std::string uniformName
 	glUniform2f(uniformLocation, value.getX(), value.getY());
 }
 
+void GraphicsSystem::setVec3Uniform(std::string program, std::string uniformName, Vector3D value)
+{
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(sp->mSPI);
+	glUniform3f(uniformLocation, value.getX(), value.getY(), value.getZ());
+}
+
 void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite)
 {
 	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
@@ -422,6 +514,54 @@ void GraphicsSystem::initMesh2D(Mesh2D* mesh)
 	
 	//Setup Element Buffer Object
 	glGenBuffers(1, &mesh->mEBO);
+}
+
+void GraphicsSystem::initFont(Font* font)
+{
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	for (unsigned char c = 32; c <= 126; c++)
+	{
+		if (FT_Load_Char(font->mFontFace, c, FT_LOAD_RENDER))
+		{
+			std::cout << "ERROR::FREETYTPE: Failed to load Glyph: " << c << std::endl;
+			continue;
+		}
+
+		unsigned int texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RED,
+			font->mFontFace->glyph->bitmap.width,
+			font->mFontFace->glyph->bitmap.rows,
+			0,
+			GL_RED,
+			GL_UNSIGNED_BYTE,
+			font->mFontFace->glyph->bitmap.buffer
+		);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		Font::Character character
+		{
+			texture,
+			Vector2D(font->mFontFace->glyph->bitmap.width, font->mFontFace->glyph->bitmap.rows),
+			Vector2D(font->mFontFace->glyph->bitmap_left, font->mFontFace->glyph->bitmap_top),
+			font->mFontFace->glyph->advance.x
+		};
+
+		font->mCharacters.emplace(c, character);
+	}
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+	FT_Done_Face(font->mFontFace);
 }
 
 void GraphicsSystem::bindMesh2D(Mesh2D* mesh)
@@ -578,4 +718,14 @@ void GraphicsSystem::update(float deltaTime)
 bool GraphicsSystem::_imGetKey(unsigned int keyCode, GraphicsSystemIMKey key)
 {
 	return glfwGetKey(mWindow, keyCode);
+}
+
+void GraphicsSystem::createAndAddFont(string key, string filepath, int pointSize)
+{
+	mpFontManager->createAndAddFont(key, filepath, pointSize);
+}
+
+void GraphicsSystem::removeAndDeleteFont(string key)
+{
+	mpFontManager->removeAndDeleteFont(key);
 }

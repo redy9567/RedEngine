@@ -1,4 +1,3 @@
-#pragma once
 #include "AnimationManager.h"
 #include "AnimationData.h"
 #include "Animation.h"
@@ -83,6 +82,7 @@ bool AnimationManager::createAndAddAnimation(string key, string animationDataKey
 
 	Animation* anim = new Animation(data, mFPS);
 	mAnimations.emplace(key, anim);
+	return true;
 }
 
 void AnimationManager::removeAnimation(string key)
