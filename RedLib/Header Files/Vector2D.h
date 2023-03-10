@@ -32,6 +32,8 @@ public:
 	bool operator==(const Vector2D& other) const;
 	bool operator!=(const Vector2D& other) const;
 
+	float operator[](int) const;
+
 	std::ostream& write(std::ostream& out) const;
 
 	float length() const;

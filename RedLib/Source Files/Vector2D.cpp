@@ -1,5 +1,6 @@
 #include "Vector2D.h"
 #include <math.h>
+#include <assert.h>
 
 using namespace std;
 
@@ -167,4 +168,21 @@ bool Vector2D::operator==(const Vector2D& other) const
 bool Vector2D::operator!=(const Vector2D& other) const
 {
 	return !(mX == other.getX() && mY == other.getY());
+}
+
+float Vector2D::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return mX;
+		break;
+	case 1:
+		return mY;
+		break;
+	default:
+		assert(false);
+		return -1.0f;
+		break;
+	}
 }

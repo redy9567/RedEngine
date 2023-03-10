@@ -1,5 +1,6 @@
 #include "Vector3D.h"
 #include <math.h>
+#include <assert.h>
 
 using namespace std;
 
@@ -172,4 +173,24 @@ bool Vector3D::operator==(const Vector3D& other) const
 bool Vector3D::operator!=(const Vector3D& other) const
 {
 	return !(mX == other.getX() && mY == other.getY() && mZ == other.getZ());
+}
+
+float Vector3D::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return mX;
+		break;
+	case 1:
+		return mY;
+		break;
+	case 2:
+		return mZ;
+		break;
+	default:
+		assert(false);
+		return -1.0f;
+		break;
+	}
 }
