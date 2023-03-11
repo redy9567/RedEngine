@@ -146,6 +146,7 @@
     <ClInclude Include="Header Files\Trackable.h" />
     <ClInclude Include="Header Files\Vector2D.h" />
     <ClInclude Include="Header Files\Vector3D.h" />
+    <ClInclude Include="Header Files\Vector4D.h" />
     <ClInclude Include="Header Files\WinTimer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +155,7 @@
     <ClCompile Include="Source Files\Trackable.cpp" />
     <ClCompile Include="Source Files\Vector2D.cpp" />
     <ClCompile Include="Source Files\Vector3D.cpp" />
+    <ClCompile Include="Source Files\Vector4D.cpp" />
     <ClCompile Include="Source Files\WinTimer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

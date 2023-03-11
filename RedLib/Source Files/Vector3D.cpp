@@ -147,7 +147,7 @@ Vector3D Vector3D::normalized() const
 	if(len == 0.0f)
 		return Zero();
 	else if(len == 1.0f)
-		return Vector3D(mX, mY, mZ);
+		return *this;
 
 	return Vector3D(mX / len, mY / len, mZ / len);
 }

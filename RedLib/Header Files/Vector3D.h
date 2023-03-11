@@ -48,10 +48,8 @@ public:
 	static const Vector3D One() { return Vector3D(1, 1, 1); }
 	static const Vector3D Left() { return Vector3D(-1, 0, 0); }
 	static const Vector3D Right() { return Vector3D(1, 0, 0); }
-	static const Vector3D Up() { return Vector3D(0, -1, 0); }
-	static const Vector3D Down() { return Vector3D(0, 1, 0); }
-	static const Vector3D GraphicalUp() { return Vector3D(0, 1, 0); }
-	static const Vector3D GraphicalDown() { return Vector3D(0, -1, 0); }
+	static const Vector3D Up() { return Vector3D(0, 1, 0); }
+	static const Vector3D Down() { return Vector3D(0, -1, 0); }
 	static const Vector3D Forward() { return Vector3D(0, 0, 1); }
 	static const Vector3D Backward() { return Vector3D(0, 0, -1); }
 

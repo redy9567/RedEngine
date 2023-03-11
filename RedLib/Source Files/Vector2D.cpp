@@ -142,7 +142,7 @@ Vector2D Vector2D::normalized() const
 	if(len == 0.0f)
 		return Zero();
 	else if(len == 1.0f)
-		return Vector2D(mX, mY);
+		return *this;
 
 	return Vector2D(mX / len, mY / len);
 }
