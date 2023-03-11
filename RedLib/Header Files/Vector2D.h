@@ -2,6 +2,8 @@
 #include "Trackable.h"
 #include <ostream>
 
+class Matrix2D;
+
 class Vector2D : public Trackable
 {
 
@@ -25,6 +27,7 @@ public:
 	Vector2D operator/(const double scalar) const;
 	
 	float operator*(const Vector2D& other) const;
+	Vector2D operator*(const Matrix2D& other) const;
 
 	Vector2D operator+=(const Vector2D& other);
 	Vector2D operator-=(const Vector2D& other);

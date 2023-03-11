@@ -1,6 +1,7 @@
 #include "Vector2D.h"
 #include <math.h>
 #include <assert.h>
+#include <Matrix2D.h>
 
 using namespace std;
 
@@ -195,4 +196,9 @@ float Vector2D::Dot(const Vector2D a, const Vector2D b)
 float Vector2D::operator*(const Vector2D& other) const
 {
 	return Dot(*this, other);
+}
+
+Vector2D Vector2D::operator*(const Matrix2D& other) const
+{
+	return Vector2D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)));
 }

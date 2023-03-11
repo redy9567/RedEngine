@@ -41,6 +41,14 @@ Vector4D::Vector4D(double x, double y, double z, double w) //NOTE: loss of preci
 	mW = (float)w;
 }
 
+Vector4D::Vector4D(unsigned int x, unsigned int y, unsigned int z, unsigned int w)
+{
+	mX = (float)x;
+	mY = (float)y;
+	mZ = (float)z;
+	mW = (float)w;
+}
+
 Vector4D Vector4D::operator=(const Vector4D& other)
 {
 	mX = other.mX;

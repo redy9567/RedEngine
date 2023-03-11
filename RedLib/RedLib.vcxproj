@@ -141,6 +141,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Header Files\Matrix2D.h" />
+    <ClInclude Include="Header Files\Matrix3D.h" />
+    <ClInclude Include="Header Files\Matrix4D.h" />
     <ClInclude Include="Header Files\MemoryTracker.h" />
     <ClInclude Include="Header Files\Timer.h" />
     <ClInclude Include="Header Files\Trackable.h" />
@@ -150,6 +153,9 @@
     <ClInclude Include="Header Files\WinTimer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source Files\Matrix2D.cpp" />
+    <ClCompile Include="Source Files\Matrix3D.cpp" />
+    <ClCompile Include="Source Files\Matrix4D.cpp" />
     <ClCompile Include="Source Files\MemoryTracker.cpp" />
     <ClCompile Include="Source Files\Timer.cpp" />
     <ClCompile Include="Source Files\Trackable.cpp" />

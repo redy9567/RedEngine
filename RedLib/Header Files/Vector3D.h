@@ -10,6 +10,7 @@ public:
 	Vector3D(float x, float y, float z);
 	Vector3D(int x, int y, int z);
 	Vector3D(double x, double y, double z);
+	Vector3D(unsigned int x, unsigned int y, unsigned int z);
 	~Vector3D();
 
 	Vector3D operator=(const Vector3D& other);
