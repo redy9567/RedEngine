@@ -186,3 +186,13 @@ float Vector2D::operator[](int index) const
 		break;
 	}
 }
+
+float Vector2D::Dot(const Vector2D a, const Vector2D b)
+{
+	return a[0] * b[0] + a[1] * b[1];
+}
+
+float Vector2D::operator*(const Vector2D& other) const
+{
+	return Dot(*this, other);
+}

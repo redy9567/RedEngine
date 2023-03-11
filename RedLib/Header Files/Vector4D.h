@@ -23,6 +23,8 @@ public:
 	Vector4D operator*(const double scalar) const;
 	Vector4D operator/(const double scalar) const;
 
+	float operator*(const Vector4D& other) const;
+
 	Vector4D operator+=(const Vector4D& other);
 	Vector4D operator-=(const Vector4D& other);
 	Vector4D operator*=(const float scalar);
@@ -54,6 +56,7 @@ public:
 	static const Vector4D Forward() { return Vector4D(0, 0, 1, 1); }
 	static const Vector4D Backward() { return Vector4D(0, 0, -1, 1); }
 
+	static float Dot(const Vector4D a, const Vector4D b);
 
 private:
 	float mX, mY, mZ, mW;

@@ -207,3 +207,13 @@ float Vector4D::operator[](int index) const
 		break;
 	}
 }
+
+float Vector4D::Dot(const Vector4D a, const Vector4D b)
+{
+	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
+}
+
+float Vector4D::operator*(const Vector4D& other) const
+{
+	return Dot(*this, other);
+}

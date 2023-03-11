@@ -194,3 +194,22 @@ float Vector3D::operator[](int index) const
 		break;
 	}
 }
+
+float Vector3D::Dot(const Vector3D a, const Vector3D b)
+{
+	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+float Vector3D::operator*(const Vector3D& other) const
+{
+	return Dot(*this, other);
+}
+
+Vector3D Vector3D::Cross(const Vector3D a, const Vector3D b)
+{
+	return Vector3D(
+		a.mY * b.mZ - a.mZ * b.mY,
+		a.mZ * b.mX - a.mX * b.mZ,
+		a.mX * b.mY - a.mY * b.mX
+	);
+}

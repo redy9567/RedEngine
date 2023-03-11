@@ -23,6 +23,8 @@ public:
 	Vector2D operator/(const int scalar) const;
 	Vector2D operator*(const double scalar) const;
 	Vector2D operator/(const double scalar) const;
+	
+	float operator*(const Vector2D& other) const;
 
 	Vector2D operator+=(const Vector2D& other);
 	Vector2D operator-=(const Vector2D& other);
@@ -58,6 +60,8 @@ public:
 	static const Vector2D Right() { return Vector2D(1, 0); }
 	static const Vector2D Up() { return Vector2D(0, 1); }
 	static const Vector2D Down() { return Vector2D(0, -1); }
+
+	static float Dot(const Vector2D a, const Vector2D b);
 
 private:
 	float mX, mY;

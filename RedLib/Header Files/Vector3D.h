@@ -23,6 +23,8 @@ public:
 	Vector3D operator*(const double scalar) const;
 	Vector3D operator/(const double scalar) const;
 
+	float operator*(const Vector3D& other) const;
+
 	Vector3D operator+=(const Vector3D& other);
 	Vector3D operator-=(const Vector3D& other);
 	Vector3D operator*=(const float scalar);
@@ -53,6 +55,8 @@ public:
 	static const Vector3D Forward() { return Vector3D(0, 0, 1); }
 	static const Vector3D Backward() { return Vector3D(0, 0, -1); }
 
+	static float Dot(const Vector3D a, const Vector3D b);
+	static Vector3D Cross(const Vector3D a, const Vector3D b);
 
 private:
 	float mX, mY, mZ;
