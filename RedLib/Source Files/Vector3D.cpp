@@ -1,5 +1,6 @@
 #include "Vector3D.h"
 #include <math.h>
+#include <assert.h>
 
 using namespace std;
 
@@ -146,7 +147,7 @@ Vector3D Vector3D::normalized() const
 	if(len == 0.0f)
 		return Zero();
 	else if(len == 1.0f)
-		return Vector3D(mX, mY, mZ);
+		return *this;
 
 	return Vector3D(mX / len, mY / len, mZ / len);
 }
@@ -172,4 +173,43 @@ bool Vector3D::operator==(const Vector3D& other) const
 bool Vector3D::operator!=(const Vector3D& other) const
 {
 	return !(mX == other.getX() && mY == other.getY() && mZ == other.getZ());
+}
+
+float Vector3D::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return mX;
+		break;
+	case 1:
+		return mY;
+		break;
+	case 2:
+		return mZ;
+		break;
+	default:
+		assert(false);
+		return -1.0f;
+		break;
+	}
+}
+
+float Vector3D::Dot(const Vector3D a, const Vector3D b)
+{
+	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+float Vector3D::operator*(const Vector3D& other) const
+{
+	return Dot(*this, other);
+}
+
+Vector3D Vector3D::Cross(const Vector3D a, const Vector3D b)
+{
+	return Vector3D(
+		a.mY * b.mZ - a.mZ * b.mY,
+		a.mZ * b.mX - a.mX * b.mZ,
+		a.mX * b.mY - a.mY * b.mX
+	);
 }

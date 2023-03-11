@@ -1,5 +1,6 @@
 #include "Vector2D.h"
 #include <math.h>
+#include <assert.h>
 
 using namespace std;
 
@@ -141,7 +142,7 @@ Vector2D Vector2D::normalized() const
 	if(len == 0.0f)
 		return Zero();
 	else if(len == 1.0f)
-		return Vector2D(mX, mY);
+		return *this;
 
 	return Vector2D(mX / len, mY / len);
 }
@@ -167,4 +168,31 @@ bool Vector2D::operator==(const Vector2D& other) const
 bool Vector2D::operator!=(const Vector2D& other) const
 {
 	return !(mX == other.getX() && mY == other.getY());
+}
+
+float Vector2D::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return mX;
+		break;
+	case 1:
+		return mY;
+		break;
+	default:
+		assert(false);
+		return -1.0f;
+		break;
+	}
+}
+
+float Vector2D::Dot(const Vector2D a, const Vector2D b)
+{
+	return a[0] * b[0] + a[1] * b[1];
+}
+
+float Vector2D::operator*(const Vector2D& other) const
+{
+	return Dot(*this, other);
 }
