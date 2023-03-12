@@ -41,7 +41,6 @@ Game::Game()
 	mpGraphicsSystem = nullptr;
 	mpWallTexture = nullptr;
 	mpFaceTexture = nullptr;
-	mpTestSprite = nullptr;
 
 	mInputLastF1State = false;
 	mInputLastF2State = false;
@@ -71,38 +70,6 @@ void Game::init(int mFPS)
 	mpTextureCollection[0] = mpWallTexture;
 	mpTextureCollection[1] = mpFaceTexture;
 
-	//Verticies for our triangles
-	Vector2D verticies[] = {
-		Vector2D(-0.5f, -0.5f),
-		Vector2D(0.5f, -0.5f),
-		Vector2D(0.5f, 0.5f),
-		Vector2D(-0.5f, 0.5f)
-	};
-
-	//Colors for our verticies
-	Vector3D vertexColors[] = {
-		Vector3D(1.0f, 0.0f, 0.0f),
-		Vector3D(0.0f, 1.0f, 0.0f),
-		Vector3D(0.0f, 0.0f, 1.0f),
-		Vector3D(1.0f, 1.0f, 1.0f)
-	};
-
-	Vector2D textureCoords[]
-	{
-		Vector2D(0.0f, 0.0f),
-		Vector2D(1.0f, 0.0f),
-		Vector2D(1.0f, 1.0f),
-		Vector2D(0.0f, 1.0f),
-	};
-
-	//Vertex draw order
-	unsigned int drawOrder[] = {
-		0, 1, 2,
-		2, 0, 3
-	};
-
-	// = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, mpTextureCollection, 2, textureCoords);
-	mpTestSprite = new Sprite(&mpFaceTexture, Vector2D(0.0f, 100.0f), Vector2D(0.0f, 500.0f), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight() / 2));
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 	mpInputSystem = InputSystem::getInstance();
@@ -112,6 +79,8 @@ void Game::init(int mFPS)
 	initShaderObjects();
 
 	initShaderPrograms();
+
+	mpGraphicsSystem->createAndAddSprite("faceSprite", &mpFaceTexture, Vector2D(0.0f, 100.0f), Vector2D(0.0f, 500.0f), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight() / 2));
 
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
@@ -152,9 +121,6 @@ void Game::initShaderPrograms()
 void Game::cleanup()
 {
 	//Delete Mesh2D objects
-	delete mpTestSprite;
-	mpTestSprite = nullptr;
-
 	delete mpTextureCollection;
 	mpTextureCollection = nullptr;
 
@@ -268,7 +234,7 @@ void Game::update()
 
 bool Game::render()
 {
-	mpGraphicsSystem->draw(*mpTestSprite);
+	mpGraphicsSystem->drawAllSprites();
 	mpGraphicsSystem->draw("Chicken1");
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));

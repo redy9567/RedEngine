@@ -9,15 +9,18 @@ class Sprite : public Trackable
 {
 public:
 	friend class GraphicsSystem;
+	friend class SpriteManager;
+	friend class AnimationData;
 
-	Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
-	~Sprite();
+	
 
 	Vector2D getSize() { return mSize; }
 	Vector2D getLocation() { return mLoc; }
 	Vector2D getScale() { return mScale; }
 	
 private:
+	Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
+	~Sprite();
 	Sprite() = delete;
 
 	Mesh2D* mpMesh;

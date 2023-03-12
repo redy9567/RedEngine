@@ -21,6 +21,7 @@ class Texture2D;
 class ShaderManager;
 class AnimationManager;
 class FontManager;
+class SpriteManager;
 
 class DebugHUD;
 
@@ -61,6 +62,7 @@ public:
 	void draw(Sprite& sprite);
 	void draw(std::string animationKey);
 	void draw(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
+	void drawAllSprites();
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
@@ -94,7 +96,10 @@ public:
 	void createAndAddFont(std::string key, std::string filepath, int pointSize = 12);
 	void removeAndDeleteFont(std::string key);
 
-	
+	//Sprites
+	void createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
+	void removeAndDeleteSprite(std::string key);
+
 
 	//DebugHUD
 	void addToDebugHUD(std::string text);
@@ -153,6 +158,7 @@ private:
 	ShaderManager* mpShaderManager;
 	AnimationManager* mpAnimationManager;
 	FontManager* mpFontManager;
+	SpriteManager* mpSpriteManager;
 
 	DebugHUD* mpDebugHUD;
 

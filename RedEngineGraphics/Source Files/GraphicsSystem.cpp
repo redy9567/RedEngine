@@ -17,6 +17,7 @@
 #include "Font.h"
 #include "FontManager.h"
 #include "DebugHUD.h"
+#include "SpriteManager.h"
 
 using namespace std;
 
@@ -51,6 +52,9 @@ GraphicsSystem::GraphicsSystem()
 	mDrawMode = DrawMode::Fill;
 	mpShaderManager = nullptr;
 	mpAnimationManager = nullptr;
+	mpSpriteManager = nullptr;
+	mpDebugHUD = nullptr;
+	mpFontManager = nullptr;
 	mDisplayHeight = 0;
 	mDisplayWidth = 0;
 }
@@ -104,6 +108,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
 
+	mpSpriteManager = SpriteManager::getInstance();
+	mpSpriteManager->init();
+
 	mpAnimationManager = AnimationManager::getInstance();
 	mpAnimationManager->init();
 
@@ -128,6 +135,9 @@ void GraphicsSystem::cleanup()
 
 	mpAnimationManager->cleanup();
 	AnimationManager::cleanupInstance();
+
+	mpSpriteManager->cleanup();
+	SpriteManager::cleanupInstance();
 
 	mpFontManager->cleanup();
 	FontManager::cleanupInstance();
@@ -748,4 +758,19 @@ void GraphicsSystem::removeAndDeleteFont(string key)
 void GraphicsSystem::addToDebugHUD(std::string text) 
 {
 	mpDebugHUD->addDebugValue(text); 
+}
+
+void GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
+{
+	mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, loc, size, scale);
+}
+
+void GraphicsSystem::removeAndDeleteSprite(string key)
+{
+	mpSpriteManager->removeAndDeleteSprite(key);
+}
+
+void GraphicsSystem::drawAllSprites()
+{
+	mpSpriteManager->draw();
 }

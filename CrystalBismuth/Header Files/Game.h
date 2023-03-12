@@ -37,23 +37,29 @@ private:
 	void initShaderPrograms();
 
 	static Game* mspInstance;
+
+
 	GraphicsSystem* mpGraphicsSystem;
 	InputSystem* mpInputSystem;
 
+	//Timing Stuff
 	float mTimePerFrame;
 	Timer* mpTimer;
 	float mDeltaTime;
+
+	//Are we in Debug Mode?
 	bool mDebugMode;
 
+	//Keyboard stuff
 	bool mInputLastF1State;
 	bool mInputLastF2State;
 	bool mInputLastF4State;
 	bool mInputLastF5State;
 
+	//Game Data
 	Texture2D* mpWallTexture;
 	Texture2D* mpFaceTexture;
 	Texture2D* mpChickWalkingTexture;
 	Texture2D** mpTextureCollection;
-	Sprite* mpTestSprite;
 
 };
