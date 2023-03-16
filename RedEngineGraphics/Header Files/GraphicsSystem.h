@@ -22,6 +22,8 @@ class ShaderManager;
 class AnimationManager;
 class FontManager;
 class SpriteManager;
+class GameObject2DManager;
+class GameObject2D;
 
 class DebugHUD;
 
@@ -59,17 +61,19 @@ public:
 
 	void setActiveShaderProgram(std::string program);
 	void draw(Mesh2D& mesh);
-	void draw(Sprite& sprite);
-	void draw(std::string animationKey);
+	void draw(Sprite& sprite, Vector2D location);
+	void draw(std::string animationKey, Vector2D location);
+	void draw(Animation& animation, Vector2D location);
+	void draw(GameObject2D* gameObject);
+	void draw(std::string gameObjctKey);
 	void draw(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
-	void drawAllSprites();
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
 	void setIntegerUniform(std::string program, std::string uniformName, int value);
 	void setVec2Uniform(std::string program, std::string uniformName, Vector2D value);
 	void setVec3Uniform(std::string program, std::string uniformName, Vector3D value);
-	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite); //Make this not use sprite in the future? Need Mat implementations
+	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location); //Make this not use sprite in the future? Need Mat implementations
 
 	//Shaders
 	bool createAndAddShader(std::string key, SHADER_TYPE type, std::string filename);
@@ -97,8 +101,13 @@ public:
 	void removeAndDeleteFont(std::string key);
 
 	//Sprites
-	void createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
+	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
 	void removeAndDeleteSprite(std::string key);
+
+	//GameObject2D
+	GameObject2D* createAndAddGameObject2D(std::string key, Sprite*, Vector2D loc = Vector2D::Zero());
+	GameObject2D* createAndAddGameObject2D(std::string key, Animation*, Vector2D loc = Vector2D::Zero());
+	void removeAndDeleteGameObject2D(std::string key);
 
 
 	//DebugHUD
@@ -159,6 +168,7 @@ private:
 	AnimationManager* mpAnimationManager;
 	FontManager* mpFontManager;
 	SpriteManager* mpSpriteManager;
+	GameObject2DManager* mpGameObjectManager;
 
 	DebugHUD* mpDebugHUD;
 

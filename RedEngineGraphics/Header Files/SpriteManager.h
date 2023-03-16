@@ -19,9 +19,7 @@ private:
 	void init();
 	void cleanup();
 
-	void draw();
-
-	void createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
+	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
 	void removeAndDeleteSprite(std::string key);
 
 	SpriteManager();

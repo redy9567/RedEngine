@@ -12,11 +12,11 @@ public:
 	friend class SpriteManager;
 	friend class AnimationData;
 
-	
-
 	Vector2D getSize() { return mSize; }
-	Vector2D getLocation() { return mLoc; }
 	Vector2D getScale() { return mScale; }
+
+	void setSize(Vector2D size) { mSize = size; }
+	void setScale(Vector2D scale) { mScale = scale; }
 	
 private:
 	Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
@@ -24,6 +24,6 @@ private:
 	Sprite() = delete;
 
 	Mesh2D* mpMesh;
-	Vector2D mLoc, mSize;
+	Vector2D mSize;
 	Vector2D mScale;
 };

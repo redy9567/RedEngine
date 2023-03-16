@@ -47,11 +47,13 @@ void SpriteManager::cleanup()
 	mSprites.clear();
 }
 
-void SpriteManager::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
+Sprite* SpriteManager::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
 {
 	Sprite* sprite = new Sprite(texture, textureStartLoc, loc, size, scale);
 
 	mSprites.emplace(key, sprite);
+
+	return sprite;
 }
 
 void SpriteManager::removeAndDeleteSprite(string key)
@@ -62,14 +64,5 @@ void SpriteManager::removeAndDeleteSprite(string key)
 	{
 		delete sprite;
 		mSprites.erase(key);
-	}
-}
-
-void SpriteManager::draw()
-{
-	GraphicsSystem* gs = GraphicsSystem::getInstance();
-	for (unordered_map<string, Sprite*>::iterator it = mSprites.begin(); it != mSprites.end(); it++)
-	{
-		gs->draw(*it->second);
 	}
 }

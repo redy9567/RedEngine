@@ -402,7 +402,13 @@
     <ClInclude Include="Header Files\FontManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteManager.h">
+    <ClInclude Include="Header Files\SpriteManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\GameObject2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\GameObject2DManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -450,6 +456,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\SpriteManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\GameObject2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\GameObject2DManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

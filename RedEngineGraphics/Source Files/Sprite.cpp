@@ -65,7 +65,6 @@ Sprite::Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vect
 	
 	mpMesh = new Mesh2D(verticies, 4, drawOrder, 6, vertexColors, texture, 1, textureCoords);
 
-	mLoc = loc;
 	mSize = size;
 	mScale = scale;
 }

@@ -9,6 +9,7 @@ class AnimationData;
 class Animation;
 class Timer;
 class InputSystem;
+//class Chicken;
 
 class Game : public Trackable
 {
@@ -57,9 +58,9 @@ private:
 	bool mInputLastF5State;
 
 	//Game Data
-	Texture2D* mpWallTexture;
-	Texture2D* mpFaceTexture;
 	Texture2D* mpChickWalkingTexture;
 	Texture2D** mpTextureCollection;
+
+	//Chicken* mpChicken;
 
 };

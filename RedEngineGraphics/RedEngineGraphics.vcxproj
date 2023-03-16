@@ -255,15 +255,17 @@
     <ClInclude Include="Header Files\FreeType\freetype\tttables.h" />
     <ClInclude Include="Header Files\FreeType\freetype\tttags.h" />
     <ClInclude Include="Header Files\FreeType\ft2build.h" />
+    <ClInclude Include="Header Files\GameObject2D.h" />
+    <ClInclude Include="Header Files\GameObject2DManager.h" />
     <ClInclude Include="Header Files\GraphicsSystem.h" />
     <ClInclude Include="Header Files\Mesh2D.h" />
     <ClInclude Include="Header Files\Shader.h" />
     <ClInclude Include="Header Files\ShaderManager.h" />
     <ClInclude Include="Header Files\ShaderProgram.h" />
     <ClInclude Include="Header Files\Sprite.h" />
+    <ClInclude Include="Header Files\SpriteManager.h" />
     <ClInclude Include="Header Files\stb\stb_image.h" />
     <ClInclude Include="Header Files\Texture2D.h" />
-    <ClInclude Include="SpriteManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Animation.cpp" />
@@ -272,6 +274,8 @@
     <ClCompile Include="Source Files\DebugHUD.cpp" />
     <ClCompile Include="Source Files\Font.cpp" />
     <ClCompile Include="Source Files\FontManager.cpp" />
+    <ClCompile Include="Source Files\GameObject2D.cpp" />
+    <ClCompile Include="Source Files\GameObject2DManager.cpp" />
     <ClCompile Include="Source Files\glad\glad.c" />
     <ClCompile Include="Source Files\GraphicsSystem.cpp" />
     <ClCompile Include="Source Files\Mesh2D.cpp" />

@@ -18,6 +18,8 @@
 #include "FontManager.h"
 #include "DebugHUD.h"
 #include "SpriteManager.h"
+#include "GameObject2DManager.h"
+#include "GameObject2D.h"
 
 using namespace std;
 
@@ -117,6 +119,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpFontManager = FontManager::getInstance();
 	mpFontManager->init();
 
+	mpGameObjectManager = GameObject2DManager::getInstance();
+	mpGameObjectManager->init();
+
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
@@ -130,6 +135,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 void GraphicsSystem::cleanup()
 {
+	mpGameObjectManager->cleanup();
+	GameObject2DManager::cleanupInstance();
+
 	mpShaderManager->cleanup();
 	ShaderManager::cleanupInstance();
 
@@ -210,7 +218,7 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	glDrawElements(GL_TRIANGLES, mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(Sprite& sprite)
+void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
 {
 	setActiveShaderProgram(mCurrentShaderProgram);
 
@@ -248,15 +256,15 @@ void GraphicsSystem::draw(Sprite& sprite)
 		bindMesh2D(sprite.mpMesh);
 	}
 
-	setMat3Uniform("Textured", "uModelMat", sprite); //These game objects shouldn't need these uModelMats sent here. Need some gs funciton to be called by game.
-	setMat3Uniform("Green", "uModelMat", sprite);
+	setMat3Uniform("Textured", "uModelMat", sprite, location); //These game objects shouldn't need these uModelMats sent here. Need some gs funciton to be called by game.
+	setMat3Uniform("Green", "uModelMat", sprite, location);
 
 	setActiveShaderProgram(mCurrentShaderProgram);
 
 	glDrawElements(GL_TRIANGLES, sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(string animationKey)
+void GraphicsSystem::draw(string animationKey, Vector2D location)
 {
 	Animation* anim = mpAnimationManager->getAnimation(animationKey);
 
@@ -264,7 +272,36 @@ void GraphicsSystem::draw(string animationKey)
 	if (currentSprite == nullptr)
 		return;
 
-	draw(*currentSprite);
+	draw(*currentSprite, location);
+}
+
+void GraphicsSystem::draw(Animation& animation, Vector2D location)
+{
+	Sprite* currentSprite = animation.getCurrentSprite();
+	if (currentSprite == nullptr)
+		return;
+
+	draw(*currentSprite, location);
+}
+
+void GraphicsSystem::draw(GameObject2D* obj)
+{
+	switch (obj->mDrawingMode)
+	{
+	case GameObject2D::SpriteMode:
+		draw(*obj->mImage.s, obj->mLoc);
+		break;
+	case GameObject2D::AnimationMode:
+		draw(*obj->mImage.a, obj->mLoc);
+		break;
+	}
+}
+
+void GraphicsSystem::draw(std::string gameObjectKey)
+{
+	GameObject2D* obj = mpGameObjectManager->getGameObject2D(gameObjectKey);
+
+	draw(obj);
 }
 
 void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
@@ -491,7 +528,7 @@ void GraphicsSystem::setVec3Uniform(std::string program, std::string uniformName
 	glUniform3f(uniformLocation, value.getX(), value.getY(), value.getZ());
 }
 
-void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite)
+void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location)
 {
 	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
 
@@ -502,8 +539,8 @@ void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName
 
 	glUseProgram(sp->mSPI);
 	float mat[] = {
-		sprite.mScale.getX(), 0.0f, sprite.mLoc.getX(),
-		0.0f, sprite.mScale.getY(), sprite.mLoc.getY(),
+		sprite.mScale.getX(), 0.0f, location.getX(),
+		0.0f, sprite.mScale.getY(), location.getY(),
 		0.0f, 0.0f, 1.0f
 	};
 	glUniformMatrix3fv(uniformLocation, 1, false, mat);
@@ -760,9 +797,9 @@ void GraphicsSystem::addToDebugHUD(std::string text)
 	mpDebugHUD->addDebugValue(text); 
 }
 
-void GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
+Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
 {
-	mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, loc, size, scale);
+	return mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, loc, size, scale);
 }
 
 void GraphicsSystem::removeAndDeleteSprite(string key)
@@ -770,7 +807,17 @@ void GraphicsSystem::removeAndDeleteSprite(string key)
 	mpSpriteManager->removeAndDeleteSprite(key);
 }
 
-void GraphicsSystem::drawAllSprites()
+GameObject2D* GraphicsSystem::createAndAddGameObject2D(string key, Sprite* sprite, Vector2D loc)
 {
-	mpSpriteManager->draw();
+	return mpGameObjectManager->createAndAddGameObject2D(key, sprite, loc);
+}
+
+GameObject2D* GraphicsSystem::createAndAddGameObject2D(string key, Animation* anim, Vector2D loc)
+{
+	return mpGameObjectManager->createAndAddGameObject2D(key, anim, loc);
+}
+
+void GraphicsSystem::removeAndDeleteGameObject2D(string key)
+{
+	mpGameObjectManager->removeAndDeleteGameObject2D(key);
 }

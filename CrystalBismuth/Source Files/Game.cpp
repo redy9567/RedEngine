@@ -11,6 +11,7 @@
 #include "Timer.h"
 #include "InputSystem.h"
 #include "DebugHUD.h"
+#include "Chicken.h";
 
 #include <assert.h>
 #include <iostream>
@@ -39,8 +40,6 @@ void Game::cleanupInstance()
 Game::Game()
 {
 	mpGraphicsSystem = nullptr;
-	mpWallTexture = nullptr;
-	mpFaceTexture = nullptr;
 
 	mInputLastF1State = false;
 	mInputLastF2State = false;
@@ -62,13 +61,11 @@ Game::~Game()
 void Game::init(int mFPS)
 {
 	//Texture for objects
-	mpWallTexture = new Texture2D("Resource Files/wall.jpg");
-	mpFaceTexture = new Texture2D("Resource Files/awesomeface.png", true);
-	mpChickWalkingTexture = new Texture2D("Resource Files/Chick Walking.png", true);
+	mpChickWalkingTexture = new Texture2D("Resource Files/Chicks/Animations/Chick Walking.png", true);
 
 	mpTextureCollection = new Texture2D * [2];
-	mpTextureCollection[0] = mpWallTexture;
-	mpTextureCollection[1] = mpFaceTexture;
+	//mpTextureCollection[0] = mpWallTexture;
+	//mpTextureCollection[1] = mpFaceTexture;
 
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
@@ -80,7 +77,7 @@ void Game::init(int mFPS)
 
 	initShaderPrograms();
 
-	mpGraphicsSystem->createAndAddSprite("faceSprite", &mpFaceTexture, Vector2D(0.0f, 100.0f), Vector2D(0.0f, 500.0f), Vector2D(mpFaceTexture->getWidth(), mpFaceTexture->getHeight() / 2));
+	//mpChicken = new Chicken();
 
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
@@ -124,14 +121,11 @@ void Game::cleanup()
 	delete mpTextureCollection;
 	mpTextureCollection = nullptr;
 
-	delete mpWallTexture;
-	mpWallTexture = nullptr;
-
-	delete mpFaceTexture;
-	mpFaceTexture = nullptr;
-
 	delete mpChickWalkingTexture;
 	mpChickWalkingTexture = nullptr;
+
+	//delete mpChicken;
+	//mpChicken = nullptr;
 
 	delete mpTimer;
 	mpTimer = nullptr;
@@ -234,8 +228,7 @@ void Game::update()
 
 bool Game::render()
 {
-	mpGraphicsSystem->drawAllSprites();
-	mpGraphicsSystem->draw("Chicken1");
+	mpGraphicsSystem->draw("Chicken1", Vector2D::One());
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 
