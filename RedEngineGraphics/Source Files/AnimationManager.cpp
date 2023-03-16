@@ -55,11 +55,13 @@ void AnimationManager::cleanup()
 	mAnimationData.clear();
 }
 
-void AnimationManager::createAndAddAnimationData(string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale)
+AnimationData* AnimationManager::createAndAddAnimationData(string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale)
 {
 	AnimationData* data = new AnimationData(texture, numHorizontal, numVertical, scale);
 
 	mAnimationData.emplace(key, data);
+
+	return data;
 }
 
 void AnimationManager::removeAnimationData(string key)
@@ -73,16 +75,16 @@ void AnimationManager::removeAnimationData(string key)
 	}
 }
 
-bool AnimationManager::createAndAddAnimation(string key, string animationDataKey, int mFPS)
+Animation* AnimationManager::createAndAddAnimation(string key, string animationDataKey, int mFPS)
 {
 	AnimationData* data = mAnimationData.at(animationDataKey);
 
 	if (!data)
-		return false;
+		return nullptr;
 
 	Animation* anim = new Animation(data, mFPS);
 	mAnimations.emplace(key, anim);
-	return true;
+	return anim;
 }
 
 void AnimationManager::removeAnimation(string key)
@@ -93,14 +95,5 @@ void AnimationManager::removeAnimation(string key)
 	{
 		delete anim;
 		mAnimations.erase(key);
-	}
-}
-
-void AnimationManager::update(float deltaTime)
-{
-	for (unordered_map<string, Animation*>::iterator it = mAnimations.begin();
-		it != mAnimations.end(); it++)
-	{
-		it->second->update(deltaTime);
 	}
 }

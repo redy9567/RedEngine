@@ -28,7 +28,6 @@ AnimationData::AnimationData(Texture2D** texture, int numHorizontal, int numVert
 				new Sprite(
 					texture,
 					Vector2D(j * spriteWidth, i * spriteHeight),
-					Vector2D(spriteWidth * j, 0),
 					Vector2D(spriteWidth, spriteHeight),
 					scale);
 		}

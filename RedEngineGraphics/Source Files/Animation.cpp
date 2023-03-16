@@ -2,12 +2,14 @@
 #include "AnimationData.h"
 #include "Sprite.h"
 
-Animation::Animation(AnimationData* data, int mFPS)
+Animation::Animation(AnimationData* data, int mFPS, bool isLooping)
 {
 	mData = data;
 	setFPS(mFPS);
 	mCurrentFrame = 0;
 	mTimer = 0.0f;
+	mIsLooping = isLooping;
+	mIsDone = false;
 }
 
 Animation::~Animation()
@@ -22,17 +24,32 @@ void Animation::setFPS(int fps)
 
 void Animation::update(float deltaTime)
 {
-	mTimer += deltaTime;
-
-	while (mTimer > mTimePerFrame)
+	if (!mIsDone)
 	{
-		mCurrentFrame++;
-		mTimer -= mTimePerFrame;
-	}
+		mTimer += deltaTime;
 
-	if(mData->mCount != 0)
-		while (mCurrentFrame >= mData->mCount)
-			mCurrentFrame -= mData->mCount;
+		while (mTimer > mTimePerFrame)
+		{
+			mCurrentFrame++;
+			mTimer -= mTimePerFrame;
+		}
+
+		if (mData->mCount != 0)
+		{
+			if (mIsLooping)
+				while (mCurrentFrame >= mData->mCount)
+					mCurrentFrame -= mData->mCount;
+			else
+				if (mCurrentFrame >= mData->mCount)
+				{
+					mCurrentFrame--;
+					mIsDone = true;
+				}
+					
+		}
+	}
+	
+		
 }
 
 Sprite* Animation::getCurrentSprite()

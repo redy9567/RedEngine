@@ -77,7 +77,7 @@ void Game::init(int mFPS)
 
 	initShaderPrograms();
 
-	//mpChicken = new Chicken();
+	mpChicken = new Chicken(5.0f);
 
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
@@ -124,8 +124,8 @@ void Game::cleanup()
 	delete mpChickWalkingTexture;
 	mpChickWalkingTexture = nullptr;
 
-	//delete mpChicken;
-	//mpChicken = nullptr;
+	delete mpChicken;
+	mpChicken = nullptr;
 
 	delete mpTimer;
 	mpTimer = nullptr;
@@ -216,6 +216,8 @@ void Game::update()
 {
 	mpGraphicsSystem->update(mDeltaTime);
 
+	mpChicken->update(mDeltaTime);
+
 	int fps = debugGetFPS();
 	if(fps != -1)
 		mpGraphicsSystem->addToDebugHUD("FPS: " + to_string(debugGetFPS()));
@@ -229,6 +231,8 @@ void Game::update()
 bool Game::render()
 {
 	mpGraphicsSystem->draw("Chicken1", Vector2D::One());
+
+	mpGraphicsSystem->draw(mpChicken);
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 

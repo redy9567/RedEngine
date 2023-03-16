@@ -20,6 +20,7 @@
 #include "SpriteManager.h"
 #include "GameObject2DManager.h"
 #include "GameObject2D.h"
+#include "AnimationData.h"
 
 using namespace std;
 
@@ -752,9 +753,9 @@ bool GraphicsSystem::linkShaderProgram(string key)
 	return mpShaderManager->linkShaderProgram(key);
 }
 
-void GraphicsSystem::createAndAddAnimationData(string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale)
+AnimationData* GraphicsSystem::createAndAddAnimationData(string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale)
 {
-	mpAnimationManager->createAndAddAnimationData(key, texture, numHorizontal, numVertical, scale);
+	return mpAnimationManager->createAndAddAnimationData(key, texture, numHorizontal, numVertical, scale);
 }
 
 void GraphicsSystem::removeAnimationData(string key)
@@ -762,7 +763,7 @@ void GraphicsSystem::removeAnimationData(string key)
 	mpAnimationManager->removeAnimationData(key);
 }
 
-bool GraphicsSystem::createAndAddAnimation(string key, string animationDataKey, int mFPS)
+Animation* GraphicsSystem::createAndAddAnimation(string key, string animationDataKey, int mFPS)
 {
 	return mpAnimationManager->createAndAddAnimation(key, animationDataKey, mFPS);
 }
@@ -774,7 +775,7 @@ void GraphicsSystem::removeAnimation(string key)
 
 void GraphicsSystem::update(float deltaTime)
 {
-	mpAnimationManager->update(deltaTime);
+	
 }
 
 bool GraphicsSystem::_imGetKey(unsigned int keyCode, GraphicsSystemIMKey key)
@@ -797,9 +798,9 @@ void GraphicsSystem::addToDebugHUD(std::string text)
 	mpDebugHUD->addDebugValue(text); 
 }
 
-Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
+Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale)
 {
-	return mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, loc, size, scale);
+	return mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, size, scale);
 }
 
 void GraphicsSystem::removeAndDeleteSprite(string key)

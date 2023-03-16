@@ -11,13 +11,15 @@ public:
 	friend class GraphicsSystem;
 	friend class AnimationManager;
 
-private:
-	Animation(AnimationData* data, int mFPS);
-	~Animation();
-
 	void setFPS(int fps);
 
 	void update(float deltaTime);
+
+	bool getIsDone() { return mIsLooping ? false : mIsDone; }
+
+private:
+	Animation(AnimationData* data, int mFPS, bool isLooping = false);
+	~Animation();
 
 	Animation() = delete;
 
@@ -27,5 +29,8 @@ private:
 	unsigned int mCurrentFrame;
 	float mTimePerFrame;
 	float mTimer;
+
+	bool mIsLooping;
+	bool mIsDone;
 
 };

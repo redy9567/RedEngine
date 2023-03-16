@@ -19,7 +19,7 @@ public:
 	void setScale(Vector2D scale) { mScale = scale; }
 	
 private:
-	Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
+	Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One());
 	~Sprite();
 	Sprite() = delete;
 

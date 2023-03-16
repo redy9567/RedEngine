@@ -9,6 +9,7 @@ struct GLFWwindow;
 class Mesh2D;
 class Sprite;
 class Animation;
+class AnimationData;
 class Font;
 
 enum SHADER_TYPE;
@@ -89,11 +90,11 @@ public:
 	bool linkShaderProgram(std::string key);
 
 	//AnimationData
-	void createAndAddAnimationData(std::string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
+	AnimationData* createAndAddAnimationData(std::string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
 	void removeAnimationData(std::string key);
 
 	//Animation
-	bool createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
+	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
 	void removeAnimation(std::string key);
 
 	//Font
@@ -101,7 +102,7 @@ public:
 	void removeAndDeleteFont(std::string key);
 
 	//Sprites
-	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale = Vector2D::One());
+	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One());
 	void removeAndDeleteSprite(std::string key);
 
 	//GameObject2D

@@ -21,14 +21,12 @@ private:
 	void init();
 	void cleanup();
 
-	void update(float deltaTime);
-
 	//AnimationData
-	void createAndAddAnimationData(std::string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
+	AnimationData* createAndAddAnimationData(std::string key, Texture2D** texture, int numHorizontal, int numVertical, Vector2D scale = Vector2D::One());
 	void removeAnimationData(std::string key);
 
 	//Animation
-	bool createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
+	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
 	void removeAnimation(std::string key);
 	Animation* getAnimation(std::string key) { return mAnimations.at(key); }
 

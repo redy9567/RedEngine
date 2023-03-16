@@ -130,9 +130,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Header Files\Chicken.h" />
     <ClInclude Include="Header Files\Game.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source Files\Chicken.cpp" />
     <ClCompile Include="Source Files\Game.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
   </ItemGroup>

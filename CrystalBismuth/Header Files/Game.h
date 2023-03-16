@@ -9,7 +9,7 @@ class AnimationData;
 class Animation;
 class Timer;
 class InputSystem;
-//class Chicken;
+class Chicken;
 
 class Game : public Trackable
 {
@@ -61,6 +61,6 @@ private:
 	Texture2D* mpChickWalkingTexture;
 	Texture2D** mpTextureCollection;
 
-	//Chicken* mpChicken;
+	Chicken* mpChicken;
 
 };

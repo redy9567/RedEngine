@@ -2,7 +2,7 @@
 #include "Mesh2D.h"
 #include "Texture2D.h"
 
-Sprite::Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D loc, Vector2D size, Vector2D scale)
+Sprite::Sprite(Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale)
 {
 
 	//Full Vertex Colors
