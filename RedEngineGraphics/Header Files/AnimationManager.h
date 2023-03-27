@@ -26,7 +26,7 @@ private:
 	void removeAnimationData(std::string key);
 
 	//Animation
-	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS);
+	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS, bool isLooping = false);
 	void removeAnimation(std::string key);
 	Animation* getAnimation(std::string key) { return mAnimations.at(key); }
 

@@ -75,14 +75,14 @@ void AnimationManager::removeAnimationData(string key)
 	}
 }
 
-Animation* AnimationManager::createAndAddAnimation(string key, string animationDataKey, int mFPS)
+Animation* AnimationManager::createAndAddAnimation(string key, string animationDataKey, int mFPS, bool isLooping)
 {
 	AnimationData* data = mAnimationData.at(animationDataKey);
 
 	if (!data)
 		return nullptr;
 
-	Animation* anim = new Animation(data, mFPS);
+	Animation* anim = new Animation(data, mFPS, isLooping);
 	mAnimations.emplace(key, anim);
 	return anim;
 }

@@ -763,9 +763,9 @@ void GraphicsSystem::removeAnimationData(string key)
 	mpAnimationManager->removeAnimationData(key);
 }
 
-Animation* GraphicsSystem::createAndAddAnimation(string key, string animationDataKey, int mFPS)
+Animation* GraphicsSystem::createAndAddAnimation(string key, string animationDataKey, int mFPS, bool isLooping)
 {
-	return mpAnimationManager->createAndAddAnimation(key, animationDataKey, mFPS);
+	return mpAnimationManager->createAndAddAnimation(key, animationDataKey, mFPS, isLooping);
 }
 
 void GraphicsSystem::removeAnimation(string key)
