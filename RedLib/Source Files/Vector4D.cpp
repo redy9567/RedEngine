@@ -1,6 +1,7 @@
 #include "Vector4D.h"
 #include <math.h>
 #include <assert.h>
+#include "Matrix4D.h"
 
 using namespace std;
 
@@ -224,4 +225,9 @@ float Vector4D::Dot(const Vector4D a, const Vector4D b)
 float Vector4D::operator*(const Vector4D& other) const
 {
 	return Dot(*this, other);
+}
+
+Vector4D Vector4D::operator*(const Matrix4D& other) const
+{
+	return Vector4D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)), Dot(*this, other.getColumn(2)), Dot(*this, other.getColumn(3)));
 }

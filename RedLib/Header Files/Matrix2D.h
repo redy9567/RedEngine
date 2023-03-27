@@ -47,7 +47,7 @@ public:
 	static const Matrix2D Identity() { return Matrix2D(1, 0, 0, 1); }
 
 private:
-	Vector2D firstRow, secondRow;
+	Vector2D mFirstRow, mSecondRow;
 
 };
 

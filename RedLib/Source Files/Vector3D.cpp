@@ -1,6 +1,7 @@
 #include "Vector3D.h"
 #include <math.h>
 #include <assert.h>
+#include "Matrix3D.h"
 
 using namespace std;
 
@@ -219,4 +220,9 @@ Vector3D Vector3D::Cross(const Vector3D a, const Vector3D b)
 		a.mZ * b.mX - a.mX * b.mZ,
 		a.mX * b.mY - a.mY * b.mX
 	);
+}
+
+Vector3D Vector3D::operator*(const Matrix3D& other) const
+{
+	return Vector3D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)), Dot(*this, other.getColumn(2)));
 }

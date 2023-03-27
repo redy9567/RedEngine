@@ -2,6 +2,8 @@
 #include "Trackable.h"
 #include <ostream>
 
+class Matrix3D;
+
 class Vector3D : public Trackable
 {
 
@@ -25,6 +27,7 @@ public:
 	Vector3D operator/(const double scalar) const;
 
 	float operator*(const Vector3D& other) const;
+	Vector3D operator*(const Matrix3D& other) const;
 
 	Vector3D operator+=(const Vector3D& other);
 	Vector3D operator-=(const Vector3D& other);
@@ -46,6 +49,18 @@ public:
 	float getX() const { return mX; }
 	float getY() const { return mY; }
 	float getZ() const { return mZ; }
+
+	void setX(float x) { mX = x; }
+	void setX(int x) { mX = (float)x; }
+	void setX(double x) { mX = (float)x; }
+
+	void setY(float y) { mY = y; }
+	void setY(int y) { mY = (float)y; }
+	void setY(double y) { mY = (float)y; }
+
+	void setZ(float z) { mZ = z; }
+	void setZ(int z) { mZ = (float)z; }
+	void setZ(double z) { mZ = (float)z; }
 
 	static const Vector3D Zero() { return Vector3D(0, 0, 0); }
 	static const Vector3D One() { return Vector3D(1, 1, 1); }

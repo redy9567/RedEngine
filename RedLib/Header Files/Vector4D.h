@@ -2,6 +2,8 @@
 #include "Trackable.h"
 #include <ostream>
 
+class Matrix4D;
+
 class Vector4D : public Trackable
 {
 
@@ -25,6 +27,7 @@ public:
 	Vector4D operator/(const double scalar) const;
 
 	float operator*(const Vector4D& other) const;
+	Vector4D operator*(const Matrix4D& other) const;
 
 	Vector4D operator+=(const Vector4D& other);
 	Vector4D operator-=(const Vector4D& other);
@@ -47,6 +50,22 @@ public:
 	float getY() const { return mY; }
 	float getZ() const { return mZ; }
 	float getW() const { return mW; }
+
+	void setX(float x) { mX = x; }
+	void setX(int x) { mX = (float)x; }
+	void setX(double x) { mX = (float)x; }
+
+	void setY(float y) { mY = y; }
+	void setY(int y) { mY = (float)y; }
+	void setY(double y) { mY = (float)y; }
+
+	void setZ(float z) { mZ = z; }
+	void setZ(int z) { mZ = (float)z; }
+	void setZ(double z) { mZ = (float)z; }
+
+	void setW(float w) { mW = w; }
+	void setW(int w) { mW = (float)w; }
+	void setW(double w) { mW = (float)w; }
 
 	static const Vector4D Zero() { return Vector4D(0, 0, 0, 0); }
 	static const Vector4D One() { return Vector4D(1, 1, 1, 1); }
