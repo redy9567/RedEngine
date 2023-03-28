@@ -30,15 +30,15 @@ void MemoryTracker::addAllocation(void* ptr, size_t size)
 {
 	AllocationRecord rec(msAllocationNum, size);
 	pair<void*, AllocationRecord> pair(ptr, rec);
-	mAllocaitons.insert(pair);
+	mAllocations.insert(pair);
 	msAllocationNum++;
 }
 
 void MemoryTracker::removeAllocation(void* ptr)
 {
-	unordered_map<void*, AllocationRecord>::iterator iter = mAllocaitons.find(ptr);
-	if (iter != mAllocaitons.end())
-		mAllocaitons.erase(iter);
+	unordered_map<void*, AllocationRecord>::iterator iter = mAllocations.find(ptr);
+	if (iter != mAllocations.end())
+		mAllocations.erase(iter);
 }
 
 void MemoryTracker::reportAllocations(ostream& stream)
@@ -46,7 +46,7 @@ void MemoryTracker::reportAllocations(ostream& stream)
 	stream << endl << "Current Memory Allocations:" << endl;
 
 	unordered_map<void*, AllocationRecord>::iterator iter;
-	for (iter = mAllocaitons.begin(); iter != mAllocaitons.end(); ++iter)
+	for (iter = mAllocations.begin(); iter != mAllocations.end(); ++iter)
 	{
 		stream << "Address:" << iter->first << " Size:" << iter->second.size << " Num:" << iter->second.num << endl;
 	}

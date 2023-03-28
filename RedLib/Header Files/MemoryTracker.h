@@ -26,7 +26,7 @@ private:
 	MemoryTracker() {};
 	~MemoryTracker() {};
 
-	std::unordered_map<void*, AllocationRecord> mAllocaitons;
+	std::unordered_map<void*, AllocationRecord> mAllocations;
 
 	static int msAllocationNum;
 	static MemoryTracker* mspInstance;
