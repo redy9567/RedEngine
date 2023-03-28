@@ -2,6 +2,7 @@
 #include <math.h>
 #include <assert.h>
 #include <Matrix2D.h>
+#include <string>
 
 using namespace std;
 
@@ -150,9 +151,14 @@ Vector2D Vector2D::normalized() const
 
 ostream& Vector2D::write(ostream& out) const
 {
-	out << "(" << mX << ", " << mY << ")";
+	out << toString();
 	
 	return out;
+}
+
+string Vector2D::toString() const
+{
+	return "(" + to_string(mX) + ", " + to_string(mY) + ")";
 }
 
 std::ostream& operator<<(std::ostream& out, Vector2D const &vec)

@@ -2,6 +2,7 @@
 #include <math.h>
 #include <assert.h>
 #include "Matrix3D.h"
+#include <string>
 
 using namespace std;
 
@@ -162,9 +163,14 @@ Vector3D Vector3D::normalized() const
 
 ostream& Vector3D::write(ostream& out) const
 {
-	out << "(" << mX << ", " << mY << ", " << mZ << ")";
+	out << toString();
 	
 	return out;
+}
+
+string Vector3D::toString() const
+{
+	return "(" + to_string(mX) + ", " + to_string(mY) + ", " + to_string(mZ) + ")";
 }
 
 std::ostream& operator<<(std::ostream& out, Vector3D const &vec)

@@ -40,6 +40,7 @@ public:
 	float operator[](int) const;
 
 	std::ostream& write(std::ostream& out) const;
+	std::string toString() const;
 
 	float length() const;
 	void normalize();

@@ -2,6 +2,7 @@
 #include <math.h>
 #include <assert.h>
 #include "Matrix4D.h"
+#include <string>
 
 using namespace std;
 
@@ -173,9 +174,14 @@ Vector4D Vector4D::normalized() const
 
 ostream& Vector4D::write(ostream& out) const
 {
-	out << "(" << mX << ", " << mY << ", " << mZ << ", " << mW << ")";
+	out << toString();
 	
 	return out;
+}
+
+string Vector4D::toString() const
+{
+	return "(" + to_string(mX) + ", " + to_string(mY) + ", " + to_string(mZ) + + ", " + to_string(mW) + ")";
 }
 
 std::ostream& operator<<(std::ostream& out, Vector4D const &vec)
