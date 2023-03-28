@@ -372,3 +372,13 @@ bool InputSystem::getKey(KeyCode key)
 
 	return GraphicsSystem::getInstance()->_imGetKey(glfwKey, GraphicsSystem::GraphicsSystemIMKey());
 }
+
+bool InputSystem::getMouseButton(MouseButton button)
+{
+	return GraphicsSystem::getInstance()->_imGetMouseButton((unsigned int)button, GraphicsSystem::GraphicsSystemIMKey());
+}
+
+Vector2D InputSystem::getMousePosition()
+{
+	return GraphicsSystem::getInstance()->_imGetMousePosition(GraphicsSystem::GraphicsSystemIMKey());
+}

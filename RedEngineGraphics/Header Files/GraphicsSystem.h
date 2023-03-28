@@ -116,6 +116,8 @@ public:
 
 	//IM functions intended for Input Manager Class use
 	bool _imGetKey(unsigned int keyCode, GraphicsSystemIMKey key);
+	bool _imGetMouseButton(unsigned int mouseCode, GraphicsSystemIMKey key);
+	Vector2D _imGetMousePosition(GraphicsSystemIMKey key);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Trackable.h"
+#include "Vector2D.h"
 
 class InputSystem : public Trackable
 {
@@ -106,10 +107,19 @@ public:
 
 	};
 
+	enum class MouseButton
+	{
+		Left,
+		Right,
+		Middle
+	};
+
 	static InputSystem* getInstance();
 	static void cleanupInstance();
 
 	bool getKey(KeyCode);
+	bool getMouseButton(MouseButton);
+	Vector2D getMousePosition();
 
 private:
 	static InputSystem* mspInstance;

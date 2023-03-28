@@ -783,6 +783,18 @@ bool GraphicsSystem::_imGetKey(unsigned int keyCode, GraphicsSystemIMKey key)
 	return glfwGetKey(mWindow, keyCode);
 }
 
+bool GraphicsSystem::_imGetMouseButton(unsigned int mouseCode, GraphicsSystemIMKey key)
+{
+	return glfwGetMouseButton(mWindow, mouseCode) == GLFW_PRESS;
+}
+
+Vector2D GraphicsSystem::_imGetMousePosition(GraphicsSystemIMKey key)
+{
+	double x, y;
+	glfwGetCursorPos(mWindow, &x, &y);
+	return Vector2D(x, -y);
+}
+
 void GraphicsSystem::createAndAddFont(string key, string filepath, int pointSize)
 {
 	mpFontManager->createAndAddFont(key, filepath, pointSize);
