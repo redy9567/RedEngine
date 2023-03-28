@@ -77,7 +77,7 @@ void Game::init(int mFPS)
 
 	initShaderPrograms();
 
-	mpChicken = new Chicken(5.0f);
+	mpChicken = new Chicken(5.0f, 5.0f);
 
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);

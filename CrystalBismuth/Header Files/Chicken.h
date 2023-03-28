@@ -10,15 +10,18 @@ class AnimationData;
 const std::string RESOURCES_DIRECTORY = "Resource Files/";
 const std::string ANIMATIONS_DIRECTORY = "Animations/";
 const std::string EGG_DIRECTORY = "Eggs/";
+const std::string CHICKS_DIRECTORY = "Chicks/";
+const std::string CHICKENS_DIRECTORY = "Chickens/";
+
+const std::string CHICK_FILENAME = "Chick.png";
+const std::string CHICKEN_FILENAME = "Chicken.png";
 const std::string EGG_FILENAME = "Chicken Egg.png";
 const std::string EGG_HATCHING_FILENAME = "Egg Hatching.png";
-const std::string CHICKS_DIRECTORY = "Chicks/";
-const std::string CHICK_FILENAME = "Chick.png";
 
 class Chicken : public GameObject2D
 {
 public:
-	Chicken(float timeToMaturity);
+	Chicken(float timeToHatch, float timeToMaturity);
 	~Chicken();
 
 	void update(float deltaTime);
@@ -31,9 +34,13 @@ private:
 	AnimationData* mpEggHatchingAnimationData;
 	Animation* mpEggHatchingAnimation;
 
+	Texture2D* mpChickTexture;
+	Sprite* mpChickSprite;
+
 	Texture2D* mpChickenTexture;
 	Sprite* mpChickenSprite;
 	
+	float mTimeToHatch = 0.0f;
 	float mTimeToMaturity = 0.0f;
 	float mLifeTime = 0.0f;
 
