@@ -25,6 +25,7 @@ class FontManager;
 class SpriteManager;
 class GameObject2DManager;
 class GameObject2D;
+class Texture2DManager;
 
 class DebugHUD;
 
@@ -101,6 +102,10 @@ public:
 	void createAndAddFont(std::string key, std::string filepath, int pointSize = 12);
 	void removeAndDeleteFont(std::string key);
 
+	//Texture2Ds
+	Texture2D* createAndAddTexture2D(std::string key, std::string filepath, bool hasAlpha = false);
+	void removeAndDeleteTexture2D(std::string key);
+
 	//Sprites
 	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One());
 	void removeAndDeleteSprite(std::string key);
@@ -172,6 +177,7 @@ private:
 	FontManager* mpFontManager;
 	SpriteManager* mpSpriteManager;
 	GameObject2DManager* mpGameObjectManager;
+	Texture2DManager* mpTexture2DManager;
 
 	DebugHUD* mpDebugHUD;
 

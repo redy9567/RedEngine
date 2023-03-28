@@ -8,14 +8,14 @@ class Texture2D : public Trackable
 public:
 	friend class GraphicsSystem;
 	friend class Mesh2D;
-
-	Texture2D(std::string filepath, bool hasAlpha = false);
-	~Texture2D();
+	friend class Texture2DManager;
 
 	int getHeight() { return mHeight; }
 	int getWidth() { return mWidth; }
 
 private:
+	Texture2D(std::string filepath, bool hasAlpha = false);
+	~Texture2D();
 	Texture2D() = delete;
 
 	void freeRawData();

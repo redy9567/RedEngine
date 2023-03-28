@@ -60,8 +60,7 @@ Game::~Game()
 
 void Game::init(int mFPS)
 {
-	//Texture for objects
-	mpChickWalkingTexture = new Texture2D("Resource Files/Chicks/Animations/Chick Walking.png", true);
+	
 
 	mpTextureCollection = new Texture2D * [2];
 	//mpTextureCollection[0] = mpWallTexture;
@@ -76,6 +75,9 @@ void Game::init(int mFPS)
 	initShaderObjects();
 
 	initShaderPrograms();
+
+	//Texture for objects
+	mpChickWalkingTexture = mpGraphicsSystem->createAndAddTexture2D("chickWalking", "Resource Files/Chicks/Animations/Chick Walking.png", true);
 
 	mpChicken = new Chicken(5.0f, 5.0f);
 
@@ -120,9 +122,6 @@ void Game::cleanup()
 	//Delete Mesh2D objects
 	delete mpTextureCollection;
 	mpTextureCollection = nullptr;
-
-	delete mpChickWalkingTexture;
-	mpChickWalkingTexture = nullptr;
 
 	delete mpChicken;
 	mpChicken = nullptr;

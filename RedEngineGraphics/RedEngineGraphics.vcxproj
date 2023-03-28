@@ -266,6 +266,7 @@
     <ClInclude Include="Header Files\SpriteManager.h" />
     <ClInclude Include="Header Files\stb\stb_image.h" />
     <ClInclude Include="Header Files\Texture2D.h" />
+    <ClInclude Include="Header Files\Texture2DManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Animation.cpp" />
@@ -285,6 +286,7 @@
     <ClCompile Include="Source Files\Sprite.cpp" />
     <ClCompile Include="Source Files\SpriteManager.cpp" />
     <ClCompile Include="Source Files\Texture2D.cpp" />
+    <ClCompile Include="Source Files\Texture2DManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\text.frag" />

@@ -8,17 +8,17 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
-	mpEggTexture = new Texture2D(RESOURCES_DIRECTORY + EGG_DIRECTORY + EGG_FILENAME, true);
+	mpEggTexture = gs->createAndAddTexture2D("egg", RESOURCES_DIRECTORY + EGG_DIRECTORY + EGG_FILENAME, true);
 	mpEggSprite = gs->createAndAddSprite("egg", &mpEggTexture, Vector2D::Zero(), Vector2D(mpEggTexture->getWidth(), mpEggTexture->getHeight()));
 
-	mpEggHatchingTexture = new Texture2D(RESOURCES_DIRECTORY + EGG_DIRECTORY + ANIMATIONS_DIRECTORY + EGG_HATCHING_FILENAME, true);
+	mpEggHatchingTexture = gs->createAndAddTexture2D("eggHatching", RESOURCES_DIRECTORY + EGG_DIRECTORY + ANIMATIONS_DIRECTORY + EGG_HATCHING_FILENAME, true);
 	mpEggHatchingAnimationData = gs->createAndAddAnimationData("eggHatching", &mpEggHatchingTexture, 24, 1);
 	mpEggHatchingAnimation = gs->createAndAddAnimation("eggHatching", "eggHatching", 24);
 
-	mpChickTexture = new Texture2D(RESOURCES_DIRECTORY + CHICKS_DIRECTORY + CHICK_FILENAME, true);
+	mpChickTexture = gs->createAndAddTexture2D("chick", RESOURCES_DIRECTORY + CHICKS_DIRECTORY + CHICK_FILENAME, true);
 	mpChickSprite = gs->createAndAddSprite("chick", &mpChickTexture, Vector2D::Zero(), Vector2D(mpChickTexture->getWidth(), mpChickTexture->getHeight()));
 
-	mpChickenTexture = new Texture2D(RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + CHICKEN_FILENAME, true);
+	mpChickenTexture = gs->createAndAddTexture2D("chicken", RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + CHICKEN_FILENAME, true);
 	mpChickenSprite = gs->createAndAddSprite("chicken", &mpChickenTexture, Vector2D::Zero(), Vector2D(mpChickenTexture->getWidth(), mpChickenTexture->getHeight()));
 
 	mTimeToHatch = timeToHatch;
@@ -31,9 +31,7 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity)
 
 Chicken::~Chicken()
 {
-	delete mpEggTexture;
-	delete mpEggHatchingTexture;
-	delete mpChickTexture;
+	
 }
 
 void Chicken::update(float deltaTime)

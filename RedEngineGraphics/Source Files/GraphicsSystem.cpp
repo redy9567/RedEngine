@@ -21,6 +21,7 @@
 #include "GameObject2DManager.h"
 #include "GameObject2D.h"
 #include "AnimationData.h"
+#include "Texture2DManager.h"
 
 using namespace std;
 
@@ -58,6 +59,8 @@ GraphicsSystem::GraphicsSystem()
 	mpSpriteManager = nullptr;
 	mpDebugHUD = nullptr;
 	mpFontManager = nullptr;
+	mpGameObjectManager = nullptr;
+	mpTexture2DManager = nullptr;
 	mDisplayHeight = 0;
 	mDisplayWidth = 0;
 }
@@ -111,6 +114,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
 
+	mpTexture2DManager = Texture2DManager::getInstance();
+	mpTexture2DManager->init();
+
 	mpSpriteManager = SpriteManager::getInstance();
 	mpSpriteManager->init();
 
@@ -147,6 +153,9 @@ void GraphicsSystem::cleanup()
 
 	mpSpriteManager->cleanup();
 	SpriteManager::cleanupInstance();
+
+	mpTexture2DManager->cleanup();
+	Texture2DManager::cleanupInstance();
 
 	mpFontManager->cleanup();
 	FontManager::cleanupInstance();
@@ -803,6 +812,16 @@ void GraphicsSystem::createAndAddFont(string key, string filepath, int pointSize
 void GraphicsSystem::removeAndDeleteFont(string key)
 {
 	mpFontManager->removeAndDeleteFont(key);
+}
+
+Texture2D* GraphicsSystem::createAndAddTexture2D(std::string key, std::string filepath, bool hasAlpha)
+{
+	return mpTexture2DManager->createAndAddTexture2D(key, filepath, hasAlpha);
+}
+
+void GraphicsSystem::removeAndDeleteTexture2D(std::string key)
+{
+	mpTexture2DManager->removeAndDeleteTexture2D(key);
 }
 
 void GraphicsSystem::addToDebugHUD(std::string text) 
