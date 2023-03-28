@@ -92,6 +92,8 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	}
 	glfwMakeContextCurrent(mWindow);
 
+	mWindowResolution = Vector2D(displayWidth, displayHeight);
+
 	//Load glad, and verify
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -801,7 +803,7 @@ Vector2D GraphicsSystem::_imGetMousePosition(GraphicsSystemIMKey key)
 {
 	double x, y;
 	glfwGetCursorPos(mWindow, &x, &y);
-	return Vector2D(x, -y);
+	return Vector2D(x, mWindowResolution.getY() - y);
 }
 
 void GraphicsSystem::createAndAddFont(string key, string filepath, int pointSize)

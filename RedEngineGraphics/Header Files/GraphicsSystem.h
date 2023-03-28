@@ -169,6 +169,7 @@ private:
 	void drawDebugInfo();
 
 	GLFWwindow* mWindow;
+	Vector2D mWindowResolution;
 
 	static GraphicsSystem* mspInstance;
 
