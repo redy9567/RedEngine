@@ -24,7 +24,8 @@
     <ProjectGuid>{c546ad46-2176-4ca0-901b-f0b48eebd398}</ProjectGuid>
     <RootNamespace>RedLib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>\bin\x64\Debug\</OutputPath>
+	<VCToolsInstallDir>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933</VCToolsInstallDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
