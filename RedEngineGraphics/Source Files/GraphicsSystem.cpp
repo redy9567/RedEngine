@@ -831,6 +831,11 @@ void GraphicsSystem::addToDebugHUD(std::string text)
 	mpDebugHUD->addDebugValue(text); 
 }
 
+void GraphicsSystem::addPersistantToDebugHUD(std::string text)
+{
+	mpDebugHUD->addPersistantDebugValue(text);
+}
+
 Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale)
 {
 	return mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, size, scale);

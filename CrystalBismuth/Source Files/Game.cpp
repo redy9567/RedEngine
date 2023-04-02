@@ -12,6 +12,7 @@
 #include "InputSystem.h"
 #include "DebugHUD.h"
 #include "Chicken.h";
+#include <fstream>
 
 #include <assert.h>
 #include <iostream>
@@ -89,6 +90,18 @@ void Game::init(int mFPS)
 	mTimePerFrame = 1.0f / mFPS;
 	mDeltaTime = 0.0f;
 	mpTimer = new Timer();
+
+	ifstream versionFile = ifstream("buildInfo.dat");
+	if (!versionFile.is_open())
+	{
+		mpGraphicsSystem->addPersistantToDebugHUD("Version: Debug");
+	}
+	else
+	{
+		string version;
+		versionFile >> version;
+		mpGraphicsSystem->addPersistantToDebugHUD("Version: " + version);
+	}
 }
 
 void Game::initShaderObjects()

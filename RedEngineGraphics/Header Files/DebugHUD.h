@@ -58,11 +58,13 @@ private:
 	void addDebugValue(std::string valueName, gs_string_getter_function getterFunc);
 
 	void addDebugValue(std::string value);
+	void addPersistantDebugValue(std::string value);
 
 	void draw();
 
 	std::unordered_map<std::string, TrackedGetterFunction> mDebugFunctionMap;
 	std::vector<std::string> mDebugValueMap;
+	std::vector<std::string> mPersistantDebugValueMap;
 
 	static DebugHUD* mspInstance;
 };

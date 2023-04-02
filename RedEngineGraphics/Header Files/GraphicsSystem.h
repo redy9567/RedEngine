@@ -118,6 +118,7 @@ public:
 
 	//DebugHUD
 	void addToDebugHUD(std::string text);
+	void addPersistantToDebugHUD(std::string text);
 
 	//IM functions intended for Input Manager Class use
 	bool _imGetKey(unsigned int keyCode, GraphicsSystemIMKey key);

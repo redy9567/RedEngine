@@ -145,10 +145,23 @@ void DebugHUD::draw()
 		GraphicsSystem::getInstance()->draw(*i, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
 	}
 
+	offset = offsetAmount;
+
+	for (vector<string>::iterator i = mPersistantDebugValueMap.begin(); i != mPersistantDebugValueMap.end(); i++, offset += offsetAmount)
+	{
+		Vector2D loc = Vector2D(0.0f, offset);
+		GraphicsSystem::getInstance()->draw(*i, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
+	}
+
 	mDebugValueMap.clear();
 }
 
 void DebugHUD::addDebugValue(std::string value)
 {
 	mDebugValueMap.push_back(value);
+}
+
+void DebugHUD::addPersistantDebugValue(std::string value)
+{
+	mPersistantDebugValueMap.push_back(value);
 }
