@@ -22,13 +22,6 @@ const std::string CHICK_GROWING_FILENAME = "Chick Growing.png";
 class Chicken : public GameObject2D
 {
 public:
-	enum class ChickenState
-	{
-			EGG,
-			CHICK,
-			CHICKEN
-	};
-
 	Chicken(float timeToHatch, float timeToMaturity, Vector2D location = Vector2D::Zero());
 	~Chicken();
 
@@ -36,7 +29,16 @@ public:
 
 	void onMouseClick();
 
+	bool isEgg() { return mState == ChickenState::EGG; }
+
 private:
+	enum class ChickenState
+	{
+		EGG,
+		CHICK,
+		CHICKEN
+	};
+
 	ChickenState mState;
 
 	Texture2D* mpEggTexture;

@@ -138,7 +138,8 @@ void Game::cleanup()
 	delete mpTextureCollection;
 	mpTextureCollection = nullptr;
 
-	delete mpChicken;
+	if(mpChicken)
+		delete mpChicken;
 	mpChicken = nullptr;
 
 	delete mpTimer;
@@ -178,7 +179,7 @@ bool Game::gameLoop()
 
 void Game::input()
 {
-	if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+	if (mpChicken)
 	{
 		Vector2D mousePos = mpInputSystem->getMousePosition();
 
@@ -190,9 +191,21 @@ void Game::input()
 			mousePos.getX() < chickenUpperBound.getX() &&
 			mousePos.getY() < chickenUpperBound.getY())
 		{
-			mpChicken->onMouseClick();
+			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+			{
+				mpChicken->onMouseClick();
+			}
+			else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right) && mpChicken->isEgg())
+			{
+				delete mpChicken;
+				mpChicken = nullptr;
+
+				mCurrentMoney += EGG_SELL_AMOUNT;
+			}
+
 		}
 	}
+	
 
 	bool keyState = mpInputSystem->getKey(InputSystem::KeyCode::F1); //Fill vs. Wireframe
 	if (keyState && !mInputLastF1State)
@@ -248,7 +261,8 @@ void Game::update()
 
 	mpInputSystem->update();
 
-	mpChicken->update(mDeltaTime);
+	if(mpChicken)
+		mpChicken->update(mDeltaTime);
 
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
 	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", Vector2D(600, 600) - moneyTextOffset,
@@ -270,7 +284,8 @@ bool Game::render()
 {
 	mpGraphicsSystem->draw("Chicken1", Vector2D::One());
 
-	mpGraphicsSystem->draw(mpChicken);
+	if(mpChicken)
+		mpGraphicsSystem->draw(mpChicken);
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 

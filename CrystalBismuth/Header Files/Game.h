@@ -13,6 +13,7 @@ class Chicken;
 
 const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
 const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
+const int EGG_SELL_AMOUNT = 5;
 
 class Game : public Trackable
 {
