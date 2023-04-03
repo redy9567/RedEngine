@@ -17,22 +17,36 @@ const std::string CHICK_FILENAME = "Chick.png";
 const std::string CHICKEN_FILENAME = "Chicken.png";
 const std::string EGG_FILENAME = "Chicken Egg.png";
 const std::string EGG_HATCHING_FILENAME = "Egg Hatching.png";
+const std::string CHICK_GROWING_FILENAME = "Chick Growing.png";
 
 class Chicken : public GameObject2D
 {
 public:
+	enum class ChickenState
+	{
+			EGG,
+			CHICK,
+			CHICKEN
+	};
+
 	Chicken(float timeToHatch, float timeToMaturity);
 	~Chicken();
 
 	void update(float deltaTime);
 
 private:
+	ChickenState mState;
+
 	Texture2D* mpEggTexture;
 	Sprite* mpEggSprite;
 
 	Texture2D* mpEggHatchingTexture;
 	AnimationData* mpEggHatchingAnimationData;
 	Animation* mpEggHatchingAnimation;
+
+	Texture2D* mpChickGrowingTexture;
+	AnimationData* mpChickGrowingAnimationData;
+	Animation* mpChickGrowingAnimation;
 
 	Texture2D* mpChickTexture;
 	Sprite* mpChickSprite;
@@ -43,6 +57,4 @@ private:
 	float mTimeToHatch = 0.0f;
 	float mTimeToMaturity = 0.0f;
 	float mLifeTime = 0.0f;
-
-	bool mHatched;
 };

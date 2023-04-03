@@ -15,6 +15,10 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity)
 	mpEggHatchingAnimationData = gs->createAndAddAnimationData("eggHatching", &mpEggHatchingTexture, 24, 1);
 	mpEggHatchingAnimation = gs->createAndAddAnimation("eggHatching", "eggHatching", 24);
 
+	mpChickGrowingTexture = gs->createAndAddTexture2D("chickGrowing", RESOURCES_DIRECTORY + CHICKS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICK_GROWING_FILENAME, true);
+	mpChickGrowingAnimationData = gs->createAndAddAnimationData("chickGrowing", &mpChickGrowingTexture, 36, 1);
+	mpChickGrowingAnimation = gs->createAndAddAnimation("chickGrowing", "chickGrowing", 36);
+
 	mpChickTexture = gs->createAndAddTexture2D("chick", RESOURCES_DIRECTORY + CHICKS_DIRECTORY + CHICK_FILENAME, true);
 	mpChickSprite = gs->createAndAddSprite("chick", &mpChickTexture, Vector2D::Zero(), Vector2D(mpChickTexture->getWidth(), mpChickTexture->getHeight()));
 
@@ -24,9 +28,9 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity)
 	mTimeToHatch = timeToHatch;
 	mTimeToMaturity = timeToHatch + timeToMaturity;
 
+	mState = ChickenState::EGG;
 	mDrawingMode = GameObject2D::SpriteMode;
 	mImage.s = mpEggSprite;
-	mHatched = false;
 }
 
 Chicken::~Chicken()
@@ -38,17 +42,17 @@ void Chicken::update(float deltaTime)
 {
 	mLifeTime += deltaTime;
 
-	if (!mHatched)
+	if (mState == ChickenState::EGG)
 	{
 		if (mLifeTime > mTimeToHatch)
 		{
 			mDrawingMode = GameObject2D::AnimationMode;
 			mImage.a = mpEggHatchingAnimation;
 
-			mHatched = true;
+			mState = ChickenState::CHICK;
 		}
 	}
-	else
+	else if (mState == ChickenState::CHICK)
 	{
 		if (mDrawingMode == GameObject2D::AnimationMode)
 		{
@@ -62,9 +66,23 @@ void Chicken::update(float deltaTime)
 		}
 		else if (mLifeTime > mTimeToMaturity)
 		{
-			mImage.s = mpChickenSprite;
+			mImage.a = mpChickGrowingAnimation;
+			mDrawingMode = GameObject2D::AnimationMode;
+			mState = ChickenState::CHICKEN;
 		}
+	}
+	else if (mState == ChickenState::CHICKEN)
+	{
+		if (mDrawingMode == GameObject2D::AnimationMode)
+		{
+			mpChickGrowingAnimation->update(deltaTime);
 
+			if (mpChickGrowingAnimation->getIsDone())
+			{
+				mDrawingMode = GameObject2D::SpriteMode;
+				mImage.s = mpChickenSprite;
+			}
+		}
 	}
 		
 	
