@@ -80,7 +80,7 @@ void Game::init(int mFPS)
 	//Texture for objects
 	mpChickWalkingTexture = mpGraphicsSystem->createAndAddTexture2D("chickWalking", "Resource Files/Chicks/Animations/Chick Walking.png", true);
 
-	mpChicken = new Chicken(5.0f, 5.0f);
+	mpChicken = new Chicken(60.0f, 60.0f, Vector2D(300, 300));
 
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
@@ -176,6 +176,22 @@ bool Game::gameLoop()
 
 void Game::input()
 {
+	if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+	{
+		Vector2D mousePos = mpInputSystem->getMousePosition();
+
+		Vector2D chickenLoc = mpChicken->getLoc();
+		Vector2D chickenUpperBound = chickenLoc + mpChicken->getSize();
+
+		if (mousePos.getX() > chickenLoc.getX() &&
+			mousePos.getY() > chickenLoc.getY() &&
+			mousePos.getX() < chickenUpperBound.getX() &&
+			mousePos.getY() < chickenUpperBound.getY())
+		{
+			mpChicken->onMouseClick();
+		}
+	}
+
 	bool keyState = mpInputSystem->getKey(InputSystem::KeyCode::F1); //Fill vs. Wireframe
 	if (keyState && !mInputLastF1State)
 	{
@@ -227,6 +243,8 @@ void Game::input()
 void Game::update()
 {
 	mpGraphicsSystem->update(mDeltaTime);
+
+	mpInputSystem->update();
 
 	mpChicken->update(mDeltaTime);
 

@@ -12,6 +12,7 @@ public:
 	friend class GameObject2DManager;
 
 	Vector2D getLoc() { return mLoc; }
+	Vector2D getSize();
 
 	void setLoc(Vector2D location) { mLoc = location; }
 

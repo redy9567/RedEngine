@@ -1,4 +1,6 @@
 #include "GameObject2D.h"
+#include "Animation.h"
+#include "Sprite.h"
 
 GameObject2D::GameObject2D()
 {
@@ -24,4 +26,20 @@ GameObject2D::GameObject2D(Animation* animation, Vector2D location)
 	mLoc = location;
 	mDrawingMode = DrawMode::AnimationMode;
 	mImage.a = animation;
+}
+
+Vector2D GameObject2D::getSize()
+{
+	switch (mDrawingMode)
+	{
+	case DrawMode::SpriteMode:
+		return mImage.s->getSize();
+		break;
+	case DrawMode::AnimationMode:
+		return mImage.a->getCurrentSprite()->getSize();
+		break;
+	default:
+		return Vector2D::Zero();
+		break;
+	}
 }

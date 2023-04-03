@@ -29,10 +29,12 @@ public:
 			CHICKEN
 	};
 
-	Chicken(float timeToHatch, float timeToMaturity);
+	Chicken(float timeToHatch, float timeToMaturity, Vector2D location = Vector2D::Zero());
 	~Chicken();
 
 	void update(float deltaTime);
+
+	void onMouseClick();
 
 private:
 	ChickenState mState;

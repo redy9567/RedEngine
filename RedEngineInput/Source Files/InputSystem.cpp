@@ -382,3 +382,29 @@ Vector2D InputSystem::getMousePosition()
 {
 	return GraphicsSystem::getInstance()->_imGetMousePosition(GraphicsSystem::GraphicsSystemIMKey());
 }
+
+void InputSystem::update()
+{
+	mLeftClick = getMouseButton(MouseButton::Left);
+	mRightClick = getMouseButton(MouseButton::Right);
+	mMiddleClick = getMouseButton(MouseButton::Middle);
+}
+
+bool InputSystem::getMouseButtonDown(MouseButton button)
+{
+	switch (button)
+	{
+	case MouseButton::Left:
+		return !mLeftClick && getMouseButton(button);
+		break;
+	case MouseButton::Right:
+		return !mRightClick && getMouseButton(button);
+		break;
+	case MouseButton::Middle:
+		return !mMiddleClick && getMouseButton(button);
+		break;
+	default:
+		return false;
+		break;
+	}
+}

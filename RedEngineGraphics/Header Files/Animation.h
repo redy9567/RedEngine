@@ -17,13 +17,13 @@ public:
 
 	bool getIsDone() { return mIsLooping ? false : mIsDone; }
 
+	Sprite* getCurrentSprite();
+
 private:
 	Animation(AnimationData* data, int mFPS, bool isLooping = false);
 	~Animation();
 
 	Animation() = delete;
-
-	Sprite* getCurrentSprite();
 
 	AnimationData* mData;
 	unsigned int mCurrentFrame;

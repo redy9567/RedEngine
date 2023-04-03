@@ -119,9 +119,14 @@ public:
 
 	bool getKey(KeyCode);
 	bool getMouseButton(MouseButton);
+	bool getMouseButtonDown(MouseButton);
 	Vector2D getMousePosition();
+
+	void update();
 
 private:
 	static InputSystem* mspInstance;
+
+	bool mLeftClick, mRightClick, mMiddleClick;
 
 };

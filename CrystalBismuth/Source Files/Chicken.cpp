@@ -4,7 +4,7 @@
 #include "Texture2D.h"
 #include "Animation.h"
 
-Chicken::Chicken(float timeToHatch, float timeToMaturity)
+Chicken::Chicken(float timeToHatch, float timeToMaturity, Vector2D location)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
@@ -31,6 +31,8 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity)
 	mState = ChickenState::EGG;
 	mDrawingMode = GameObject2D::SpriteMode;
 	mImage.s = mpEggSprite;
+
+	mLoc = location;
 }
 
 Chicken::~Chicken()
@@ -86,4 +88,9 @@ void Chicken::update(float deltaTime)
 	}
 		
 	
+}
+
+void Chicken::onMouseClick()
+{
+	mLifeTime += 1.0f;
 }
