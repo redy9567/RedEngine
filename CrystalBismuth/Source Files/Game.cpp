@@ -102,6 +102,8 @@ void Game::init(int mFPS)
 		versionFile >> version;
 		mpGraphicsSystem->addPersistantToDebugHUD("Version: " + version);
 	}
+
+	mCurrentMoney = 0;
 }
 
 void Game::initShaderObjects()
@@ -247,6 +249,10 @@ void Game::update()
 	mpInputSystem->update();
 
 	mpChicken->update(mDeltaTime);
+
+	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
+	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", Vector2D(600, 600) - moneyTextOffset,
+		Vector3D::Up());
 
 	int fps = debugGetFPS();
 	if(fps != -1)

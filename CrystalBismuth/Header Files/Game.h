@@ -11,6 +11,9 @@ class Timer;
 class InputSystem;
 class Chicken;
 
+const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
+const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
+
 class Game : public Trackable
 {
 
@@ -62,5 +65,7 @@ private:
 	Texture2D** mpTextureCollection;
 
 	Chicken* mpChicken;
+
+	int mCurrentMoney;
 
 };
