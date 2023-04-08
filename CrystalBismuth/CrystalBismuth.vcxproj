@@ -131,12 +131,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Chicken.h" />
+    <ClInclude Include="Header Files\Filepaths.h" />
     <ClInclude Include="Header Files\Game.h" />
+    <ClInclude Include="Header Files\UIButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Chicken.cpp" />
     <ClCompile Include="Source Files\Game.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
+    <ClCompile Include="Source Files\UIButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

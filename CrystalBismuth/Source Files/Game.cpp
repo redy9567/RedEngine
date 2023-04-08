@@ -12,6 +12,7 @@
 #include "InputSystem.h"
 #include "DebugHUD.h"
 #include "Chicken.h";
+#include "UIButton.h"
 #include <fstream>
 
 #include <assert.h>
@@ -52,6 +53,8 @@ Game::Game()
 	mpTextureCollection = nullptr;
 
 	mpChickWalkingTexture = nullptr;
+	mpButton = nullptr;
+	mpButton2 = nullptr;
 }
 
 Game::~Game()
@@ -81,6 +84,9 @@ void Game::init(int mFPS)
 	mpChickWalkingTexture = mpGraphicsSystem->createAndAddTexture2D("chickWalking", "Resource Files/Chicks/Animations/Chick Walking.png", true);
 
 	mpChicken = new Chicken(60.0f, 60.0f, Vector2D(300, 300));
+
+	mpButton = new UIButton(Vector2D(300.0f, 0.0f));
+	mpButton2 = new UIButton(Vector2D(400.0f, -20.0f), true);
 
 	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
 	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
@@ -186,10 +192,13 @@ void Game::input()
 		Vector2D chickenLoc = mpChicken->getLoc();
 		Vector2D chickenUpperBound = chickenLoc + mpChicken->getSize();
 
-		if (mousePos.getX() > chickenLoc.getX() &&
-			mousePos.getY() > chickenLoc.getY() &&
-			mousePos.getX() < chickenUpperBound.getX() &&
-			mousePos.getY() < chickenUpperBound.getY())
+		Vector2D buttonLoc = mpButton->getLoc();
+		Vector2D buttonUpperBound = buttonLoc + mpButton->getSize();
+
+		Vector2D button2Loc = mpButton2->getLoc();
+		Vector2D button2UpperBound = button2Loc + mpButton2->getSize();
+
+		if (isPointWithinBounds(mousePos, chickenLoc, chickenUpperBound))
 		{
 			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
 			{
@@ -204,6 +213,9 @@ void Game::input()
 			}
 
 		}
+
+		mpButton->setIsHovered(isPointWithinBounds(mousePos, buttonLoc, buttonUpperBound));
+		mpButton2->setIsHovered(isPointWithinBounds(mousePos, button2Loc, button2UpperBound));
 	}
 	
 
@@ -264,6 +276,9 @@ void Game::update()
 	if(mpChicken)
 		mpChicken->update(mDeltaTime);
 
+	mpButton->update(mDeltaTime);
+	mpButton2->update(mDeltaTime);
+
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
 	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", Vector2D(600, 600) - moneyTextOffset,
 		Vector3D::Up());
@@ -287,7 +302,18 @@ bool Game::render()
 	if(mpChicken)
 		mpGraphicsSystem->draw(mpChicken);
 
+	mpGraphicsSystem->draw(mpButton);
+	mpGraphicsSystem->draw(mpButton2);
+
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 
 	return mpGraphicsSystem->render();
+}
+
+bool Game::isPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper)
+{
+	return	point.getX() > lower.getX() &&
+			point.getY() > lower.getY() &&
+			point.getX() < upper.getX() &&
+			point.getY() < upper.getY();
 }

@@ -10,6 +10,7 @@ Animation::Animation(AnimationData* data, int mFPS, bool isLooping)
 	mTimer = 0.0f;
 	mIsLooping = isLooping;
 	mIsDone = false;
+	mIsReversed = false;
 }
 
 Animation::~Animation()
@@ -28,25 +29,51 @@ void Animation::update(float deltaTime)
 	{
 		mTimer += deltaTime;
 
-		while (mTimer > mTimePerFrame)
+		if (!mIsReversed)
 		{
-			mCurrentFrame++;
-			mTimer -= mTimePerFrame;
-		}
+			while (mTimer > mTimePerFrame)
+			{
+				if(mCurrentFrame < mData->mCount-1)
+					mCurrentFrame++;
+				mTimer -= mTimePerFrame;
+			}
 
-		if (mData->mCount != 0)
-		{
-			if (mIsLooping)
-				while (mCurrentFrame >= mData->mCount)
-					mCurrentFrame -= mData->mCount;
-			else
-				if (mCurrentFrame >= mData->mCount)
-				{
-					mCurrentFrame--;
-					mIsDone = true;
-				}
-					
+			if (mData->mCount != 0)
+			{
+				if (mIsLooping)
+					while (mCurrentFrame >= mData->mCount)
+						mCurrentFrame -= mData->mCount;
+				else
+					if (mCurrentFrame == mData->mCount-1)
+					{
+						mIsDone = true;
+					}
+
+			}
 		}
+		else
+		{
+			while (mTimer > mTimePerFrame)
+			{
+				if(mCurrentFrame > 0)
+					mCurrentFrame--;
+				mTimer -= mTimePerFrame;
+			}
+
+			if (mData->mCount != 0)
+			{
+				if (mIsLooping)
+					while (mCurrentFrame <= 0)
+						mCurrentFrame += mData->mCount;
+				else
+					if (mCurrentFrame == 0)
+					{
+						mIsDone = true;
+					}
+
+			}
+		}
+		
 	}
 	
 		
@@ -55,4 +82,13 @@ void Animation::update(float deltaTime)
 Sprite* Animation::getCurrentSprite()
 {
 	return mData->getSprite(mCurrentFrame);
+}
+
+void Animation::setReversed(bool reversed)
+{
+	if (mIsReversed != reversed)
+	{
+		mIsReversed = reversed;
+		mIsDone = false;
+	}
 }

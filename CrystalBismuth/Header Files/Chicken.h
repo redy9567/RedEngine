@@ -2,22 +2,13 @@
 #include "Trackable.h"
 #include <string>
 #include "GameObject2D.h"
+#include "Filepaths.h"
 
 class Sprite;
 class Texture2D;
 class AnimationData;
 
-const std::string RESOURCES_DIRECTORY = "Resource Files/";
-const std::string ANIMATIONS_DIRECTORY = "Animations/";
-const std::string EGG_DIRECTORY = "Eggs/";
-const std::string CHICKS_DIRECTORY = "Chicks/";
-const std::string CHICKENS_DIRECTORY = "Chickens/";
 
-const std::string CHICK_FILENAME = "Chick.png";
-const std::string CHICKEN_FILENAME = "Chicken.png";
-const std::string EGG_FILENAME = "Chicken Egg.png";
-const std::string EGG_HATCHING_FILENAME = "Egg Hatching.png";
-const std::string CHICK_GROWING_FILENAME = "Chick Growing.png";
 
 class Chicken : public GameObject2D
 {

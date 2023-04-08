@@ -12,6 +12,7 @@ public:
 	friend class AnimationManager;
 
 	void setFPS(int fps);
+	void setReversed(bool reversed);
 
 	void update(float deltaTime);
 
@@ -32,5 +33,6 @@ private:
 
 	bool mIsLooping;
 	bool mIsDone;
+	bool mIsReversed;
 
 };

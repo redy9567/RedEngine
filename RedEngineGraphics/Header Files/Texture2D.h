@@ -1,6 +1,7 @@
 #pragma once
 #include "Trackable.h"
 #include <string>
+#include "Vector2D.h"
 
 class Texture2D : public Trackable
 {
@@ -12,6 +13,7 @@ public:
 
 	int getHeight() { return mHeight; }
 	int getWidth() { return mWidth; }
+	Vector2D getSize() { return Vector2D(mWidth, mHeight); }
 
 private:
 	Texture2D(std::string filepath, bool hasAlpha = false);

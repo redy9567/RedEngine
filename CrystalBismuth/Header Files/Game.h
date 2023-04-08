@@ -1,5 +1,6 @@
 #pragma once
 #include "Trackable.h"
+#include "Vector2D.h"
 
 class GraphicsSystem;
 class Sprite;
@@ -10,6 +11,7 @@ class Animation;
 class Timer;
 class InputSystem;
 class Chicken;
+class UIButton;
 
 const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
 const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
@@ -41,6 +43,8 @@ private:
 	void initShaderObjects();
 	void initShaderPrograms();
 
+	bool isPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper);
+
 	static Game* mspInstance;
 
 
@@ -66,6 +70,8 @@ private:
 	Texture2D** mpTextureCollection;
 
 	Chicken* mpChicken;
+	UIButton* mpButton;
+	UIButton* mpButton2;
 
 	int mCurrentMoney;
 
