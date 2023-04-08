@@ -14,6 +14,7 @@ const std::string EGG_HATCHING_FILENAME = "Egg Hatching.png";
 const std::string CHICK_GROWING_FILENAME = "Chick Growing.png";
 
 const std::string UI_DIRECTORY = "UI/";
+const std::string BUTTONS_DIRECTORY = "Buttons/";
 
 
 const std::string SETTINGS_BUTTON_FILENAME = "Settings Button.png";
