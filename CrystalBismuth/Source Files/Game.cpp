@@ -110,6 +110,8 @@ void Game::init(int mFPS)
 	}
 
 	mCurrentMoney = 0;
+
+	srand(time(NULL));
 }
 
 void Game::initShaderObjects()

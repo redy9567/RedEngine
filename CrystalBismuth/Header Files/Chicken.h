@@ -30,6 +30,9 @@ private:
 		CHICKEN
 	};
 
+	void animate(float deltaTime);
+	void move();
+
 	ChickenState mState;
 
 	Texture2D* mpEggTexture;
@@ -52,4 +55,6 @@ private:
 	float mTimeToHatch = 0.0f;
 	float mTimeToMaturity = 0.0f;
 	float mLifeTime = 0.0f;
+
+	float mMoveUpdateTimer = 0.0f;
 };

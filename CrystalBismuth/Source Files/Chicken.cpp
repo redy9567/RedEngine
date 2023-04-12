@@ -4,6 +4,10 @@
 #include "Texture2D.h"
 #include "Animation.h"
 
+#define _USE_MATH_DEFINES
+
+const float pi = 3.14159265358979323846f;
+
 Chicken::Chicken(float timeToHatch, float timeToMaturity, Vector2D location)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
@@ -33,6 +37,8 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, Vector2D location)
 	mImage.s = mpEggSprite;
 
 	mLoc = location;
+
+	mMoveUpdateTimer = 15.0f;
 }
 
 Chicken::~Chicken()
@@ -44,6 +50,16 @@ void Chicken::update(float deltaTime)
 {
 	mLifeTime += deltaTime;
 
+	animate(deltaTime);
+
+	mMoveUpdateTimer -= deltaTime;
+	move();
+		
+	
+}
+
+void Chicken::animate(float deltaTime)
+{
 	if (mState == ChickenState::EGG)
 	{
 		if (mLifeTime > mTimeToHatch)
@@ -86,8 +102,19 @@ void Chicken::update(float deltaTime)
 			}
 		}
 	}
-		
-	
+}
+
+void Chicken::move()
+{
+	if (mMoveUpdateTimer <= 0.0f)
+	{
+		float randomAngle = ((float)rand() / (float)RAND_MAX) * 2 * pi;
+		Vector2D dir = Vector2D(cos(randomAngle), sin(randomAngle));
+
+		mLoc += dir * 20;
+
+		mMoveUpdateTimer = ((float)rand() / (float)RAND_MAX) * 0.1f;
+	}
 }
 
 void Chicken::onMouseClick()
