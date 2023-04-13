@@ -37,8 +37,9 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, Vector2D location)
 	mImage.s = mpEggSprite;
 
 	mLoc = location;
+	mIsMoving = false;
 
-	mMoveUpdateTimer = 15.0f;
+	mMoveUpdateTimer = STARTING_MOVEMENT_TIMER;
 }
 
 Chicken::~Chicken()
@@ -52,8 +53,14 @@ void Chicken::update(float deltaTime)
 
 	animate(deltaTime);
 
-	mMoveUpdateTimer -= deltaTime;
-	move();
+	
+
+	if (mState != ChickenState::EGG)
+	{
+		mMoveUpdateTimer -= deltaTime;
+		move();
+	}
+		
 		
 	
 }
@@ -106,14 +113,31 @@ void Chicken::animate(float deltaTime)
 
 void Chicken::move()
 {
+	if (mIsMoving)
+	{
+		if ((mMoveEnd - mLoc).length() < ((mMoveEnd - mMoveStart).normalized() * MOVEMENT_SPEED).length())
+		{
+			mIsMoving = false;
+			mLoc = mMoveEnd;
+		}
+		else
+		{
+			mLoc += (mMoveEnd - mMoveStart).normalized() * MOVEMENT_SPEED;
+		}
+	}
+
 	if (mMoveUpdateTimer <= 0.0f)
 	{
 		float randomAngle = ((float)rand() / (float)RAND_MAX) * 2 * pi;
 		Vector2D dir = Vector2D(cos(randomAngle), sin(randomAngle));
 
-		mLoc += dir * 20;
+		float randomDistance = ((float)rand() / (float)RAND_MAX * (MAXIMUM_MOVE_DISTANCE - MINIMUM_MOVE_DISTANCE)) + MINIMUM_MOVE_DISTANCE;
 
-		mMoveUpdateTimer = ((float)rand() / (float)RAND_MAX) * 0.1f;
+		mMoveStart = mLoc;
+		mMoveEnd = mLoc + dir * randomDistance;
+		mIsMoving = true;
+
+		mMoveUpdateTimer = (((float)rand() / (float)RAND_MAX) * MOVE_RANGE) + MINIMUM_MOVE_TIMER;
 	}
 }
 
