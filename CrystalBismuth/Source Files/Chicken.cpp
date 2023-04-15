@@ -6,12 +6,13 @@
 
 const float pi = 3.14159265358979323846f;
 
-Chicken::Chicken(float timeToHatch, float timeToMaturity, Vector2D location)
+Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location)
 {
 	loadData();
 
 	mTimeToHatch = timeToHatch;
 	mTimeToMaturity = timeToHatch + timeToMaturity;
+	mTimeToDeath = timeToHatch + timeToMaturity + timeToDeath;
 
 	mState = ChickenState::EGG;
 	mDrawingMode = GameObject2D::SpriteMode;
@@ -75,7 +76,10 @@ void Chicken::update(float deltaTime)
 		mStateChanged = false;
 	}
 
-	if (mState == ChickenState::CHICK || mState == ChickenState::CHICKEN);
+	if (mIsMoving)
+		updatePosition();
+
+	if (mState == ChickenState::CHICK || mState == ChickenState::CHICKEN)
 	{
 		mMoveUpdateTimer -= deltaTime;
 		move();
@@ -151,35 +155,39 @@ void Chicken::updateChickenState()
 	}
 	else if (mState == ChickenState::CHICKEN)
 	{
+		if (mLifeTime > mTimeToDeath)
+		{
+			changeState(ChickenState::DEAD);
+		}
+	}
+}
 
+void Chicken::updatePosition()
+{
+	
+	if ((mMoveEnd - mLoc).length() < ((mMoveEnd - mMoveStart).normalized() * MOVEMENT_SPEED).length())
+	{
+		mIsMoving = false;
+		mLoc = mMoveEnd;
+
+		switch (mState)
+		{
+		case ChickenState::CHICK_WALKING:
+			changeState(ChickenState::CHICK);
+			break;
+		case ChickenState::CHICKEN_WALKING:
+			changeState(ChickenState::CHICKEN);
+			break;
+		}
+	}
+	else
+	{
+		mLoc += (mMoveEnd - mMoveStart).normalized() * MOVEMENT_SPEED;
 	}
 }
 
 void Chicken::move() //Maybe move animation/sprite changes into it's own function??
 {
-	if (mIsMoving)
-	{
-		if ((mMoveEnd - mLoc).length() < ((mMoveEnd - mMoveStart).normalized() * MOVEMENT_SPEED).length())
-		{
-			mIsMoving = false;
-			mLoc = mMoveEnd;
-
-			switch (mState)
-			{
-			case ChickenState::CHICK_WALKING:
-				changeState(ChickenState::CHICK);
-				break;
-			case ChickenState::CHICKEN_WALKING:
-				changeState(ChickenState::CHICKEN);
-				break;
-			}
-		}
-		else
-		{
-			mLoc += (mMoveEnd - mMoveStart).normalized() * MOVEMENT_SPEED;
-		}
-	}
-
 	if (mMoveUpdateTimer <= 0.0f)
 	{
 		float randomAngle = ((float)rand() / (float)RAND_MAX) * 2 * pi;
@@ -243,6 +251,10 @@ void Chicken::updateImage()
 	case ChickenState::CHICKEN_WALKING:
 		mDrawingMode = GameObject2D::AnimationMode;
 		mImage.a = GraphicsSystem::getInstance()->getAnimation(CKN_CHICKEN_WALKING_KEY);
+		break;
+	case ChickenState::DEAD:
+		mDrawingMode = GameObject2D::None;
+		mImage.a = nullptr;
 		break;
 	}
 }

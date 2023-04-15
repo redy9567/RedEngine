@@ -33,7 +33,7 @@ const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 class Chicken : public GameObject2D
 {
 public:
-	Chicken(float timeToHatch, float timeToMaturity, Vector2D location = Vector2D::Zero());
+	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
 	~Chicken();
 
 	void update(float deltaTime);
@@ -51,13 +51,15 @@ private:
 		CHICK_WALKING,
 		CHICK_GROWING,
 		CHICKEN,
-		CHICKEN_WALKING
+		CHICKEN_WALKING,
+		DEAD
 	};
 
 	void updateAnimation(float deltaTime);
 	void updateChickenState();
 	void updateImage();
 	void move();
+	void updatePosition();
 
 	void changeState(ChickenState state) { mState = state; mStateChanged = true; }
 
@@ -68,6 +70,7 @@ private:
 	
 	float mTimeToHatch = 0.0f;
 	float mTimeToMaturity = 0.0f;
+	float mTimeToDeath = 0.0f;
 	float mLifeTime = 0.0f;
 
 	float mMoveUpdateTimer = 0.0f;

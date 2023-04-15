@@ -83,7 +83,7 @@ void Game::init(int mFPS)
 	//Texture for objects
 	mpChickWalkingTexture = mpGraphicsSystem->createAndAddTexture2D("chickWalking", "Resource Files/Chicks/Animations/Chick Walking.png", true);
 
-	mpChicken = new Chicken(10.0f, 10.0f, Vector2D(300, 300));
+	mpChicken = new Chicken(10.0f, 10.0f, 10.0f, Vector2D(300, 300));
 
 	mpButton = new UIButton(Vector2D(300.0f, 0.0f));
 	mpButton2 = new UIButton(Vector2D(400.0f, -20.0f), true);
