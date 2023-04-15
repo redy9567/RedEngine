@@ -12,6 +12,8 @@ const std::string CHICKEN_FILENAME = "Chicken.png";
 const std::string EGG_FILENAME = "Chicken Egg.png";
 const std::string EGG_HATCHING_FILENAME = "Egg Hatching.png";
 const std::string CHICK_GROWING_FILENAME = "Chick Growing.png";
+const std::string CHICK_WALKING_FILENAME = "Chick Walking.png";
+const std::string CHICKEN_WALKING_FILENAME = "Chicken Walking.png";
 
 const std::string UI_DIRECTORY = "UI/";
 const std::string BUTTONS_DIRECTORY = "Buttons/";

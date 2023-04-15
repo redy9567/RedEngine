@@ -784,6 +784,11 @@ void GraphicsSystem::removeAnimation(string key)
 	mpAnimationManager->removeAnimation(key);
 }
 
+Animation* GraphicsSystem::getAnimation(string key)
+{
+	return mpAnimationManager->getAnimation(key);
+}
+
 void GraphicsSystem::update(float deltaTime)
 {
 	
@@ -844,6 +849,11 @@ Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vect
 void GraphicsSystem::removeAndDeleteSprite(string key)
 {
 	mpSpriteManager->removeAndDeleteSprite(key);
+}
+
+Sprite* GraphicsSystem::getSprite(string key)
+{
+	return mpSpriteManager->getSprite(key);
 }
 
 GameObject2D* GraphicsSystem::createAndAddGameObject2D(string key, Sprite* sprite, Vector2D loc)

@@ -33,7 +33,7 @@ void Animation::update(float deltaTime)
 		{
 			while (mTimer > mTimePerFrame)
 			{
-				if(mCurrentFrame < mData->mCount-1)
+				if(mCurrentFrame < mData->mCount)
 					mCurrentFrame++;
 				mTimer -= mTimePerFrame;
 			}

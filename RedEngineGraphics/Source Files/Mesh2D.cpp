@@ -51,10 +51,10 @@ Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int dr
 	Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[])
 	: Mesh2D(vertexArray, vertexCount, drawOrder, drawCount, colorData)
 {
-
-	mTextureData = textureData;
+	mTextureData = new Texture2D*[textureDataCount];
 	for (int i = 0; i < textureDataCount; i++)
 	{
+		mTextureData[i] = textureData[i];
 		mTextureData[i]->mReferences++;
 	}
 	

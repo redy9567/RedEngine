@@ -8,6 +8,8 @@ class Sprite;
 class Texture2D;
 class AnimationData;
 
+
+
 const float STARTING_MOVEMENT_TIMER = 3.0f;
 
 const float MAXIMUM_MOVE_TIMER = 3.0f;
@@ -19,6 +21,14 @@ const float MAXIMUM_MOVE_DISTANCE = 100.0f;
 const float MINIMUM_MOVE_DISTANCE = 20.0f;
 
 const float MOVE_RANGE = MAXIMUM_MOVE_TIMER - MINIMUM_MOVE_TIMER;
+
+const std::string CKN_EGG_KEY = "Egg";
+const std::string CKN_HATCHING_KEY = "Hatching";
+const std::string CKN_GROWING_KEY = "Growing";
+const std::string CKN_CHICK_KEY = "Chick";
+const std::string CKN_CHICKEN_KEY = "Chicken";
+const std::string CKN_CHICK_WALKING_KEY = "ChickWalking";
+const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 
 class Chicken : public GameObject2D
 {
@@ -36,31 +46,25 @@ private:
 	enum class ChickenState
 	{
 		EGG,
+		EGG_HATCHING,
 		CHICK,
-		CHICKEN
+		CHICK_WALKING,
+		CHICK_GROWING,
+		CHICKEN,
+		CHICKEN_WALKING
 	};
 
-	void animate(float deltaTime);
+	void updateAnimation(float deltaTime);
+	void updateChickenState();
+	void updateImage();
 	void move();
 
+	void changeState(ChickenState state) { mState = state; mStateChanged = true; }
+
+	void loadData();
+
 	ChickenState mState;
-
-	Texture2D* mpEggTexture;
-	Sprite* mpEggSprite;
-
-	Texture2D* mpEggHatchingTexture;
-	AnimationData* mpEggHatchingAnimationData;
-	Animation* mpEggHatchingAnimation;
-
-	Texture2D* mpChickGrowingTexture;
-	AnimationData* mpChickGrowingAnimationData;
-	Animation* mpChickGrowingAnimation;
-
-	Texture2D* mpChickTexture;
-	Sprite* mpChickSprite;
-
-	Texture2D* mpChickenTexture;
-	Sprite* mpChickenSprite;
+	bool mStateChanged;
 	
 	float mTimeToHatch = 0.0f;
 	float mTimeToMaturity = 0.0f;
