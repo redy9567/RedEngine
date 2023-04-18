@@ -16,6 +16,7 @@ const std::string CHICK_WALKING_FILENAME = "Chick Walking.png";
 const std::string CHICKEN_WALKING_FILENAME = "Chicken Walking.png";
 
 const std::string UI_DIRECTORY = "UI/";
+const std::string MAIN_BUTTONS_DIRECTORY = "Main Buttons/";
 const std::string BUTTONS_DIRECTORY = "Buttons/";
 
 

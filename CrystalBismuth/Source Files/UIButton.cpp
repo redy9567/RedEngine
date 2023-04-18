@@ -11,7 +11,7 @@ UIButton::UIButton(Vector2D location, bool codeAnimation)
 
 	if (codeAnimation)
 	{
-		mpTexture = gs->createAndAddTexture2D("uiButton", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, true);
+		mpTexture = gs->createAndAddTexture2D("uiButton", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, true);
 		mpSprite = gs->createAndAddSprite("uiButton", &mpTexture, Vector2D::Zero(), mpTexture->getSize());
 		mpAnimationData = nullptr;
 		mpAnimation = nullptr;
