@@ -1,7 +1,7 @@
 #include "Mesh2D.h"
 #include "Texture2D.h"
 
-Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount)
+Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, MeshType meshType)
 {
 	mVerticies = new Vector2D[vertexCount]();
 	mVertexCount = vertexCount;
@@ -27,10 +27,11 @@ Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int dr
 	mColorData = nullptr;
 	mTextureDataCount = 0;
 	mTextureData = nullptr;
+	mMeshType = meshType;
 }
 
-Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[])
-	: Mesh2D(vertexArray, vertexCount, drawOrder, drawCount)
+Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[], MeshType meshType)
+	: Mesh2D(vertexArray, vertexCount, drawOrder, drawCount, meshType)
 {
 	
 	mColorData = new Vector3D[vertexCount]();
@@ -48,8 +49,8 @@ Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int dr
 }
 
 Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[],
-	Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[])
-	: Mesh2D(vertexArray, vertexCount, drawOrder, drawCount, colorData)
+	Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[], MeshType meshType)
+	: Mesh2D(vertexArray, vertexCount, drawOrder, drawCount, colorData, meshType)
 {
 	mTextureData = new Texture2D*[textureDataCount];
 	for (int i = 0; i < textureDataCount; i++)

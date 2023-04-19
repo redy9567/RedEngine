@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Header Files\FreeType;..\glfw-3.3.8\include;..\RedLib\Header Files;Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Header Files\FreeType;..\glfw-3.3.8\include;..\RedLib\Header Files;Header Files;..\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,7 +150,6 @@
     <ClInclude Include="Header Files\Animation.h" />
     <ClInclude Include="Header Files\AnimationData.h" />
     <ClInclude Include="Header Files\AnimationManager.h" />
-    <ClInclude Include="Header Files\DebugHUD.h" />
     <ClInclude Include="Header Files\Font.h" />
     <ClInclude Include="Header Files\FontManager.h" />
     <ClInclude Include="Header Files\FreeType\dlg\dlg.h" />
@@ -272,7 +271,6 @@
     <ClCompile Include="Source Files\Animation.cpp" />
     <ClCompile Include="Source Files\AnimationData.cpp" />
     <ClCompile Include="Source Files\AnimationManager.cpp" />
-    <ClCompile Include="Source Files\DebugHUD.cpp" />
     <ClCompile Include="Source Files\Font.cpp" />
     <ClCompile Include="Source Files\FontManager.cpp" />
     <ClCompile Include="Source Files\GameObject2D.cpp" />

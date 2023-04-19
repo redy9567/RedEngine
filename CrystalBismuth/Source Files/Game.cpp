@@ -289,7 +289,9 @@ void Game::update()
 	if(fps != -1)
 		mpGraphicsSystem->addToDebugHUD("FPS: " + to_string(debugGetFPS()));
 
-	mpGraphicsSystem->addToDebugHUD("Mouse Position: " + mpInputSystem->getMousePosition().toString());
+	Vector2D mousePos = mpInputSystem->getMousePosition();
+	mpGraphicsSystem->addToDebugHUD("Mouse Position: " + mousePos.toString());
+	mpGraphicsSystem->addToDebugHUD("Grid Position: " + mpGraphicsSystem->convertToGridCoordinates(mousePos).toString());
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", Vector2D(600.0f, 600.0f));

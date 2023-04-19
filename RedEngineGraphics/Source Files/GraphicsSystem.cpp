@@ -17,6 +17,7 @@
 #include "Font.h"
 #include "FontManager.h"
 #include "DebugHUD.h"
+#include "GridSystem.h"
 #include "SpriteManager.h"
 #include "GameObject2DManager.h"
 #include "GameObject2D.h"
@@ -134,6 +135,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
+	mpGridSystem = GridSystem::getInstance();
+	mpGridSystem->init(100, 100);
+
 	cout << "Well here we are!" << endl;
 
 	mCurrentShaderProgram = "";
@@ -164,6 +168,9 @@ void GraphicsSystem::cleanup()
 
 	DebugHUD::cleanupInstnace();
 
+	mpGridSystem->cleanup();
+	GridSystem::cleanupInstance();
+
 	glfwTerminate();
 	mInit = false;
 }
@@ -180,6 +187,9 @@ bool GraphicsSystem::render()
 	glfwPollEvents();
 
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	drawGrid();
+
 	return true;
 }
 
@@ -227,7 +237,7 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 		bindMesh2D(&mesh);
 	}
 
-	glDrawElements(GL_TRIANGLES, mesh.mDrawCount, GL_UNSIGNED_INT, 0);
+	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
 void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
@@ -273,7 +283,7 @@ void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
 
 	setActiveShaderProgram(mCurrentShaderProgram);
 
-	glDrawElements(GL_TRIANGLES, sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
+	glDrawElements(convertMeshType(sprite.mpMesh->mMeshType), sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
 void GraphicsSystem::draw(string animationKey, Vector2D location)
@@ -869,4 +879,60 @@ GameObject2D* GraphicsSystem::createAndAddGameObject2D(string key, Animation* an
 void GraphicsSystem::removeAndDeleteGameObject2D(string key)
 {
 	mpGameObjectManager->removeAndDeleteGameObject2D(key);
+}
+
+void GraphicsSystem::drawGrid()
+{
+	string previousShader = mCurrentShaderProgram;
+	setActiveShaderProgram("Text");
+
+	float boxHeight = mpGridSystem->getGridBoxHeight();
+	float boxWidth = mpGridSystem->getGridBoxWidth();
+	int rows = mDisplayHeight / boxHeight;
+	int columns = mDisplayWidth / boxWidth;
+
+	for (int i = 0; i < rows; i++)
+	{
+		Vector2D verticies[] = {
+			Vector2D(0.0f, i * boxHeight), 
+			Vector2D(mDisplayWidth * 1.0f, i * boxHeight)
+		};
+
+		unsigned int drawOrder[] = { 0, 1 };
+
+		Mesh2D mesh(verticies, 2, drawOrder, 2, MeshType::Lines);
+		draw(mesh);
+	}
+
+	for (int i = 0; i < columns; i++)
+	{
+		Vector2D verticies[] = {
+			Vector2D(i * boxWidth, 0.0f),
+			Vector2D(i * boxWidth, mDisplayHeight * 1.0f)
+		};
+
+		unsigned int drawOrder[] = { 0, 1 };
+
+		Mesh2D mesh(verticies, 2, drawOrder, 2, MeshType::Lines);
+		draw(mesh);
+	}
+
+	setActiveShaderProgram(previousShader);
+}
+
+unsigned int GraphicsSystem::convertMeshType(MeshType meshType)
+{
+	switch (meshType)
+	{
+	case MeshType::Triangles:
+		return GL_TRIANGLES;
+
+	case MeshType::Lines:
+		return GL_LINES;
+	}
+}
+
+Vector2D GraphicsSystem::convertToGridCoordinates(Vector2D pixelCoordinates)
+{
+	return mpGridSystem->convertPixelsToGrid(pixelCoordinates);
 }

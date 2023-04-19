@@ -87,9 +87,6 @@
     <ClInclude Include="Header Files\AnimationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\DebugHUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\FreeType\dlg\dlg.h">
       <Filter>Header Files\FreeType\dlg</Filter>
     </ClInclude>
@@ -447,9 +444,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\AnimationManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Files\DebugHUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\Font.cpp">

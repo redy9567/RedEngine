@@ -130,18 +130,22 @@
   <ItemGroup>
     <ClInclude Include="Header Files\Camera2D.h" />
     <ClInclude Include="Header Files\Color.h" />
+    <ClInclude Include="Header Files\DebugHUD.h" />
     <ClInclude Include="Header Files\Event.h" />
     <ClInclude Include="Header Files\EventListener.h" />
     <ClInclude Include="Header Files\EventSystem.h" />
+    <ClInclude Include="Header Files\GridSystem.h" />
     <ClInclude Include="Header Files\KeyboardEvent.h" />
     <ClInclude Include="Header Files\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Camera2D.cpp" />
     <ClCompile Include="Source Files\Color.cpp" />
+    <ClCompile Include="Source Files\DebugHUD.cpp" />
     <ClCompile Include="Source Files\Event.cpp" />
     <ClCompile Include="Source Files\EventListener.cpp" />
     <ClCompile Include="Source Files\EventSystem.cpp" />
+    <ClCompile Include="Source Files\GridSystem.cpp" />
     <ClCompile Include="Source Files\KeyboardEvent.cpp" />
     <ClCompile Include="Source Files\MouseEvent.cpp" />
   </ItemGroup>

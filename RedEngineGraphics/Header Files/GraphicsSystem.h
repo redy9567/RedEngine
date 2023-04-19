@@ -13,6 +13,7 @@ class AnimationData;
 class Font;
 
 enum SHADER_TYPE;
+enum MeshType;
 
 typedef unsigned int ShaderObjectIndex;
 typedef unsigned int ShaderProgramIndex;
@@ -28,6 +29,7 @@ class GameObject2D;
 class Texture2DManager;
 
 class DebugHUD;
+class GridSystem;
 
 class GraphicsSystem : public Trackable
 {
@@ -117,6 +119,7 @@ public:
 	GameObject2D* createAndAddGameObject2D(std::string key, Animation*, Vector2D loc = Vector2D::Zero());
 	void removeAndDeleteGameObject2D(std::string key);
 
+	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
 
 	//DebugHUD
 	void addToDebugHUD(std::string text);
@@ -171,6 +174,10 @@ private:
 
 	void drawDebugInfo();
 
+	void drawGrid();
+
+	unsigned int convertMeshType(MeshType meshType);
+
 	GLFWwindow* mWindow;
 	Vector2D mWindowResolution;
 
@@ -184,6 +191,7 @@ private:
 	Texture2DManager* mpTexture2DManager;
 
 	DebugHUD* mpDebugHUD;
+	GridSystem* mpGridSystem;
 
 	DrawMode mDrawMode;
 
