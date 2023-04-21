@@ -56,8 +56,14 @@ public:
 		);
 	}
 
+	float* convertToFloatArray();
+
 private:
-	Vector4D firstRow, secondRow, thirdRow, fourthRow;
+	void cleanupFloatArray();
+
+	Vector4D mFirstRow, mSecondRow, mThirdRow, mFourthRow;
+
+	float* mConvertedFloatArray;
 
 };
 

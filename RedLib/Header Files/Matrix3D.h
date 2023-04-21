@@ -63,8 +63,14 @@ public:
 														0, 1, 0,
 														0, 0, 1); }
 
+	float* convertToFloatArray();
+
 private:
-	Vector3D firstRow, secondRow, thirdRow;
+	void cleanupFloatArray();
+
+	Vector3D mFirstRow, mSecondRow, mThirdRow;
+
+	float* mConvertedFloatArray;
 
 };
 

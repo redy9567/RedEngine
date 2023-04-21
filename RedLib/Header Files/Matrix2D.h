@@ -46,8 +46,14 @@ public:
 	static const Matrix2D Zero() { return Matrix2D(0, 0, 0, 0); }
 	static const Matrix2D Identity() { return Matrix2D(1, 0, 0, 1); }
 
+	float* convertToFloatArray();
+
 private:
+	void cleanupFloatArray();
+
 	Vector2D mFirstRow, mSecondRow;
+
+	float* mConvertedFloatArray;
 
 };
 

@@ -3,130 +3,137 @@
 
 Matrix4D::Matrix4D()
 {
-	firstRow = Vector4D::Zero();
-	secondRow = Vector4D::Zero();
-	thirdRow = Vector4D::Zero();
-	fourthRow = Vector4D::Zero();
+	mFirstRow = Vector4D::Zero();
+	mSecondRow = Vector4D::Zero();
+	mThirdRow = Vector4D::Zero();
+	mFourthRow = Vector4D::Zero();
+	mConvertedFloatArray = nullptr;
 };
 
 Matrix4D::Matrix4D(Vector4D row1, Vector4D row2, Vector4D row3, Vector4D row4)
 {
-	firstRow = row1;
-	secondRow = row2;
-	thirdRow = row3;
-	fourthRow = row4;
+	mFirstRow = row1;
+	mSecondRow = row2;
+	mThirdRow = row3;
+	mFourthRow = row4;
+	mConvertedFloatArray = nullptr;
 }
 
 Matrix4D::~Matrix4D()
 {
-
+	cleanupFloatArray();
 }
 
 Matrix4D Matrix4D::operator=(const Matrix4D& other)
 {
-	firstRow = other.firstRow;
-	secondRow = other.secondRow;
-	thirdRow = other.thirdRow;
-	fourthRow = other.fourthRow;
+	cleanupFloatArray();
+	mFirstRow = other.mFirstRow;
+	mSecondRow = other.mSecondRow;
+	mThirdRow = other.mThirdRow;
+	mFourthRow = other.mFourthRow;
 	return *this;
 }
 
 Matrix4D Matrix4D::operator+(const Matrix4D& other) const
 {
-	return Matrix4D(firstRow + other.firstRow, secondRow + other.secondRow, thirdRow + other.thirdRow, fourthRow + other.fourthRow);
+	return Matrix4D(mFirstRow + other.mFirstRow, mSecondRow + other.mSecondRow, mThirdRow + other.mThirdRow, mFourthRow + other.mFourthRow);
 }
 
 Matrix4D Matrix4D::operator-(const Matrix4D& other) const
 {
-	return Matrix4D(firstRow - other.firstRow, secondRow - other.secondRow, thirdRow - other.thirdRow, fourthRow - other.fourthRow);
+	return Matrix4D(mFirstRow - other.mFirstRow, mSecondRow - other.mSecondRow, mThirdRow - other.mThirdRow, mFourthRow - other.mFourthRow);
 }
 
 Matrix4D Matrix4D::operator*(const float scalar) const
 {
-	return Matrix4D(firstRow * scalar, secondRow * scalar, thirdRow * scalar, fourthRow * scalar);
+	return Matrix4D(mFirstRow * scalar, mSecondRow * scalar, mThirdRow * scalar, mFourthRow * scalar);
 }
 
 Matrix4D Matrix4D::operator/(const float scalar) const
 {
-	return Matrix4D(firstRow / scalar, secondRow / scalar, thirdRow / scalar, fourthRow / scalar);
+	return Matrix4D(mFirstRow / scalar, mSecondRow / scalar, mThirdRow / scalar, mFourthRow / scalar);
 }
 
 Matrix4D Matrix4D::operator*(const int scalar) const
 {
-	return Matrix4D(firstRow * scalar, secondRow * scalar, thirdRow * scalar, fourthRow * scalar);
+	return Matrix4D(mFirstRow * scalar, mSecondRow * scalar, mThirdRow * scalar, mFourthRow * scalar);
 }
 
 Matrix4D Matrix4D::operator/(const int scalar) const
 {
-	return Matrix4D(firstRow / scalar, secondRow / scalar, thirdRow / scalar, fourthRow / scalar);
+	return Matrix4D(mFirstRow / scalar, mSecondRow / scalar, mThirdRow / scalar, mFourthRow / scalar);
 }
 
 Matrix4D Matrix4D::operator*(const double scalar) const
 {
-	return Matrix4D(firstRow * scalar, secondRow * scalar, thirdRow * scalar, fourthRow * scalar);
+	return Matrix4D(mFirstRow * scalar, mSecondRow * scalar, mThirdRow * scalar, mFourthRow * scalar);
 }
 
 Matrix4D Matrix4D::operator/(const double scalar) const
 {
-	return Matrix4D(firstRow / scalar, secondRow / scalar, thirdRow / scalar, fourthRow / scalar);
+	return Matrix4D(mFirstRow / scalar, mSecondRow / scalar, mThirdRow / scalar, mFourthRow / scalar);
 }
 
 Matrix4D Matrix4D::operator*(const Matrix4D& other) const
 {
 	return Matrix4D(
-		Vector4D(firstRow * other.getColumn(0), firstRow * other.getColumn(1), firstRow * other.getColumn(2), firstRow * other.getColumn(3)),
-		Vector4D(secondRow * other.getColumn(0), secondRow * other.getColumn(1), secondRow * other.getColumn(2), secondRow * other.getColumn(3)),
-		Vector4D(thirdRow * other.getColumn(0), thirdRow * other.getColumn(1), thirdRow * other.getColumn(2), thirdRow * other.getColumn(3)),
-		Vector4D(fourthRow * other.getColumn(0), fourthRow * other.getColumn(1), fourthRow * other.getColumn(2), fourthRow * other.getColumn(3))
+		Vector4D(mFirstRow * other.getColumn(0), mFirstRow * other.getColumn(1), mFirstRow * other.getColumn(2), mFirstRow * other.getColumn(3)),
+		Vector4D(mSecondRow * other.getColumn(0), mSecondRow * other.getColumn(1), mSecondRow * other.getColumn(2), mSecondRow * other.getColumn(3)),
+		Vector4D(mThirdRow * other.getColumn(0), mThirdRow * other.getColumn(1), mThirdRow * other.getColumn(2), mThirdRow * other.getColumn(3)),
+		Vector4D(mFourthRow * other.getColumn(0), mFourthRow * other.getColumn(1), mFourthRow * other.getColumn(2), mFourthRow * other.getColumn(3))
 	);
 }
 
 Matrix4D Matrix4D::operator+=(const Matrix4D& other)
 {
-	firstRow += other.firstRow;
-	secondRow += other.secondRow;
-	thirdRow += other.thirdRow;
-	fourthRow += other.fourthRow;
+	cleanupFloatArray();
+	mFirstRow += other.mFirstRow;
+	mSecondRow += other.mSecondRow;
+	mThirdRow += other.mThirdRow;
+	mFourthRow += other.mFourthRow;
 
 	return *this;
 }
 
 Matrix4D Matrix4D::operator-=(const Matrix4D& other)
 {
-	firstRow -= other.firstRow;
-	secondRow -= other.secondRow;
-	thirdRow -= other.thirdRow;
-	fourthRow -= other.fourthRow;
+	cleanupFloatArray();
+	mFirstRow -= other.mFirstRow;
+	mSecondRow -= other.mSecondRow;
+	mThirdRow -= other.mThirdRow;
+	mFourthRow -= other.mFourthRow;
 
 	return *this;
 }
 
 Matrix4D Matrix4D::operator*=(const float scalar)
 {
-	firstRow *= scalar;
-	secondRow *= scalar;
-	thirdRow *= scalar;
-	fourthRow *= scalar;
+	cleanupFloatArray();
+	mFirstRow *= scalar;
+	mSecondRow *= scalar;
+	mThirdRow *= scalar;
+	mFourthRow *= scalar;
 	return *this;
 }
 
 Matrix4D Matrix4D::operator/=(const float scalar)
 {
-	firstRow /= scalar;
-	secondRow /= scalar;
-	thirdRow /= scalar;
-	fourthRow /= scalar;
+	cleanupFloatArray();
+	mFirstRow /= scalar;
+	mSecondRow /= scalar;
+	mThirdRow /= scalar;
+	mFourthRow /= scalar;
 	return *this;
 }
 
 bool Matrix4D::operator==(const Matrix4D& other) const
 {
-	return firstRow == other.firstRow && secondRow == other.secondRow && thirdRow == other.thirdRow && fourthRow == other.fourthRow;
+	return mFirstRow == other.mFirstRow && mSecondRow == other.mSecondRow && mThirdRow == other.mThirdRow && mFourthRow == other.mFourthRow;
 }
 
 bool Matrix4D::operator!=(const Matrix4D& other) const
 {
-	return !(firstRow == other.firstRow && secondRow == other.secondRow && thirdRow == other.thirdRow && fourthRow == other.fourthRow);
+	return !(mFirstRow == other.mFirstRow && mSecondRow == other.mSecondRow && mThirdRow == other.mThirdRow && mFourthRow == other.mFourthRow);
 }
 
 Vector4D Matrix4D::operator[](int index) const
@@ -136,7 +143,7 @@ Vector4D Matrix4D::operator[](int index) const
 
 std::ostream& Matrix4D::write(std::ostream& out) const
 {
-	out << firstRow << std::endl << secondRow << std::endl << thirdRow << std::endl << fourthRow << std::endl;
+	out << mFirstRow << std::endl << mSecondRow << std::endl << mThirdRow << std::endl << mFourthRow << std::endl;
 
 	return out;
 }
@@ -146,16 +153,16 @@ Vector4D Matrix4D::getRow(int index) const
 	switch (index)
 	{
 	case 0:
-		return firstRow;
+		return mFirstRow;
 		break;
 	case 1:
-		return secondRow;
+		return mSecondRow;
 		break;
 	case 2:
-		return thirdRow;
+		return mThirdRow;
 		break;
 	case 3:
-		return fourthRow;
+		return mFourthRow;
 		break;
 	default:
 		assert(false);
@@ -166,11 +173,50 @@ Vector4D Matrix4D::getRow(int index) const
 
 Vector4D Matrix4D::getColumn(int index) const
 {
-	return Vector4D(firstRow[index], secondRow[index], thirdRow[index], fourthRow[index]);
+	return Vector4D(mFirstRow[index], mSecondRow[index], mThirdRow[index], mFourthRow[index]);
 }
 
 std::ostream& operator<<(std::ostream& out, Matrix4D const& mat)
 {
 	mat.write(out);
 	return out;
+}
+
+void Matrix4D::cleanupFloatArray()
+{
+	if (mConvertedFloatArray)
+	{
+		delete[] mConvertedFloatArray;
+		mConvertedFloatArray = nullptr;
+	}
+}
+
+float* Matrix4D::convertToFloatArray()
+{
+	if (!mConvertedFloatArray)
+	{
+		mConvertedFloatArray = new float[16];
+
+		mConvertedFloatArray[0] = mFirstRow[0];
+		mConvertedFloatArray[1] = mFirstRow[1];
+		mConvertedFloatArray[2] = mFirstRow[2];
+		mConvertedFloatArray[3] = mFirstRow[3];
+
+		mConvertedFloatArray[4] = mSecondRow[0];
+		mConvertedFloatArray[5] = mSecondRow[1];
+		mConvertedFloatArray[6] = mSecondRow[2];
+		mConvertedFloatArray[7] = mSecondRow[3];
+
+		mConvertedFloatArray[8] = mThirdRow[0];
+		mConvertedFloatArray[9] = mThirdRow[1];
+		mConvertedFloatArray[10] = mThirdRow[2];
+		mConvertedFloatArray[11] = mThirdRow[3];
+
+		mConvertedFloatArray[12] = mFourthRow[0];
+		mConvertedFloatArray[13] = mFourthRow[1];
+		mConvertedFloatArray[14] = mFourthRow[2];
+		mConvertedFloatArray[15] = mFourthRow[3];
+	}
+
+	return mConvertedFloatArray;
 }
