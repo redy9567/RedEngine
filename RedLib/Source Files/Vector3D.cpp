@@ -232,3 +232,13 @@ Vector3D Vector3D::operator*(const Matrix3D& other) const
 {
 	return Vector3D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)), Dot(*this, other.getColumn(2)));
 }
+
+bool Vector3D::IsPointWithinBounds(Vector3D point, Vector3D lower, Vector3D upper)
+{
+	return	point.getX() > lower.getX() &&
+		point.getY() > lower.getY() &&
+		point.getZ() > lower.getZ() &&
+		point.getX() < upper.getX() &&
+		point.getY() < upper.getY() &&
+		point.getZ() < upper.getZ();
+}

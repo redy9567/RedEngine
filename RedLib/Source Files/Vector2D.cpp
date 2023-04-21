@@ -208,3 +208,11 @@ Vector2D Vector2D::operator*(const Matrix2D& other) const
 {
 	return Vector2D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)));
 }
+
+bool Vector2D::IsPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper)
+{
+	return	point.getX() > lower.getX() &&
+		point.getY() > lower.getY() &&
+		point.getX() < upper.getX() &&
+		point.getY() < upper.getY();
+}

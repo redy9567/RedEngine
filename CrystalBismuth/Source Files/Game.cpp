@@ -13,6 +13,7 @@
 #include "DebugHUD.h"
 #include "Chicken.h";
 #include "UIButton.h"
+#include "ChickenManager.h"
 #include <fstream>
 
 #include <assert.h>
@@ -50,9 +51,6 @@ Game::Game()
 
 	mDebugMode = false;
 
-	mpTextureCollection = nullptr;
-
-	mpChickWalkingTexture = nullptr;
 	mpButton = nullptr;
 	mpButton2 = nullptr;
 }
@@ -64,12 +62,6 @@ Game::~Game()
 
 void Game::init(int mFPS)
 {
-	
-
-	mpTextureCollection = new Texture2D * [2];
-	//mpTextureCollection[0] = mpWallTexture;
-	//mpTextureCollection[1] = mpFaceTexture;
-
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 	mpInputSystem = InputSystem::getInstance();
@@ -80,16 +72,11 @@ void Game::init(int mFPS)
 
 	initShaderPrograms();
 
-	//Texture for objects
-	mpChickWalkingTexture = mpGraphicsSystem->createAndAddTexture2D("chickWalking", "Resource Files/Chicks/Animations/Chick Walking.png", true);
-
-	mpChicken = new Chicken(10.0f, 10.0f, 10.0f, Vector2D(9, 5));
+	mpChickenManager = ChickenManager::getInstance();
+	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
 
 	mpButton = new UIButton(Vector2D(300.0f, 0.0f));
 	mpButton2 = new UIButton(Vector2D(400.0f, -20.0f), true);
-
-	mpGraphicsSystem->createAndAddAnimationData("ChickenAnimData", &mpChickWalkingTexture, 4, 1, Vector2D(8, 8));
-	mpGraphicsSystem->createAndAddAnimation("Chicken1", "ChickenAnimData", 8);
 
 	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
 
@@ -142,13 +129,9 @@ void Game::initShaderPrograms()
 
 void Game::cleanup()
 {
-	//Delete Mesh2D objects
-	delete mpTextureCollection;
-	mpTextureCollection = nullptr;
-
-	if(mpChicken)
-		delete mpChicken;
-	mpChicken = nullptr;
+	mpChickenManager->cleanup();
+	ChickenManager::cleanupInstance();
+	mpChickenManager = nullptr;
 
 	delete mpTimer;
 	mpTimer = nullptr;
@@ -187,38 +170,34 @@ bool Game::gameLoop()
 
 void Game::input()
 {
-	if (mpChicken)
+	
+	Vector2D mousePos = mpInputSystem->getMousePosition();
+
+	Vector2D buttonLoc = mpButton->getLoc();
+	Vector2D buttonUpperBound = buttonLoc + mpButton->getSize();
+
+	Vector2D button2Loc = mpButton2->getLoc();
+	Vector2D button2UpperBound = button2Loc + mpButton2->getSize();
+
+	Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
+
+	if (clickedChicken)
 	{
-		Vector2D mousePos = mpInputSystem->getMousePosition();
-
-		Vector2D chickenLoc = mpChicken->getLoc();
-		Vector2D chickenUpperBound = chickenLoc + mpChicken->getSize();
-
-		Vector2D buttonLoc = mpButton->getLoc();
-		Vector2D buttonUpperBound = buttonLoc + mpButton->getSize();
-
-		Vector2D button2Loc = mpButton2->getLoc();
-		Vector2D button2UpperBound = button2Loc + mpButton2->getSize();
-
-		if (isPointWithinBounds(mousePos, chickenLoc, chickenUpperBound))
+		if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
 		{
-			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
-			{
-				mpChicken->onMouseClick();
-			}
-			else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right) && mpChicken->isEgg())
-			{
-				delete mpChicken;
-				mpChicken = nullptr;
+			clickedChicken->onMouseClick();
+		}
+		else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right) && clickedChicken->isEgg())
+		{
+			mpChickenManager->removeAndDeleteChicken(clickedChicken);
 
-				mCurrentMoney += EGG_SELL_AMOUNT;
-			}
-
+			mCurrentMoney += EGG_SELL_AMOUNT;
 		}
 
-		mpButton->setIsHovered(isPointWithinBounds(mousePos, buttonLoc, buttonUpperBound));
-		mpButton2->setIsHovered(isPointWithinBounds(mousePos, button2Loc, button2UpperBound));
 	}
+
+	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLoc, buttonUpperBound));
+	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, button2Loc, button2UpperBound));
 	
 
 	bool keyState = mpInputSystem->getKey(InputSystem::KeyCode::F1); //Fill vs. Wireframe
@@ -275,8 +254,7 @@ void Game::update()
 
 	mpInputSystem->update();
 
-	if(mpChicken)
-		mpChicken->update(mDeltaTime);
+	mpChickenManager->update(mDeltaTime);
 
 	mpButton->update(mDeltaTime);
 	mpButton2->update(mDeltaTime);
@@ -300,10 +278,7 @@ void Game::update()
 
 bool Game::render()
 {
-	mpGraphicsSystem->draw("Chicken1", Vector2D::One());
-
-	if(mpChicken)
-		mpGraphicsSystem->draw(mpChicken);
+	mpChickenManager->drawAllChickens();
 
 	mpGraphicsSystem->draw(mpButton);
 	mpGraphicsSystem->draw(mpButton2);
@@ -311,12 +286,4 @@ bool Game::render()
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 
 	return mpGraphicsSystem->render();
-}
-
-bool Game::isPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper)
-{
-	return	point.getX() > lower.getX() &&
-			point.getY() > lower.getY() &&
-			point.getX() < upper.getX() &&
-			point.getY() < upper.getY();
 }

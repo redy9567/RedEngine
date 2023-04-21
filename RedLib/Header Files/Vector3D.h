@@ -75,6 +75,8 @@ public:
 	static float Dot(const Vector3D a, const Vector3D b);
 	static Vector3D Cross(const Vector3D a, const Vector3D b);
 
+	static bool IsPointWithinBounds(Vector3D point, Vector3D lower, Vector3D upper);
+
 private:
 	float mX, mY, mZ;
 	

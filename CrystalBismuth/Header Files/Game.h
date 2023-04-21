@@ -12,6 +12,7 @@ class Timer;
 class InputSystem;
 class Chicken;
 class UIButton;
+class ChickenManager;
 
 const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
 const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
@@ -46,13 +47,12 @@ private:
 	void initShaderObjects();
 	void initShaderPrograms();
 
-	bool isPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper);
-
 	static Game* mspInstance;
 
 
 	GraphicsSystem* mpGraphicsSystem;
 	InputSystem* mpInputSystem;
+	ChickenManager* mpChickenManager;
 
 	//Timing Stuff
 	float mTimePerFrame;
@@ -68,11 +68,6 @@ private:
 	bool mInputLastF4State;
 	bool mInputLastF5State;
 
-	//Game Data
-	Texture2D* mpChickWalkingTexture;
-	Texture2D** mpTextureCollection;
-
-	Chicken* mpChicken;
 	UIButton* mpButton;
 	UIButton* mpButton2;
 
