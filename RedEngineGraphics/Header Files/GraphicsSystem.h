@@ -77,7 +77,8 @@ public:
 	void setIntegerUniform(std::string program, std::string uniformName, int value);
 	void setVec2Uniform(std::string program, std::string uniformName, Vector2D value);
 	void setVec3Uniform(std::string program, std::string uniformName, Vector3D value);
-	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location); //Make this not use sprite in the future? Need Mat implementations
+	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location); //This needs to be Deprecated
+	void setMat3Uniform(std::string program, std::string uniformName, Matrix3D matrix);
 
 	//Shaders
 	bool createAndAddShader(std::string key, SHADER_TYPE type, std::string filename);
@@ -132,6 +133,10 @@ public:
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
+	int getDisplayWidth() { return mWindowResolution.getX(); }
+	int getDisplayHeight() { return mWindowResolution.getY(); }
+	Vector2D getDisplayResolution() { return mWindowResolution; }
+
 	bool render();
 
 	void setDebugMode(bool val) { mDebugMode = val; }
@@ -169,9 +174,6 @@ private:
 	void packGPUData(Mesh2D&, Vector2D scale = Vector2D::One());
 	void linkGPUData(Mesh2D&);
 
-	int getDisplayWidth() { return mDisplayWidth; }
-	int getDisplayHeight() { return mDisplayHeight; }
-
 	void drawDebugInfo();
 
 	void drawGrid();
@@ -199,8 +201,5 @@ private:
 
 	bool mInit;
 	bool mDebugMode;
-
-	int mDisplayWidth;
-	int mDisplayHeight;
 
 };

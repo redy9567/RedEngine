@@ -74,7 +74,7 @@ void Game::init(int mFPS)
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 	mpInputSystem = InputSystem::getInstance();
 
-	assert(mpGraphicsSystem->init(600, 600));
+	assert(mpGraphicsSystem->init(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT));
 
 	initShaderObjects();
 
@@ -83,7 +83,7 @@ void Game::init(int mFPS)
 	//Texture for objects
 	mpChickWalkingTexture = mpGraphicsSystem->createAndAddTexture2D("chickWalking", "Resource Files/Chicks/Animations/Chick Walking.png", true);
 
-	mpChicken = new Chicken(10.0f, 10.0f, 10.0f, Vector2D(300, 300));
+	mpChicken = new Chicken(10.0f, 10.0f, 10.0f, Vector2D(9, 5));
 
 	mpButton = new UIButton(Vector2D(300.0f, 0.0f));
 	mpButton2 = new UIButton(Vector2D(400.0f, -20.0f), true);
@@ -282,7 +282,7 @@ void Game::update()
 	mpButton2->update(mDeltaTime);
 
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
-	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", Vector2D(600, 600) - moneyTextOffset,
+	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
 		Vector3D::Up());
 
 	int fps = debugGetFPS();
@@ -291,12 +291,11 @@ void Game::update()
 
 	Vector2D mousePos = mpInputSystem->getMousePosition();
 	mpGraphicsSystem->addToDebugHUD("Mouse Position: " + mousePos.toString());
-	mpGraphicsSystem->addToDebugHUD("Grid Position: " + mpGraphicsSystem->convertToGridCoordinates(mousePos).toString());
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
-	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", Vector2D(600.0f, 600.0f));
-	mpGraphicsSystem->setVec2Uniform("Green", "uResolution", Vector2D(600.0f, 600.0f));
-	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", Vector2D(600.0f, 600.0f));
+	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec2Uniform("Green", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
 }
 
 bool Game::render()

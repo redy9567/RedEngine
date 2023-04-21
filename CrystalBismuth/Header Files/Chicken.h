@@ -15,10 +15,10 @@ const float STARTING_MOVEMENT_TIMER = 3.0f;
 const float MAXIMUM_MOVE_TIMER = 3.0f;
 const float MINIMUM_MOVE_TIMER = 1.0f;
 
-const float MOVEMENT_SPEED = 1.0f;
+const float MOVEMENT_SPEED = 0.01f;
 
-const float MAXIMUM_MOVE_DISTANCE = 100.0f;
-const float MINIMUM_MOVE_DISTANCE = 20.0f;
+const float MAXIMUM_MOVE_DISTANCE = 1.0f;
+const float MINIMUM_MOVE_DISTANCE = 0.25f;
 
 const float MOVE_RANGE = MAXIMUM_MOVE_TIMER - MINIMUM_MOVE_TIMER;
 

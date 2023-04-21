@@ -23,6 +23,7 @@
 #include "GameObject2D.h"
 #include "AnimationData.h"
 #include "Texture2DManager.h"
+#include "Matrix3D.h"
 
 using namespace std;
 
@@ -62,8 +63,6 @@ GraphicsSystem::GraphicsSystem()
 	mpFontManager = nullptr;
 	mpGameObjectManager = nullptr;
 	mpTexture2DManager = nullptr;
-	mDisplayHeight = 0;
-	mDisplayWidth = 0;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -74,9 +73,6 @@ GraphicsSystem::~GraphicsSystem()
 
 bool GraphicsSystem::init(int displayWidth, int displayHeight)
 {
-	mDisplayHeight = displayHeight;
-	mDisplayWidth = displayHeight;
-
 	//Initialize OpenGL, and set our context
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -561,11 +557,24 @@ void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName
 
 	glUseProgram(sp->mSPI);
 	float mat[] = {
-		sprite.mScale.getX(), 0.0f, location.getX(),
-		0.0f, sprite.mScale.getY(), location.getY(),
+		sprite.mScale.getX(), 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
+		0.0f, sprite.mScale.getY(), location.getY()* mpGridSystem->getGridBoxWidth(),
 		0.0f, 0.0f, 1.0f
 	};
 	glUniformMatrix3fv(uniformLocation, 1, false, mat);
+}
+
+void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName, Matrix3D matrix)
+{
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(sp->mSPI);
+	glUniformMatrix3fv(uniformLocation, 1, false, matrix.convertToFloatArray());
 }
 
 float GraphicsSystem::getTime()
@@ -818,7 +827,12 @@ Vector2D GraphicsSystem::_imGetMousePosition(GraphicsSystemIMKey key)
 {
 	double x, y;
 	glfwGetCursorPos(mWindow, &x, &y);
-	return Vector2D(x, mWindowResolution.getY() - y);
+	y = mWindowResolution.getY() - y;
+
+	x /= mpGridSystem->getGridBoxWidth();
+	y /= mpGridSystem->getGridBoxHeight();
+
+	return Vector2D(x, y);
 }
 
 void GraphicsSystem::createAndAddFont(string key, string filepath, int pointSize)
@@ -888,14 +902,14 @@ void GraphicsSystem::drawGrid()
 
 	float boxHeight = mpGridSystem->getGridBoxHeight();
 	float boxWidth = mpGridSystem->getGridBoxWidth();
-	int rows = mDisplayHeight / boxHeight;
-	int columns = mDisplayWidth / boxWidth;
+	int rows = getDisplayHeight() / boxHeight + 1;
+	int columns = getDisplayWidth() / boxWidth + 1;
 
 	for (int i = 0; i < rows; i++)
 	{
 		Vector2D verticies[] = {
 			Vector2D(0.0f, i * boxHeight), 
-			Vector2D(mDisplayWidth * 1.0f, i * boxHeight)
+			Vector2D(getDisplayWidth() * 1.0f, i * boxHeight)
 		};
 
 		unsigned int drawOrder[] = { 0, 1 };
@@ -908,7 +922,7 @@ void GraphicsSystem::drawGrid()
 	{
 		Vector2D verticies[] = {
 			Vector2D(i * boxWidth, 0.0f),
-			Vector2D(i * boxWidth, mDisplayHeight * 1.0f)
+			Vector2D(i * boxWidth, getDisplayHeight() * 1.0f)
 		};
 
 		unsigned int drawOrder[] = { 0, 1 };
