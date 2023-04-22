@@ -70,6 +70,9 @@ void Chicken::update(float deltaTime)
 {
 	mLifeTime += deltaTime;
 
+	if (mBreedingTimer > 0.0f)
+		mBreedingTimer -= deltaTime;
+
 	updateAnimation(deltaTime);
 	updateChickenState();
 	if (mStateChanged)

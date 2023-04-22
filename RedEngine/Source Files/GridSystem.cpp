@@ -51,8 +51,8 @@ Vector2D GridSystem::convertPixelsToGrid(Vector2D pxLoc)
 	assert(mInit);
 	
 	return Vector2D(
-		(int)(pxLoc.getX() / mGridBoxWidth),
-		(int)(pxLoc.getY() / mGridBoxHeight)
+		(pxLoc.getX() / mGridBoxWidth),
+		(pxLoc.getY() / mGridBoxHeight)
 			);
 }
 

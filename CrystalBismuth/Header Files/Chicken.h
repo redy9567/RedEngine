@@ -21,6 +21,8 @@ const float MOVEMENT_SPEED = 0.01f;
 const float MAXIMUM_MOVE_DISTANCE = 1.0f;
 const float MINIMUM_MOVE_DISTANCE = 0.25f;
 
+const float BREEDING_COOLDOWN = 5.0f;
+
 const float MOVE_RANGE = MAXIMUM_MOVE_TIMER - MINIMUM_MOVE_TIMER;
 
 const std::string CKN_EGG_KEY = "Egg";
@@ -34,6 +36,8 @@ const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 class Chicken : public GameObject2D
 {
 public:
+	friend class ChickenManager;
+
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
 	~Chicken();
 
@@ -79,6 +83,8 @@ private:
 	float mLifeTime = 0.0f;
 
 	float mMoveUpdateTimer = 0.0f;
+
+	float mBreedingTimer = 0.0f;
 
 	bool mIsMoving;
 	Vector2D mMoveStart;

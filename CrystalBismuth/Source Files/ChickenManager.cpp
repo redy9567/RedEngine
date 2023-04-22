@@ -88,10 +88,34 @@ Chicken* ChickenManager::getChicken(int chickenID)
 
 void ChickenManager::update(float deltaTime)
 {
+	Chicken* mate1 = nullptr;
+	Chicken* mate2 = nullptr;
+
 	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
 	{
 		(*it)->update(deltaTime);
+
+		for (vector<Chicken*>::iterator it2 = mChickens.end()-1; it2 != it; it2--)
+		{
+			Vector2D chicken1HalfSize = GraphicsSystem::getInstance()->convertToGridCoordinates((*it)->getSize() / 2.0f);
+			Vector2D chicken1Center = (*it)->getLoc() + chicken1HalfSize;
+
+			if (Vector2D::IsPointWithinBounds(chicken1Center, (*it2)->getLoc(), (*it2)->getLoc() + (*it2)->getSize()))
+			{
+				if (checkBreeding((*it), (*it2)))
+				{
+					mate1 = (*it);
+					mate2 = (*it2);
+					break;
+				}
+			}
+		}
+		if (mate1)
+			break;
 	}
+
+	if(mate1 && mate2)
+		breed(mate1, mate2);
 }
 
 void ChickenManager::drawAllChickens()
@@ -109,7 +133,7 @@ Chicken* ChickenManager::checkChickenClicked(Vector2D mousePos)
 	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
 	{
 		Vector2D chickenLoc = (*it)->getLoc();
-		Vector2D chickenUpperBound = chickenLoc + (*it)->getSize();
+		Vector2D chickenUpperBound = chickenLoc + GraphicsSystem::getInstance()->convertToGridCoordinates((*it)->getSize());
 
 		if (Vector2D::IsPointWithinBounds(mousePos, chickenLoc, chickenUpperBound))
 		{
@@ -118,4 +142,18 @@ Chicken* ChickenManager::checkChickenClicked(Vector2D mousePos)
 	}
 
 	return nullptr;
+}
+
+bool ChickenManager::checkBreeding(Chicken* chicken1, Chicken* chicken2)
+{
+	return (chicken1->mState == Chicken::ChickenState::CHICKEN || chicken1->mState == Chicken::ChickenState::CHICKEN_WALKING) &&
+		(chicken2->mState == Chicken::ChickenState::CHICKEN || chicken2->mState == Chicken::ChickenState::CHICKEN_WALKING) &&
+		chicken1->mBreedingTimer <= 0.0f;
+}
+
+void ChickenManager::breed(Chicken* chicken1, Chicken* chicken2)
+{
+	createAndAddChicken(chicken1->getLoc());
+	chicken1->mBreedingTimer = BREEDING_COOLDOWN;
+	chicken2->mBreedingTimer = BREEDING_COOLDOWN;
 }

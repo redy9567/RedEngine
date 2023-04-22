@@ -7,7 +7,7 @@ class Chicken;
 
 const float DEFAULT_TIME_TO_HATCH = 20.0f;
 const float DEFAULT_TIME_TO_MATURITY = 20.0f;
-const float DEFAULT_TIME_TO_DEATH = 20.0f;
+const float DEFAULT_TIME_TO_DEATH = 500.0f;
 
 class ChickenManager : public Trackable
 {
@@ -31,6 +31,9 @@ public:
 private:
 	ChickenManager();
 	~ChickenManager();
+
+	bool checkBreeding(Chicken* chicken1, Chicken* chicken2);
+	void breed(Chicken* chicken1, Chicken* chicken2);
 
 	static ChickenManager* mspInstance;
 

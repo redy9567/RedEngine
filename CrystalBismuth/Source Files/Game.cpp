@@ -76,6 +76,7 @@ void Game::init(int mFPS)
 
 	mpChickenManager = ChickenManager::getInstance();
 	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
+	mpChickenManager->createAndAddChicken(Vector2D(12, 5));
 
 	mpButton = new UIButton(Vector2D(300.0f, 0.0f));
 	mpButton2 = new UIButton(Vector2D(400.0f, -20.0f), true);
@@ -181,18 +182,16 @@ void Game::input()
 	Vector2D button2Loc = mpButton2->getLoc();
 	Vector2D button2UpperBound = button2Loc + mpButton2->getSize();
 
-	Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
 
-	if (mpSelectedChicken && mDebugMode && mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right))
+	if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
 	{
-		mpSelectedChicken->moveToLocation(mousePos);
-	}
-	else if (clickedChicken)
-	{
-		if (mDebugMode)
+		Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
+
+		if (clickedChicken)
 		{
-			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+			if (mDebugMode)
 			{
+
 				if (mpSelectedChicken)
 				{
 					mpSelectedChicken->setDebugMode(false);
@@ -201,22 +200,34 @@ void Game::input()
 				mpSelectedChicken = clickedChicken;
 				mpSelectedChicken->setDebugMode(true);
 			}
-		}
-		else
-		{
-			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
-			{
+			else
 				clickedChicken->onMouseClick();
-			}
-			else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right) && clickedChicken->isEgg())
-			{
-				mpChickenManager->removeAndDeleteChicken(clickedChicken);
+		}
+		
+	}
+	else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right))
+	{
+		Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
 
-				mCurrentMoney += EGG_SELL_AMOUNT;
+		if (mpSelectedChicken && mDebugMode && mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right))
+		{
+			mpSelectedChicken->moveToLocation(mousePos);
+		}
+		else if (clickedChicken) 
+		{
+			if (!mDebugMode)
+			{
+				if (clickedChicken->isEgg())
+				{
+					mpChickenManager->removeAndDeleteChicken(clickedChicken);
+
+					mCurrentMoney += EGG_SELL_AMOUNT;
+				}
 			}
 		}
-
 	}
+
+	
 
 	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLoc, buttonUpperBound));
 	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, button2Loc, button2UpperBound));
