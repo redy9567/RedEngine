@@ -62,6 +62,7 @@ private:
 
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
 	~Chicken();
+	Chicken() = delete;
 
 	void updateAnimation(float deltaTime);
 	void updateChickenState();
