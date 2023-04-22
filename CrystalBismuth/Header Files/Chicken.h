@@ -14,6 +14,7 @@ const float STARTING_MOVEMENT_TIMER = 3.0f;
 
 const float MAXIMUM_MOVE_TIMER = 3.0f;
 const float MINIMUM_MOVE_TIMER = 1.0f;
+const float DEBUG_MOVE_TIMER = 1.0f;
 
 const float MOVEMENT_SPEED = 0.01f;
 
@@ -39,6 +40,9 @@ public:
 	void update(float deltaTime);
 
 	void onMouseClick();
+
+	void moveToLocation(Vector2D location);
+	void setDebugMode(bool isDebugMode) { mDebugMode = isDebugMode; }
 
 	bool isEgg() { return mState == ChickenState::EGG; }
 
@@ -67,6 +71,7 @@ private:
 
 	ChickenState mState;
 	bool mStateChanged;
+	bool mDebugMode;
 	
 	float mTimeToHatch = 0.0f;
 	float mTimeToMaturity = 0.0f;

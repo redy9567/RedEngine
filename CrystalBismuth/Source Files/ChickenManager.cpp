@@ -116,4 +116,6 @@ Chicken* ChickenManager::checkChickenClicked(Vector2D mousePos)
 			return (*it);
 		}
 	}
+
+	return nullptr;
 }

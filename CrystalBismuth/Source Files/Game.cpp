@@ -51,6 +51,8 @@ Game::Game()
 
 	mDebugMode = false;
 
+	mpSelectedChicken = nullptr;
+
 	mpButton = nullptr;
 	mpButton2 = nullptr;
 }
@@ -181,17 +183,37 @@ void Game::input()
 
 	Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
 
-	if (clickedChicken)
+	if (mpSelectedChicken && mDebugMode && mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right))
 	{
-		if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+		mpSelectedChicken->moveToLocation(mousePos);
+	}
+	else if (clickedChicken)
+	{
+		if (mDebugMode)
 		{
-			clickedChicken->onMouseClick();
-		}
-		else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right) && clickedChicken->isEgg())
-		{
-			mpChickenManager->removeAndDeleteChicken(clickedChicken);
+			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+			{
+				if (mpSelectedChicken)
+				{
+					mpSelectedChicken->setDebugMode(false);
+				}
 
-			mCurrentMoney += EGG_SELL_AMOUNT;
+				mpSelectedChicken = clickedChicken;
+				mpSelectedChicken->setDebugMode(true);
+			}
+		}
+		else
+		{
+			if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
+			{
+				clickedChicken->onMouseClick();
+			}
+			else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right) && clickedChicken->isEgg())
+			{
+				mpChickenManager->removeAndDeleteChicken(clickedChicken);
+
+				mCurrentMoney += EGG_SELL_AMOUNT;
+			}
 		}
 
 	}
@@ -243,6 +265,13 @@ void Game::input()
 	if (keyState && !mInputLastF5State)
 	{
 		mDebugMode = !mDebugMode;
+
+		if (mpSelectedChicken && !mDebugMode)
+		{
+			mpSelectedChicken->setDebugMode(false);
+			mpSelectedChicken = nullptr;
+		}
+
 		mpGraphicsSystem->setDebugMode(mDebugMode);
 	}
 	mInputLastF5State = keyState;
@@ -279,6 +308,33 @@ void Game::update()
 bool Game::render()
 {
 	mpChickenManager->drawAllChickens();
+
+	if (mpSelectedChicken)
+	{
+		if (mpChickenSelectionMesh && mpChickenSelectionMesh->getVertexAt(3).getX() != mpSelectedChicken->getSize().getX())
+		{
+			delete mpChickenSelectionMesh;
+			mpChickenSelectionMesh = nullptr;
+		}
+
+		if (!mpChickenSelectionMesh)
+		{
+			int pixelWidth = mpSelectedChicken->getSize().getX();
+
+			Vector2D verticies[4] = {Vector2D(0,0), Vector2D(0,pixelWidth), Vector2D(pixelWidth,0), Vector2D(pixelWidth,pixelWidth)};
+			unsigned int drawOrder[6] = {0, 1, 2, 1, 2, 3};
+			mpChickenSelectionMesh = new Mesh2D(verticies, 4, drawOrder, 6);
+		}
+
+		string previousShader = mpGraphicsSystem->getCurrentShaderProgram();
+		GraphicsSystem::DrawMode previousDrawMode = mpGraphicsSystem->getDrawMode();
+
+		mpGraphicsSystem->setActiveShaderProgram("Green");
+		mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Wireframe);
+		mpGraphicsSystem->draw(*mpChickenSelectionMesh);
+		mpGraphicsSystem->setActiveShaderProgram(previousShader);
+		mpGraphicsSystem->setDrawMode(previousDrawMode);
+	}
 
 	mpGraphicsSystem->draw(mpButton);
 	mpGraphicsSystem->draw(mpButton2);

@@ -22,6 +22,8 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vec
 	mIsMoving = false;
 	mStateChanged = false;
 
+	mDebugMode = false;
+
 	mMoveUpdateTimer = STARTING_MOVEMENT_TIMER;
 }
 
@@ -79,7 +81,7 @@ void Chicken::update(float deltaTime)
 	if (mIsMoving)
 		updatePosition();
 
-	if (mState == ChickenState::CHICK || mState == ChickenState::CHICKEN)
+	if (!mDebugMode && (mState == ChickenState::CHICK || mState == ChickenState::CHICKEN))
 	{
 		mMoveUpdateTimer -= deltaTime;
 		move();
@@ -256,5 +258,27 @@ void Chicken::updateImage()
 		mDrawingMode = GameObject2D::None;
 		mImage.a = nullptr;
 		break;
+	}
+}
+
+void Chicken::moveToLocation(Vector2D location)
+{
+	if (mDebugMode && (mState == ChickenState::CHICK || mState == ChickenState::CHICKEN || mState == ChickenState::CHICK_WALKING || mState == ChickenState::CHICKEN_WALKING))
+	{
+		mMoveStart = mLoc;
+		mMoveEnd = location;
+		mIsMoving = true;
+
+		mMoveUpdateTimer = DEBUG_MOVE_TIMER;
+
+		switch (mState)
+		{
+		case ChickenState::CHICK:
+			changeState(ChickenState::CHICK_WALKING);
+			break;
+		case ChickenState::CHICKEN:
+			changeState(ChickenState::CHICKEN_WALKING);
+			break;
+		}
 	}
 }

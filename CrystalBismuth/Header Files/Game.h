@@ -13,6 +13,7 @@ class InputSystem;
 class Chicken;
 class UIButton;
 class ChickenManager;
+class Mesh2D;
 
 const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
 const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
@@ -53,6 +54,9 @@ private:
 	GraphicsSystem* mpGraphicsSystem;
 	InputSystem* mpInputSystem;
 	ChickenManager* mpChickenManager;
+
+	Chicken* mpSelectedChicken;
+	Mesh2D* mpChickenSelectionMesh;
 
 	//Timing Stuff
 	float mTimePerFrame;

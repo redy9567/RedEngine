@@ -5,9 +5,9 @@
 
 class Chicken;
 
-const float DEFAULT_TIME_TO_HATCH = 10.0f;
-const float DEFAULT_TIME_TO_MATURITY = 10.0f;
-const float DEFAULT_TIME_TO_DEATH = 10.0f;
+const float DEFAULT_TIME_TO_HATCH = 20.0f;
+const float DEFAULT_TIME_TO_MATURITY = 20.0f;
+const float DEFAULT_TIME_TO_DEATH = 20.0f;
 
 class ChickenManager : public Trackable
 {
