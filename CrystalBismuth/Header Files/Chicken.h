@@ -38,9 +38,6 @@ class Chicken : public GameObject2D
 public:
 	friend class ChickenManager;
 
-	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
-	~Chicken();
-
 	void update(float deltaTime);
 
 	void onMouseClick();
@@ -62,6 +59,9 @@ private:
 		CHICKEN_WALKING,
 		DEAD
 	};
+
+	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
+	~Chicken();
 
 	void updateAnimation(float deltaTime);
 	void updateChickenState();
