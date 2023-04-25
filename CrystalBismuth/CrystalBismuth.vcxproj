@@ -141,7 +141,7 @@
     <ClCompile Include="Source Files\ChickenManager.cpp" />
     <ClCompile Include="Source Files\Game.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
-    <ClCompile Include="Source Files\UIButton.cpp" />
+    <ClCompile Include="Source Files\UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

@@ -41,7 +41,7 @@
     <ClCompile Include="Source Files\Chicken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source Files\UIButton.cpp">
+    <ClCompile Include="Source Files\UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\ChickenManager.cpp">
