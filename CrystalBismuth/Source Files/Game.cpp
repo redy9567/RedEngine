@@ -78,8 +78,8 @@ void Game::init(int mFPS)
 	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
 	mpChickenManager->createAndAddChicken(Vector2D(12, 5));
 
-	mpButton = new UIButton(Vector2D(300.0f, 0.0f));
-	mpButton2 = new UIButton(Vector2D(400.0f, -20.0f), true);
+	mpButton = new UIElement(Vector2D(300.0f, 0.0f));
+	mpButton2 = new UIElement(Vector2D(400.0f, -20.0f), true);
 
 	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
 

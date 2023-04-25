@@ -11,7 +11,7 @@ class Animation;
 class Timer;
 class InputSystem;
 class Chicken;
-class UIButton;
+class UIElement;
 class ChickenManager;
 class Mesh2D;
 
@@ -72,8 +72,8 @@ private:
 	bool mInputLastF4State;
 	bool mInputLastF5State;
 
-	UIButton* mpButton;
-	UIButton* mpButton2;
+	UIElement* mpButton;
+	UIElement* mpButton2;
 
 	int mCurrentMoney;
 
