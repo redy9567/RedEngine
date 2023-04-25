@@ -1,18 +1,18 @@
-#include "UIButton.h"
+#include "UIElement.h"
 #include "GraphicsSystem.h"
 #include "Animation.h"
 #include "Texture2D.h"
 
 using namespace std;
 
-UIButton::UIButton(Vector2D location, bool codeAnimation)
+UIElement::UIElement(Vector2D location, bool codeAnimation)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
 	if (codeAnimation)
 	{
-		mpTexture = gs->createAndAddTexture2D("uiButton", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, true);
-		mpSprite = gs->createAndAddSprite("uiButton", &mpTexture, Vector2D::Zero(), mpTexture->getSize());
+		mpTexture = gs->createAndAddTexture2D("UIElement", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, true);
+		mpSprite = gs->createAndAddSprite("UIElement", &mpTexture, Vector2D::Zero(), mpTexture->getSize());
 		mpAnimationData = nullptr;
 		mpAnimation = nullptr;
 
@@ -25,9 +25,9 @@ UIButton::UIButton(Vector2D location, bool codeAnimation)
 	}
 	else
 	{
-		mpTexture = gs->createAndAddTexture2D("uiButtonAnim", RESOURCES_DIRECTORY + UI_DIRECTORY + ANIMATIONS_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_ANIMATION_FILENAME, true);
-		mpAnimationData = gs->createAndAddAnimationData("uiButtonAnim", &mpTexture, 9, 1);
-		mpAnimation = gs->createAndAddAnimation("uiButtonAnim", "uiButtonAnim", 60);
+		mpTexture = gs->createAndAddTexture2D("UIElementAnim", RESOURCES_DIRECTORY + UI_DIRECTORY + ANIMATIONS_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_ANIMATION_FILENAME, true);
+		mpAnimationData = gs->createAndAddAnimationData("UIElementAnim", &mpTexture, 9, 1);
+		mpAnimation = gs->createAndAddAnimation("UIElementAnim", "UIElementAnim", 60);
 		mpSprite = nullptr;
 
 		mDrawingMode = GameObject2D::AnimationMode;
@@ -39,12 +39,12 @@ UIButton::UIButton(Vector2D location, bool codeAnimation)
 	mIsHover = false;
 }
 
-UIButton::~UIButton()
+UIElement::~UIElement()
 {
 
 }
 
-void UIButton::update(float deltaTime)
+void UIElement::update(float deltaTime)
 {
 	if (mDrawingMode == GameObject2D::AnimationMode)
 	{

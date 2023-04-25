@@ -21,7 +21,7 @@
     <ClInclude Include="Header Files\Chicken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\UIButton.h">
+    <ClInclude Include="Header Files\UIElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\Filepaths.h">

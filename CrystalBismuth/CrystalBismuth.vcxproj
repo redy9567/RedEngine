@@ -134,7 +134,7 @@
     <ClInclude Include="Header Files\ChickenManager.h" />
     <ClInclude Include="Header Files\Filepaths.h" />
     <ClInclude Include="Header Files\Game.h" />
-    <ClInclude Include="Header Files\UIButton.h" />
+    <ClInclude Include="Header Files\UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Chicken.cpp" />

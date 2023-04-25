@@ -6,12 +6,12 @@
 class Texture2D;
 class AnimationData;
 
-class UIButton : public GameObject2D
+class UIElement : public GameObject2D
 {
 
 public:
-	UIButton(Vector2D location = Vector2D::Zero(), bool codeAnimation = false);
-	~UIButton();
+	UIElement(Vector2D location = Vector2D::Zero(), bool codeAnimation = false);
+	~UIElement();
 
 	void setIsHovered(bool hover) { mIsHover = hover; }
 
