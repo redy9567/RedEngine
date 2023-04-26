@@ -171,7 +171,7 @@ private:
 	//Helper Draw Functions
 	void bindMesh2D(Mesh2D*);
 	void bindTexture2D(Texture2D*, unsigned int textureLocation);
-	void packGPUData(Mesh2D&, Vector2D scale = Vector2D::One());
+	void packGPUData(Mesh2D&, Vector2D size = Vector2D::One());
 	void linkGPUData(Mesh2D&);
 
 	void drawDebugInfo();

@@ -6,11 +6,20 @@
 class Texture2D;
 class AnimationData;
 
+enum Direction
+{
+	Up,
+	Down,
+	Left,
+	Right
+};
+
 class UIElement : public GameObject2D
 {
 
 public:
-	UIElement(Vector2D location = Vector2D::Zero(), bool codeAnimation = false);
+	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, Vector2D location = Vector2D::Zero());
+	UIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero());
 	~UIElement();
 
 	void setIsHovered(bool hover) { mIsHover = hover; }
@@ -24,6 +33,7 @@ private:
 	Sprite* mpSprite;
 
 	bool mIsHover;
+	Direction mAnimationDirection;
 
 	Vector2D mOrigLoc;
 	float mDistToMove;

@@ -675,7 +675,7 @@ void GraphicsSystem::bindTexture2D(Texture2D* texture, unsigned int textureLocat
 	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
 }
 
-void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D scale)
+void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D size)
 {
 	unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
 	valuesPerVertex += (mesh.mTextureDataCount) ? 2 : 0;
@@ -683,12 +683,14 @@ void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D scale)
 
 	float* verticies = new float[numOfFloats];
 
-	float largerSide = scale.getX() > scale.getY() ? scale.getX() : scale.getY();
+	float largerSide = size.getX() > size.getY() ? size.getX() : size.getY();
+	float halfXSize = size.getX() / 2.0f;
+	float halfYSize = size.getX() / 2.0f;
 
 	for (int i = 0; i < mesh.mVertexCount; i++)
 	{
-		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() * largerSide;
-		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() * largerSide;
+		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() * largerSide - halfXSize;
+		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() * largerSide - halfYSize;
 		verticies[i * valuesPerVertex + 2] = 1.0f; //2D Objects are drawn at Z = 1
 
 		if (mesh.mHasColorData)

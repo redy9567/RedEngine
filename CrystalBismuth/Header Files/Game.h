@@ -17,6 +17,8 @@ class Mesh2D;
 
 const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
 const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
+const float CURRENCY_UI_VERTICAL_OFFSET = 20.0f;
+const float CURRENCY_UI_HORIZONTAL_OFFSET = 30.0f;
 const int EGG_SELL_AMOUNT = 5;
 
 const int GAME_DISPLAY_WIDTH = 1920;
@@ -74,6 +76,8 @@ private:
 
 	UIElement* mpButton;
 	UIElement* mpButton2;
+	
+	UIElement* mpCurrencyUI;
 
 	int mCurrentMoney;
 

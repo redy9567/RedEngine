@@ -13,6 +13,7 @@ public:
 
 	Vector2D getLoc() { return mLoc; }
 	Vector2D getSize();
+	Vector2D getGameSize();
 
 	void setLoc(Vector2D location) { mLoc = location; }
 

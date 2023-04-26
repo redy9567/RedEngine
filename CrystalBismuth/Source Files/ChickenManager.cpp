@@ -132,10 +132,11 @@ Chicken* ChickenManager::checkChickenClicked(Vector2D mousePos)
 {
 	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
 	{
-		Vector2D chickenLoc = (*it)->getLoc();
-		Vector2D chickenUpperBound = chickenLoc + GraphicsSystem::getInstance()->convertToGridCoordinates((*it)->getSize());
+		Vector2D halfSize = GraphicsSystem::getInstance()->convertToGridCoordinates((*it)->getSize()) / 2.0f;
+		Vector2D chickenLowerBound = (*it)->getLoc() - halfSize;
+		Vector2D chickenUpperBound = (*it)->getLoc() + halfSize;
 
-		if (Vector2D::IsPointWithinBounds(mousePos, chickenLoc, chickenUpperBound))
+		if (Vector2D::IsPointWithinBounds(mousePos, chickenLowerBound, chickenUpperBound))
 		{
 			return (*it);
 		}

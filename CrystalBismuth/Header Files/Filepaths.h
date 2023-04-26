@@ -19,6 +19,10 @@ const std::string UI_DIRECTORY = "UI/";
 const std::string MAIN_BUTTONS_DIRECTORY = "Main Buttons/";
 const std::string BUTTONS_DIRECTORY = "Buttons/";
 
+const std::string CURRENCY_DIRECTORY = "Currency/";
 
 const std::string SETTINGS_BUTTON_FILENAME = "Settings Button.png";
 const std::string SETTINGS_BUTTON_ANIMATION_FILENAME = "Settings Button Hover Animation.png";
+
+const std::string MONEY_UI_FILENAME = "Money UI.png";
+const std::string SCIENCE_UI_FILENAME = "Science UI.png";
