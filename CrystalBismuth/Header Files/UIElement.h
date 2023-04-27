@@ -18,7 +18,7 @@ class UIElement : public GameObject2D
 {
 
 public:
-	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, Vector2D location = Vector2D::Zero());
+	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero());
 	UIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero());
 	~UIElement();
 
@@ -38,4 +38,5 @@ private:
 	Vector2D mOrigLoc;
 	float mDistToMove;
 
+	float mSpeed;
 };

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, Vector2D location)
+UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
@@ -21,6 +21,7 @@ UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Directio
 	mLoc = location;
 	mOrigLoc = location;
 	mDistToMove = distanceToMove;
+	mSpeed = speed;
 
 	mIsHover = false;
 	mAnimationDirection = animationDirection;
@@ -39,6 +40,7 @@ UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey
 	mDrawingMode = GameObject2D::AnimationMode;
 	mImage.a = mpAnimation;
 	mDistToMove = 0.0f;
+	mSpeed = 0.0f;
 
 	mLoc = location;
 	mAnimationDirection = (Direction)-1;
@@ -65,44 +67,44 @@ void UIElement::update(float deltaTime)
 		{
 			if (mIsHover && mLoc.getX() > mOrigLoc.getX() - mDistToMove)
 			{
-				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * 10);
+				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
 			}
 			else if (!mIsHover && mLoc.getX() < mOrigLoc.getX())
 			{
-				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * 10);
+				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
 			}
 		}
 		else if (mAnimationDirection == Right)
 		{
 			if (mIsHover && mLoc.getX() < mOrigLoc.getX() + mDistToMove)
 			{
-				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * 10);
+				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
 			}
 			else if (!mIsHover && mLoc.getX() > mOrigLoc.getX())
 			{
-				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * 10);
+				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
 			}
 		}
 		else if (mAnimationDirection == Up)
 		{
 			if (mIsHover && mLoc.getY() < mOrigLoc.getY() + mDistToMove)
 			{
-				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * 10);
+				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * mSpeed);
 			}
 			else if (!mIsHover && mLoc.getY() > mOrigLoc.getY())
 			{
-				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * 10);
+				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
 			}
 		}
 		else if (mAnimationDirection == Down)
 		{
 			if (mIsHover && mLoc.getY() > mOrigLoc.getY() - mDistToMove)
 			{
-				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * 10);
+				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
 			}
 			else if (!mIsHover && mLoc.getY() < mOrigLoc.getY())
 			{
-				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * 10);
+				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * mSpeed);
 			}
 		}
 	}

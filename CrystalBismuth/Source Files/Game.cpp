@@ -82,13 +82,13 @@ void Game::init(int mFPS)
 
 	Vector2D button1Loc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(300.0f, 0.0f)) + Vector2D(0.0f, -0.1f);
 	Vector2D button2Loc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(400.0f, -20.0f));
-	Vector2D currencyUILoc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(GAME_DISPLAY_WIDTH - CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET));
+	Vector2D currencyUILoc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(GAME_DISPLAY_WIDTH + CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET));
 
-	mpButton = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "codeAnimationSettingsButton", Direction::Up, 0.1f, button1Loc);
+	mpButton = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "codeAnimationSettingsButton", Direction::Up, 0.1f, 0.2f, button1Loc);
 	mpButton2 = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + ANIMATIONS_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_ANIMATION_FILENAME, 
 		"animationAnimationSettingsButton", 9, 1, button2Loc);
 
-	mpCurrencyUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + MONEY_UI_FILENAME, "currencyUI", Direction::Left, 20.0f, currencyUILoc);
+	mpCurrencyUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + MONEY_UI_FILENAME, "currencyUI", Direction::Left, CURRENCY_UI_MOVE_DISTANCE, CURRENCY_UI_ANIMATION_SPEED, currencyUILoc);
 
 	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
 
