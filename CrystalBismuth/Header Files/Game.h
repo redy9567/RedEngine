@@ -15,7 +15,7 @@ class UIElement;
 class ChickenManager;
 class Mesh2D;
 
-const float CURRENCY_UI_MOVE_DISTANCE = 0.5f;
+const float CURRENCY_UI_MOVE_DISTANCE = 0.45f;
 const float CURRENCY_UI_ANIMATION_SPEED = 5.0f;
 const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f;
 const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
