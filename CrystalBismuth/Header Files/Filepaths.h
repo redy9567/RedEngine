@@ -18,7 +18,8 @@ const std::string CHICKEN_WALKING_FILENAME = "Chicken Walking.png";
 const std::string UI_DIRECTORY = "UI/";
 const std::string MAIN_BUTTONS_DIRECTORY = "Main Buttons/";
 const std::string BUTTONS_DIRECTORY = "Buttons/";
-
+const std::string RESEARCH_TREES_DIRECTORY = "Research Tree Layouts/";
+const std::string SYRINGES_DIRECTORY = "Syringes/";
 
 const std::string SETTINGS_BUTTON_FILENAME = "Settings Button.png";
 const std::string SETTINGS_BUTTON_ANIMATION_FILENAME = "Settings Button Hover Animation.png";
