@@ -34,10 +34,10 @@ GridSystem::~GridSystem()
 
 }
 
-void GridSystem::init(float gridBoxWidth, float gridBoxHeight)
+void GridSystem::init(int displayWidth, int displayHeight)
 {
-	mGridBoxWidth = gridBoxWidth;
-	mGridBoxHeight = gridBoxHeight;
+	mGridBoxWidth = displayWidth / STARTING_GRID_COUNT_X;
+	mGridBoxHeight = displayHeight / STARTING_GRID_COUNT_Y;
 	mInit = true;
 }
 

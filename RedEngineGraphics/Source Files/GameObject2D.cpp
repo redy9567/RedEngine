@@ -1,6 +1,7 @@
 #include "GameObject2D.h"
 #include "Animation.h"
 #include "Sprite.h"
+#include "GraphicsSystem.h"
 
 GameObject2D::GameObject2D()
 {
@@ -37,6 +38,24 @@ Vector2D GameObject2D::getSize()
 		break;
 	case DrawMode::AnimationMode:
 		return mImage.a->getCurrentSprite()->getSize();
+		break;
+	default:
+		return Vector2D::Zero();
+		break;
+	}
+}
+
+Vector2D GameObject2D::getGameSize()
+{
+	GraphicsSystem* gs = GraphicsSystem::getInstance();
+
+	switch (mDrawingMode)
+	{
+	case DrawMode::SpriteMode:
+		return gs->convertToGridCoordinates(mImage.s->getSize());
+		break;
+	case DrawMode::AnimationMode:
+		return gs->convertToGridCoordinates(mImage.a->getCurrentSprite()->getSize());
 		break;
 	default:
 		return Vector2D::Zero();

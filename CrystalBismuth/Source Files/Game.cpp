@@ -55,6 +55,9 @@ Game::Game()
 
 	mpButton = nullptr;
 	mpButton2 = nullptr;
+
+	mpCurrencyUI = nullptr;
+	mpScienceUI = nullptr;
 }
 
 Game::~Game()
@@ -78,8 +81,17 @@ void Game::init(int mFPS)
 	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
 	mpChickenManager->createAndAddChicken(Vector2D(12, 5));
 
-	mpButton = new UIElement(Vector2D(300.0f, 0.0f));
-	mpButton2 = new UIElement(Vector2D(400.0f, -20.0f), true);
+	Vector2D button1Loc = Vector2D(2.0f, 0.5f);
+	Vector2D button2Loc = Vector2D(3.0f, 0.5f);
+	Vector2D currencyUILoc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(GAME_DISPLAY_WIDTH + CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET));
+	Vector2D scienceUILoc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(GAME_DISPLAY_WIDTH + SCIENCE_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - SCIENCE_UI_VERTICAL_OFFSET));
+
+	mpButton = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "codeAnimationSettingsButton", Direction::Up, 0.1f, 5.0f, button1Loc);
+	mpButton2 = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + ANIMATIONS_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_ANIMATION_FILENAME, 
+		"animationAnimationSettingsButton", 9, 1, button2Loc);
+
+	mpCurrencyUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + MONEY_UI_FILENAME, "currencyUI", Direction::Left, CURRENCY_UI_MOVE_DISTANCE, CURRENCY_UI_ANIMATION_SPEED, currencyUILoc);
+	mpScienceUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + SCIENCE_UI_FILENAME, "scienceUI", Direction::Left, SCIENCE_UI_MOVE_DISTANCE, SCIENCE_UI_ANIMATION_SPEED, scienceUILoc);
 
 	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
 
@@ -175,12 +187,25 @@ void Game::input()
 {
 	
 	Vector2D mousePos = mpInputSystem->getMousePosition();
+	
+	//Honestly all these calculations should be inherent in the UIElement class
+	Vector2D buttonHalfSize = mpGraphicsSystem->convertToGridCoordinates(mpButton->getSize()) / 2.0f;
 
-	Vector2D buttonLoc = mpButton->getLoc();
-	Vector2D buttonUpperBound = buttonLoc + mpButton->getSize();
+	Vector2D buttonLowerBound = mpButton->getLoc() - buttonHalfSize;
+	Vector2D buttonUpperBound = mpButton->getLoc() + buttonHalfSize;
 
-	Vector2D button2Loc = mpButton2->getLoc();
-	Vector2D button2UpperBound = button2Loc + mpButton2->getSize();
+	Vector2D button2LowerBound = mpButton2->getLoc() - buttonHalfSize;
+	Vector2D button2UpperBound = mpButton2->getLoc() + buttonHalfSize;
+
+	Vector2D currencyHalfSize = mpGraphicsSystem->convertToGridCoordinates(mpCurrencyUI->getSize()) / 2.0f;
+
+	Vector2D currencyLowerBound = mpCurrencyUI->getLoc() - currencyHalfSize;
+	Vector2D currencyUpperBound = mpCurrencyUI->getLoc() + currencyHalfSize;
+
+	Vector2D scienceHalfSize = mpGraphicsSystem->convertToGridCoordinates(mpScienceUI->getSize()) / 2.0f;
+			 
+	Vector2D scienceLowerBound = mpScienceUI->getLoc() - scienceHalfSize;
+	Vector2D scienceUpperBound = mpScienceUI->getLoc() + scienceHalfSize;
 
 
 	if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
@@ -229,9 +254,12 @@ void Game::input()
 
 	
 
-	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLoc, buttonUpperBound));
-	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, button2Loc, button2UpperBound));
-	
+	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
+	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonUpperBound, button2UpperBound));
+
+	mpCurrencyUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, currencyLowerBound, currencyUpperBound));
+	mpScienceUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, scienceLowerBound, scienceUpperBound));
+
 
 	bool keyState = mpInputSystem->getKey(InputSystem::KeyCode::F1); //Fill vs. Wireframe
 	if (keyState && !mInputLastF1State)
@@ -299,6 +327,9 @@ void Game::update()
 	mpButton->update(mDeltaTime);
 	mpButton2->update(mDeltaTime);
 
+	mpCurrencyUI->update(mDeltaTime);
+	mpScienceUI->update(mDeltaTime);
+
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
 	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
 		Vector3D::Up());
@@ -349,6 +380,9 @@ bool Game::render()
 
 	mpGraphicsSystem->draw(mpButton);
 	mpGraphicsSystem->draw(mpButton2);
+
+	mpGraphicsSystem->draw(mpCurrencyUI);
+	mpGraphicsSystem->draw(mpScienceUI);
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 

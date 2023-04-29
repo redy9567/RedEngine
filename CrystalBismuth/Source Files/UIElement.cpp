@@ -5,36 +5,45 @@
 
 using namespace std;
 
-UIElement::UIElement(Vector2D location, bool codeAnimation)
+UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
-	if (codeAnimation)
-	{
-		mpTexture = gs->createAndAddTexture2D("UIElement", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, true);
-		mpSprite = gs->createAndAddSprite("UIElement", &mpTexture, Vector2D::Zero(), mpTexture->getSize());
-		mpAnimationData = nullptr;
-		mpAnimation = nullptr;
+	
+	mpTexture = gs->createAndAddTexture2D(objectKey, spriteFilepath, true);
+	mpSprite = gs->createAndAddSprite(objectKey, &mpTexture, Vector2D::Zero(), mpTexture->getSize());
+	mpAnimationData = nullptr;
+	mpAnimation = nullptr;
 
-		mDrawingMode = GameObject2D::SpriteMode;
-		mImage.s = mpSprite;
+	mDrawingMode = GameObject2D::SpriteMode;
+	mImage.s = mpSprite;
 
-		mLoc = location;
-		mOrigLoc = location;
-		mDistToMove = 20.0f;
-	}
-	else
-	{
-		mpTexture = gs->createAndAddTexture2D("UIElementAnim", RESOURCES_DIRECTORY + UI_DIRECTORY + ANIMATIONS_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_ANIMATION_FILENAME, true);
-		mpAnimationData = gs->createAndAddAnimationData("UIElementAnim", &mpTexture, 9, 1);
-		mpAnimation = gs->createAndAddAnimation("UIElementAnim", "UIElementAnim", 60);
-		mpSprite = nullptr;
+	mLoc = location;
+	mOrigLoc = location;
+	mDistToMove = distanceToMove;
+	mSpeed = speed;
 
-		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = mpAnimation;
+	mIsHover = false;
+	mAnimationDirection = animationDirection;
+}
 
-		mLoc = location;
-	}
+UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location)
+{
+	GraphicsSystem* gs = GraphicsSystem::getInstance();
+
+	
+	mpTexture = gs->createAndAddTexture2D(objectKey, animationTextureFilepath, true);
+	mpAnimationData = gs->createAndAddAnimationData(objectKey, &mpTexture, animationColumns, animationRows);
+	mpAnimation = gs->createAndAddAnimation(objectKey, objectKey, 60);
+	mpSprite = nullptr;
+
+	mDrawingMode = GameObject2D::AnimationMode;
+	mImage.a = mpAnimation;
+	mDistToMove = 0.0f;
+	mSpeed = 0.0f;
+
+	mLoc = location;
+	mAnimationDirection = (Direction)-1;
 
 	mIsHover = false;
 }
@@ -54,13 +63,49 @@ void UIElement::update(float deltaTime)
 	}
 	else
 	{
-		if (mIsHover && mLoc.getY() < mOrigLoc.getY() + mDistToMove)
+		if (mAnimationDirection == Left)
 		{
-			mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * 10);
+			if (mIsHover && mLoc.getX() > mOrigLoc.getX() - mDistToMove)
+			{
+				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
+			}
+			else if (!mIsHover && mLoc.getX() < mOrigLoc.getX())
+			{
+				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
+			}
 		}
-		else if (!mIsHover && mLoc.getY() > mOrigLoc.getY())
+		else if (mAnimationDirection == Right)
 		{
-			mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * 10);
+			if (mIsHover && mLoc.getX() < mOrigLoc.getX() + mDistToMove)
+			{
+				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
+			}
+			else if (!mIsHover && mLoc.getX() > mOrigLoc.getX())
+			{
+				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
+			}
+		}
+		else if (mAnimationDirection == Up)
+		{
+			if (mIsHover && mLoc.getY() < mOrigLoc.getY() + mDistToMove)
+			{
+				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * mSpeed);
+			}
+			else if (!mIsHover && mLoc.getY() > mOrigLoc.getY())
+			{
+				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
+			}
+		}
+		else if (mAnimationDirection == Down)
+		{
+			if (mIsHover && mLoc.getY() > mOrigLoc.getY() - mDistToMove)
+			{
+				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
+			}
+			else if (!mIsHover && mLoc.getY() < mOrigLoc.getY())
+			{
+				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * mSpeed);
+			}
 		}
 	}
 	

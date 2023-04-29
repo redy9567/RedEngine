@@ -2,13 +2,16 @@
 #include "Trackable.h"
 #include "Vector2D.h"
 
+const float STARTING_GRID_COUNT_X = 16;
+const float STARTING_GRID_COUNT_Y = 9;
+
 class GridSystem : public Trackable
 {
 public:
 	static GridSystem* getInstance();
 	static void cleanupInstance();
 
-	void init(float gridBoxWidth, float gridBoxHeight);
+	void init(int displayWidth, int displayHeight);
 	void cleanup();
 
 	Vector2D convertPixelsToGrid(Vector2D pxLoc);
