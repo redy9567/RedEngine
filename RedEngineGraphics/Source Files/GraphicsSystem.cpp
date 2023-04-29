@@ -132,7 +132,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
 	mpGridSystem = GridSystem::getInstance();
-	mpGridSystem->init(100, 100);
+	mpGridSystem->init(displayWidth, displayHeight);
 
 	cout << "Well here we are!" << endl;
 
@@ -558,7 +558,7 @@ void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName
 	glUseProgram(sp->mSPI);
 	float mat[] = {
 		sprite.mScale.getX(), 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
-		0.0f, sprite.mScale.getY(), location.getY()* mpGridSystem->getGridBoxWidth(),
+		0.0f, sprite.mScale.getY(), location.getY() * mpGridSystem->getGridBoxHeight(),
 		0.0f, 0.0f, 1.0f
 	};
 	glUniformMatrix3fv(uniformLocation, 1, false, mat);
