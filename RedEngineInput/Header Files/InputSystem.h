@@ -120,6 +120,7 @@ public:
 	bool getKey(KeyCode);
 	bool getMouseButton(MouseButton);
 	bool getMouseButtonDown(MouseButton);
+	bool getMouseButtonUp(MouseButton);
 	Vector2D getMousePosition();
 
 	void update();

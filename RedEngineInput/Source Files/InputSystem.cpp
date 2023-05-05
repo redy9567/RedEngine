@@ -408,3 +408,22 @@ bool InputSystem::getMouseButtonDown(MouseButton button)
 		break;
 	}
 }
+
+bool InputSystem::getMouseButtonUp(MouseButton button)
+{
+	switch (button)
+	{
+	case MouseButton::Left:
+		return mLeftClick && !getMouseButton(button);
+		break;
+	case MouseButton::Right:
+		return mRightClick && !getMouseButton(button);
+		break;
+	case MouseButton::Middle:
+		return mMiddleClick && !getMouseButton(button);
+		break;
+	default:
+		return false;
+		break;
+	}
+}

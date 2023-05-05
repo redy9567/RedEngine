@@ -6,6 +6,7 @@ layout (location = 2) in vec2 aTexCoord;
 
 uniform vec2 uResolution;
 uniform mat3 uModelMat;
+uniform mat3 uViewMat;
 
 out vec3 vColor;
 out vec2 vTexCoord;
@@ -13,7 +14,7 @@ out vec2 vTexCoord;
 void main()
 {
 	
-	vec3 newPos = aPos * uModelMat;
+	vec3 newPos = aPos * uModelMat * uViewMat;
 	vec2 normalizedPosition = newPos.xy / uResolution;
 	vec2 offsetPosition = (normalizedPosition * 2.0f - 1.0f); //Makes the bottom left (0,0)
 

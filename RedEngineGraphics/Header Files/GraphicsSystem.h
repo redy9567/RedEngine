@@ -27,6 +27,7 @@ class SpriteManager;
 class GameObject2DManager;
 class GameObject2D;
 class Texture2DManager;
+class Camera2D;
 
 class DebugHUD;
 class GridSystem;
@@ -71,6 +72,9 @@ public:
 	void draw(GameObject2D* gameObject);
 	void draw(std::string gameObjctKey);
 	void draw(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
+	void drawUI(Sprite& sprite, Vector2D location);
+	void drawUI(GameObject2D* gameObject);
+	void drawUI(Animation& animation, Vector2D location);
 	void setDrawMode(DrawMode);
 
 	void setFloatUniform(std::string program, std::string uniformName, float value);
@@ -121,6 +125,8 @@ public:
 	void removeAndDeleteGameObject2D(std::string key);
 
 	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
+
+	Camera2D* getCamera() { return mpCamera; }
 
 	//DebugHUD
 	void addToDebugHUD(std::string text);
@@ -173,6 +179,7 @@ private:
 	void bindTexture2D(Texture2D*, unsigned int textureLocation);
 	void packGPUData(Mesh2D&, Vector2D size = Vector2D::One());
 	void linkGPUData(Mesh2D&);
+	void internalDrawSprite(Sprite& sprite);
 
 	void drawDebugInfo();
 
@@ -191,6 +198,8 @@ private:
 	SpriteManager* mpSpriteManager;
 	GameObject2DManager* mpGameObjectManager;
 	Texture2DManager* mpTexture2DManager;
+
+	Camera2D* mpCamera;
 
 	DebugHUD* mpDebugHUD;
 	GridSystem* mpGridSystem;

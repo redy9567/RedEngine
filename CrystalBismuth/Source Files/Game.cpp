@@ -14,6 +14,7 @@
 #include "Chicken.h";
 #include "UIElement.h"
 #include "ChickenManager.h"
+#include "Camera2D.h"
 #include <fstream>
 
 #include <assert.h>
@@ -81,10 +82,10 @@ void Game::init(int mFPS)
 	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
 	mpChickenManager->createAndAddChicken(Vector2D(12, 5));
 
-	Vector2D button1Loc = Vector2D(2.0f, 0.5f);
-	Vector2D button2Loc = Vector2D(3.0f, 0.5f);
-	Vector2D currencyUILoc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(GAME_DISPLAY_WIDTH + CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET));
-	Vector2D scienceUILoc = mpGraphicsSystem->convertToGridCoordinates(Vector2D(GAME_DISPLAY_WIDTH + SCIENCE_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - SCIENCE_UI_VERTICAL_OFFSET));
+	Vector2D button1Loc = Vector2D(500.0f, 100.0f);
+	Vector2D button2Loc = Vector2D(700.0f, 100.0f);
+	Vector2D currencyUILoc = Vector2D(GAME_DISPLAY_WIDTH + CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET);
+	Vector2D scienceUILoc = Vector2D(GAME_DISPLAY_WIDTH + SCIENCE_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - SCIENCE_UI_VERTICAL_OFFSET);
 
 	mpButton = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "codeAnimationSettingsButton", Direction::Up, 0.1f, 5.0f, button1Loc);
 	mpButton2 = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + ANIMATIONS_DIRECTORY + BUTTONS_DIRECTORY + SETTINGS_BUTTON_ANIMATION_FILENAME, 
@@ -189,7 +190,7 @@ void Game::input()
 	Vector2D mousePos = mpInputSystem->getMousePosition();
 	
 	//Honestly all these calculations should be inherent in the UIElement class
-	Vector2D buttonHalfSize = mpGraphicsSystem->convertToGridCoordinates(mpButton->getSize()) / 2.0f;
+	Vector2D buttonHalfSize = mpButton->getSize() / 2.0f;
 
 	Vector2D buttonLowerBound = mpButton->getLoc() - buttonHalfSize;
 	Vector2D buttonUpperBound = mpButton->getLoc() + buttonHalfSize;
@@ -197,12 +198,12 @@ void Game::input()
 	Vector2D button2LowerBound = mpButton2->getLoc() - buttonHalfSize;
 	Vector2D button2UpperBound = mpButton2->getLoc() + buttonHalfSize;
 
-	Vector2D currencyHalfSize = mpGraphicsSystem->convertToGridCoordinates(mpCurrencyUI->getSize()) / 2.0f;
+	Vector2D currencyHalfSize = mpCurrencyUI->getSize() / 2.0f;
 
 	Vector2D currencyLowerBound = mpCurrencyUI->getLoc() - currencyHalfSize;
 	Vector2D currencyUpperBound = mpCurrencyUI->getLoc() + currencyHalfSize;
 
-	Vector2D scienceHalfSize = mpGraphicsSystem->convertToGridCoordinates(mpScienceUI->getSize()) / 2.0f;
+	Vector2D scienceHalfSize = mpScienceUI->getSize() / 2.0f;
 			 
 	Vector2D scienceLowerBound = mpScienceUI->getLoc() - scienceHalfSize;
 	Vector2D scienceUpperBound = mpScienceUI->getLoc() + scienceHalfSize;
@@ -251,8 +252,16 @@ void Game::input()
 			}
 		}
 	}
+	else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Middle))
+	{
+		mpGraphicsSystem->getCamera()->startMouseDrag(mousePos);
+	}
+	else if (mpInputSystem->getMouseButtonUp(InputSystem::MouseButton::Middle))
+	{
+		mpGraphicsSystem->getCamera()->stopMouseDrag();
+	}
 
-	
+	mpGraphicsSystem->getCamera()->update(mousePos);
 
 	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
 	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonUpperBound, button2UpperBound));
@@ -340,6 +349,7 @@ void Game::update()
 
 	Vector2D mousePos = mpInputSystem->getMousePosition();
 	mpGraphicsSystem->addToDebugHUD("Mouse Position: " + mousePos.toString());
+	mpGraphicsSystem->addToDebugHUD("Camera Position: " + mpGraphicsSystem->getCamera()->getLoc().toString());
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
@@ -378,11 +388,11 @@ bool Game::render()
 		mpGraphicsSystem->setDrawMode(previousDrawMode);
 	}
 
-	mpGraphicsSystem->draw(mpButton);
-	mpGraphicsSystem->draw(mpButton2);
+	mpGraphicsSystem->drawUI(mpButton);
+	mpGraphicsSystem->drawUI(mpButton2);
 
-	mpGraphicsSystem->draw(mpCurrencyUI);
-	mpGraphicsSystem->draw(mpScienceUI);
+	mpGraphicsSystem->drawUI(mpCurrencyUI);
+	mpGraphicsSystem->drawUI(mpScienceUI);
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 

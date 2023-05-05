@@ -24,6 +24,7 @@
 #include "AnimationData.h"
 #include "Texture2DManager.h"
 #include "Matrix3D.h"
+#include "Camera2D.h"
 
 using namespace std;
 
@@ -131,6 +132,8 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
+	mpCamera = new Camera2D(Vector2D(1, 0));
+
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
 
@@ -166,6 +169,9 @@ void GraphicsSystem::cleanup()
 
 	mpGridSystem->cleanup();
 	GridSystem::cleanupInstance();
+
+	delete mpCamera;
+	mpCamera = nullptr;
 
 	glfwTerminate();
 	mInit = false;
@@ -238,6 +244,54 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 
 void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
 {
+	internalDrawSprite(sprite);
+
+	Matrix3D modelMatrix = Matrix3D(
+		sprite.mScale.getX(), 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
+		0.0f, sprite.mScale.getY(), location.getY() * mpGridSystem->getGridBoxHeight(),
+		0.0f, 0.0f, 1.0f
+	);
+
+	Matrix3D viewMatrix = Matrix3D(
+		1.0f, 0.0f, -mpCamera->getLoc().getX() * mpGridSystem->getGridBoxWidth(),
+		0.0f, 1.0f, -mpCamera->getLoc().getY() * mpGridSystem->getGridBoxHeight(),
+		0.0f, 0.0f, 1.0f
+	);
+
+	setMat3Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
+	setMat3Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
+
+	setActiveShaderProgram(mCurrentShaderProgram);
+
+	glDrawElements(convertMeshType(sprite.mpMesh->mMeshType), sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
+}
+
+void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location)
+{
+	internalDrawSprite(sprite);
+
+	Matrix3D modelMatrix = Matrix3D(
+		sprite.mScale.getX(), 0.0f, location.getX(),
+		0.0f, sprite.mScale.getY(), location.getY(),
+		0.0f, 0.0f, 1.0f
+	);
+
+	Matrix3D viewMatrix = Matrix3D(
+		1.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 1.0f
+	);
+
+	setMat3Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
+	setMat3Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
+
+	setActiveShaderProgram(mCurrentShaderProgram);
+
+	glDrawElements(convertMeshType(sprite.mpMesh->mMeshType), sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
+}
+
+void GraphicsSystem::internalDrawSprite(Sprite& sprite)
+{
 	setActiveShaderProgram(mCurrentShaderProgram);
 
 	if (sprite.mpMesh->mVBO == -1)
@@ -273,13 +327,6 @@ void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
 
 		bindMesh2D(sprite.mpMesh);
 	}
-
-	setMat3Uniform("Textured", "uModelMat", sprite, location); //These game objects shouldn't need these uModelMats sent here. Need some gs funciton to be called by game.
-	setMat3Uniform("Green", "uModelMat", sprite, location);
-
-	setActiveShaderProgram(mCurrentShaderProgram);
-
-	glDrawElements(convertMeshType(sprite.mpMesh->mMeshType), sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
 void GraphicsSystem::draw(string animationKey, Vector2D location)
@@ -302,6 +349,15 @@ void GraphicsSystem::draw(Animation& animation, Vector2D location)
 	draw(*currentSprite, location);
 }
 
+void GraphicsSystem::drawUI(Animation& animation, Vector2D location)
+{
+	Sprite* currentSprite = animation.getCurrentSprite();
+	if (currentSprite == nullptr)
+		return;
+
+	drawUI(*currentSprite, location);
+}
+
 void GraphicsSystem::draw(GameObject2D* obj)
 {
 	switch (obj->mDrawingMode)
@@ -311,6 +367,19 @@ void GraphicsSystem::draw(GameObject2D* obj)
 		break;
 	case GameObject2D::AnimationMode:
 		draw(*obj->mImage.a, obj->mLoc);
+		break;
+	}
+}
+
+void GraphicsSystem::drawUI(GameObject2D* obj)
+{
+	switch (obj->mDrawingMode)
+	{
+	case GameObject2D::SpriteMode:
+		drawUI(*obj->mImage.s, obj->mLoc);
+		break;
+	case GameObject2D::AnimationMode:
+		drawUI(*obj->mImage.a, obj->mLoc);
 		break;
 	}
 }
@@ -831,9 +900,6 @@ Vector2D GraphicsSystem::_imGetMousePosition(GraphicsSystemIMKey key)
 	glfwGetCursorPos(mWindow, &x, &y);
 	y = mWindowResolution.getY() - y;
 
-	x /= mpGridSystem->getGridBoxWidth();
-	y /= mpGridSystem->getGridBoxHeight();
-
 	return Vector2D(x, y);
 }
 
@@ -907,11 +973,14 @@ void GraphicsSystem::drawGrid()
 	int rows = getDisplayHeight() / boxHeight + 1;
 	int columns = getDisplayWidth() / boxWidth + 1;
 
+	float cameraPixelOffsetX = (mpCamera->getLoc().getX() - (int)mpCamera->getLoc().getX()) * boxWidth;
+	float cameraPixelOffsetY = (mpCamera->getLoc().getY() - (int)mpCamera->getLoc().getY()) * boxWidth;
+
 	for (int i = 0; i < rows; i++)
 	{
 		Vector2D verticies[] = {
-			Vector2D(0.0f, i * boxHeight), 
-			Vector2D(getDisplayWidth() * 1.0f, i * boxHeight)
+			Vector2D(0.0f, i * boxHeight - cameraPixelOffsetY),
+			Vector2D(getDisplayWidth() * 1.0f, i * boxHeight - cameraPixelOffsetY)
 		};
 
 		unsigned int drawOrder[] = { 0, 1 };
@@ -923,8 +992,8 @@ void GraphicsSystem::drawGrid()
 	for (int i = 0; i < columns; i++)
 	{
 		Vector2D verticies[] = {
-			Vector2D(i * boxWidth, 0.0f),
-			Vector2D(i * boxWidth, getDisplayHeight() * 1.0f)
+			Vector2D(i * boxWidth - cameraPixelOffsetX, 0.0f),
+			Vector2D(i * boxWidth - cameraPixelOffsetX, getDisplayHeight() * 1.0f)
 		};
 
 		unsigned int drawOrder[] = { 0, 1 };

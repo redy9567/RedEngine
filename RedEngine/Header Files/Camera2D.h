@@ -15,7 +15,14 @@ public:
 
     Vector2D getLoc() { return mLoc; }
 
+    void startMouseDrag(Vector2D mousePos);
+    void update(Vector2D mousePos);
+    void stopMouseDrag();
+
 private:
     Vector2D mLoc;
+
+    bool mIsBeingDragged;
+    Vector2D mDragStartPos, mCameraStartPos;
 
 };
