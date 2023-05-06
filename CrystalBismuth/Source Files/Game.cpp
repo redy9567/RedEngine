@@ -15,6 +15,7 @@
 #include "UIElement.h"
 #include "ChickenManager.h"
 #include "Camera2D.h"
+#include "Vector4D.h"
 #include <fstream>
 
 #include <assert.h>
@@ -78,6 +79,12 @@ void Game::init(int mFPS)
 
 	initShaderPrograms();
 
+	Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("Background", RESOURCES_DIRECTORY + BACKGROUNDS_DIRECTORY + BACKGROUND_FILENAME, true);
+	Vector2D bgScale = Vector2D(2, 2);
+	Sprite* bgSprite = mpGraphicsSystem->createAndAddSprite("Background", &bgTexture, Vector2D::Zero(), bgTexture->getSize(), bgScale);
+	mpBackground = mpGraphicsSystem->createAndAddGameObject2D("Background", bgSprite, Vector2D(21.5f, 19.5f));
+	mpGraphicsSystem->setBackground(mpBackground);
+
 	mpChickenManager = ChickenManager::getInstance();
 	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
 	mpChickenManager->createAndAddChicken(Vector2D(12, 5));
@@ -122,7 +129,8 @@ void Game::initShaderObjects()
 	mpGraphicsSystem->createAndAddShader("Textured Vert", VERTEX_SHADER, "textured.vert");
 	mpGraphicsSystem->createAndAddShader("Textured Frag", FRAGMENT_SHADER, "textured.frag");
 	mpGraphicsSystem->createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
-	mpGraphicsSystem->createAndAddShader("Green Frag", FRAGMENT_SHADER, "green.frag");
+	mpGraphicsSystem->createAndAddShader("Basic UI Vert", VERTEX_SHADER, "basicUI.vert");
+	mpGraphicsSystem->createAndAddShader("Color Frag", FRAGMENT_SHADER, "color.frag");
 	mpGraphicsSystem->createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
 	mpGraphicsSystem->createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
 }
@@ -133,9 +141,13 @@ void Game::initShaderPrograms()
 	mpGraphicsSystem->linkShaderProgram("Textured");
 	mpGraphicsSystem->activateFloatAttributeOnProgram("Textured", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
 
-	mpGraphicsSystem->createAndAddShaderProgram("Green", "Basic Vert", "Green Frag");
-	mpGraphicsSystem->linkShaderProgram("Green");
-	mpGraphicsSystem->activateFloatAttributeOnProgram("Green", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+	mpGraphicsSystem->createAndAddShaderProgram("Color", "Basic Vert", "Color Frag");
+	mpGraphicsSystem->linkShaderProgram("Color");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("Color", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	mpGraphicsSystem->createAndAddShaderProgram("ColorUI", "Basic UI Vert", "Color Frag");
+	mpGraphicsSystem->linkShaderProgram("ColorUI");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("ColorUI", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
 
 	mpGraphicsSystem->createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
 	mpGraphicsSystem->linkShaderProgram("Text");
@@ -290,7 +302,11 @@ void Game::input()
 	if (keyState && !mInputLastF2State)
 	{
 		if (mpGraphicsSystem->getCurrentShaderProgram() == "Textured")
-			mpGraphicsSystem->setActiveShaderProgram("Green");
+		{
+			mpGraphicsSystem->setActiveShaderProgram("Color");
+			Vector4D green = Vector4D(0.0f, 1.0f, 0.0f, 1.0f);
+			mpGraphicsSystem->setVec4Uniform("Color", "uColor", green);
+		}
 		else
 			mpGraphicsSystem->setActiveShaderProgram("Textured");
 	}
@@ -302,10 +318,10 @@ void Game::input()
 		mpGraphicsSystem->reloadShader("Textured Vert");
 		mpGraphicsSystem->reloadShader("Textured Frag");
 		mpGraphicsSystem->reloadShader("Basic Vert");
-		mpGraphicsSystem->reloadShader("Green Frag");
+		mpGraphicsSystem->reloadShader("Color Frag");
 
 		mpGraphicsSystem->linkShaderProgram("Textured");
-		mpGraphicsSystem->linkShaderProgram("Green");
+		mpGraphicsSystem->linkShaderProgram("Color");
 	}
 	mInputLastF4State = keyState;
 
@@ -353,7 +369,7 @@ void Game::update()
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
-	mpGraphicsSystem->setVec2Uniform("Green", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
 }
 
@@ -381,7 +397,11 @@ bool Game::render()
 		string previousShader = mpGraphicsSystem->getCurrentShaderProgram();
 		GraphicsSystem::DrawMode previousDrawMode = mpGraphicsSystem->getDrawMode();
 
-		mpGraphicsSystem->setActiveShaderProgram("Green");
+		mpGraphicsSystem->setActiveShaderProgram("Color");
+
+		Vector4D green = Vector4D(0.0f, 1.0f, 0.0f, 1.0f);
+		mpGraphicsSystem->setVec4Uniform("Color", "uColor", green);
+
 		mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Wireframe);
 		mpGraphicsSystem->draw(*mpChickenSelectionMesh);
 		mpGraphicsSystem->setActiveShaderProgram(previousShader);

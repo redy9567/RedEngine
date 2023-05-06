@@ -2,8 +2,8 @@
 #include "Trackable.h"
 #include "Vector2D.h"
 
-const float STARTING_GRID_COUNT_X = 16;
-const float STARTING_GRID_COUNT_Y = 9;
+const float STARTING_GRID_COUNT_X = 43;
+const float STARTING_GRID_COUNT_Y = 22;
 
 class GridSystem : public Trackable
 {

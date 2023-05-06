@@ -466,7 +466,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fragment Shaders\green.frag">
+    <None Include="Fragment Shaders\color.frag">
       <Filter>Fragment Shaders</Filter>
     </None>
     <None Include="Vertex Shaders\basic.vert">
@@ -492,6 +492,9 @@
     </None>
     <None Include="Fragment Shaders\text.frag">
       <Filter>Fragment Shaders</Filter>
+    </None>
+    <None Include="Vertex Shaders\basicUI.vert">
+      <Filter>Vertex Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -288,11 +288,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\text.frag" />
-    <None Include="Fragment Shaders\green.frag" />
+    <None Include="Fragment Shaders\color.frag" />
     <None Include="Fragment Shaders\test.frag" />
     <None Include="Fragment Shaders\textured.frag" />
     <None Include="Fragment Shaders\triColor.frag" />
     <None Include="Vertex Shaders\basic.vert" />
+    <None Include="Vertex Shaders\basicUI.vert" />
     <None Include="Vertex Shaders\test.vert" />
     <None Include="Vertex Shaders\text.vert" />
     <None Include="Vertex Shaders\textured.vert" />

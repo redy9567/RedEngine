@@ -6,6 +6,7 @@ const std::string ANIMATIONS_DIRECTORY = "Animations/";
 const std::string EGG_DIRECTORY = "Eggs/";
 const std::string CHICKS_DIRECTORY = "Chicks/";
 const std::string CHICKENS_DIRECTORY = "Chickens/";
+const std::string BACKGROUNDS_DIRECTORY = "Backgrounds/";
 
 const std::string CHICK_FILENAME = "Chick.png";
 const std::string CHICKEN_FILENAME = "Chicken.png";
@@ -29,3 +30,5 @@ const std::string SETTINGS_BUTTON_ANIMATION_FILENAME = "Settings Button Hover An
 
 const std::string MONEY_UI_FILENAME = "Money UI.png";
 const std::string SCIENCE_UI_FILENAME = "Science UI.png";
+
+const std::string BACKGROUND_FILENAME = "Background (TILES).png";

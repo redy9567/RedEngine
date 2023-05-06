@@ -64,6 +64,7 @@ GraphicsSystem::GraphicsSystem()
 	mpFontManager = nullptr;
 	mpGameObjectManager = nullptr;
 	mpTexture2DManager = nullptr;
+	mpBackground = nullptr;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -132,7 +133,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
-	mpCamera = new Camera2D(Vector2D(1, 0));
+	mpCamera = new Camera2D(Vector2D(0, 0));
 
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
@@ -615,6 +616,19 @@ void GraphicsSystem::setVec3Uniform(std::string program, std::string uniformName
 	glUniform3f(uniformLocation, value.getX(), value.getY(), value.getZ());
 }
 
+void GraphicsSystem::setVec4Uniform(std::string program, std::string uniformName, Vector4D value)
+{
+	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(sp->mSPI);
+	glUniform4f(uniformLocation, value.getX(), value.getY(), value.getZ(), value.getW());
+}
+
 void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location)
 {
 	ShaderProgram* sp = ShaderManager::getInstance()->getShaderProgram(program);
@@ -965,8 +979,16 @@ void GraphicsSystem::removeAndDeleteGameObject2D(string key)
 
 void GraphicsSystem::drawGrid()
 {
+	if (mpBackground) 
+		draw(mpBackground);
+
 	string previousShader = mCurrentShaderProgram;
-	setActiveShaderProgram("Text");
+	setActiveShaderProgram("ColorUI");
+
+	Vector4D white = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
+	setVec4Uniform("ColorUI", "uColor", white);
+
+	setVec2Uniform("ColorUI", "uResolution", getDisplayResolution());
 
 	float boxHeight = mpGridSystem->getGridBoxHeight();
 	float boxWidth = mpGridSystem->getGridBoxWidth();

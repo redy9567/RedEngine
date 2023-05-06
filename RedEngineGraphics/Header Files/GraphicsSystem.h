@@ -3,6 +3,7 @@
 #include "Trackable.h"
 #include "Vector2D.h"
 #include "Vector3D.h"
+#include "Vector4D.h"
 
 struct GLFWwindow;
 
@@ -28,6 +29,7 @@ class GameObject2DManager;
 class GameObject2D;
 class Texture2DManager;
 class Camera2D;
+
 
 class DebugHUD;
 class GridSystem;
@@ -81,6 +83,7 @@ public:
 	void setIntegerUniform(std::string program, std::string uniformName, int value);
 	void setVec2Uniform(std::string program, std::string uniformName, Vector2D value);
 	void setVec3Uniform(std::string program, std::string uniformName, Vector3D value);
+	void setVec4Uniform(std::string program, std::string uniformName, Vector4D value);
 	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location); //This needs to be Deprecated
 	void setMat3Uniform(std::string program, std::string uniformName, Matrix3D matrix);
 
@@ -143,6 +146,8 @@ public:
 	int getDisplayHeight() { return mWindowResolution.getY(); }
 	Vector2D getDisplayResolution() { return mWindowResolution; }
 
+	void setBackground(GameObject2D* bg) { mpBackground = bg; }
+
 	bool render();
 
 	void setDebugMode(bool val) { mDebugMode = val; }
@@ -198,6 +203,8 @@ private:
 	SpriteManager* mpSpriteManager;
 	GameObject2DManager* mpGameObjectManager;
 	Texture2DManager* mpTexture2DManager;
+
+	GameObject2D* mpBackground;
 
 	Camera2D* mpCamera;
 

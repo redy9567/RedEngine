@@ -14,6 +14,7 @@ class Chicken;
 class UIElement;
 class ChickenManager;
 class Mesh2D;
+class GameObject2D;
 
 const float CURRENCY_UI_MOVE_DISTANCE = 47.0f;
 const float CURRENCY_UI_ANIMATION_SPEED = 5.0f;
@@ -29,8 +30,8 @@ const float SCIENCE_UI_HORIZONTAL_OFFSET = 18.0f;
 
 const int EGG_SELL_AMOUNT = 5;
 
-const int GAME_DISPLAY_WIDTH = 1440;
-const int GAME_DISPLAY_HEIGHT = 900;
+const int GAME_DISPLAY_WIDTH = 1536;
+const int GAME_DISPLAY_HEIGHT = 864;
 
 class Game : public Trackable
 {
@@ -67,6 +68,8 @@ private:
 
 	Chicken* mpSelectedChicken;
 	Mesh2D* mpChickenSelectionMesh;
+
+	GameObject2D* mpBackground;
 
 	//Timing Stuff
 	float mTimePerFrame;
