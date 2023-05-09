@@ -687,7 +687,7 @@ void GraphicsSystem::initMesh2D(Mesh2D* mesh)
 
 	//Setup Vertex Array Object (VAO)
 	glGenVertexArrays(1, &mesh->mVAO);
-	
+
 	//Setup Element Buffer Object
 	glGenBuffers(1, &mesh->mEBO);
 }
@@ -1042,4 +1042,14 @@ unsigned int GraphicsSystem::convertMeshType(MeshType meshType)
 Vector2D GraphicsSystem::convertToGridCoordinates(Vector2D pixelCoordinates)
 {
 	return mpGridSystem->convertPixelsToGrid(pixelCoordinates);
+}
+
+
+void GraphicsSystem::cleanupMesh2D(Mesh2D* mesh)
+{
+	glDeleteBuffers(1, &mesh->mVBO);
+
+	glDeleteVertexArrays(1, &mesh->mVAO);
+
+	glDeleteBuffers(1, &mesh->mEBO);
 }

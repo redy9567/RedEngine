@@ -1,5 +1,6 @@
 #include "Mesh2D.h"
 #include "Texture2D.h"
+#include "GraphicsSystem.h"
 
 Mesh2D::Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, MeshType meshType)
 {
@@ -96,4 +97,6 @@ Mesh2D::~Mesh2D()
 
 		delete[] mTextureCoords;
 	}
+
+	GraphicsSystem::getInstance()->cleanupMesh2D(this);
 }
