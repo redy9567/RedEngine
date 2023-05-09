@@ -157,6 +157,11 @@ void Game::initShaderPrograms()
 
 void Game::cleanup()
 {
+	delete mpButton;
+	delete mpButton2;
+	delete mpCurrencyUI;
+	delete mpScienceUI;
+
 	mpChickenManager->cleanup();
 	ChickenManager::cleanupInstance();
 	mpChickenManager = nullptr;
