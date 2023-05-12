@@ -159,6 +159,7 @@ public:
 
 	//GLCleanupFunctions
 	void cleanupMesh2D(Mesh2D*);
+	void cleanupTexture2D(Texture2D*);
 
 private:
 	GraphicsSystem();

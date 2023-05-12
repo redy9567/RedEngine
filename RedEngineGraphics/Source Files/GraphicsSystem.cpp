@@ -1053,3 +1053,8 @@ void GraphicsSystem::cleanupMesh2D(Mesh2D* mesh)
 
 	glDeleteBuffers(1, &mesh->mEBO);
 }
+
+void GraphicsSystem::cleanupTexture2D(Texture2D* texture)
+{
+	glDeleteTextures(1, &texture->mTOI);
+}
