@@ -32,6 +32,7 @@ const std::string CKN_CHICK_KEY = "Chick";
 const std::string CKN_CHICKEN_KEY = "Chicken";
 const std::string CKN_CHICK_WALKING_KEY = "ChickWalking";
 const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
+const std::string CKN_CHICKEN_DEATH_KEY = "ChickenDeath";
 
 class Chicken : public GameObject2D
 {

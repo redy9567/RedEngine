@@ -62,6 +62,10 @@ void Chicken::loadData()
 		Texture2D* chickenWalkingTexture = gs->createAndAddTexture2D(CKN_CHICKEN_WALKING_KEY, RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICKEN_WALKING_FILENAME, true);
 		gs->createAndAddAnimationData(CKN_CHICKEN_WALKING_KEY, &chickenWalkingTexture, 18, 1);
 		gs->createAndAddAnimation(CKN_CHICKEN_WALKING_KEY, CKN_CHICKEN_WALKING_KEY, 18, true);
+
+		Texture2D* chickenDeathTexture = gs->createAndAddTexture2D(CKN_CHICKEN_DEATH_KEY, RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICKEN_DEATH_FILENAME, true);
+		gs->createAndAddAnimationData(CKN_CHICKEN_DEATH_KEY, &chickenDeathTexture, 43, 1);
+		gs->createAndAddAnimation(CKN_CHICKEN_DEATH_KEY, CKN_CHICKEN_DEATH_KEY, 18);
 	}
 	
 }
@@ -111,6 +115,9 @@ void Chicken::updateAnimation(float deltaTime)
 			break;
 		case ChickenState::CHICKEN_WALKING:
 			anim = gs->getAnimation(CKN_CHICKEN_WALKING_KEY);
+			break;
+		case ChickenState::DEAD:
+			anim = gs->getAnimation(CKN_CHICKEN_DEATH_KEY);
 			break;
 		default:
 			return;
@@ -258,8 +265,8 @@ void Chicken::updateImage()
 		mImage.a = GraphicsSystem::getInstance()->getAnimation(CKN_CHICKEN_WALKING_KEY);
 		break;
 	case ChickenState::DEAD:
-		mDrawingMode = GameObject2D::None;
-		mImage.a = nullptr;
+		mDrawingMode = GameObject2D::AnimationMode;
+		mImage.a = GraphicsSystem::getInstance()->getAnimation(CKN_CHICKEN_DEATH_KEY);
 		break;
 	}
 }
