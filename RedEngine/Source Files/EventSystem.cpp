@@ -1,6 +1,7 @@
 #include "Event.h"
 #include "EventListener.h"
 #include "EventSystem.h"
+#include <iostream>
 
 using namespace std;
 
@@ -20,17 +21,17 @@ void EventSystem::cleanupInstance()
         delete mspInstance;
 }
 
-void EventSystem::addListener(EventType type, EventListener* listener)
+void EventSystem::addListener(Event::EventType type, EventListener* listener)
 {
-    mListenerMap.insert(pair<EventType, EventListener*>(type, listener));
+    mListenerMap.insert(pair<Event::EventType, EventListener*>(type, listener));
 }
 
-bool EventSystem::removeListener(EventType type, EventListener* listener)
+bool EventSystem::removeListener(Event::EventType type, EventListener* listener)
 {
-    pair<multimap<EventType, EventListener*>::iterator, multimap<EventType, EventListener*>::iterator> range;
+    pair<multimap<Event::EventType, EventListener*>::iterator, multimap<Event::EventType, EventListener*>::iterator> range;
     range = mListenerMap.equal_range(type);
 
-    for(multimap<EventType, EventListener*>::iterator i = range.first; i!= range.second; ++i)
+    for(multimap<Event::EventType, EventListener*>::iterator i = range.first; i!= range.second; ++i)
     {
         if(i->second == listener)
         {
@@ -49,7 +50,7 @@ void EventSystem::removeListenerFromAllEvents(EventListener* listener)
     while(!allTheWayThrough)
     {
         allTheWayThrough = true;
-        for(multimap<EventType, EventListener*>::iterator i = mListenerMap.begin(); i != mListenerMap.end(); ++i)
+        for(multimap<Event::EventType, EventListener*>::iterator i = mListenerMap.begin(); i != mListenerMap.end(); ++i)
         {
             if(i->second == listener)
             {
@@ -64,10 +65,12 @@ void EventSystem::removeListenerFromAllEvents(EventListener* listener)
 
 void EventSystem::fireEvent(const Event& event)
 {
-    pair<multimap<EventType, EventListener*>::iterator, multimap<EventType, EventListener*>::iterator> range;
+    cout << "Event Fired: " << event.getTypeName() << " | " << event.getEventDetails() << endl;
+
+    pair<multimap<Event::EventType, EventListener*>::iterator, multimap<Event::EventType, EventListener*>::iterator> range;
     range = mListenerMap.equal_range(event.getType());
 
-    for(multimap<EventType, EventListener*>::iterator i = range.first; i != range.second; ++i)
+    for(multimap<Event::EventType, EventListener*>::iterator i = range.first; i != range.second; ++i)
     {
         i->second->handleEvent(event);
     }

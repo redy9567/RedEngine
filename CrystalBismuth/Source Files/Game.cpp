@@ -16,6 +16,10 @@
 #include "ChickenManager.h"
 #include "Camera2D.h"
 #include "Vector4D.h"
+#include "EventSystem.h"
+#include "GameEvents.h"
+#include "GameListener.h"
+#include "GridSystem.h"
 #include <fstream>
 
 #include <assert.h>
@@ -60,6 +64,8 @@ Game::Game()
 
 	mpCurrencyUI = nullptr;
 	mpScienceUI = nullptr;
+
+	mpGameListener = nullptr;
 }
 
 Game::~Game()
@@ -121,6 +127,12 @@ void Game::init(int mFPS)
 
 	mCurrentMoney = 0;
 
+	mpGameListener = new GameListener();
+
+	EventSystem::getInstance()->addListener(Event::MOUSE_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener(Event::KEYBOARD_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener((Event::EventType)GameEvent::CHICKEN_CLICK_EVENT, mpGameListener);
+
 	srand(time(NULL));
 }
 
@@ -170,6 +182,8 @@ void Game::cleanup()
 	mpTimer = nullptr;
 
 	InputSystem::cleanupInstance();
+	
+	delete mpGameListener;
 
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();
@@ -195,7 +209,7 @@ bool Game::gameLoop()
 
 	mpTimer->sleepUntilElapsed(mTimePerFrame * 1000);
 	mDeltaTime = mpTimer->getElapsedTime();
-	cout << "Delta Time: " << mDeltaTime << endl;
+	//cout << "Delta Time: " << mDeltaTime << endl;
 	mpTimer->start();
 
 	return result;
@@ -203,154 +217,12 @@ bool Game::gameLoop()
 
 void Game::input()
 {
-	
-	Vector2D mousePos = mpInputSystem->getMousePosition();
-	
-	//Honestly all these calculations should be inherent in the UIElement class
-	Vector2D buttonHalfSize = mpButton->getSize() / 2.0f;
-
-	Vector2D buttonLowerBound = mpButton->getLoc() - buttonHalfSize;
-	Vector2D buttonUpperBound = mpButton->getLoc() + buttonHalfSize;
-
-	Vector2D button2LowerBound = mpButton2->getLoc() - buttonHalfSize;
-	Vector2D button2UpperBound = mpButton2->getLoc() + buttonHalfSize;
-
-	Vector2D currencyHalfSize = mpCurrencyUI->getSize() / 2.0f;
-
-	Vector2D currencyLowerBound = mpCurrencyUI->getLoc() - currencyHalfSize;
-	Vector2D currencyUpperBound = mpCurrencyUI->getLoc() + currencyHalfSize;
-
-	Vector2D scienceHalfSize = mpScienceUI->getSize() / 2.0f;
-			 
-	Vector2D scienceLowerBound = mpScienceUI->getLoc() - scienceHalfSize;
-	Vector2D scienceUpperBound = mpScienceUI->getLoc() + scienceHalfSize;
-
-
-	if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Left))
-	{
-		Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
-
-		if (clickedChicken)
-		{
-			if (mDebugMode)
-			{
-
-				if (mpSelectedChicken)
-				{
-					mpSelectedChicken->setDebugMode(false);
-				}
-
-				mpSelectedChicken = clickedChicken;
-				mpSelectedChicken->setDebugMode(true);
-			}
-			else
-				clickedChicken->onMouseClick();
-		}
-		
-	}
-	else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right))
-	{
-		Chicken* clickedChicken = mpChickenManager->checkChickenClicked(mousePos);
-
-		if (mpSelectedChicken && mDebugMode && mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Right))
-		{
-			mpSelectedChicken->moveToLocation(mousePos);
-		}
-		else if (clickedChicken) 
-		{
-			if (!mDebugMode)
-			{
-				if (clickedChicken->isEgg())
-				{
-					mpChickenManager->removeAndDeleteChicken(clickedChicken);
-
-					mCurrentMoney += EGG_SELL_AMOUNT;
-				}
-			}
-		}
-	}
-	else if (mpInputSystem->getMouseButtonDown(InputSystem::MouseButton::Middle))
-	{
-		mpGraphicsSystem->getCamera()->startMouseDrag(mousePos);
-	}
-	else if (mpInputSystem->getMouseButtonUp(InputSystem::MouseButton::Middle))
-	{
-		mpGraphicsSystem->getCamera()->stopMouseDrag();
-	}
-
-	mpGraphicsSystem->getCamera()->update(mousePos);
-
-	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonUpperBound, button2UpperBound));
-
-	mpCurrencyUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, currencyLowerBound, currencyUpperBound));
-	mpScienceUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, scienceLowerBound, scienceUpperBound));
-
-
-	bool keyState = mpInputSystem->getKey(InputSystem::KeyCode::F1); //Fill vs. Wireframe
-	if (keyState && !mInputLastF1State)
-	{
-		switch (mpGraphicsSystem->getDrawMode())
-		{
-		case GraphicsSystem::DrawMode::Fill:
-			mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Wireframe);
-			break;
-
-		case GraphicsSystem::DrawMode::Wireframe:
-			mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Fill);
-			break;
-		}
-	}
-	mInputLastF1State = keyState;
-
-	keyState = mpInputSystem->getKey(InputSystem::KeyCode::F2); //Shader Switch
-	if (keyState && !mInputLastF2State)
-	{
-		if (mpGraphicsSystem->getCurrentShaderProgram() == "Textured")
-		{
-			mpGraphicsSystem->setActiveShaderProgram("Color");
-			Vector4D green = Vector4D(0.0f, 1.0f, 0.0f, 1.0f);
-			mpGraphicsSystem->setVec4Uniform("Color", "uColor", green);
-		}
-		else
-			mpGraphicsSystem->setActiveShaderProgram("Textured");
-	}
-	mInputLastF2State = keyState;
-	
-	keyState = mpInputSystem->getKey(InputSystem::KeyCode::F4); //Hot Reload Shaders... Should probably do this through the managers (to not add a line for every new shader)
-	if (keyState && !mInputLastF4State)
-	{
-		mpGraphicsSystem->reloadShader("Textured Vert");
-		mpGraphicsSystem->reloadShader("Textured Frag");
-		mpGraphicsSystem->reloadShader("Basic Vert");
-		mpGraphicsSystem->reloadShader("Color Frag");
-
-		mpGraphicsSystem->linkShaderProgram("Textured");
-		mpGraphicsSystem->linkShaderProgram("Color");
-	}
-	mInputLastF4State = keyState;
-
-	keyState = mpInputSystem->getKey(InputSystem::KeyCode::F5); //Debug Mode
-	if (keyState && !mInputLastF5State)
-	{
-		mDebugMode = !mDebugMode;
-
-		if (mpSelectedChicken && !mDebugMode)
-		{
-			mpSelectedChicken->setDebugMode(false);
-			mpSelectedChicken = nullptr;
-		}
-
-		mpGraphicsSystem->setDebugMode(mDebugMode);
-	}
-	mInputLastF5State = keyState;
+	mpInputSystem->update();
 }
 
 void Game::update()
 {
 	mpGraphicsSystem->update(mDeltaTime);
-
-	mpInputSystem->update();
 
 	mpChickenManager->update(mDeltaTime);
 
@@ -368,8 +240,8 @@ void Game::update()
 	if(fps != -1)
 		mpGraphicsSystem->addToDebugHUD("FPS: " + to_string(debugGetFPS()));
 
-	Vector2D mousePos = mpInputSystem->getMousePosition();
-	mpGraphicsSystem->addToDebugHUD("Mouse Position: " + mousePos.toString());
+	//Vector2D mousePos = mpInputSystem->getMousePosition();
+	//mpGraphicsSystem->addToDebugHUD("Mouse Position: " + mousePos.toString());
 	mpGraphicsSystem->addToDebugHUD("Camera Position: " + mpGraphicsSystem->getCamera()->getLoc().toString());
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
@@ -422,4 +294,147 @@ bool Game::render()
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 
 	return mpGraphicsSystem->render();
+}
+
+void Game::checkChickenClicked(Vector2D mousePos, MouseAction mouseButton)
+{
+	GridSystem* grs = GridSystem::getInstance();
+	Chicken* clickedChicken = mpChickenManager->checkChickenHovered(grs->convertPixelsToGrid(mousePos));
+	EventSystem* es = EventSystem::getInstance();
+
+	if (clickedChicken)
+	{
+		
+		ChickenClickEvent cknEvent(clickedChicken, mouseButton);
+		es->fireEvent(cknEvent);
+	}
+}
+
+void Game::onChickenLeftClick(Chicken* ckn)
+{
+	if (mDebugMode)
+	{
+
+		if (mpSelectedChicken)
+		{
+			mpSelectedChicken->setDebugMode(false);
+		}
+
+		mpSelectedChicken = ckn;
+		mpSelectedChicken->setDebugMode(true);
+	}
+	else
+		ckn->onMouseClick();
+}
+
+void Game::onChickenRightClick(Chicken* ckn)
+{
+	if (!mDebugMode)
+	{
+		if (ckn->isEgg())
+		{
+			mpChickenManager->removeAndDeleteChicken(ckn);
+
+			mCurrentMoney += EGG_SELL_AMOUNT;
+		}
+	}
+}
+
+void Game::moveDebugChicken(Vector2D mousePos)
+{
+	if (mpSelectedChicken && mDebugMode)
+	{
+		mpSelectedChicken->moveToLocation(mousePos);
+	}
+}
+
+void Game::startMouseDrag(Vector2D mousePos)
+{
+	mpGraphicsSystem->getCamera()->startMouseDrag(mousePos);
+}
+
+void Game::stopMouseDrag()
+{
+	mpGraphicsSystem->getCamera()->stopMouseDrag();
+}
+
+void Game::onMouseMove(Vector2D mousePos)
+{
+	//Honestly all these calculations should be inherent in the UIElement class
+	Vector2D buttonHalfSize = mpButton->getSize() / 2.0f;
+
+	Vector2D buttonLowerBound = mpButton->getLoc() - buttonHalfSize;
+	Vector2D buttonUpperBound = mpButton->getLoc() + buttonHalfSize;
+
+	Vector2D button2LowerBound = mpButton2->getLoc() - buttonHalfSize;
+	Vector2D button2UpperBound = mpButton2->getLoc() + buttonHalfSize;
+
+	Vector2D currencyHalfSize = mpCurrencyUI->getSize() / 2.0f;
+
+	Vector2D currencyLowerBound = mpCurrencyUI->getLoc() - currencyHalfSize;
+	Vector2D currencyUpperBound = mpCurrencyUI->getLoc() + currencyHalfSize;
+
+	Vector2D scienceHalfSize = mpScienceUI->getSize() / 2.0f;
+
+	Vector2D scienceLowerBound = mpScienceUI->getLoc() - scienceHalfSize;
+	Vector2D scienceUpperBound = mpScienceUI->getLoc() + scienceHalfSize;
+
+	mpGraphicsSystem->getCamera()->update(mousePos);
+
+	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
+	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonUpperBound, button2UpperBound));
+
+	mpCurrencyUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, currencyLowerBound, currencyUpperBound));
+	mpScienceUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, scienceLowerBound, scienceUpperBound));
+}
+
+void Game::onToggleDrawMode()
+{
+	switch (mpGraphicsSystem->getDrawMode())
+	{
+	case GraphicsSystem::DrawMode::Fill:
+		mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Wireframe);
+		break;
+
+	case GraphicsSystem::DrawMode::Wireframe:
+		mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Fill);
+		break;
+	}
+}
+
+void Game::onToggleShaders()
+{
+	if (mpGraphicsSystem->getCurrentShaderProgram() == "Textured")
+	{
+		mpGraphicsSystem->setActiveShaderProgram("Color");
+		Vector4D green = Vector4D(0.0f, 1.0f, 0.0f, 1.0f);
+		mpGraphicsSystem->setVec4Uniform("Color", "uColor", green);
+	}
+	else
+		mpGraphicsSystem->setActiveShaderProgram("Textured");
+}
+
+void Game::onShaderHotReload()
+{
+	//Hot Reload Shaders... Should probably do this through the managers (to not add a line for every new shader)
+	mpGraphicsSystem->reloadShader("Textured Vert");
+	mpGraphicsSystem->reloadShader("Textured Frag");
+	mpGraphicsSystem->reloadShader("Basic Vert");
+	mpGraphicsSystem->reloadShader("Color Frag");
+
+	mpGraphicsSystem->linkShaderProgram("Textured");
+	mpGraphicsSystem->linkShaderProgram("Color");
+}
+
+void Game::onToggleDebugMode()
+{
+	mDebugMode = !mDebugMode;
+
+	if (mpSelectedChicken && !mDebugMode)
+	{
+		mpSelectedChicken->setDebugMode(false);
+		mpSelectedChicken = nullptr;
+	}
+
+	mpGraphicsSystem->setDebugMode(mDebugMode);
 }

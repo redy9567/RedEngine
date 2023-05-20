@@ -6,7 +6,7 @@
 class Texture2D;
 class AnimationData;
 
-enum Direction
+enum class Direction
 {
 	Up,
 	Down,

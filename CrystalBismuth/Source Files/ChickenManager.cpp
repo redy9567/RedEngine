@@ -128,7 +128,7 @@ void ChickenManager::drawAllChickens()
 	}
 }
 
-Chicken* ChickenManager::checkChickenClicked(Vector2D mousePos)
+Chicken* ChickenManager::checkChickenHovered(Vector2D mousePos)
 {
 	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
 	{

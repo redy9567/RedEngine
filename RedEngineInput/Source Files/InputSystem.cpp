@@ -1,6 +1,9 @@
 #include "InputSystem.h"
 #include "GraphicsSystem.h"
 #include "../../glfw-3.3.8/include/GLFW/glfw3.h"
+#include "EventSystem.h"
+#include <MouseEvent.h>
+#include <KeyboardEvent.h>
 
 using namespace std;
 
@@ -373,7 +376,7 @@ bool InputSystem::getKey(KeyCode key)
 	return GraphicsSystem::getInstance()->_imGetKey(glfwKey, GraphicsSystem::GraphicsSystemIMKey());
 }
 
-bool InputSystem::getMouseButton(MouseButton button)
+bool InputSystem::getMouseButton(MouseAction button)
 {
 	return GraphicsSystem::getInstance()->_imGetMouseButton((unsigned int)button, GraphicsSystem::GraphicsSystemIMKey());
 }
@@ -385,22 +388,90 @@ Vector2D InputSystem::getMousePosition()
 
 void InputSystem::update()
 {
-	mLeftClick = getMouseButton(MouseButton::Left);
-	mRightClick = getMouseButton(MouseButton::Right);
-	mMiddleClick = getMouseButton(MouseButton::Middle);
+	
+	EventSystem* es = EventSystem::getInstance();
+	Vector2D mousePos = getMousePosition();
+
+	//Left clicks
+	if (getMouseButtonDown(MouseAction::LeftClick))
+	{
+		MouseEvent mouseEvent(MouseAction::LeftClick, ButtonState::Down, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+	else if (getMouseButtonUp(MouseAction::LeftClick))
+	{
+		MouseEvent mouseEvent(MouseAction::LeftClick, ButtonState::Up, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+	else if (getMouseButton(MouseAction::LeftClick))
+	{
+		MouseEvent mouseEvent(MouseAction::LeftClick, ButtonState::Hold, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+
+	//Right clicks
+	if (getMouseButtonDown(MouseAction::RightClick))
+	{
+		MouseEvent mouseEvent(MouseAction::RightClick, ButtonState::Down, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+	else if (getMouseButtonUp(MouseAction::RightClick))
+	{
+		MouseEvent mouseEvent(MouseAction::RightClick, ButtonState::Up, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+	else if (getMouseButton(MouseAction::RightClick))
+	{
+		MouseEvent mouseEvent(MouseAction::RightClick, ButtonState::Hold, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+
+
+	//Middle clicks
+	if (getMouseButtonDown(MouseAction::MiddleClick))
+	{
+		MouseEvent mouseEvent(MouseAction::MiddleClick, ButtonState::Down, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+	else if (getMouseButtonUp(MouseAction::MiddleClick))
+	{
+		MouseEvent mouseEvent(MouseAction::MiddleClick, ButtonState::Up, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+	else if (getMouseButton(MouseAction::MiddleClick))
+	{
+		MouseEvent mouseEvent(MouseAction::MiddleClick, ButtonState::Hold, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+
+	//Mouse Moves
+	mousePos = getMousePosition();
+	if (mMousePos != mousePos)
+	{
+		MouseEvent mouseEvent(MouseAction::Move, ButtonState::None, mousePos);
+		es->fireEvent(mouseEvent);
+	}
+
+	//Keyboard Events
+	getKeyboardState();
+
+	mLeftClick = getMouseButton(MouseAction::LeftClick);
+	mRightClick = getMouseButton(MouseAction::RightClick);
+	mMiddleClick = getMouseButton(MouseAction::MiddleClick);
+	mMousePos = mousePos;
 }
 
-bool InputSystem::getMouseButtonDown(MouseButton button)
+bool InputSystem::getMouseButtonDown(MouseAction button)
 {
 	switch (button)
 	{
-	case MouseButton::Left:
+	case MouseAction::LeftClick:
 		return !mLeftClick && getMouseButton(button);
 		break;
-	case MouseButton::Right:
+	case MouseAction::RightClick:
 		return !mRightClick && getMouseButton(button);
 		break;
-	case MouseButton::Middle:
+	case MouseAction::MiddleClick:
 		return !mMiddleClick && getMouseButton(button);
 		break;
 	default:
@@ -409,21 +480,61 @@ bool InputSystem::getMouseButtonDown(MouseButton button)
 	}
 }
 
-bool InputSystem::getMouseButtonUp(MouseButton button)
+bool InputSystem::getMouseButtonUp(MouseAction button)
 {
 	switch (button)
 	{
-	case MouseButton::Left:
+	case MouseAction::LeftClick:
 		return mLeftClick && !getMouseButton(button);
 		break;
-	case MouseButton::Right:
+	case MouseAction::RightClick:
 		return mRightClick && !getMouseButton(button);
 		break;
-	case MouseButton::Middle:
+	case MouseAction::MiddleClick:
 		return mMiddleClick && !getMouseButton(button);
 		break;
 	default:
 		return false;
 		break;
+	}
+}
+
+void InputSystem::getKeyboardState()
+{
+	EventSystem* es = EventSystem::getInstance();
+
+	for (KeyCode i = KeyCode::Esc; i < KeyCode::MAX_KEYS; i = (KeyCode)((int)i + 1))
+	{
+
+		bool currentState = getKey(i);
+
+		vector<KeyCode>::iterator lastState = find(mPressedKeys.begin(), mPressedKeys.end(), i);
+
+		if (currentState) //Currently Pressed
+		{
+			if (lastState != mPressedKeys.end()) //Pressed last frame
+			{
+				KeyboardEvent keyEvent(i, KeyState::Hold);
+				es->fireEvent(keyEvent);
+			}
+			else //Wasn't pressed last frame
+			{
+				KeyboardEvent keyEvent(i, KeyState::Down);
+				es->fireEvent(keyEvent);
+
+				mPressedKeys.push_back(i);
+			}
+		}
+		else //Not currently pressed
+		{
+			if (lastState != mPressedKeys.end()) //Pressed last frame
+			{
+				KeyboardEvent keyEvent(i, KeyState::Up);
+				es->fireEvent(keyEvent);
+
+				mPressedKeys.erase(lastState);
+			}
+		}
+
 	}
 }

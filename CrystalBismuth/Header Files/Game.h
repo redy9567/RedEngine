@@ -1,6 +1,7 @@
 #pragma once
 #include "Trackable.h"
 #include "Vector2D.h"
+#include "MouseEvent.h"
 
 class GraphicsSystem;
 class Sprite;
@@ -15,6 +16,7 @@ class UIElement;
 class ChickenManager;
 class Mesh2D;
 class GameObject2D;
+class GameListener;
 
 const float CURRENCY_UI_MOVE_DISTANCE = 47.0f;
 const float CURRENCY_UI_ANIMATION_SPEED = 5.0f;
@@ -37,6 +39,8 @@ class Game : public Trackable
 {
 
 public:
+	friend class GameListener;
+
 	static Game* getInstance();
 	static void cleanupInstance();
 
@@ -58,6 +62,24 @@ private:
 
 	void initShaderObjects();
 	void initShaderPrograms();
+
+	//Event Functions
+	void checkChickenClicked(Vector2D mousePos, MouseAction mouseButton);
+
+	void onChickenLeftClick(Chicken* ckn);
+	void onChickenRightClick(Chicken* ckn);
+
+	void onMouseMove(Vector2D mousePos);
+
+	void onToggleDrawMode();
+	void onToggleShaders();
+	void onShaderHotReload();
+	void onToggleDebugMode();
+
+	void startMouseDrag(Vector2D mousePos);
+	void stopMouseDrag();
+
+	void moveDebugChicken(Vector2D mousePos);
 
 	static Game* mspInstance;
 
@@ -92,5 +114,7 @@ private:
 	UIElement* mpScienceUI;
 
 	int mCurrentMoney;
+
+	GameListener* mpGameListener;
 
 };

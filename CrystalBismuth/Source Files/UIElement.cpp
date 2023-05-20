@@ -63,7 +63,7 @@ void UIElement::update(float deltaTime)
 	}
 	else
 	{
-		if (mAnimationDirection == Left)
+		if (mAnimationDirection == Direction::Left)
 		{
 			if (mIsHover && mLoc.getX() > mOrigLoc.getX() - mDistToMove)
 			{
@@ -74,7 +74,7 @@ void UIElement::update(float deltaTime)
 				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
 			}
 		}
-		else if (mAnimationDirection == Right)
+		else if (mAnimationDirection == Direction::Right)
 		{
 			if (mIsHover && mLoc.getX() < mOrigLoc.getX() + mDistToMove)
 			{
@@ -85,7 +85,7 @@ void UIElement::update(float deltaTime)
 				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
 			}
 		}
-		else if (mAnimationDirection == Up)
+		else if (mAnimationDirection == Direction::Up)
 		{
 			if (mIsHover && mLoc.getY() < mOrigLoc.getY() + mDistToMove)
 			{
@@ -96,7 +96,7 @@ void UIElement::update(float deltaTime)
 				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
 			}
 		}
-		else if (mAnimationDirection == Down)
+		else if (mAnimationDirection == Direction::Down)
 		{
 			if (mIsHover && mLoc.getY() > mOrigLoc.getY() - mDistToMove)
 			{

@@ -134,12 +134,16 @@
     <ClInclude Include="Header Files\ChickenManager.h" />
     <ClInclude Include="Header Files\Filepaths.h" />
     <ClInclude Include="Header Files\Game.h" />
+    <ClInclude Include="Header Files\GameEvents.h" />
+    <ClInclude Include="Header Files\GameListener.h" />
     <ClInclude Include="Header Files\UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Chicken.cpp" />
     <ClCompile Include="Source Files\ChickenManager.cpp" />
     <ClCompile Include="Source Files\Game.cpp" />
+    <ClCompile Include="Source Files\GameEvents.cpp" />
+    <ClCompile Include="Source Files\GameListener.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\UIElement.cpp" />
   </ItemGroup>

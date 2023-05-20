@@ -20,7 +20,7 @@ public:
 	void update(float deltaTime);
 	void drawAllChickens();
 
-	Chicken* checkChickenClicked(Vector2D mousePos);
+	Chicken* checkChickenHovered(Vector2D mousePos);
 
 	Chicken* createAndAddChicken(Vector2D location = Vector2D::Zero());
 	void removeAndDeleteChicken(Chicken* chicken);
