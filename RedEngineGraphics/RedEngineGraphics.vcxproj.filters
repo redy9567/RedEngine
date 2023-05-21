@@ -496,6 +496,9 @@
     <None Include="Vertex Shaders\basicUI.vert">
       <Filter>Vertex Shaders</Filter>
     </None>
+    <None Include="Fragment Shaders\chickenColor.frag">
+      <Filter>Fragment Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\wall.jpg">

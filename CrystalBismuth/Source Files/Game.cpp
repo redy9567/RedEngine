@@ -145,6 +145,8 @@ void Game::initShaderObjects()
 	mpGraphicsSystem->createAndAddShader("Color Frag", FRAGMENT_SHADER, "color.frag");
 	mpGraphicsSystem->createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
 	mpGraphicsSystem->createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
+
+	mpGraphicsSystem->createAndAddShader("Chicken Color", FRAGMENT_SHADER, "chickenColor.frag");
 }
 
 void Game::initShaderPrograms()
@@ -163,6 +165,12 @@ void Game::initShaderPrograms()
 
 	mpGraphicsSystem->createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
 	mpGraphicsSystem->linkShaderProgram("Text");
+
+	mpGraphicsSystem->createAndAddShaderProgram("ChickenColor", "Textured Vert", "Chicken Color");
+	mpGraphicsSystem->linkShaderProgram("ChickenColor");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("ChickenColor", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+	mpGraphicsSystem->activateFloatAttributeOnProgram("ChickenColor", 1, 3); //Sets Attribute 1 to a 3 dimentional float value
+	mpGraphicsSystem->activateFloatAttributeOnProgram("ChickenColor", 2, 2); //Sets Attribute 2 to a 2 dimentional float value
 
 	mpGraphicsSystem->setActiveShaderProgram("Textured");
 }
@@ -248,11 +256,18 @@ void Game::update()
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec4Uniform("ChickenColor", "uColor", Vector4D(1.0f, 0.44f, 0.44f, 1.0f));
+	mpGraphicsSystem->setIntegerUniform("ChickenColor", "uTexture0", 0);
+	mpGraphicsSystem->setVec2Uniform("ChickenColor", "uResolution", mpGraphicsSystem->getDisplayResolution());
 }
 
 bool Game::render()
 {
+	mpGraphicsSystem->setActiveShaderProgram("ChickenColor");
+
 	mpChickenManager->drawAllChickens();
+
+	mpGraphicsSystem->setActiveShaderProgram("Textured");
 
 	if (mpSelectedChicken)
 	{

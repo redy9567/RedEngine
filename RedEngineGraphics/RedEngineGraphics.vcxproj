@@ -287,6 +287,7 @@
     <ClCompile Include="Source Files\Texture2DManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fragment Shaders\chickenColor.frag" />
     <None Include="Fragment Shaders\text.frag" />
     <None Include="Fragment Shaders\color.frag" />
     <None Include="Fragment Shaders\test.frag" />
