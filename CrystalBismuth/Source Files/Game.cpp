@@ -396,11 +396,11 @@ void Game::onMouseMove(Vector2D mousePos)
 
 	mpGraphicsSystem->getCamera()->update(mousePos);
 
-	mpButton->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-	mpButton2->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, buttonUpperBound, button2UpperBound));
+	mpButton->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
+	mpButton2->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonUpperBound, button2UpperBound));
 
-	mpCurrencyUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, currencyLowerBound, currencyUpperBound));
-	mpScienceUI->setIsHovered(Vector2D::IsPointWithinBounds(mousePos, scienceLowerBound, scienceUpperBound));
+	mpCurrencyUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, currencyLowerBound, currencyUpperBound));
+	mpScienceUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, scienceLowerBound, scienceUpperBound));
 }
 
 void Game::onToggleDrawMode()

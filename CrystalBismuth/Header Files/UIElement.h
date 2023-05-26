@@ -22,7 +22,7 @@ public:
 	UIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero());
 	~UIElement();
 
-	void setIsHovered(bool hover) { mIsHover = hover; }
+	void setAnimating(bool hover) { mIsAnimating = hover; }
 
 	void update(float deltaTime);
 
@@ -32,7 +32,7 @@ private:
 	Animation* mpAnimation;
 	Sprite* mpSprite;
 
-	bool mIsHover;
+	bool mIsAnimating;
 	Direction mAnimationDirection;
 
 	Vector2D mOrigLoc;

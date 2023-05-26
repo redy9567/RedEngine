@@ -23,7 +23,7 @@ UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Directio
 	mDistToMove = distanceToMove;
 	mSpeed = speed;
 
-	mIsHover = false;
+	mIsAnimating = false;
 	mAnimationDirection = animationDirection;
 }
 
@@ -45,7 +45,7 @@ UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey
 	mLoc = location;
 	mAnimationDirection = (Direction)-1;
 
-	mIsHover = false;
+	mIsAnimating = false;
 }
 
 UIElement::~UIElement()
@@ -57,7 +57,7 @@ void UIElement::update(float deltaTime)
 {
 	if (mDrawingMode == GameObject2D::AnimationMode)
 	{
-		mpAnimation->setReversed(!mIsHover);
+		mpAnimation->setReversed(!mIsAnimating);
 
 		mpAnimation->update(deltaTime);
 	}
@@ -65,44 +65,44 @@ void UIElement::update(float deltaTime)
 	{
 		if (mAnimationDirection == Direction::Left)
 		{
-			if (mIsHover && mLoc.getX() > mOrigLoc.getX() - mDistToMove)
+			if (mIsAnimating && mLoc.getX() > mOrigLoc.getX() - mDistToMove)
 			{
 				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
 			}
-			else if (!mIsHover && mLoc.getX() < mOrigLoc.getX())
+			else if (!mIsAnimating && mLoc.getX() < mOrigLoc.getX())
 			{
 				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
 			}
 		}
 		else if (mAnimationDirection == Direction::Right)
 		{
-			if (mIsHover && mLoc.getX() < mOrigLoc.getX() + mDistToMove)
+			if (mIsAnimating && mLoc.getX() < mOrigLoc.getX() + mDistToMove)
 			{
 				mLoc.setX(mLoc.getX() + mDistToMove * deltaTime * mSpeed);
 			}
-			else if (!mIsHover && mLoc.getX() > mOrigLoc.getX())
+			else if (!mIsAnimating && mLoc.getX() > mOrigLoc.getX())
 			{
 				mLoc.setX(mLoc.getX() - mDistToMove * deltaTime * mSpeed);
 			}
 		}
 		else if (mAnimationDirection == Direction::Up)
 		{
-			if (mIsHover && mLoc.getY() < mOrigLoc.getY() + mDistToMove)
+			if (mIsAnimating && mLoc.getY() < mOrigLoc.getY() + mDistToMove)
 			{
 				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * mSpeed);
 			}
-			else if (!mIsHover && mLoc.getY() > mOrigLoc.getY())
+			else if (!mIsAnimating && mLoc.getY() > mOrigLoc.getY())
 			{
 				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
 			}
 		}
 		else if (mAnimationDirection == Direction::Down)
 		{
-			if (mIsHover && mLoc.getY() > mOrigLoc.getY() - mDistToMove)
+			if (mIsAnimating && mLoc.getY() > mOrigLoc.getY() - mDistToMove)
 			{
 				mLoc.setY(mLoc.getY() - mDistToMove * deltaTime * mSpeed);
 			}
-			else if (!mIsHover && mLoc.getY() < mOrigLoc.getY())
+			else if (!mIsAnimating && mLoc.getY() < mOrigLoc.getY())
 			{
 				mLoc.setY(mLoc.getY() + mDistToMove * deltaTime * mSpeed);
 			}
