@@ -15,18 +15,20 @@ GameObject2D::~GameObject2D()
 
 }
 
-GameObject2D::GameObject2D(Sprite* sprite, Vector2D location)
+GameObject2D::GameObject2D(Sprite* sprite, Vector2D location, GameObject2D* parent)
 {
 	mLoc = location;
 	mDrawingMode = DrawMode::SpriteMode;
 	mImage.s = sprite;
+	mParent = parent;
 }
 
-GameObject2D::GameObject2D(Animation* animation, Vector2D location)
+GameObject2D::GameObject2D(Animation* animation, Vector2D location, GameObject2D* parent)
 {
 	mLoc = location;
 	mDrawingMode = DrawMode::AnimationMode;
 	mImage.a = animation;
+	mParent = parent;
 }
 
 Vector2D GameObject2D::getSize()

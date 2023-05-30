@@ -41,6 +41,30 @@ Vector2D::Vector2D(unsigned int x, unsigned int y)
 	mY = (float)y;
 }
 
+Vector2D::Vector2D(float xy)
+{
+	mX = xy;
+	mY = xy;
+}
+
+Vector2D::Vector2D(int xy)
+{
+	mX = (float)xy;
+	mY = (float)xy;
+}
+
+Vector2D::Vector2D(double xy) //NOTE: loss of precision, used to remove ambiguity
+{
+	mX = (float)xy;
+	mY = (float)xy;
+}
+
+Vector2D::Vector2D(unsigned int xy)
+{
+	mX = (float)xy;
+	mY = (float)xy;
+}
+
 Vector2D Vector2D::operator=(const Vector2D& other)
 {
 	mX = other.mX;
@@ -211,7 +235,7 @@ Vector2D Vector2D::operator*(const Matrix2D& other) const
 
 bool Vector2D::IsPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper)
 {
-	return	point.getX() > lower.getX() &&
+	return point.getX() > lower.getX() &&
 		point.getY() > lower.getY() &&
 		point.getX() < upper.getX() &&
 		point.getY() < upper.getY();

@@ -361,26 +361,30 @@ void GraphicsSystem::drawUI(Animation& animation, Vector2D location)
 
 void GraphicsSystem::draw(GameObject2D* obj)
 {
+	Vector2D offset = obj->mParent ? obj->mParent->mLoc : Vector2D::Zero();
+
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		draw(*obj->mImage.s, obj->mLoc);
+		draw(*obj->mImage.s, obj->mLoc + offset);
 		break;
 	case GameObject2D::AnimationMode:
-		draw(*obj->mImage.a, obj->mLoc);
+		draw(*obj->mImage.a, obj->mLoc + offset);
 		break;
 	}
 }
 
 void GraphicsSystem::drawUI(GameObject2D* obj)
 {
+	Vector2D offset = obj->mParent ? obj->mParent->mLoc : Vector2D::Zero();
+
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		drawUI(*obj->mImage.s, obj->mLoc);
+		drawUI(*obj->mImage.s, obj->mLoc + offset);
 		break;
 	case GameObject2D::AnimationMode:
-		drawUI(*obj->mImage.a, obj->mLoc);
+		drawUI(*obj->mImage.a, obj->mLoc + offset);
 		break;
 	}
 }

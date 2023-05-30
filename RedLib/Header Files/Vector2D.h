@@ -13,6 +13,10 @@ public:
 	Vector2D(int x, int y);
 	Vector2D(double x, double y);
 	Vector2D(unsigned int x, unsigned int y);
+	Vector2D(float xy);
+	Vector2D(int xy);
+	Vector2D(double xy);
+	Vector2D(unsigned int xy);
 	~Vector2D();
 
 	Vector2D operator=(const Vector2D& other);

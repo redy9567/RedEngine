@@ -5,18 +5,15 @@
 
 using namespace std;
 
-UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location)
+UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location, Vector2D scale, GameObject2D* parent)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
 	
-	mpTexture = gs->createAndAddTexture2D(objectKey, spriteFilepath, true);
-	mpSprite = gs->createAndAddSprite(objectKey, &mpTexture, Vector2D::Zero(), mpTexture->getSize());
-	mpAnimationData = nullptr;
-	mpAnimation = nullptr;
+	Texture2D* tex = gs->createAndAddTexture2D(objectKey, spriteFilepath, true);
 
 	mDrawingMode = GameObject2D::SpriteMode;
-	mImage.s = mpSprite;
+	mImage.s = gs->createAndAddSprite(objectKey, &tex, Vector2D::Zero(), tex->getSize(), scale);
 
 	mLoc = location;
 	mOrigLoc = location;
@@ -25,6 +22,8 @@ UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Directio
 
 	mIsAnimating = false;
 	mAnimationDirection = animationDirection;
+
+	mParent = parent;
 }
 
 UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location)
@@ -32,13 +31,11 @@ UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
 	
-	mpTexture = gs->createAndAddTexture2D(objectKey, animationTextureFilepath, true);
-	mpAnimationData = gs->createAndAddAnimationData(objectKey, &mpTexture, animationColumns, animationRows);
-	mpAnimation = gs->createAndAddAnimation(objectKey, objectKey, 60);
-	mpSprite = nullptr;
+	Texture2D* tex = gs->createAndAddTexture2D(objectKey, animationTextureFilepath, true);
+	gs->createAndAddAnimationData(objectKey, &tex, animationColumns, animationRows);
 
 	mDrawingMode = GameObject2D::AnimationMode;
-	mImage.a = mpAnimation;
+	mImage.a = gs->createAndAddAnimation(objectKey, objectKey, 60);
 	mDistToMove = 0.0f;
 	mSpeed = 0.0f;
 
@@ -57,9 +54,9 @@ void UIElement::update(float deltaTime)
 {
 	if (mDrawingMode == GameObject2D::AnimationMode)
 	{
-		mpAnimation->setReversed(!mIsAnimating);
+		mImage.a->setReversed(!mIsAnimating);
 
-		mpAnimation->update(deltaTime);
+		mImage.a->update(deltaTime);
 	}
 	else
 	{

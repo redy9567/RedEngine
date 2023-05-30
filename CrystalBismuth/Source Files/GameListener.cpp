@@ -29,6 +29,8 @@ void GameListener::handleEvent(const Event& ev)
 		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::RightClick && eventUnion->mouseEvent->getButtonState() == ButtonState::Down)
 			game->moveDebugChicken(eventUnion->mouseEvent->getMousePosition());
 
+		game->checkUIClicked(*eventUnion->mouseEvent);
+
 		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::MiddleClick)
 		{
 			if (eventUnion->mouseEvent->getButtonState() == ButtonState::Down)

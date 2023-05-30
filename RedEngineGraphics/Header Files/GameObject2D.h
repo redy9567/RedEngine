@@ -11,7 +11,7 @@ public:
 	friend class GraphicsSystem;
 	friend class GameObject2DManager;
 
-	Vector2D getLoc() { return mLoc; }
+	Vector2D getLoc() { return mParent ? mLoc + mParent->getLoc() :  mLoc; }
 	Vector2D getSize();
 	Vector2D getGameSize();
 
@@ -21,8 +21,8 @@ protected:
 	GameObject2D();
 	~GameObject2D();
 
-	GameObject2D(Sprite*, Vector2D loc = Vector2D::Zero());
-	GameObject2D(Animation*, Vector2D loc = Vector2D::Zero());
+	GameObject2D(Sprite*, Vector2D loc = Vector2D::Zero(), GameObject2D* parent = nullptr);
+	GameObject2D(Animation*, Vector2D loc = Vector2D::Zero(), GameObject2D* parent = nullptr);
 
 	enum DrawMode
 	{
@@ -40,4 +40,6 @@ protected:
 	DrawMode mDrawingMode;
 	Image mImage;
 	Vector2D mLoc;
+
+	GameObject2D* mParent;
 };
