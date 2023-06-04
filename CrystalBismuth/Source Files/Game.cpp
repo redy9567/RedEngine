@@ -324,7 +324,7 @@ void Game::update()
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
-	mpGraphicsSystem->setVec4Uniform("ChickenColor", "uColor", Vector4D(1.0f, 0.44f, 0.44f, 1.0f));
+	mpGraphicsSystem->setVec4Uniform("ChickenColor", "uColor", Vector4D(0.0f, 0.0f, 1.0f, 1.0f));
 	mpGraphicsSystem->setIntegerUniform("ChickenColor", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("ChickenColor", "uResolution", mpGraphicsSystem->getDisplayResolution());
 }
