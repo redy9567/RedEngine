@@ -33,6 +33,7 @@ const std::string CKN_CHICKEN_KEY = "Chicken";
 const std::string CKN_CHICK_WALKING_KEY = "ChickWalking";
 const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 const std::string CKN_CHICKEN_DEATH_KEY = "ChickenDeath";
+const std::string CKN_CHICK_CHAO_GROW_KEY = "ChickChao";
 
 class Chicken : public GameObject2D
 {
@@ -61,6 +62,14 @@ private:
 		DEAD
 	};
 
+	enum class GrowType
+	{
+		REGULAR,
+		CHAO,
+		SHIFT
+
+	};
+
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
 	~Chicken();
 	Chicken() = delete;
@@ -76,6 +85,7 @@ private:
 	void loadData();
 
 	ChickenState mState;
+	GrowType mGrowType;
 	bool mStateChanged;
 	bool mDebugMode;
 	
