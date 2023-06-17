@@ -6,17 +6,19 @@
 
 const float pi = 3.14159265358979323846f;
 
-Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location)
+Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenColor color, Vector2D location)
 {
 	loadData();
 
-	mTimeToHatch = timeToHatch;
-	mTimeToMaturity = timeToHatch + timeToMaturity;
-	mTimeToDeath = timeToHatch + timeToMaturity + timeToDeath;
+	mTimeToHatch = timeToHatch * GetHatchModifier(color);
+	mTimeToMaturity = mTimeToHatch + timeToMaturity * GetGrowTimerModifier(color);
+	mTimeToDeath = mTimeToHatch + mTimeToMaturity + timeToDeath;
 
 	mState = ChickenState::EGG;
 	mDrawingMode = GameObject2D::SpriteMode;
 	mImage.s = GraphicsSystem::getInstance()->getSprite(CKN_EGG_KEY);
+
+	mChickenColor = color;
 
 	mLoc = location;
 	mIsMoving = false;
@@ -290,5 +292,172 @@ void Chicken::moveToLocation(Vector2D location)
 			changeState(ChickenState::CHICKEN_WALKING);
 			break;
 		}
+	}
+}
+
+float Chicken::GetBreedingModifier(ChickenColor color)
+{
+	switch (color)
+	{
+	case ChickenColor::WHITE:
+		return 1.0f;
+
+	case ChickenColor::BLACK:
+		return 1.0f;
+
+	case ChickenColor::BLUE:
+		return 1.04f;
+
+	case ChickenColor::LIGHT_BLUE:
+		return 1.0f;
+
+	case ChickenColor::GREEN:
+		return 1.03f;
+
+	case ChickenColor::YELLOW:
+		return 0.97f;
+
+	case ChickenColor::RED:
+		return 1.0f;
+
+	case ChickenColor::PURPLE:
+		return 1.02f;
+
+	default:
+		return 0.0f;
+	}
+}
+
+float Chicken::GetHatchModifier(ChickenColor color)
+{
+	switch (color)
+	{
+	case ChickenColor::WHITE:
+		return 1.0f;
+
+	case ChickenColor::BLACK:
+		return 1.04f;
+
+	case ChickenColor::BLUE:
+		return 1.0f;
+
+	case ChickenColor::LIGHT_BLUE:
+		return 0.94f;
+
+	case ChickenColor::GREEN:
+		return 1.0f;
+
+	case ChickenColor::YELLOW:
+		return 1.03f;
+
+	case ChickenColor::RED:
+		return 1.03f;
+
+	case ChickenColor::PURPLE:
+		return 1.02f;
+
+	default:
+		return 0.0f;
+	}
+}
+
+float Chicken::GetEggLayingModifier(ChickenColor color)
+{
+	switch (color)
+	{
+	case ChickenColor::WHITE:
+		return 1.0f;
+
+	case ChickenColor::BLACK:
+		return 1.0f;
+
+	case ChickenColor::BLUE:
+		return 0.96f;
+
+	case ChickenColor::LIGHT_BLUE:
+		return 1.06f;
+
+	case ChickenColor::GREEN:
+		return 0.94f;
+
+	case ChickenColor::YELLOW:
+		return 1.0f;
+
+	case ChickenColor::RED:
+		return 1.06f;
+
+	case ChickenColor::PURPLE:
+		return 1.02f;
+
+	default:
+		return 0.0f;
+	}
+}
+
+float Chicken::GetGrowTimerModifier(ChickenColor color)
+{
+	switch (color)
+	{
+	case ChickenColor::WHITE:
+		return 1.0f;
+
+	case ChickenColor::BLACK:
+		return 0.96f;
+
+	case ChickenColor::BLUE:
+		return 1.0f;
+
+	case ChickenColor::LIGHT_BLUE:
+		return 1.0f;
+
+	case ChickenColor::GREEN:
+		return 1.03f;
+
+	case ChickenColor::YELLOW:
+		return 0.94f;
+
+	case ChickenColor::RED:
+		return 0.97f;
+
+	case ChickenColor::PURPLE:
+		return 1.02f;
+
+	default:
+		return 0.0f;
+	}
+}
+
+Vector3D Chicken::GetChickenColor(ChickenColor color)
+{
+	//I think it would be really cool to add a programatically converted Color Code -> Vector3D
+
+	switch (color)
+	{
+	case ChickenColor::WHITE:
+		return Vector3D(1.0f, 1.0f, 1.0f);
+
+	case ChickenColor::BLACK:
+		return Vector3D(0.24f, 0.24f, 0.24f);
+
+	case ChickenColor::BLUE:
+		return Vector3D(0.55f, 0.67f, 1.0f);
+
+	case ChickenColor::LIGHT_BLUE:
+		return Vector3D(0.55f, 1.0f, 0.97f);
+
+	case ChickenColor::GREEN:
+		return Vector3D(0.44f, 1.0f, 0.44f);
+
+	case ChickenColor::YELLOW:
+		return Vector3D(1.0f, 0.95f, 0.44f);
+
+	case ChickenColor::RED:
+		return Vector3D(1.0f, 0.44f, 0.44f);
+
+	case ChickenColor::PURPLE:
+		return Vector3D(0.79f,  0.42f, 1.0f);
+
+	default:
+		return Vector3D::Zero();
 	}
 }

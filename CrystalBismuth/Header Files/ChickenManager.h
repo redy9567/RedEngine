@@ -4,6 +4,7 @@
 #include <Vector2D.h>
 
 class Chicken;
+enum class ChickenColor;
 
 const float DEFAULT_TIME_TO_HATCH = 20.0f;
 const float DEFAULT_TIME_TO_MATURITY = 20.0f;
@@ -22,7 +23,7 @@ public:
 
 	Chicken* checkChickenHovered(Vector2D mousePos);
 
-	Chicken* createAndAddChicken(Vector2D location = Vector2D::Zero());
+	Chicken* createAndAddChicken(ChickenColor color, Vector2D location = Vector2D::Zero());
 	void removeAndDeleteChicken(Chicken* chicken);
 	void removeAndDeleteChicken(int chickenID);
 

@@ -92,8 +92,14 @@ void Game::init(int mFPS)
 	mpGraphicsSystem->setBackground(mpBackground);
 
 	mpChickenManager = ChickenManager::getInstance();
-	mpChickenManager->createAndAddChicken(Vector2D(9, 5));
-	mpChickenManager->createAndAddChicken(Vector2D(12, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::WHITE, Vector2D(9, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::BLACK, Vector2D(10, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::BLUE, Vector2D(11, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::LIGHT_BLUE, Vector2D(12, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::GREEN, Vector2D(13, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::YELLOW, Vector2D(14, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::RED, Vector2D(15, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::PURPLE, Vector2D(16, 5));
 
 	Vector2D shopButtonUILoc = Vector2D(SHOP_BUTTON_UI_X, BASE_BUTTON_UI_Y);
 	Vector2D firstWindowUILoc = Vector2D(FIRST_WINDOW_UI_X, FIRST_WINDOW_UI_Y);
@@ -324,7 +330,6 @@ void Game::update()
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
-	mpGraphicsSystem->setVec4Uniform("ChickenColor", "uColor", Vector4D(0.0f, 0.0f, 1.0f, 1.0f));
 	mpGraphicsSystem->setIntegerUniform("ChickenColor", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("ChickenColor", "uResolution", mpGraphicsSystem->getDisplayResolution());
 }

@@ -47,9 +47,9 @@ void ChickenManager::cleanup()
 	mChickens.clear();
 }
 
-Chicken* ChickenManager::createAndAddChicken(Vector2D location)
+Chicken* ChickenManager::createAndAddChicken(ChickenColor color, Vector2D location)
 {
-	Chicken* obj = new Chicken(DEFAULT_TIME_TO_HATCH, DEFAULT_TIME_TO_MATURITY, DEFAULT_TIME_TO_DEATH, location);
+	Chicken* obj = new Chicken(DEFAULT_TIME_TO_HATCH, DEFAULT_TIME_TO_MATURITY, DEFAULT_TIME_TO_DEATH, color, location);
 
 	mChickens.push_back(obj);
 
@@ -124,6 +124,10 @@ void ChickenManager::drawAllChickens()
 
 	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
 	{
+		Vector3D color = Chicken::GetChickenColor((*it)->mChickenColor);
+
+
+		gs->setVec4Uniform("ChickenColor", "uColor", Vector4D(color.getX(), color.getY(), color.getZ(), 1.0f));
 		gs->draw(*it);
 	}
 }
@@ -154,7 +158,7 @@ bool ChickenManager::checkBreeding(Chicken* chicken1, Chicken* chicken2)
 
 void ChickenManager::breed(Chicken* chicken1, Chicken* chicken2)
 {
-	createAndAddChicken(chicken1->getLoc());
+	createAndAddChicken(ChickenColor::WHITE, chicken1->getLoc());
 	chicken1->mBreedingTimer = BREEDING_COOLDOWN;
 	chicken2->mBreedingTimer = BREEDING_COOLDOWN;
 }

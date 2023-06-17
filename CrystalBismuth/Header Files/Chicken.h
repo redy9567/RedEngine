@@ -3,6 +3,7 @@
 #include <string>
 #include "GameObject2D.h"
 #include "Filepaths.h"
+#include "Vector3D.h"
 
 class Sprite;
 class Texture2D;
@@ -34,6 +35,18 @@ const std::string CKN_CHICK_WALKING_KEY = "ChickWalking";
 const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 const std::string CKN_CHICKEN_DEATH_KEY = "ChickenDeath";
 
+enum class ChickenColor
+{
+	WHITE,
+	BLACK,
+	BLUE,
+	LIGHT_BLUE,
+	GREEN,
+	YELLOW,
+	RED,
+	PURPLE
+};
+
 class Chicken : public GameObject2D
 {
 public:
@@ -48,6 +61,8 @@ public:
 
 	bool isEgg() { return mState == ChickenState::EGG; }
 
+	ChickenColor getColor() { return mChickenColor; }
+
 private:
 	enum class ChickenState
 	{
@@ -61,7 +76,7 @@ private:
 		DEAD
 	};
 
-	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Vector2D location = Vector2D::Zero());
+	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenColor color, Vector2D location = Vector2D::Zero());
 	~Chicken();
 	Chicken() = delete;
 
@@ -74,6 +89,12 @@ private:
 	void changeState(ChickenState state) { mState = state; mStateChanged = true; }
 
 	void loadData();
+
+	static float GetHatchModifier(ChickenColor color);
+	static float GetBreedingModifier(ChickenColor color);
+	static float GetEggLayingModifier(ChickenColor color);
+	static float GetGrowTimerModifier(ChickenColor color);
+	static Vector3D GetChickenColor(ChickenColor color);
 
 	ChickenState mState;
 	bool mStateChanged;
@@ -91,4 +112,6 @@ private:
 	bool mIsMoving;
 	Vector2D mMoveStart;
 	Vector2D mMoveEnd;
+
+	ChickenColor mChickenColor;
 };
