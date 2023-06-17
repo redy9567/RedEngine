@@ -68,6 +68,10 @@ void Chicken::loadData()
 		Texture2D* chickenDeathTexture = gs->createAndAddTexture2D(CKN_CHICKEN_DEATH_KEY, RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICKEN_DEATH_FILENAME, true);
 		gs->createAndAddAnimationData(CKN_CHICKEN_DEATH_KEY, &chickenDeathTexture, 43, 1);
 		gs->createAndAddAnimation(CKN_CHICKEN_DEATH_KEY, CKN_CHICKEN_DEATH_KEY, 18);
+
+		Texture2D* chickChaoGrowTexture = gs->createAndAddTexture2D(CKN_CHICK_CHAO_GROW_KEY, RESOURCES_DIRECTORY + CHICKS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICK_CHAO_GROW_FILENAME, true);
+		gs->createAndAddAnimationData(CKN_CHICK_CHAO_GROW_KEY, &chickChaoGrowTexture, 59, 1);
+		gs->createAndAddAnimation(CKN_CHICK_CHAO_GROW_KEY, CKN_CHICK_CHAO_GROW_KEY, 8);
 	}
 	
 }
@@ -113,7 +117,18 @@ void Chicken::updateAnimation(float deltaTime)
 			anim = gs->getAnimation(CKN_CHICK_WALKING_KEY);
 			break;
 		case ChickenState::CHICK_GROWING:
-			anim = gs->getAnimation(CKN_GROWING_KEY);
+			if (mGrowType == GrowType::REGULAR)
+			{
+				anim = gs->getAnimation(CKN_GROWING_KEY);
+			}
+			else if (mGrowType == GrowType::CHAO)
+			{
+				anim = gs->getAnimation(CKN_CHICK_CHAO_GROW_KEY);
+			}
+			else
+			{
+				anim = nullptr;
+			}
 			break;
 		case ChickenState::CHICKEN_WALKING:
 			anim = gs->getAnimation(CKN_CHICKEN_WALKING_KEY);
@@ -252,8 +267,17 @@ void Chicken::updateImage()
 		break;
 	case ChickenState::CHICK_GROWING:
 		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = gs->getAnimation(CKN_GROWING_KEY);
+		mGrowType = (GrowType)(rand() % 2);
+		if (mGrowType == GrowType::REGULAR)
+		{
+			mImage.a = gs->getAnimation(CKN_GROWING_KEY);
+		}
+		else if (mGrowType == GrowType::CHAO)
+		{
+			mImage.a = gs->getAnimation(CKN_CHICK_CHAO_GROW_KEY);
+		}
 		break;
+		
 	case ChickenState::CHICKEN:
 		mDrawingMode = GameObject2D::SpriteMode;
 		mImage.s = gs->getSprite(CKN_CHICKEN_KEY);
