@@ -12,7 +12,7 @@ class Animation;
 class Timer;
 class InputSystem;
 class Chicken;
-class UIElement;
+class UIManager;
 class ChickenManager;
 class Mesh2D;
 class GameObject2D;
@@ -110,6 +110,7 @@ private:
 	GraphicsSystem* mpGraphicsSystem;
 	InputSystem* mpInputSystem;
 	ChickenManager* mpChickenManager;
+	UIManager* mpUIManager;
 
 	Chicken* mpSelectedChicken;
 	Mesh2D* mpChickenSelectionMesh;
@@ -129,27 +130,6 @@ private:
 	bool mInputLastF2State;
 	bool mInputLastF4State;
 	bool mInputLastF5State;
-
-	UIElement* mpShopButtonUI;
-	UIElement* mpShopUI;
-
-	UIElement* mpCoopButtonUI;
-	UIElement* mpCoopUI;
-
-	UIElement* mpPenButtonUI;
-	UIElement* mpPenUI;
-
-	UIElement* mpHatcheryButtonUI;
-	UIElement* mpHatcheryUI;
-
-	UIElement* mpScienceButtonUI;
-	UIElement* mpScienceWindowUI;
-
-	UIElement* mpSettingsButtonUI;
-	UIElement* mpSettingsUI;
-	
-	UIElement* mpCurrencyUI;
-	UIElement* mpScienceUI;
 
 	int mCurrentMoney;
 

@@ -18,17 +18,21 @@ class UIElement : public GameObject2D
 {
 
 public:
-	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
-	UIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero());
+	friend class UIManager;
+
+	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr, bool animateOnHover = false);
+	UIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero(), bool animateOnHover = false);
 	~UIElement();
 
 	void setAnimating(bool hover) { mIsAnimating = hover; }
 	bool getIsAnimating() { return mIsAnimating; }
+	UIElement* getParent() { return (UIElement*)mParent; }
 
 	void update(float deltaTime);
 
 private:
 	bool mIsAnimating;
+	bool mAnimateOnHover;
 	Direction mAnimationDirection;
 
 	Vector2D mOrigLoc;

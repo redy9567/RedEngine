@@ -5,7 +5,7 @@
 
 using namespace std;
 
-UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location, Vector2D scale, GameObject2D* parent)
+UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location, Vector2D scale, GameObject2D* parent, bool animateOnHover)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
@@ -22,11 +22,12 @@ UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Directio
 
 	mIsAnimating = false;
 	mAnimationDirection = animationDirection;
+	mAnimateOnHover = animateOnHover;
 
 	mParent = parent;
 }
 
-UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location)
+UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location, bool animateOnHover)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
@@ -41,6 +42,7 @@ UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey
 
 	mLoc = location;
 	mAnimationDirection = (Direction)-1;
+	mAnimateOnHover = animateOnHover;
 
 	mIsAnimating = false;
 }
@@ -52,6 +54,14 @@ UIElement::~UIElement()
 
 void UIElement::update(float deltaTime)
 {
+	if (mParent != nullptr)
+	{
+		UIElement* parent = (UIElement*)mParent;
+
+		if (parent->getIsAnimating())
+			return;
+	}
+
 	if (mDrawingMode == GameObject2D::AnimationMode)
 	{
 		mImage.a->setReversed(!mIsAnimating);

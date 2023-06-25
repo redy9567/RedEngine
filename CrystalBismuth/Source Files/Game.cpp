@@ -20,6 +20,7 @@
 #include "GameEvents.h"
 #include "GameListener.h"
 #include "GridSystem.h"
+#include "UIManager.h"
 #include <fstream>
 
 #include <assert.h>
@@ -59,12 +60,6 @@ Game::Game()
 
 	mpSelectedChicken = nullptr;
 
-	mpShopButtonUI = nullptr;
-	mpShopUI = nullptr;
-
-	mpCurrencyUI = nullptr;
-	mpScienceUI = nullptr;
-
 	mpGameListener = nullptr;
 }
 
@@ -101,6 +96,8 @@ void Game::init(int mFPS)
 	mpChickenManager->createAndAddChicken(ChickenColor::RED, Vector2D(15, 5));
 	mpChickenManager->createAndAddChicken(ChickenColor::PURPLE, Vector2D(16, 5));
 
+	mpUIManager = UIManager::getInstance();
+
 	Vector2D shopButtonUILoc = Vector2D(SHOP_BUTTON_UI_X, BASE_BUTTON_UI_Y);
 	Vector2D firstWindowUILoc = Vector2D(FIRST_WINDOW_UI_X, FIRST_WINDOW_UI_Y);
 	Vector2D secondWindowUILoc = Vector2D(SECOND_WINDOW_UI_X, SECOND_WINDOW_UI_Y);
@@ -117,26 +114,26 @@ void Game::init(int mFPS)
 	Vector2D windowScale = Vector2D(WINDOW_SCALE);
 	Vector2D buttonScale = Vector2D(BUTTON_SCALE);
 
-	mpShopUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME, "shopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
-	mpShopButtonUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SHOP_BUTTON_FILENAME, "shopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, shopButtonUILoc, buttonScale, mpShopUI);
+	UIElement* shopUI = mpUIManager->createAndAddUIElement("shopUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME, "shopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement("shopButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SHOP_BUTTON_FILENAME, "shopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, shopButtonUILoc, buttonScale, shopUI, true);
 
-	mpCoopUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + COOP_WINDOW_FILENAME, "coopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
-	mpCoopButtonUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + COOP_BUTTON_FILENAME, "coopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, coopButtonUILoc, buttonScale, mpCoopUI);
+	UIElement* coopUI = mpUIManager->createAndAddUIElement("coopUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + COOP_WINDOW_FILENAME, "coopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement("coopButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + COOP_BUTTON_FILENAME, "coopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, coopButtonUILoc, buttonScale, coopUI, true);
 
-	mpPenUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + PEN_WINDOW_FILENAME, "penUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
-	mpPenButtonUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + PEN_BUTTON_FILENAME, "penButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, penButtonUILoc, buttonScale, mpPenUI);
+	UIElement* penUI = mpUIManager->createAndAddUIElement("penUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + PEN_WINDOW_FILENAME, "penUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement("penButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + PEN_BUTTON_FILENAME, "penButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, penButtonUILoc, buttonScale, penUI, true);
 
-	mpHatcheryUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + HATCHERY_WINDOW_FILENAME, "hatcheryUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
-	mpHatcheryButtonUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + HATCHERY_BUTTON_FILENAME, "hatcheryButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, hatcheryButtonUILoc, buttonScale, mpHatcheryUI);
+	UIElement* hatcheryUI = mpUIManager->createAndAddUIElement("hatcheryUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + HATCHERY_WINDOW_FILENAME, "hatcheryUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement("hatcheryButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + HATCHERY_BUTTON_FILENAME, "hatcheryButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, hatcheryButtonUILoc, buttonScale, hatcheryUI, true);
 
-	mpScienceWindowUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + SCIENCE_WINDOW_FILENAME, "scienceWindowUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
-	mpScienceButtonUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SCIENCE_BUTTON_FILENAME, "scienceButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, scienceButtonUILoc, buttonScale, mpScienceWindowUI);
+	UIElement* scienceWindowUI = mpUIManager->createAndAddUIElement("scienceWindowUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + SCIENCE_WINDOW_FILENAME, "scienceWindowUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement("scienceButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SCIENCE_BUTTON_FILENAME, "scienceButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, scienceButtonUILoc, buttonScale, scienceWindowUI, true);
 
-	mpSettingsUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME, "settingsUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
-	mpSettingsButtonUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "settingsButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, settingsButtonUILoc, buttonScale, mpSettingsUI);
+	UIElement* settingsUI = mpUIManager->createAndAddUIElement("settingsUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME, "settingsUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement("settingsButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "settingsButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, settingsButtonUILoc, buttonScale, settingsUI, true);
 
-	mpCurrencyUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + MONEY_UI_FILENAME, "currencyUI", Direction::Left, CURRENCY_UI_MOVE_DISTANCE, CURRENCY_UI_ANIMATION_SPEED, currencyUILoc);
-	mpScienceUI = new UIElement(RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + SCIENCE_UI_FILENAME, "scienceUI", Direction::Left, SCIENCE_UI_MOVE_DISTANCE, SCIENCE_UI_ANIMATION_SPEED, scienceUILoc);
+	mpUIManager->createAndAddUIElement("currencyUI", RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + MONEY_UI_FILENAME, "currencyUI", Direction::Left, CURRENCY_UI_MOVE_DISTANCE, CURRENCY_UI_ANIMATION_SPEED, currencyUILoc, Vector2D::One(), nullptr, true);
+	mpUIManager->createAndAddUIElement("scienceUI", RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + SCIENCE_UI_FILENAME, "scienceUI", Direction::Left, SCIENCE_UI_MOVE_DISTANCE, SCIENCE_UI_ANIMATION_SPEED, scienceUILoc, Vector2D::One(), nullptr, true);
 
 	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
 
@@ -208,26 +205,9 @@ void Game::initShaderPrograms()
 
 void Game::cleanup()
 {
-	delete mpShopButtonUI;
-	delete mpShopUI;
-
-	delete mpCoopButtonUI;
-	delete mpCoopUI;
-
-	delete mpPenButtonUI;
-	delete mpPenUI;
-
-	delete mpHatcheryButtonUI;
-	delete mpHatcheryUI;
-
-	delete mpScienceButtonUI;
-	delete mpScienceWindowUI;
-
-	delete mpSettingsButtonUI;
-	delete mpSettingsUI;
-
-	delete mpCurrencyUI;
-	delete mpScienceUI;
+	mpUIManager->cleanup();
+	UIManager::cleanupInstance();
+	mpUIManager = nullptr;
 
 	mpChickenManager->cleanup();
 	ChickenManager::cleanupInstance();
@@ -281,38 +261,7 @@ void Game::update()
 
 	mpChickenManager->update(mDeltaTime);
 
-	mpShopUI->update(mDeltaTime);
-
-	if(!mpShopUI->getIsAnimating())
-		mpShopButtonUI->update(mDeltaTime);
-
-	mpCoopUI->update(mDeltaTime);
-
-	if (!mpCoopUI->getIsAnimating())
-		mpCoopButtonUI->update(mDeltaTime);
-
-	mpPenUI->update(mDeltaTime);
-
-	if (!mpPenUI->getIsAnimating())
-		mpPenButtonUI->update(mDeltaTime);
-
-	mpHatcheryUI->update(mDeltaTime);
-
-	if (!mpHatcheryUI->getIsAnimating())
-		mpHatcheryButtonUI->update(mDeltaTime);
-
-	mpScienceWindowUI->update(mDeltaTime);
-
-	if (!mpScienceWindowUI->getIsAnimating())
-		mpScienceButtonUI->update(mDeltaTime);
-
-	mpSettingsUI->update(mDeltaTime);
-
-	if (!mpSettingsUI->getIsAnimating())
-		mpSettingsButtonUI->update(mDeltaTime);
-
-	mpCurrencyUI->update(mDeltaTime);
-	mpScienceUI->update(mDeltaTime);
+	mpUIManager->update(mDeltaTime);
 
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
 	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
@@ -373,26 +322,7 @@ bool Game::render()
 		mpGraphicsSystem->setDrawMode(previousDrawMode);
 	}
 
-	mpGraphicsSystem->drawUI(mpShopUI);
-	mpGraphicsSystem->drawUI(mpShopButtonUI);
-
-	mpGraphicsSystem->drawUI(mpCoopUI);
-	mpGraphicsSystem->drawUI(mpCoopButtonUI);
-
-	mpGraphicsSystem->drawUI(mpPenUI);
-	mpGraphicsSystem->drawUI(mpPenButtonUI);
-
-	mpGraphicsSystem->drawUI(mpHatcheryUI);
-	mpGraphicsSystem->drawUI(mpHatcheryButtonUI);
-
-	mpGraphicsSystem->drawUI(mpScienceWindowUI);
-	mpGraphicsSystem->drawUI(mpScienceButtonUI);
-
-	mpGraphicsSystem->drawUI(mpSettingsUI);
-	mpGraphicsSystem->drawUI(mpSettingsButtonUI);
-
-	mpGraphicsSystem->drawUI(mpCurrencyUI);
-	mpGraphicsSystem->drawUI(mpScienceUI);
+	mpUIManager->draw();
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 
@@ -463,69 +393,9 @@ void Game::stopMouseDrag()
 
 void Game::onMouseMove(Vector2D mousePos)
 {
-	//Honestly all these calculations should be inherent in the UIElement class
-	Vector2D buttonHalfSize = mpShopButtonUI->getSize() / 2.0f;
-
-	Vector2D buttonLowerBound = mpShopButtonUI->getLoc() - buttonHalfSize;
-	Vector2D buttonUpperBound = mpShopButtonUI->getLoc() + buttonHalfSize;
-
-	Vector2D currencyHalfSize = mpCurrencyUI->getSize() / 2.0f;
-
-	Vector2D currencyLowerBound = mpCurrencyUI->getLoc() - currencyHalfSize;
-	Vector2D currencyUpperBound = mpCurrencyUI->getLoc() + currencyHalfSize;
-
-	Vector2D scienceHalfSize = mpScienceUI->getSize() / 2.0f;
-
-	Vector2D scienceLowerBound = mpScienceUI->getLoc() - scienceHalfSize;
-	Vector2D scienceUpperBound = mpScienceUI->getLoc() + scienceHalfSize;
+	mpUIManager->onMouseHover(mousePos);
 
 	mpGraphicsSystem->getCamera()->update(mousePos);
-
-	mpShopButtonUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-
-
-	buttonHalfSize = mpCoopButtonUI->getSize() / 2.0f;
-
-	buttonLowerBound = mpCoopButtonUI->getLoc() - buttonHalfSize;
-	buttonUpperBound = mpCoopButtonUI->getLoc() + buttonHalfSize;
-
-	mpCoopButtonUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-
-
-	buttonHalfSize = mpPenButtonUI->getSize() / 2.0f;
-
-	buttonLowerBound = mpPenButtonUI->getLoc() - buttonHalfSize;
-	buttonUpperBound = mpPenButtonUI->getLoc() + buttonHalfSize;
-
-	mpPenButtonUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-
-
-	buttonHalfSize = mpHatcheryButtonUI->getSize() / 2.0f;
-
-	buttonLowerBound = mpHatcheryButtonUI->getLoc() - buttonHalfSize;
-	buttonUpperBound = mpHatcheryButtonUI->getLoc() + buttonHalfSize;
-
-	mpHatcheryButtonUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-
-
-	buttonHalfSize = mpScienceButtonUI->getSize() / 2.0f;
-
-	buttonLowerBound = mpScienceButtonUI->getLoc() - buttonHalfSize;
-	buttonUpperBound = mpScienceButtonUI->getLoc() + buttonHalfSize;
-
-	mpScienceButtonUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-
-
-	buttonHalfSize = mpSettingsButtonUI->getSize() / 2.0f;
-
-	buttonLowerBound = mpSettingsButtonUI->getLoc() - buttonHalfSize;
-	buttonUpperBound = mpSettingsButtonUI->getLoc() + buttonHalfSize;
-
-	mpSettingsButtonUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, buttonLowerBound, buttonUpperBound));
-
-
-	mpCurrencyUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, currencyLowerBound, currencyUpperBound));
-	mpScienceUI->setAnimating(Vector2D::IsPointWithinBounds(mousePos, scienceLowerBound, scienceUpperBound));
 }
 
 void Game::onToggleDrawMode()
@@ -583,68 +453,6 @@ void Game::checkUIClicked(const MouseEvent event)
 {
 	if (event.getButtonState() == ButtonState::Down)
 	{
-		Vector2D buttonHalfSize = mpShopButtonUI->getSize() / 2.0f;
-
-		Vector2D buttonLowerBound = mpShopButtonUI->getLoc() - buttonHalfSize;
-		Vector2D buttonUpperBound = mpShopButtonUI->getLoc() + buttonHalfSize;
-
-		if (Vector2D::IsPointWithinBounds(event.getMousePosition(), buttonLowerBound, buttonUpperBound))
-		{
-			mpShopUI->setAnimating(!mpShopUI->getIsAnimating());
-		}
-
-
-		buttonHalfSize = mpCoopButtonUI->getSize() / 2.0f;
-
-		buttonLowerBound = mpCoopButtonUI->getLoc() - buttonHalfSize;
-		buttonUpperBound = mpCoopButtonUI->getLoc() + buttonHalfSize;
-
-		if (Vector2D::IsPointWithinBounds(event.getMousePosition(), buttonLowerBound, buttonUpperBound))
-		{
-			mpCoopUI->setAnimating(!mpCoopUI->getIsAnimating());
-		}
-
-
-		buttonHalfSize = mpPenButtonUI->getSize() / 2.0f;
-
-		buttonLowerBound = mpPenButtonUI->getLoc() - buttonHalfSize;
-		buttonUpperBound = mpPenButtonUI->getLoc() + buttonHalfSize;
-
-		if (Vector2D::IsPointWithinBounds(event.getMousePosition(), buttonLowerBound, buttonUpperBound))
-		{
-			mpPenUI->setAnimating(!mpPenUI->getIsAnimating());
-		}
-
-		buttonHalfSize = mpHatcheryButtonUI->getSize() / 2.0f;
-
-		buttonLowerBound = mpHatcheryButtonUI->getLoc() - buttonHalfSize;
-		buttonUpperBound = mpHatcheryButtonUI->getLoc() + buttonHalfSize;
-
-		if (Vector2D::IsPointWithinBounds(event.getMousePosition(), buttonLowerBound, buttonUpperBound))
-		{
-			mpHatcheryUI->setAnimating(!mpHatcheryUI->getIsAnimating());
-		}
-
-
-		buttonHalfSize = mpScienceButtonUI->getSize() / 2.0f;
-
-		buttonLowerBound = mpScienceButtonUI->getLoc() - buttonHalfSize;
-		buttonUpperBound = mpScienceButtonUI->getLoc() + buttonHalfSize;
-
-		if (Vector2D::IsPointWithinBounds(event.getMousePosition(), buttonLowerBound, buttonUpperBound))
-		{
-			mpScienceWindowUI->setAnimating(!mpScienceWindowUI->getIsAnimating());
-		}
-
-
-		buttonHalfSize = mpSettingsButtonUI->getSize() / 2.0f;
-
-		buttonLowerBound = mpSettingsButtonUI->getLoc() - buttonHalfSize;
-		buttonUpperBound = mpSettingsButtonUI->getLoc() + buttonHalfSize;
-
-		if (Vector2D::IsPointWithinBounds(event.getMousePosition(), buttonLowerBound, buttonUpperBound))
-		{
-			mpSettingsUI->setAnimating(!mpSettingsUI->getIsAnimating());
-		}
+		mpUIManager->onClick(event.getMousePosition());
 	}
 }
