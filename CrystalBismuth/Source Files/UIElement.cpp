@@ -27,6 +27,28 @@ UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Directio
 	mParent = parent;
 }
 
+UIElement::UIElement(std::string spriteFilepath, std::string objectKey, Vector2D location, Vector2D scale, GameObject2D* parent)
+{
+	GraphicsSystem* gs = GraphicsSystem::getInstance();
+
+
+	Texture2D* tex = gs->createAndAddTexture2D(objectKey, spriteFilepath, true);
+
+	mDrawingMode = GameObject2D::SpriteMode;
+	mImage.s = gs->createAndAddSprite(objectKey, &tex, Vector2D::Zero(), tex->getSize(), scale);
+
+	mLoc = location;
+	mOrigLoc = location;
+	mDistToMove = 0.0f;
+	mSpeed = 0.0f;
+
+	mIsAnimating = false;
+	mAnimationDirection = (Direction)-1;
+	mAnimateOnHover = false;
+
+	mParent = parent;
+}
+
 UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location, bool animateOnHover)
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();

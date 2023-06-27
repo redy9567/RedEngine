@@ -108,32 +108,94 @@ void Game::init(int mFPS)
 	Vector2D scienceButtonUILoc = Vector2D(SCIENCE_BUTTON_UI_X, BASE_BUTTON_UI_Y);
 	Vector2D settingsButtonUILoc = Vector2D(SETTINGS_BUTTON_UI_X, BASE_BUTTON_UI_Y);
 
+	Vector2D reserachTreeUIOffset = Vector2D(RESEARCH_TREE_OFFSET_X, RESEARCH_TREE_OFFSET_Y);
+	Vector2D scienceTreeUIOffset = Vector2D(SCIENCE_TREE_OFFSET_X, SCIENCE_TREE_OFFSET_Y);
+	Vector2D treeUIButtonOffset1 = Vector2D(TREE_UI_BUTTON_OFFSET_1_X, TREE_UI_BUTTON_OFFSET_1_Y);
+	Vector2D treeUIButtonOffset2 = Vector2D(TREE_UI_BUTTON_OFFSET_2_X, TREE_UI_BUTTON_OFFSET_2_Y);
+	Vector2D treeUIButtonOffset3 = Vector2D(TREE_UI_BUTTON_OFFSET_3_X, TREE_UI_BUTTON_OFFSET_3_Y);
+	Vector2D treeUIButtonOffset4 = Vector2D(TREE_UI_BUTTON_OFFSET_4_X, TREE_UI_BUTTON_OFFSET_4_Y);
+	Vector2D treeUIButtonOffset5 = Vector2D(TREE_UI_BUTTON_OFFSET_5_X, TREE_UI_BUTTON_OFFSET_5_Y);
+	Vector2D treeUIButtonOffset6 = Vector2D(TREE_UI_BUTTON_OFFSET_6_X, TREE_UI_BUTTON_OFFSET_6_Y);
+	Vector2D treeUIButtonOffset7 = Vector2D(TREE_UI_BUTTON_OFFSET_7_X, TREE_UI_BUTTON_OFFSET_7_Y);
+	Vector2D treeUIButtonOffset8 = Vector2D(TREE_UI_BUTTON_OFFSET_8_X, TREE_UI_BUTTON_OFFSET_8_Y);
+	Vector2D treeUIButtonOffset9 = Vector2D(TREE_UI_BUTTON_OFFSET_9_X, TREE_UI_BUTTON_OFFSET_9_Y);
+	Vector2D scienceUIButtonOffset1 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_1_X, SCIENCE_UI_BUTTON_OFFSET_1_Y);
+	Vector2D scienceUIButtonOffset2 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_2_X, SCIENCE_UI_BUTTON_OFFSET_2_Y);
+	Vector2D scienceUIButtonOffset3 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_3_X, SCIENCE_UI_BUTTON_OFFSET_3_Y);
+	Vector2D scienceUIButtonOffset4 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_4_X, SCIENCE_UI_BUTTON_OFFSET_4_Y);
+	Vector2D scienceUIButtonOffset5 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_5_X, SCIENCE_UI_BUTTON_OFFSET_5_Y);
+	Vector2D scienceUIButtonOffset6 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_6_X, SCIENCE_UI_BUTTON_OFFSET_6_Y);
+	Vector2D scienceUIButtonOffset7 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_7_X, SCIENCE_UI_BUTTON_OFFSET_7_Y);
+
 	Vector2D currencyUILoc = Vector2D(GAME_DISPLAY_WIDTH + CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET);
 	Vector2D scienceUILoc = Vector2D(GAME_DISPLAY_WIDTH + SCIENCE_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - SCIENCE_UI_VERTICAL_OFFSET);
 
 	Vector2D windowScale = Vector2D(WINDOW_SCALE);
 	Vector2D buttonScale = Vector2D(BUTTON_SCALE);
+	Vector2D treeButtonScale = Vector2D(TREE_BUTTON_SCALE);
+	Vector2D subTreeButtonScale = Vector2D(SUB_TREE_BUTTON_SCALE);
+	Vector2D baseTreeScale = Vector2D(BASE_TREE_SCALE);
+	Vector2D scienceTreeScale = Vector2D(SCIENCE_TREE_SCALE);
+	Vector2D scienceButtonScale = Vector2D(SCIENCE_BUTTON_SCALE);
 
-	UIElement* shopUI = mpUIManager->createAndAddUIElement("shopUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME, "shopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
-	mpUIManager->createAndAddUIElement("shopButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SHOP_BUTTON_FILENAME, "shopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, shopButtonUILoc, buttonScale, shopUI, true);
+	UIElement* shopUI = mpUIManager->createAndAddUIElement(SHOP_UI_FILEPATH, "shopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement(SHOP_UI_BUTTON_FILEPATH, "shopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, shopButtonUILoc, buttonScale, shopUI, true);
 
-	UIElement* coopUI = mpUIManager->createAndAddUIElement("coopUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + COOP_WINDOW_FILENAME, "coopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
-	mpUIManager->createAndAddUIElement("coopButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + COOP_BUTTON_FILENAME, "coopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, coopButtonUILoc, buttonScale, coopUI, true);
+	UIElement* coopUI = mpUIManager->createAndAddUIElement(COOP_UI_FILEPATH, "coopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement(COOP_UI_BUTTON_FILEPATH, "coopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, coopButtonUILoc, buttonScale, coopUI, true);
+	mpUIManager->createAndAddUIElement(BASE_RESEARCH_TREE_FILEPATH, "baseResearchTreeUI", firstWindowUILoc + reserachTreeUIOffset, baseTreeScale, coopUI);
+	mpUIManager->createAndAddUIElement(COOP_TREE_BUTTON_FILEPATH, "coopTreeButtonUI1", firstWindowUILoc + treeUIButtonOffset1, treeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "coopTreeButtonUI2", firstWindowUILoc + treeUIButtonOffset2, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "coopTreeButtonUI3", firstWindowUILoc + treeUIButtonOffset3, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "coopTreeButtonUI4", firstWindowUILoc + treeUIButtonOffset4, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "coopTreeButtonUI5", firstWindowUILoc + treeUIButtonOffset5, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "coopTreeButtonUI6", firstWindowUILoc + treeUIButtonOffset6, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "coopTreeButtonUI7", firstWindowUILoc + treeUIButtonOffset7, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "coopTreeButtonUI8", firstWindowUILoc + treeUIButtonOffset8, subTreeButtonScale, coopUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "coopTreeButtonUI9", firstWindowUILoc + treeUIButtonOffset9, subTreeButtonScale, coopUI);
 
-	UIElement* penUI = mpUIManager->createAndAddUIElement("penUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + PEN_WINDOW_FILENAME, "penUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
-	mpUIManager->createAndAddUIElement("penButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + PEN_BUTTON_FILENAME, "penButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, penButtonUILoc, buttonScale, penUI, true);
+	UIElement* penUI = mpUIManager->createAndAddUIElement(PEN_UI_FILEPATH, "penUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement(PEN_UI_BUTTON_FILEPATH, "penButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, penButtonUILoc, buttonScale, penUI, true);
+	mpUIManager->createAndAddUIElement(BASE_RESEARCH_TREE_FILEPATH, "baseResearchTreeUI", firstWindowUILoc + reserachTreeUIOffset, baseTreeScale, penUI);
+	mpUIManager->createAndAddUIElement(PEN_TREE_BUTTON_FILEPATH, "penTreeButtonUI1", firstWindowUILoc + treeUIButtonOffset1, treeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "penTreeButtonUI2", firstWindowUILoc + treeUIButtonOffset2, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "penTreeButtonUI3", firstWindowUILoc + treeUIButtonOffset3, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "penTreeButtonUI4", firstWindowUILoc + treeUIButtonOffset4, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "penTreeButtonUI5", firstWindowUILoc + treeUIButtonOffset5, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "penTreeButtonUI6", firstWindowUILoc + treeUIButtonOffset6, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "penTreeButtonUI7", firstWindowUILoc + treeUIButtonOffset7, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "penTreeButtonUI8", firstWindowUILoc + treeUIButtonOffset8, subTreeButtonScale, penUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "penTreeButtonUI9", firstWindowUILoc + treeUIButtonOffset9, subTreeButtonScale, penUI);
 
-	UIElement* hatcheryUI = mpUIManager->createAndAddUIElement("hatcheryUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + HATCHERY_WINDOW_FILENAME, "hatcheryUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
-	mpUIManager->createAndAddUIElement("hatcheryButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + HATCHERY_BUTTON_FILENAME, "hatcheryButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, hatcheryButtonUILoc, buttonScale, hatcheryUI, true);
+	UIElement* hatcheryUI = mpUIManager->createAndAddUIElement(HATCHERY_UI_FILEPATH, "hatcheryUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement(HATCHERY_UI_BUTTON_FILEPATH, "hatcheryButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, hatcheryButtonUILoc, buttonScale, hatcheryUI, true);
+	mpUIManager->createAndAddUIElement(BASE_RESEARCH_TREE_FILEPATH, "baseResearchTreeUI", firstWindowUILoc + reserachTreeUIOffset, baseTreeScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(HATCHERY_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI1", firstWindowUILoc + treeUIButtonOffset1, treeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI2", firstWindowUILoc + treeUIButtonOffset2, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI3", firstWindowUILoc + treeUIButtonOffset3, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI4", firstWindowUILoc + treeUIButtonOffset4, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI5", firstWindowUILoc + treeUIButtonOffset5, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI6", firstWindowUILoc + treeUIButtonOffset6, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI7", firstWindowUILoc + treeUIButtonOffset7, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI8", firstWindowUILoc + treeUIButtonOffset8, subTreeButtonScale, hatcheryUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "hatcheryTreeButtonUI9", firstWindowUILoc + treeUIButtonOffset9, subTreeButtonScale, hatcheryUI);
 
-	UIElement* scienceWindowUI = mpUIManager->createAndAddUIElement("scienceWindowUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BUTTON_WINDOWS_DIRECTORY + SCIENCE_WINDOW_FILENAME, "scienceWindowUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
-	mpUIManager->createAndAddUIElement("scienceButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SCIENCE_BUTTON_FILENAME, "scienceButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, scienceButtonUILoc, buttonScale, scienceWindowUI, true);
+	UIElement* scienceWindowUI = mpUIManager->createAndAddUIElement(SCIENCE_UI_FILEPATH, "scienceWindowUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement(SCIENCE_UI_BUTTON_FILEPATH, "scienceButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, scienceButtonUILoc, buttonScale, scienceWindowUI, true);
+	mpUIManager->createAndAddUIElement(SCIENCE_RESEARCH_TREE_FILEPATH, "scienceResearchTreeUI", firstWindowUILoc + scienceTreeUIOffset, scienceTreeScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(RED_SYRINGE_TREE_BUTTON_FILEPATH, "redSyringeButtonUI", firstWindowUILoc + scienceUIButtonOffset1, subTreeButtonScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI2", firstWindowUILoc + scienceUIButtonOffset2, subTreeButtonScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI3", firstWindowUILoc + scienceUIButtonOffset3, subTreeButtonScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI4", firstWindowUILoc + scienceUIButtonOffset4, subTreeButtonScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI5", firstWindowUILoc + scienceUIButtonOffset5, subTreeButtonScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI6", firstWindowUILoc + scienceUIButtonOffset6, subTreeButtonScale, scienceWindowUI);
+	mpUIManager->createAndAddUIElement(SCIENCE_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI7", firstWindowUILoc + scienceUIButtonOffset7, scienceButtonScale, scienceWindowUI);
 
-	UIElement* settingsUI = mpUIManager->createAndAddUIElement("settingsUI", RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME, "settingsUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
-	mpUIManager->createAndAddUIElement("settingsButtonUI", RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SETTINGS_BUTTON_FILENAME, "settingsButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, settingsButtonUILoc, buttonScale, settingsUI, true);
+	UIElement* settingsUI = mpUIManager->createAndAddUIElement(SETTINGS_UI_FILEPATH, "settingsUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
+	mpUIManager->createAndAddUIElement(SETTINGS_UI_BUTTON_FILEPATH, "settingsButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, settingsButtonUILoc, buttonScale, settingsUI, true);
 
-	mpUIManager->createAndAddUIElement("currencyUI", RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + MONEY_UI_FILENAME, "currencyUI", Direction::Left, CURRENCY_UI_MOVE_DISTANCE, CURRENCY_UI_ANIMATION_SPEED, currencyUILoc, Vector2D::One(), nullptr, true);
-	mpUIManager->createAndAddUIElement("scienceUI", RESOURCES_DIRECTORY + UI_DIRECTORY + CURRENCY_DIRECTORY + SCIENCE_UI_FILENAME, "scienceUI", Direction::Left, SCIENCE_UI_MOVE_DISTANCE, SCIENCE_UI_ANIMATION_SPEED, scienceUILoc, Vector2D::One(), nullptr, true);
+	mpUIManager->createAndAddUIElement(MONEY_UI_FILEPATH, "currencyUI", Direction::Left, CURRENCY_UI_MOVE_DISTANCE, CURRENCY_UI_ANIMATION_SPEED, currencyUILoc, Vector2D::One(), nullptr, true);
+	mpUIManager->createAndAddUIElement(SCIENCE_COUNT_UI_FILEPATH, "scienceUI", Direction::Left, SCIENCE_UI_MOVE_DISTANCE, SCIENCE_UI_ANIMATION_SPEED, scienceUILoc, Vector2D::One(), nullptr, true);
 
 	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
 

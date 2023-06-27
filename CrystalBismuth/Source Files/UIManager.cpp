@@ -39,52 +39,65 @@ void UIManager::init()
 
 void UIManager::cleanup()
 {
-	for (unordered_map<string, UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
-		delete it->second;
+		delete *it;
 	}
 	mUIElements.clear();
 }
 
-UIElement* UIManager::createAndAddUIElement(string key, string spriteTextureFilepath, string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location, Vector2D scale, GameObject2D* parent, bool animateOnHover)
+UIElement* UIManager::createAndAddUIElement(string spriteTextureFilepath, string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location, Vector2D scale, GameObject2D* parent, bool animateOnHover)
 {
 	UIElement* obj = new UIElement(spriteTextureFilepath, objectKey, animationDirection, distanceToMove, speed, location, scale, parent, animateOnHover);
 
-	mUIElements.emplace(key, obj);
+	mUIElements.push_back(obj);
 
 	return obj;
 }
 
-UIElement* UIManager::createAndAddUIElement(std::string key, string textureFilepath, string objectKey, int animationColumns, int animationRows, Vector2D location, bool animateOnHover)
+UIElement* UIManager::createAndAddUIElement(string spriteTextureFilepath, string objectKey, Vector2D location, Vector2D scale, GameObject2D* parent)
+{
+	UIElement* obj = new UIElement(spriteTextureFilepath, objectKey, location, scale, parent);
+
+	mUIElements.push_back(obj);
+
+	return obj;
+}
+
+UIElement* UIManager::createAndAddUIElement(string textureFilepath, string objectKey, int animationColumns, int animationRows, Vector2D location, bool animateOnHover)
 {
 	UIElement* obj = new UIElement(textureFilepath, objectKey, animationColumns, animationRows, location, animateOnHover);
 
-	mUIElements.emplace(key, obj);
+	mUIElements.push_back(obj);
 
 	return obj;
 }
 
-void UIManager::removeAndDeleteUIElement(string key)
+void UIManager::removeAndDeleteUIElement(int id)
 {
-	UIElement* obj = mUIElements.at(key);
+	int i = 0;
 
-	if (obj)
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
-		delete obj;
-		mUIElements.erase(key);
+		if (i++ == id)
+		{
+			delete *it;
+			mUIElements.erase(it);
+			break;
+		}
 	}
 }
 
-UIElement* UIManager::getUIElement(string key)
+UIElement* UIManager::getUIElement(int id)
 {
-	return mUIElements.at(key);
+	return mUIElements.at(id);
 }
 
 void UIManager::update(float deltaTime)
 {
-	for (unordered_map<string, UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
-		it->second->update(deltaTime);
+		(*it)->update(deltaTime);
 	}
 }
 
@@ -92,17 +105,17 @@ void UIManager::draw()
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
 
-	for (unordered_map<string, UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
-		gs->drawUI(it->second);
+		gs->drawUI(*it);
 	}
 }
 
 void UIManager::onMouseHover(Vector2D mousePos)
 {
-	for (unordered_map<string, UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
-		UIElement* element = it->second;
+		UIElement* element = (*it);
 
 		if (!element->mAnimateOnHover)
 			continue;
@@ -118,9 +131,9 @@ void UIManager::onMouseHover(Vector2D mousePos)
 
 bool UIManager::onClick(Vector2D mousePos)
 {
-	for (unordered_map<string, UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
-		UIElement* element = it->second;
+		UIElement* element = (*it);
 
 		Vector2D elementHalfSize = element->getSize() / 2.0f;
 
