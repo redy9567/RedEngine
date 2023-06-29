@@ -87,7 +87,7 @@ Animation* AnimationManager::createAndAddAnimation(string key, string animationD
 	return anim;
 }
 
-void AnimationManager::removeAnimation(string key)
+void AnimationManager::removeAndDeleteAnimation(string key)
 {
 	Animation* anim = mAnimations.at(key);
 
@@ -95,5 +95,18 @@ void AnimationManager::removeAnimation(string key)
 	{
 		delete anim;
 		mAnimations.erase(key);
+	}
+}
+
+void AnimationManager::removeAndDeleteAnimation(Animation* anim)
+{
+	for (unordered_map<string, Animation*>::iterator it = mAnimations.begin();
+		it != mAnimations.end(); it++)
+	{
+		if (it->second == anim)
+		{
+			mAnimations.erase(it->first);
+			return;
+		}
 	}
 }

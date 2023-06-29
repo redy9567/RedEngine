@@ -95,7 +95,7 @@ private:
 	void move();
 	void updatePosition();
 
-	void changeState(ChickenState state) { mState = state; mStateChanged = true; }
+	void changeState(ChickenState state); 
 
 	void loadData();
 

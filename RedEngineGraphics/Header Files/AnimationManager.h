@@ -27,7 +27,8 @@ private:
 
 	//Animation
 	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS, bool isLooping = false);
-	void removeAnimation(std::string key);
+	void removeAndDeleteAnimation(std::string key);
+	void removeAndDeleteAnimation(Animation* anim);
 	Animation* getAnimation(std::string key) { return mAnimations.at(key); }
 
 	AnimationManager();

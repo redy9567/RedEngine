@@ -887,9 +887,14 @@ Animation* GraphicsSystem::createAndAddAnimation(string key, string animationDat
 	return mpAnimationManager->createAndAddAnimation(key, animationDataKey, mFPS, isLooping);
 }
 
-void GraphicsSystem::removeAnimation(string key)
+void GraphicsSystem::removeAndDeleteAnimation(string key)
 {
-	mpAnimationManager->removeAnimation(key);
+	mpAnimationManager->removeAndDeleteAnimation(key);
+}
+
+void GraphicsSystem::removeAndDeleteAnimation(Animation* anim)
+{
+	mpAnimationManager->removeAndDeleteAnimation(anim);
 }
 
 Animation* GraphicsSystem::getAnimation(string key)
