@@ -49,9 +49,14 @@ void Texture2DManager::cleanup()
 
 Texture2D* Texture2DManager::createAndAddTexture2D(string key, string filepath, bool hasAlpha)
 {
-	Texture2D* texture = new Texture2D(filepath, hasAlpha);
+	Texture2D* texture = getTexture2D(key);
 
-	mTextures.emplace(key, texture);
+	if (!texture)
+	{
+		texture = new Texture2D(filepath, hasAlpha);
+
+		mTextures.emplace(key, texture);
+	}
 
 	return texture;
 }

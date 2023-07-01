@@ -40,10 +40,10 @@ void AnimationManager::init()
 
 void AnimationManager::cleanup()
 {
-	for (unordered_map<string, Animation*>::iterator it = mAnimations.begin();
+	for (vector<Animation*>::iterator it = mAnimations.begin();
 		it != mAnimations.end(); it++)
 	{
-		delete it->second;
+		delete *it;
 	}
 	mAnimations.clear();
 
@@ -75,7 +75,7 @@ void AnimationManager::removeAnimationData(string key)
 	}
 }
 
-Animation* AnimationManager::createAndAddAnimation(string key, string animationDataKey, int mFPS, bool isLooping)
+Animation* AnimationManager::createAndAddAnimation(string animationDataKey, int mFPS, bool isLooping)
 {
 	AnimationData* data = mAnimationData.at(animationDataKey);
 
@@ -83,29 +83,33 @@ Animation* AnimationManager::createAndAddAnimation(string key, string animationD
 		return nullptr;
 
 	Animation* anim = new Animation(data, mFPS, isLooping);
-	mAnimations.emplace(key, anim);
+	mAnimations.push_back(anim);
 	return anim;
 }
 
-void AnimationManager::removeAndDeleteAnimation(string key)
+void AnimationManager::removeAndDeleteAnimation(int id)
 {
-	Animation* anim = mAnimations.at(key);
-
-	if (anim)
+	int i = 0;
+	for (vector<Animation*>::iterator it = mAnimations.begin(); it != mAnimations.end(); it++)
 	{
-		delete anim;
-		mAnimations.erase(key);
+		if (i++ == id)
+		{
+			delete *it;
+			mAnimations.erase(it);
+			return;
+		}
+		
 	}
 }
 
 void AnimationManager::removeAndDeleteAnimation(Animation* anim)
 {
-	for (unordered_map<string, Animation*>::iterator it = mAnimations.begin();
-		it != mAnimations.end(); it++)
+	for (vector<Animation*>::iterator it = mAnimations.begin(); it != mAnimations.end(); it++)
 	{
-		if (it->second == anim)
+		if (*it == anim)
 		{
-			mAnimations.erase(it->first);
+			delete anim;
+			mAnimations.erase(it);
 			return;
 		}
 	}

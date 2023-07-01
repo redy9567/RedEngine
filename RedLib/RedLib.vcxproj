@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Header Files\IsolatedTrackable.h" />
     <ClInclude Include="Header Files\Matrix2D.h" />
     <ClInclude Include="Header Files\Matrix3D.h" />
     <ClInclude Include="Header Files\Matrix4D.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Header Files\Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source Files\IsolatedTrackable.cpp" />
     <ClCompile Include="Source Files\Matrix2D.cpp" />
     <ClCompile Include="Source Files\Matrix3D.cpp" />
     <ClCompile Include="Source Files\Matrix4D.cpp" />

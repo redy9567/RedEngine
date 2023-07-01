@@ -58,7 +58,7 @@ UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey
 	gs->createAndAddAnimationData(objectKey, &tex, animationColumns, animationRows);
 
 	mDrawingMode = GameObject2D::AnimationMode;
-	mImage.a = gs->createAndAddAnimation(objectKey, objectKey, 60);
+	mImage.a = gs->createAndAddAnimation(objectKey, 60);
 	mDistToMove = 0.0f;
 	mSpeed = 0.0f;
 

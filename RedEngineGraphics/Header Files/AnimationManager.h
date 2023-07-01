@@ -26,17 +26,17 @@ private:
 	void removeAnimationData(std::string key);
 
 	//Animation
-	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS, bool isLooping = false);
-	void removeAndDeleteAnimation(std::string key);
+	Animation* createAndAddAnimation(std::string animationDataKey, int mFPS, bool isLooping = false);
+	void removeAndDeleteAnimation(int id);
 	void removeAndDeleteAnimation(Animation* anim);
-	Animation* getAnimation(std::string key) { return mAnimations.at(key); }
+	Animation* getAnimation(int id) { return mAnimations.at(id); }
 
 	AnimationManager();
 	~AnimationManager();
 
 	static AnimationManager* mspInstance;
 
-	std::unordered_map<std::string, Animation*> mAnimations;
+	std::vector<Animation*> mAnimations;
 	std::unordered_map<std::string, AnimationData*> mAnimationData;
 
 };

@@ -49,9 +49,14 @@ void SpriteManager::cleanup()
 
 Sprite* SpriteManager::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale)
 {
-	Sprite* sprite = new Sprite(texture, textureStartLoc, size, scale);
+	Sprite* sprite = getSprite(key);
+		
+	if (!sprite)
+	{
+		sprite = new Sprite(texture, textureStartLoc, size, scale);
 
-	mSprites.emplace(key, sprite);
+		mSprites.emplace(key, sprite);
+	}
 
 	return sprite;
 }

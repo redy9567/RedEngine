@@ -330,17 +330,6 @@ void GraphicsSystem::internalDrawSprite(Sprite& sprite)
 	}
 }
 
-void GraphicsSystem::draw(string animationKey, Vector2D location)
-{
-	Animation* anim = mpAnimationManager->getAnimation(animationKey);
-
-	Sprite* currentSprite = anim->getCurrentSprite();
-	if (currentSprite == nullptr)
-		return;
-
-	draw(*currentSprite, location);
-}
-
 void GraphicsSystem::draw(Animation& animation, Vector2D location)
 {
 	Sprite* currentSprite = animation.getCurrentSprite();
@@ -882,14 +871,14 @@ void GraphicsSystem::removeAnimationData(string key)
 	mpAnimationManager->removeAnimationData(key);
 }
 
-Animation* GraphicsSystem::createAndAddAnimation(string key, string animationDataKey, int mFPS, bool isLooping)
+Animation* GraphicsSystem::createAndAddAnimation(string animationDataKey, int mFPS, bool isLooping)
 {
-	return mpAnimationManager->createAndAddAnimation(key, animationDataKey, mFPS, isLooping);
+	return mpAnimationManager->createAndAddAnimation(animationDataKey, mFPS, isLooping);
 }
 
-void GraphicsSystem::removeAndDeleteAnimation(string key)
+void GraphicsSystem::removeAndDeleteAnimation(int id)
 {
-	mpAnimationManager->removeAndDeleteAnimation(key);
+	mpAnimationManager->removeAndDeleteAnimation(id);
 }
 
 void GraphicsSystem::removeAndDeleteAnimation(Animation* anim)
@@ -897,9 +886,9 @@ void GraphicsSystem::removeAndDeleteAnimation(Animation* anim)
 	mpAnimationManager->removeAndDeleteAnimation(anim);
 }
 
-Animation* GraphicsSystem::getAnimation(string key)
+Animation* GraphicsSystem::getAnimation(int id)
 {
-	return mpAnimationManager->getAnimation(key);
+	return mpAnimationManager->getAnimation(id);
 }
 
 void GraphicsSystem::update(float deltaTime)

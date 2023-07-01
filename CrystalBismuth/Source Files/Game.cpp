@@ -281,6 +281,7 @@ void Game::cleanup()
 	InputSystem::cleanupInstance();
 	
 	delete mpGameListener;
+	EventSystem::cleanupInstance();
 
 	mpGraphicsSystem->cleanup();
 	GraphicsSystem::cleanupInstance();

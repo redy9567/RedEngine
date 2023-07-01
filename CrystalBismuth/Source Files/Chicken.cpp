@@ -31,7 +31,8 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Chi
 
 Chicken::~Chicken()
 {
-	
+	if (mDrawingMode == AnimationMode)
+		GraphicsSystem::getInstance()->removeAndDeleteAnimation(mImage.a);
 }
 
 void Chicken::loadData()
@@ -79,11 +80,6 @@ void Chicken::update(float deltaTime)
 
 	updateAnimation(deltaTime);
 	updateChickenState();
-	if (mStateChanged)
-	{
-		updateImage();
-		mStateChanged = false;
-	}
 
 	if (mIsMoving)
 		updatePosition();
@@ -92,6 +88,12 @@ void Chicken::update(float deltaTime)
 	{
 		mMoveUpdateTimer -= deltaTime;
 		move();
+	}
+
+	if (mStateChanged)
+	{
+		updateImage();
+		mStateChanged = false;
 	}
 		
 }
@@ -219,7 +221,7 @@ void Chicken::updateImage()
 		break;
 	case ChickenState::EGG_HATCHING:
 		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = gs->createAndAddAnimation(CKN_HATCHING_KEY, CKN_HATCHING_KEY, 24);
+		mImage.a = gs->createAndAddAnimation(CKN_HATCHING_KEY, 24);
 		break;
 	case ChickenState::CHICK:
 		mDrawingMode = GameObject2D::SpriteMode;
@@ -230,11 +232,11 @@ void Chicken::updateImage()
 		mGrowType = (GrowType)(rand() % 2);
 		if (mGrowType == GrowType::REGULAR)
 		{
-			mImage.a = gs->createAndAddAnimation(CKN_GROWING_KEY, CKN_GROWING_KEY, 36);
+			mImage.a = gs->createAndAddAnimation(CKN_GROWING_KEY, 36);
 		}
 		else if (mGrowType == GrowType::CHAO)
 		{
-			mImage.a = gs->createAndAddAnimation(CKN_CHICK_CHAO_GROW_KEY, CKN_CHICK_CHAO_GROW_KEY, 8);
+			mImage.a = gs->createAndAddAnimation(CKN_CHICK_CHAO_GROW_KEY, 8);
 		}
 		break;
 		
@@ -244,15 +246,15 @@ void Chicken::updateImage()
 		break;
 	case ChickenState::CHICK_WALKING:
 		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = gs->createAndAddAnimation(CKN_CHICK_WALKING_KEY, CKN_CHICK_WALKING_KEY, 8, true);
+		mImage.a = gs->createAndAddAnimation(CKN_CHICK_WALKING_KEY, 8, true);
 		break;
 	case ChickenState::CHICKEN_WALKING:
 		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_WALKING_KEY, CKN_CHICKEN_WALKING_KEY, 18, true);
+		mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_WALKING_KEY, 18, true);
 		break;
 	case ChickenState::DEAD:
 		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_DEATH_KEY, CKN_CHICKEN_DEATH_KEY, 18);
+		mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_DEATH_KEY, 18);
 		break;
 	}
 }

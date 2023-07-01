@@ -69,7 +69,6 @@ public:
 	void setActiveShaderProgram(std::string program);
 	void draw(Mesh2D& mesh);
 	void draw(Sprite& sprite, Vector2D location);
-	void draw(std::string animationKey, Vector2D location);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
 	void draw(std::string gameObjctKey);
@@ -105,10 +104,10 @@ public:
 	void removeAnimationData(std::string key);
 
 	//Animation
-	Animation* createAndAddAnimation(std::string key, std::string animationDataKey, int mFPS, bool isLooping = false);
-	void removeAndDeleteAnimation(std::string key);
+	Animation* createAndAddAnimation(std::string animationDataKey, int mFPS, bool isLooping = false);
+	void removeAndDeleteAnimation(int id);
 	void removeAndDeleteAnimation(Animation* anim);
-	Animation* getAnimation(std::string key);
+	Animation* getAnimation(int id);
 
 	//Font
 	void createAndAddFont(std::string key, std::string filepath, int pointSize = 12);

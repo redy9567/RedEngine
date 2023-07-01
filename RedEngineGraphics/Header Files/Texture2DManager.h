@@ -19,6 +19,7 @@ private:
 
 	Texture2D* createAndAddTexture2D(std::string key, std::string filepath, bool hasAlpha = false);
 	void removeAndDeleteTexture2D(std::string key);
+	Texture2D* getTexture2D(std::string key) { return mTextures.find(key) == mTextures.end() ? nullptr : mTextures.at(key); }
 
 	Texture2DManager();
 	~Texture2DManager();
