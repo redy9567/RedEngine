@@ -21,6 +21,8 @@
 #include "GameListener.h"
 #include "GridSystem.h"
 #include "UIManager.h"
+#include "GameCursor.h"
+#include "SyringeButton.h"
 #include <fstream>
 
 #include <assert.h>
@@ -97,6 +99,45 @@ void Game::init(int mFPS)
 	mpChickenManager->createAndAddChicken(ChickenColor::PURPLE, Vector2D(16, 5));
 
 	mpUIManager = UIManager::getInstance();
+	mpUIManager->init();
+
+	Vector2D purpleSyringeButtonLoc = Vector2D(50, GAME_DISPLAY_HEIGHT - 32);
+	Vector2D blackSyringeButtonLoc = Vector2D(100, GAME_DISPLAY_HEIGHT - 32);
+	Vector2D blueSyringeButtonLoc = Vector2D(150, GAME_DISPLAY_HEIGHT - 32);
+	Vector2D lightBlueSyringeButtonLoc = Vector2D(200, GAME_DISPLAY_HEIGHT - 32);
+	Vector2D greenSyringeButtonLoc = Vector2D(250, GAME_DISPLAY_HEIGHT - 32);
+	Vector2D yellowSyringeButtonLoc = Vector2D(300, GAME_DISPLAY_HEIGHT - 32);
+	Vector2D redSyringeButtonLoc = Vector2D(350, GAME_DISPLAY_HEIGHT - 32);
+
+	SyringeButton* purpleSyringeButton = new SyringeButton(ChickenColor::PURPLE, PURPLE_SYRINGE_BUTTON_FILEPATH, "PurpleSyringeButton", purpleSyringeButtonLoc);
+	mpUIManager->addUIElement(purpleSyringeButton);
+	SyringeButton* blackSyringeButton = new SyringeButton(ChickenColor::BLACK, BLACK_SYRINGE_BUTTON_FILEPATH, "BlackSyringeButton", blackSyringeButtonLoc);
+	mpUIManager->addUIElement(blackSyringeButton);
+	SyringeButton* blueSyringeButton = new SyringeButton(ChickenColor::BLUE, BLUE_SYRINGE_BUTTON_FILEPATH, "BlueSyringeButton", blueSyringeButtonLoc);
+	mpUIManager->addUIElement(blueSyringeButton);
+	SyringeButton* lightBlueSyringeButton = new SyringeButton(ChickenColor::LIGHT_BLUE, LIGHT_BLUE_SYRINGE_BUTTON_FILEPATH, "LightBlueSyringeButton", lightBlueSyringeButtonLoc);
+	mpUIManager->addUIElement(lightBlueSyringeButton);
+	SyringeButton* greenSyringeButton = new SyringeButton(ChickenColor::GREEN, GREEN_SYRINGE_BUTTON_FILEPATH, "GreenSyringeButton", greenSyringeButtonLoc);
+	mpUIManager->addUIElement(greenSyringeButton);
+	SyringeButton* yellowSyringeButton = new SyringeButton(ChickenColor::YELLOW, YELLOW_SYRINGE_BUTTON_FILEPATH, "YellowSyringeButton", yellowSyringeButtonLoc);
+	mpUIManager->addUIElement(yellowSyringeButton);
+	SyringeButton* redSyringeButton = new SyringeButton(ChickenColor::RED, RED_SYRINGE_BUTTON_FILEPATH, "RedSyringeButton", redSyringeButtonLoc);
+	mpUIManager->addUIElement(redSyringeButton);
+
+	Texture2D* purpleSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(PURPLE_SYRINGE_KEY, PURPLE_SYRINGE_FILEPATH, true);
+	Sprite* purpleSyringeSprite = mpGraphicsSystem->createAndAddSprite(PURPLE_SYRINGE_KEY, &purpleSyringeTexture, Vector2D::Zero(), purpleSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
+	Texture2D* blackSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(BLACK_SYRINGE_KEY, BLACK_SYRINGE_FILEPATH, true);
+	Sprite* blackSyringeSprite = mpGraphicsSystem->createAndAddSprite(BLACK_SYRINGE_KEY, &blackSyringeTexture, Vector2D::Zero(), blackSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
+	Texture2D* blueSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(BLUE_SYRINGE_KEY, BLUE_SYRINGE_FILEPATH, true);
+	Sprite* blueSyringeSprite = mpGraphicsSystem->createAndAddSprite(BLUE_SYRINGE_KEY, &blueSyringeTexture, Vector2D::Zero(), blueSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
+	Texture2D* lightBlueSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(LIGHT_BLUE_SYRINGE_KEY, LIGHT_BLUE_SYRINGE_FILEPATH, true);
+	Sprite* lightBlueSyringeSprite = mpGraphicsSystem->createAndAddSprite(LIGHT_BLUE_SYRINGE_KEY, &lightBlueSyringeTexture, Vector2D::Zero(), lightBlueSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
+	Texture2D* greenSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(GREEN_SYRINGE_KEY, GREEN_SYRINGE_FILEPATH, true);
+	Sprite* greenSyringeSprite = mpGraphicsSystem->createAndAddSprite(GREEN_SYRINGE_KEY, &greenSyringeTexture, Vector2D::Zero(), greenSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
+	Texture2D* yellowSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(YELLOW_SYRINGE_KEY, YELLOW_SYRINGE_FILEPATH, true);
+	Sprite* yellowSyringeSprite = mpGraphicsSystem->createAndAddSprite(YELLOW_SYRINGE_KEY, &yellowSyringeTexture, Vector2D::Zero(), yellowSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
+	Texture2D* redSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(RED_SYRINGE_KEY, RED_SYRINGE_FILEPATH, true);
+	Sprite* redSyringeSprite = mpGraphicsSystem->createAndAddSprite(RED_SYRINGE_KEY, &redSyringeTexture, Vector2D::Zero(), redSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
 
 	Vector2D shopButtonUILoc = Vector2D(SHOP_BUTTON_UI_X, BASE_BUTTON_UI_Y);
 	Vector2D firstWindowUILoc = Vector2D(FIRST_WINDOW_UI_X, FIRST_WINDOW_UI_Y);
@@ -324,8 +365,6 @@ void Game::update()
 
 	mpChickenManager->update(mDeltaTime);
 
-	mpUIManager->update(mDeltaTime);
-
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
 	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
 		Vector3D::Up());
@@ -398,6 +437,17 @@ void Game::checkChickenClicked(Vector2D mousePos, MouseAction mouseButton)
 	Chicken* clickedChicken = mpChickenManager->checkChickenHovered(grs->convertPixelsToGrid(mousePos));
 	EventSystem* es = EventSystem::getInstance();
 
+	if (mpGameCursor && mouseButton == MouseAction::LeftClick)
+	{
+		if (clickedChicken)
+			clickedChicken->paintEgg(mpGameCursor->getSyringeColor());
+
+		delete mpGameCursor;
+		mpGameCursor = nullptr;
+		mpUIManager->setCursor(nullptr);
+		mpGraphicsSystem->setCursorHidden(false);
+	}
+
 	if (clickedChicken)
 	{
 		
@@ -456,7 +506,9 @@ void Game::stopMouseDrag()
 
 void Game::onMouseMove(Vector2D mousePos)
 {
+	//Should probably merge these functions into one
 	mpUIManager->onMouseHover(mousePos);
+	mpUIManager->updateCursorPosition(mousePos);
 
 	mpGraphicsSystem->getCamera()->update(mousePos);
 }
@@ -512,10 +564,75 @@ void Game::onToggleDebugMode()
 	mpGraphicsSystem->setDebugMode(mDebugMode);
 }
 
-void Game::checkUIClicked(const MouseEvent event)
+bool Game::checkUIClicked(const MouseEvent event)
 {
 	if (event.getButtonState() == ButtonState::Down)
 	{
-		mpUIManager->onClick(event.getMousePosition());
+		return mpUIManager->onClick(event.getMousePosition());
 	}
+}
+
+void Game::setMouseToSyringe(ChickenColor color, Vector2D mousePos)
+{
+	if (mpGameCursor)
+	{
+		delete mpGameCursor;
+		mpGameCursor = nullptr;
+		mpUIManager->setCursor(nullptr);
+	}
+		
+	
+	mpGameCursor = new GameCursor(color);
+	mpGameCursor->setLoc(mousePos);
+
+	switch (color)
+	{
+	case ChickenColor::PURPLE:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(PURPLE_SYRINGE_KEY));
+		break;
+	case ChickenColor::BLACK:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(BLACK_SYRINGE_KEY));
+		break;
+	case ChickenColor::BLUE:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(BLUE_SYRINGE_KEY));
+		break;
+	case ChickenColor::LIGHT_BLUE:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(LIGHT_BLUE_SYRINGE_KEY));
+		break;
+	case ChickenColor::GREEN:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(GREEN_SYRINGE_KEY));
+		break;
+	case ChickenColor::YELLOW:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(YELLOW_SYRINGE_KEY));
+		break;
+	case ChickenColor::RED:
+		mpGameCursor->setImage(mpGraphicsSystem->getSprite(RED_SYRINGE_KEY));
+		break;
+	}
+
+	mpUIManager->setCursor(mpGameCursor);
+	mpGraphicsSystem->setCursorHidden(true);
+}
+
+void Game::onClick(const MouseEvent event)
+{
+	if(checkUIClicked(event))
+		return;
+
+	if (event.getMouseAction() == MouseAction::RightClick || event.getMouseAction() == MouseAction::LeftClick)
+		checkChickenClicked(event.getMousePosition(), event.getMouseAction());
+
+	if (event.getMouseAction() == MouseAction::RightClick && event.getButtonState() == ButtonState::Down)
+		moveDebugChicken(event.getMousePosition());
+
+
+
+	if (event.getMouseAction() == MouseAction::MiddleClick)
+	{
+		if (event.getButtonState() == ButtonState::Down)
+			startMouseDrag(event.getMousePosition());
+		else if (event.getButtonState() == ButtonState::Up)
+			stopMouseDrag();
+	}
+
 }

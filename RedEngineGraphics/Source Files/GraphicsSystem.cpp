@@ -311,7 +311,7 @@ void GraphicsSystem::internalDrawSprite(Sprite& sprite)
 
 
 		//Packing and linking only need to occur on mesh init, as the data is stored in the VAO
-		packGPUData(*sprite.mpMesh, sprite.mSize);
+		packGPUData(*sprite.mpMesh, sprite.mSize, sprite.mAnchoring);
 
 		//Copy draw order data into bound buffer (EBO)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * sprite.mpMesh->mDrawCount, sprite.mpMesh->mDrawOrder, GL_STATIC_DRAW);
@@ -751,7 +751,7 @@ void GraphicsSystem::bindTexture2D(Texture2D* texture, unsigned int textureLocat
 	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
 }
 
-void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D size)
+void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D size, ImageAnchor anchoring)
 {
 	unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
 	valuesPerVertex += (mesh.mTextureDataCount) ? 2 : 0;
@@ -759,14 +759,25 @@ void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D size)
 
 	float* verticies = new float[numOfFloats];
 
+	Vector2D offset;
 	float largerSide = size.getX() > size.getY() ? size.getX() : size.getY();
 	float halfXSize = size.getX() / 2.0f;
 	float halfYSize = size.getX() / 2.0f;
 
+	switch (anchoring)
+	{
+	case ImageAnchor::BottomLeft:
+		offset = Vector2D::Zero();
+		break;
+
+	case ImageAnchor::Center:
+		offset = Vector2D(-halfXSize, -halfYSize);
+	}
+
 	for (int i = 0; i < mesh.mVertexCount; i++)
 	{
-		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() * largerSide - halfXSize;
-		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() * largerSide - halfYSize;
+		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() * largerSide + offset.getX();
+		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() * largerSide + offset.getY();
 		verticies[i * valuesPerVertex + 2] = 1.0f; //2D Objects are drawn at Z = 1
 
 		if (mesh.mHasColorData)
@@ -945,9 +956,9 @@ void GraphicsSystem::addPersistantToDebugHUD(std::string text)
 	mpDebugHUD->addPersistantDebugValue(text);
 }
 
-Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale)
+Sprite* GraphicsSystem::createAndAddSprite(string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale, ImageAnchor anchoring)
 {
-	return mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, size, scale);
+	return mpSpriteManager->createAndAddSprite(key, texture, textureStartLoc, size, scale, anchoring);
 }
 
 void GraphicsSystem::removeAndDeleteSprite(string key)
@@ -1055,4 +1066,12 @@ void GraphicsSystem::cleanupMesh2D(Mesh2D* mesh)
 void GraphicsSystem::cleanupTexture2D(Texture2D* texture)
 {
 	glDeleteTextures(1, &texture->mTOI);
+}
+
+void GraphicsSystem::setCursorHidden(bool isHidden)
+{
+	if (isHidden)
+		glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	else
+		glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }

@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <string>
 #include <Vector2D.h>
+#include "Sprite.h"
 
-class Sprite;
 class Texture2D;
 
 class SpriteManager : public Trackable
@@ -19,7 +19,7 @@ private:
 	void init();
 	void cleanup();
 
-	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One());
+	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One(), ImageAnchor anchoring = ImageAnchor::Center);
 	void removeAndDeleteSprite(std::string key);
 	Sprite* getSprite(std::string key) { return mSprites.find(key) == mSprites.end() ? nullptr : mSprites.at(key); }
 

@@ -4,11 +4,11 @@
 #include "Vector2D.h"
 #include "Vector3D.h"
 #include "Vector4D.h"
+#include "Sprite.h"
 
 struct GLFWwindow;
 
 class Mesh2D;
-class Sprite;
 class Animation;
 class AnimationData;
 class Font;
@@ -118,7 +118,7 @@ public:
 	void removeAndDeleteTexture2D(std::string key);
 
 	//Sprites
-	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One());
+	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One(), ImageAnchor anchoring = ImageAnchor::Center);
 	void removeAndDeleteSprite(std::string key);
 	Sprite* getSprite(std::string key);
 
@@ -130,6 +130,8 @@ public:
 	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
 
 	Camera2D* getCamera() { return mpCamera; }
+
+	void setCursorHidden(bool isHidden);
 
 	//DebugHUD
 	void addToDebugHUD(std::string text);
@@ -186,7 +188,7 @@ private:
 	//Helper Draw Functions
 	void bindMesh2D(Mesh2D*);
 	void bindTexture2D(Texture2D*, unsigned int textureLocation);
-	void packGPUData(Mesh2D&, Vector2D size = Vector2D::One());
+	void packGPUData(Mesh2D&, Vector2D size = Vector2D::One(), ImageAnchor anchoring = ImageAnchor::Center);
 	void linkGPUData(Mesh2D&);
 	void internalDrawSprite(Sprite& sprite);
 

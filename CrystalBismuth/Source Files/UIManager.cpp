@@ -101,6 +101,12 @@ void UIManager::update(float deltaTime)
 	}
 }
 
+void UIManager::updateCursorPosition(Vector2D mousePos)
+{
+	if(mCursor)
+		mCursor->update(mousePos);
+}
+
 void UIManager::draw()
 {
 	GraphicsSystem* gs = GraphicsSystem::getInstance();
@@ -109,6 +115,9 @@ void UIManager::draw()
 	{
 		gs->drawUI(*it);
 	}
+
+	if(mCursor)
+		gs->drawUI(mCursor);
 }
 
 void UIManager::onMouseHover(Vector2D mousePos)
@@ -142,15 +151,29 @@ bool UIManager::onClick(Vector2D mousePos)
 
 		if (Vector2D::IsPointWithinBounds(mousePos, elementLowerBound, elementUpperBound))
 		{
+			element->onClick(mousePos);
+
 			if (UIElement* parent = element->getParent())
 			{
 				parent->setAnimating(!parent->getIsAnimating());
-				return true;
+				
 			}
-			else
-				return false;
+			
+			return true;
 		}
 	}
 
 	return false;
+}
+
+void UIManager::setCursorImage(Sprite* sprite)
+{
+	mCursor->setImage(sprite);
+
+	GraphicsSystem::getInstance()->setCursorHidden(sprite);
+}
+
+void UIManager::addUIElement(UIElement* element)
+{
+	mUIElements.push_back(element);
 }

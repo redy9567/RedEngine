@@ -3,6 +3,7 @@
 #include <string>
 #include <Vector2D.h>
 #include "UIElement.h"
+#include "Cursor.h"
 
 class UIManager : public Trackable
 {
@@ -24,15 +25,22 @@ private:
 	UIElement* createAndAddUIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr, bool animateOnHover = false);
 	UIElement* createAndAddUIElement(std::string spriteTextureFilepath, std::string objectKey, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
 	UIElement* createAndAddUIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero(), bool animateOnHover = false);
+	void addUIElement(UIElement* element);
+
 	void removeAndDeleteUIElement(int id);
 
 	UIElement* getUIElement(int id);
+	void setCursor(Cursor* cursor) { mCursor = cursor; }
+	Cursor* getCursor() { return mCursor; }
+	void setCursorImage(Sprite* sprite);
+	void updateCursorPosition(Vector2D mousePos);
 
 
 	UIManager();
-	~UIManager();
+	virtual ~UIManager();
 
 	static UIManager* mspInstance;
 
 	std::vector<UIElement*> mUIElements;
+	Cursor* mCursor;
 };

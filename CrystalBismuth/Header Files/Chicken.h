@@ -64,6 +64,8 @@ public:
 
 	ChickenColor getColor() { return mChickenColor; }
 
+	void paintEgg(ChickenColor color) { if (mState == ChickenState::EGG) mChickenColor = color; }
+
 private:
 	enum class ChickenState
 	{

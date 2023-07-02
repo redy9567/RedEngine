@@ -69,6 +69,23 @@ UIElement::UIElement(std::string animationTextureFilepath, std::string objectKey
 	mIsAnimating = false;
 }
 
+UIElement::UIElement()
+{
+	mDrawingMode = GameObject2D::None;
+	mImage.s = nullptr;
+
+	mLoc = Vector2D::Zero();
+	mOrigLoc = Vector2D::Zero();
+	mDistToMove = 0.0f;
+	mSpeed = 0.0f;
+
+	mIsAnimating = false;
+	mAnimationDirection = (Direction)-1;
+	mAnimateOnHover = false;
+
+	mParent = nullptr;
+}
+
 UIElement::~UIElement()
 {
 

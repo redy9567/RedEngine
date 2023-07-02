@@ -23,24 +23,12 @@ void GameListener::handleEvent(const Event& ev)
 	switch(ev.getType())
 	{
 	case Event::MOUSE_EVENT:
-		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::RightClick || eventUnion->mouseEvent->getMouseAction() == MouseAction::LeftClick)
-			game->checkChickenClicked(eventUnion->mouseEvent->getMousePosition(), eventUnion->mouseEvent->getMouseAction());
-
-		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::RightClick && eventUnion->mouseEvent->getButtonState() == ButtonState::Down)
-			game->moveDebugChicken(eventUnion->mouseEvent->getMousePosition());
-
-		game->checkUIClicked(*eventUnion->mouseEvent);
-
-		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::MiddleClick)
-		{
-			if (eventUnion->mouseEvent->getButtonState() == ButtonState::Down)
-				game->startMouseDrag(eventUnion->mouseEvent->getMousePosition());
-			else if (eventUnion->mouseEvent->getButtonState() == ButtonState::Up)
-				game->stopMouseDrag();
-		}
 
 		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::Move)
 			game->onMouseMove(eventUnion->mouseEvent->getMousePosition());
+		else
+			game->onClick(*eventUnion->mouseEvent);
+
 		break;
 
 

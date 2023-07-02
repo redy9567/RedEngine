@@ -23,11 +23,14 @@ public:
 	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr, bool animateOnHover = false);
 	UIElement(std::string spriteTextureFilepath, std::string objectKey, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
 	UIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero(), bool animateOnHover = false);
+	UIElement();
 	~UIElement();
 
 	void setAnimating(bool hover) { mIsAnimating = hover; }
 	bool getIsAnimating() { return mIsAnimating; }
 	UIElement* getParent() { return (UIElement*)mParent; }
+
+	virtual void onClick(Vector2D mousePos) {};
 
 	void update(float deltaTime);
 

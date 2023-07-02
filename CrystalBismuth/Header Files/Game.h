@@ -2,6 +2,7 @@
 #include "Trackable.h"
 #include "Vector2D.h"
 #include "MouseEvent.h"
+#include "Chicken.h"
 
 class GraphicsSystem;
 class Sprite;
@@ -11,15 +12,23 @@ class AnimationData;
 class Animation;
 class Timer;
 class InputSystem;
-class Chicken;
 class UIManager;
 class ChickenManager;
 class Mesh2D;
 class GameObject2D;
 class GameListener;
+class GameCursor;
 
 const int GAME_DISPLAY_WIDTH = 1536;
 const int GAME_DISPLAY_HEIGHT = 864;
+
+const std::string PURPLE_SYRINGE_KEY = "purpleSyringe";
+const std::string BLACK_SYRINGE_KEY = "blackSyringe";
+const std::string BLUE_SYRINGE_KEY = "blueSyringe";
+const std::string LIGHT_BLUE_SYRINGE_KEY = "lightBlueSyringe";
+const std::string GREEN_SYRINGE_KEY = "greenSyringe";
+const std::string YELLOW_SYRINGE_KEY = "yellowSyringe";
+const std::string RED_SYRINGE_KEY = "redSyringe";
 
 const float CURRENCY_UI_MOVE_DISTANCE = 47.0f;
 const float CURRENCY_UI_ANIMATION_SPEED = 5.0f;
@@ -123,6 +132,8 @@ public:
 
 	int debugGetFPS() { return mDebugMode ? 1 / mDeltaTime : -1; }
 
+	void setMouseToSyringe(ChickenColor color, Vector2D mousePos);
+
 private:
 	Game();
 	~Game();
@@ -138,7 +149,8 @@ private:
 
 	//Event Functions
 	void checkChickenClicked(Vector2D mousePos, MouseAction mouseButton);
-	void checkUIClicked(const MouseEvent event);
+	void onClick(const MouseEvent event);
+	bool checkUIClicked(const MouseEvent event);
 
 	void onChickenLeftClick(Chicken* ckn);
 	void onChickenRightClick(Chicken* ckn);
@@ -149,6 +161,8 @@ private:
 	void onToggleShaders();
 	void onShaderHotReload();
 	void onToggleDebugMode();
+
+	
 
 	void startMouseDrag(Vector2D mousePos);
 	void stopMouseDrag();
@@ -185,5 +199,7 @@ private:
 	int mCurrentMoney;
 
 	GameListener* mpGameListener;
+
+	GameCursor* mpGameCursor;
 
 };
