@@ -71,7 +71,6 @@ public:
 	void draw(Sprite& sprite, Vector2D location);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
-	void draw(std::string gameObjctKey);
 	void draw(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
 	void drawUI(Sprite& sprite, Vector2D location);
 	void drawUI(GameObject2D* gameObject);
@@ -123,9 +122,10 @@ public:
 	Sprite* getSprite(std::string key);
 
 	//GameObject2D
-	GameObject2D* createAndAddGameObject2D(std::string key, Sprite*, Vector2D loc = Vector2D::Zero());
-	GameObject2D* createAndAddGameObject2D(std::string key, Animation*, Vector2D loc = Vector2D::Zero());
-	void removeAndDeleteGameObject2D(std::string key);
+	GameObject2D* createAndAddGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero());
+	GameObject2D* createAndAddGameObject2D(Animation*, Vector2D loc = Vector2D::Zero());
+	void removeAndDeleteGameObject2D(GameObject2D* obj);
+	void removeAndDeleteGameObject2D(int id);
 
 	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
 

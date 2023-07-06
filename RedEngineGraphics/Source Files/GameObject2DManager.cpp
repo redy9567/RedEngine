@@ -39,43 +39,55 @@ void GameObject2DManager::init()
 
 void GameObject2DManager::cleanup()
 {
-	for (unordered_map<string, GameObject2D*>::iterator it = mGameObjects.begin(); it != mGameObjects.end(); it++)
+	for (vector<GameObject2D*>::iterator it = mGameObjects.begin(); it != mGameObjects.end(); it++)
 	{
-		delete it->second;
+		delete *it;
 	}
 	mGameObjects.clear();
 }
 
-GameObject2D* GameObject2DManager::createAndAddGameObject2D(std::string key, Sprite* sprite, Vector2D loc)
+GameObject2D* GameObject2DManager::createAndAddGameObject2D(Sprite* sprite, Vector2D loc)
 {
 	GameObject2D* obj = new GameObject2D(sprite, loc);
 
-	mGameObjects.emplace(key, obj);
+	mGameObjects.push_back(obj);
 
 	return obj;
 }
 
-GameObject2D* GameObject2DManager::createAndAddGameObject2D(std::string key, Animation* anim, Vector2D loc)
+GameObject2D* GameObject2DManager::createAndAddGameObject2D(Animation* anim, Vector2D loc)
 {
 	GameObject2D* obj = new GameObject2D(anim, loc);
 
-	mGameObjects.emplace(key, obj);
+	mGameObjects.push_back(obj);
 
 	return obj;
 }
 
-void GameObject2DManager::removeAndDeleteGameObject2D(string key)
+void GameObject2DManager::removeAndDeleteGameObject2D(GameObject2D* obj)
 {
-	GameObject2D* obj = mGameObjects.at(key);
-
-	if (obj)
+	for (vector<GameObject2D*>::iterator it = mGameObjects.begin(); it != mGameObjects.end(); it++)
 	{
-		delete obj;
-		mGameObjects.erase(key);
+		delete *it;
+		mGameObjects.erase(it);
 	}
 }
 
-GameObject2D* GameObject2DManager::getGameObject2D(string key)
+void GameObject2DManager::removeAndDeleteGameObject2D(int id)
 {
-	return mGameObjects.at(key);
+	int i = 0;
+	for (vector<GameObject2D*>::iterator it = mGameObjects.begin(); it != mGameObjects.end(); it++)
+	{
+		if (i == id)
+		{
+			delete *it;
+			mGameObjects.erase(it);
+			break;
+		}
+	}
+}
+
+GameObject2D* GameObject2DManager::getGameObject2D(int id)
+{
+	return mGameObjects.at(id);
 }

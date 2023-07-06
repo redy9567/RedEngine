@@ -378,13 +378,6 @@ void GraphicsSystem::drawUI(GameObject2D* obj)
 	}
 }
 
-void GraphicsSystem::draw(std::string gameObjectKey)
-{
-	GameObject2D* obj = mpGameObjectManager->getGameObject2D(gameObjectKey);
-
-	draw(obj);
-}
-
 void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
 {
 	//No need to set active shader program, as setting a uniform sets the shader program as active
@@ -971,19 +964,24 @@ Sprite* GraphicsSystem::getSprite(string key)
 	return mpSpriteManager->getSprite(key);
 }
 
-GameObject2D* GraphicsSystem::createAndAddGameObject2D(string key, Sprite* sprite, Vector2D loc)
+GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D loc)
 {
-	return mpGameObjectManager->createAndAddGameObject2D(key, sprite, loc);
+	return mpGameObjectManager->createAndAddGameObject2D(sprite, loc);
 }
 
-GameObject2D* GraphicsSystem::createAndAddGameObject2D(string key, Animation* anim, Vector2D loc)
+GameObject2D* GraphicsSystem::createAndAddGameObject2D(Animation* anim, Vector2D loc)
 {
-	return mpGameObjectManager->createAndAddGameObject2D(key, anim, loc);
+	return mpGameObjectManager->createAndAddGameObject2D(anim, loc);
 }
 
-void GraphicsSystem::removeAndDeleteGameObject2D(string key)
+void GraphicsSystem::removeAndDeleteGameObject2D(GameObject2D* obj)
 {
-	mpGameObjectManager->removeAndDeleteGameObject2D(key);
+	mpGameObjectManager->removeAndDeleteGameObject2D(obj);
+}
+
+void GraphicsSystem::removeAndDeleteGameObject2D(int id)
+{
+	mpGameObjectManager->removeAndDeleteGameObject2D(id);
 }
 
 void GraphicsSystem::drawGrid()

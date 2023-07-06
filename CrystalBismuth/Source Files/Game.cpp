@@ -85,7 +85,7 @@ void Game::init(int mFPS)
 	Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("Background", RESOURCES_DIRECTORY + BACKGROUNDS_DIRECTORY + BACKGROUND_FILENAME, true);
 	Vector2D bgScale = Vector2D(2, 2);
 	Sprite* bgSprite = mpGraphicsSystem->createAndAddSprite("Background", &bgTexture, Vector2D::Zero(), bgTexture->getSize(), bgScale);
-	mpBackground = mpGraphicsSystem->createAndAddGameObject2D("Background", bgSprite, Vector2D(21.5f, 19.5f));
+	mpBackground = mpGraphicsSystem->createAndAddGameObject2D(bgSprite, Vector2D(21.5f, 19.5f));
 	mpGraphicsSystem->setBackground(mpBackground);
 
 	mpChickenManager = ChickenManager::getInstance();
