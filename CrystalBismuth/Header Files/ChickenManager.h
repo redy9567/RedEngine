@@ -5,6 +5,7 @@
 
 class Chicken;
 enum class ChickenColor;
+struct ChickenProperties;
 
 const float DEFAULT_TIME_TO_HATCH = 20.0f;
 const float DEFAULT_TIME_TO_MATURITY = 20.0f;
@@ -24,6 +25,7 @@ public:
 	Chicken* checkChickenHovered(Vector2D mousePos);
 
 	Chicken* createAndAddChicken(ChickenColor color, Vector2D location = Vector2D::Zero());
+	Chicken* createAndAddChicken(ChickenProperties properties, Vector2D location = Vector2D::Zero());
 	void removeAndDeleteChicken(Chicken* chicken);
 	void removeAndDeleteChicken(int chickenID);
 

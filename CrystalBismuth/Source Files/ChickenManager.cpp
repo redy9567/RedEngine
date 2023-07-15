@@ -56,6 +56,15 @@ Chicken* ChickenManager::createAndAddChicken(ChickenColor color, Vector2D locati
 	return obj;
 }
 
+Chicken* ChickenManager::createAndAddChicken(ChickenProperties properties, Vector2D location)
+{
+	Chicken* obj = new Chicken(DEFAULT_TIME_TO_HATCH, DEFAULT_TIME_TO_MATURITY, DEFAULT_TIME_TO_DEATH, properties, location);
+
+	mChickens.push_back(obj);
+
+	return obj;
+}
+
 void ChickenManager::removeAndDeleteChicken(int chickenID)
 {
 	int i = 0;
@@ -124,8 +133,7 @@ void ChickenManager::drawAllChickens()
 
 	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
 	{
-		Vector3D color = Chicken::GetChickenColor((*it)->mChickenColor);
-
+		Vector3D color = (*it)->mProperties.chickenColor;
 
 		gs->setVec4Uniform("ChickenColor", "uColor", Vector4D(color.getX(), color.getY(), color.getZ(), 1.0f));
 		gs->draw(*it);
@@ -158,7 +166,67 @@ bool ChickenManager::checkBreeding(Chicken* chicken1, Chicken* chicken2)
 
 void ChickenManager::breed(Chicken* chicken1, Chicken* chicken2)
 {
-	createAndAddChicken(ChickenColor::WHITE, chicken1->getLoc());
+	ChickenProperties ckn1Prop = chicken1->mProperties, 
+		ckn2Prop = chicken2->mProperties,
+		newCknProp;
+
+	float newValue;
+	if (abs(ckn1Prop.breedingGeneStrength - ckn2Prop.breedingGeneStrength) <= 3)
+	{
+		newValue = (ckn1Prop.breedingModifier + ckn2Prop.breedingModifier) / 2.0f;
+		newValue = (newValue < 0) ? -round(abs(newValue)) : round(newValue);
+	}
+	else
+		newValue = ckn1Prop.breedingGeneStrength > ckn2Prop.breedingGeneStrength ? ckn1Prop.breedingModifier : ckn2Prop.breedingModifier;
+
+	newCknProp.breedingModifier = newValue;
+	newCknProp.breedingGeneStrength = rand() % 10 + 1;
+
+	if (abs(ckn1Prop.eggLayingGeneStrength - ckn2Prop.eggLayingGeneStrength) <= 3)
+	{
+		newValue = (ckn1Prop.eggLayingModifier + ckn2Prop.eggLayingModifier) / 2.0f;
+		newValue = (newValue < 0) ? -round(abs(newValue)) : round(newValue);
+	}
+	else
+		newValue = ckn1Prop.eggLayingGeneStrength > ckn2Prop.eggLayingGeneStrength ? ckn1Prop.eggLayingModifier : ckn2Prop.eggLayingModifier;
+
+	newCknProp.eggLayingModifier = newValue;
+	newCknProp.eggLayingGeneStrength = rand() % 10 + 1;
+
+	if (abs(ckn1Prop.hatchGeneStrength - ckn2Prop.hatchGeneStrength) <= 3)
+	{
+		newValue = (ckn1Prop.hatchModifier + ckn2Prop.hatchModifier) / 2.0f;
+		newValue = (newValue < 0) ? -round(abs(newValue)) : round(newValue);
+	}
+	else
+		newValue = ckn1Prop.hatchGeneStrength > ckn2Prop.hatchGeneStrength ? ckn1Prop.hatchModifier : ckn2Prop.hatchModifier;
+
+	newCknProp.hatchModifier = newValue;
+	newCknProp.hatchGeneStrength = rand() % 10 + 1;
+
+	if (abs(ckn1Prop.growTimerGeneStrength - ckn2Prop.growTimerGeneStrength) <= 3)
+	{
+		newValue = (ckn1Prop.growTimerModifier + ckn2Prop.growTimerModifier) / 2.0f;
+		newValue = (newValue < 0) ? -round(abs(newValue)) : round(newValue);
+	}
+	else
+		newValue = ckn1Prop.growTimerGeneStrength > ckn2Prop.growTimerGeneStrength ? ckn1Prop.growTimerModifier : ckn2Prop.growTimerModifier;
+
+	newCknProp.growTimerModifier = newValue;
+	newCknProp.growTimerGeneStrength = rand() % 10 + 1;
+
+	Vector3D newColor;
+	if (abs(ckn1Prop.colorGeneStrength - ckn2Prop.colorGeneStrength) <= 3)
+	{
+		newColor = (ckn1Prop.chickenColor + ckn2Prop.chickenColor) / 2.0f;
+	}
+	else
+		newColor = ckn1Prop.colorGeneStrength > ckn2Prop.colorGeneStrength ? ckn1Prop.chickenColor : ckn2Prop.chickenColor;
+
+	newCknProp.chickenColor = newColor;
+	newCknProp.colorGeneStrength = rand() % 10 + 1;
+
+	createAndAddChicken(newCknProp, chicken1->getLoc());
 	chicken1->mBreedingTimer = BREEDING_COOLDOWN;
 	chicken2->mBreedingTimer = BREEDING_COOLDOWN;
 }

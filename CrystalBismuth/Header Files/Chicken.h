@@ -48,6 +48,23 @@ enum class ChickenColor
 	PURPLE
 };
 
+struct ChickenProperties
+{
+	float hatchModifier;
+	float breedingModifier;
+	float eggLayingModifier;
+	float growTimerModifier;
+
+	Vector3D chickenColor;
+
+	short int hatchGeneStrength;
+	short int breedingGeneStrength;
+	short int eggLayingGeneStrength;
+	short int growTimerGeneStrength;
+
+	short int colorGeneStrength;
+};
+
 class Chicken : public GameObject2D
 {
 public:
@@ -62,9 +79,7 @@ public:
 
 	bool isEgg() { return mState == ChickenState::EGG; }
 
-	ChickenColor getColor() { return mChickenColor; }
-
-	void paintEgg(ChickenColor color) { if (mState == ChickenState::EGG) mChickenColor = color; }
+	void paintEgg(ChickenColor color) { if (mState == ChickenState::EGG) updateProperties(color); }
 
 private:
 	enum class ChickenState
@@ -88,6 +103,7 @@ private:
 	};
 
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenColor color, Vector2D location = Vector2D::Zero());
+	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenProperties properties, Vector2D location = Vector2D::Zero());
 	~Chicken();
 	Chicken() = delete;
 
@@ -98,6 +114,8 @@ private:
 	void updatePosition();
 
 	void changeState(ChickenState state); 
+
+	void updateProperties(ChickenColor color);
 
 	void loadData();
 
@@ -125,5 +143,5 @@ private:
 	Vector2D mMoveStart;
 	Vector2D mMoveEnd;
 
-	ChickenColor mChickenColor;
+	ChickenProperties mProperties;
 };

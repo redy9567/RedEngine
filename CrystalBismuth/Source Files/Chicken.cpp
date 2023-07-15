@@ -18,7 +18,30 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Chi
 	mDrawingMode = GameObject2D::SpriteMode;
 	mImage.s = GraphicsSystem::getInstance()->getSprite(CKN_EGG_KEY);
 
-	mChickenColor = color;
+	updateProperties(color);
+
+	mLoc = location;
+	mIsMoving = false;
+	mStateChanged = false;
+
+	mDebugMode = false;
+
+	mMoveUpdateTimer = STARTING_MOVEMENT_TIMER;
+}
+
+Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenProperties properties, Vector2D location)
+{
+	loadData();
+
+	mTimeToHatch = timeToHatch * properties.hatchModifier;
+	mTimeToMaturity = mTimeToHatch + timeToMaturity * properties.hatchModifier;
+	mTimeToDeath = mTimeToHatch + mTimeToMaturity + timeToDeath;
+
+	mState = ChickenState::EGG;
+	mDrawingMode = GameObject2D::SpriteMode;
+	mImage.s = GraphicsSystem::getInstance()->getSprite(CKN_EGG_KEY);
+
+	mProperties = properties;
 
 	mLoc = location;
 	mIsMoving = false;
@@ -457,4 +480,20 @@ void Chicken::changeState(ChickenState state)
 		
 	mState = state; 
 	mStateChanged = true;
+}
+
+void Chicken::updateProperties(ChickenColor color)
+{
+	mProperties.breedingModifier = GetBreedingModifier(color);
+	mProperties.eggLayingModifier = GetEggLayingModifier(color);
+	mProperties.growTimerModifier = GetGrowTimerModifier(color);
+	mProperties.hatchModifier = GetHatchModifier(color);
+
+	mProperties.chickenColor = GetChickenColor(color);
+
+	mProperties.breedingGeneStrength = rand() % 10 + 1;
+	mProperties.eggLayingGeneStrength = rand() % 10 + 1;
+	mProperties.growTimerGeneStrength = rand() % 10 + 1;
+	mProperties.hatchGeneStrength = rand() % 10 + 1;
+	mProperties.colorGeneStrength = rand() % 10 + 1;
 }
