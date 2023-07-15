@@ -365,6 +365,8 @@ void Game::update()
 
 	mpChickenManager->update(mDeltaTime);
 
+	mpUIManager->update(mDeltaTime);
+
 	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
 	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
 		Vector3D::Up());
