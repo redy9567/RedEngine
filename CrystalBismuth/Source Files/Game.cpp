@@ -101,28 +101,13 @@ void Game::init(int mFPS)
 	mpUIManager = UIManager::getInstance();
 	mpUIManager->init();
 
-	Vector2D purpleSyringeButtonLoc = Vector2D(50, GAME_DISPLAY_HEIGHT - 32);
-	Vector2D blackSyringeButtonLoc = Vector2D(100, GAME_DISPLAY_HEIGHT - 32);
-	Vector2D blueSyringeButtonLoc = Vector2D(150, GAME_DISPLAY_HEIGHT - 32);
-	Vector2D lightBlueSyringeButtonLoc = Vector2D(200, GAME_DISPLAY_HEIGHT - 32);
-	Vector2D greenSyringeButtonLoc = Vector2D(250, GAME_DISPLAY_HEIGHT - 32);
-	Vector2D yellowSyringeButtonLoc = Vector2D(300, GAME_DISPLAY_HEIGHT - 32);
-	Vector2D redSyringeButtonLoc = Vector2D(350, GAME_DISPLAY_HEIGHT - 32);
-
-	SyringeButton* purpleSyringeButton = new SyringeButton(ChickenColor::PURPLE, PURPLE_SYRINGE_BUTTON_FILEPATH, "PurpleSyringeButton", purpleSyringeButtonLoc);
-	mpUIManager->addUIElement(purpleSyringeButton);
-	SyringeButton* blackSyringeButton = new SyringeButton(ChickenColor::BLACK, BLACK_SYRINGE_BUTTON_FILEPATH, "BlackSyringeButton", blackSyringeButtonLoc);
-	mpUIManager->addUIElement(blackSyringeButton);
-	SyringeButton* blueSyringeButton = new SyringeButton(ChickenColor::BLUE, BLUE_SYRINGE_BUTTON_FILEPATH, "BlueSyringeButton", blueSyringeButtonLoc);
-	mpUIManager->addUIElement(blueSyringeButton);
-	SyringeButton* lightBlueSyringeButton = new SyringeButton(ChickenColor::LIGHT_BLUE, LIGHT_BLUE_SYRINGE_BUTTON_FILEPATH, "LightBlueSyringeButton", lightBlueSyringeButtonLoc);
-	mpUIManager->addUIElement(lightBlueSyringeButton);
-	SyringeButton* greenSyringeButton = new SyringeButton(ChickenColor::GREEN, GREEN_SYRINGE_BUTTON_FILEPATH, "GreenSyringeButton", greenSyringeButtonLoc);
-	mpUIManager->addUIElement(greenSyringeButton);
-	SyringeButton* yellowSyringeButton = new SyringeButton(ChickenColor::YELLOW, YELLOW_SYRINGE_BUTTON_FILEPATH, "YellowSyringeButton", yellowSyringeButtonLoc);
-	mpUIManager->addUIElement(yellowSyringeButton);
-	SyringeButton* redSyringeButton = new SyringeButton(ChickenColor::RED, RED_SYRINGE_BUTTON_FILEPATH, "RedSyringeButton", redSyringeButtonLoc);
-	mpUIManager->addUIElement(redSyringeButton);
+	Vector2D purpleSyringeButtonLoc = Vector2D(-200, 200);
+	Vector2D blackSyringeButtonLoc = Vector2D(-200, 150);
+	Vector2D blueSyringeButtonLoc = Vector2D(-200, 100);
+	Vector2D lightBlueSyringeButtonLoc = Vector2D(-200, 50);
+	Vector2D greenSyringeButtonLoc = Vector2D(-200, 0);
+	Vector2D yellowSyringeButtonLoc = Vector2D(-200, -50);
+	Vector2D redSyringeButtonLoc = Vector2D(-200, -100);
 
 	Texture2D* purpleSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(PURPLE_SYRINGE_KEY, PURPLE_SYRINGE_FILEPATH, true);
 	Sprite* purpleSyringeSprite = mpGraphicsSystem->createAndAddSprite(PURPLE_SYRINGE_KEY, &purpleSyringeTexture, Vector2D::Zero(), purpleSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
@@ -181,6 +166,21 @@ void Game::init(int mFPS)
 
 	UIElement* shopUI = mpUIManager->createAndAddUIElement(SHOP_UI_FILEPATH, "shopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
 	mpUIManager->createAndAddUIElement(SHOP_UI_BUTTON_FILEPATH, "shopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, shopButtonUILoc, buttonScale, shopUI, true);
+
+	SyringeButton* purpleSyringeButton = new SyringeButton(ChickenColor::PURPLE, PURPLE_SYRINGE_BUTTON_FILEPATH, "PurpleSyringeButton", purpleSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(purpleSyringeButton);
+	SyringeButton* blackSyringeButton = new SyringeButton(ChickenColor::BLACK, BLACK_SYRINGE_BUTTON_FILEPATH, "BlackSyringeButton", blackSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(blackSyringeButton);
+	SyringeButton* blueSyringeButton = new SyringeButton(ChickenColor::BLUE, BLUE_SYRINGE_BUTTON_FILEPATH, "BlueSyringeButton", blueSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(blueSyringeButton);
+	SyringeButton* lightBlueSyringeButton = new SyringeButton(ChickenColor::LIGHT_BLUE, LIGHT_BLUE_SYRINGE_BUTTON_FILEPATH, "LightBlueSyringeButton", lightBlueSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(lightBlueSyringeButton);
+	SyringeButton* greenSyringeButton = new SyringeButton(ChickenColor::GREEN, GREEN_SYRINGE_BUTTON_FILEPATH, "GreenSyringeButton", greenSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(greenSyringeButton);
+	SyringeButton* yellowSyringeButton = new SyringeButton(ChickenColor::YELLOW, YELLOW_SYRINGE_BUTTON_FILEPATH, "YellowSyringeButton", yellowSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(yellowSyringeButton);
+	SyringeButton* redSyringeButton = new SyringeButton(ChickenColor::RED, RED_SYRINGE_BUTTON_FILEPATH, "RedSyringeButton", redSyringeButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(redSyringeButton);
 
 	UIElement* coopUI = mpUIManager->createAndAddUIElement(COOP_UI_FILEPATH, "coopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
 	mpUIManager->createAndAddUIElement(COOP_UI_BUTTON_FILEPATH, "coopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, coopButtonUILoc, buttonScale, coopUI, true);
@@ -259,7 +259,7 @@ void Game::init(int mFPS)
 		mpGraphicsSystem->addPersistantToDebugHUD("Version: " + version);
 	}
 
-	mCurrentMoney = 0;
+	mCurrentMoney = 300;
 
 	mpGameListener = new GameListener();
 
@@ -654,4 +654,16 @@ void Game::onClick(const MouseEvent event)
 			stopMouseDrag();
 	}
 
+}
+
+bool Game::buySyringe(ChickenColor color, Vector2D mousePos, int cost)
+{
+	if (mCurrentMoney >= cost)
+	{
+		setMouseToSyringe(color, mousePos);
+		mCurrentMoney -= cost;
+		return true;
+	}
+	else
+		return false;
 }

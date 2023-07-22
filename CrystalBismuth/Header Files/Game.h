@@ -135,7 +135,7 @@ public:
 
 	int debugGetFPS() { return mDebugMode ? 1 / mDeltaTime : -1; }
 
-	void setMouseToSyringe(ChickenColor color, Vector2D mousePos);
+	bool buySyringe(ChickenColor, Vector2D mousePos, int cost);
 
 private:
 	Game();
@@ -171,6 +171,8 @@ private:
 	void stopMouseDrag();
 
 	void moveDebugChicken(Vector2D mousePos);
+
+	void setMouseToSyringe(ChickenColor color, Vector2D mousePos);
 
 	static Game* mspInstance;
 

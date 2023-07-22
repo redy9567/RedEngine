@@ -7,6 +7,7 @@ SyringeButton::SyringeButton(ChickenColor color, string spriteTextureFilepath, s
 : UIElement(spriteTextureFilepath, objectKey, location, scale, parent)
 {
 	mSyringeColor = color;
+	mCost = 100;
 }
 
 SyringeButton::~SyringeButton()
@@ -16,5 +17,7 @@ SyringeButton::~SyringeButton()
 
 void SyringeButton::onClick(Vector2D mousePos)
 {
-	Game::getInstance()->setMouseToSyringe(mSyringeColor, mousePos);
+	if (Game::getInstance()->buySyringe(mSyringeColor, mousePos, mCost))
+		mCost *= 2;
+	
 }

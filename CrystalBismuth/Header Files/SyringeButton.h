@@ -15,5 +15,6 @@ private:
 	SyringeButton() = delete;
 
 	ChickenColor mSyringeColor;
+	int mCost;
 
 };
