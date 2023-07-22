@@ -223,14 +223,17 @@ void Game::init(int mFPS)
 
 	UIElement* scienceWindowUI = mpUIManager->createAndAddUIElement(SCIENCE_UI_FILEPATH, "scienceWindowUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
 	mpUIManager->createAndAddUIElement(SCIENCE_UI_BUTTON_FILEPATH, "scienceButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, scienceButtonUILoc, buttonScale, scienceWindowUI, true);
-	mpUIManager->createAndAddUIElement(SCIENCE_RESEARCH_TREE_FILEPATH, "scienceResearchTreeUI", firstWindowUILoc + scienceTreeUIOffset, scienceTreeScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(RED_SYRINGE_TREE_BUTTON_FILEPATH, "redSyringeButtonUI", firstWindowUILoc + scienceUIButtonOffset1, subTreeButtonScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI2", firstWindowUILoc + scienceUIButtonOffset2, subTreeButtonScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI3", firstWindowUILoc + scienceUIButtonOffset3, subTreeButtonScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI4", firstWindowUILoc + scienceUIButtonOffset4, subTreeButtonScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI5", firstWindowUILoc + scienceUIButtonOffset5, subTreeButtonScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI6", firstWindowUILoc + scienceUIButtonOffset6, subTreeButtonScale, scienceWindowUI);
-	mpUIManager->createAndAddUIElement(SCIENCE_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI7", firstWindowUILoc + scienceUIButtonOffset7, scienceButtonScale, scienceWindowUI);
+
+	UIElement* scienceWindowScrollUI = (UIElement*)mpUIManager->createAndAddUIScrollElement(SCROLL_WINDOW_INSET, SCROLL_WINDOW_SPEED, "ScienceWindowScrollUI", Vector2D::Zero(), Vector2D::One(), scienceWindowUI);
+
+	mpUIManager->createAndAddUIElement(SCIENCE_RESEARCH_TREE_FILEPATH, "scienceResearchTreeUI", firstWindowUILoc + scienceTreeUIOffset, scienceTreeScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(RED_SYRINGE_TREE_BUTTON_FILEPATH, "redSyringeButtonUI", firstWindowUILoc + scienceUIButtonOffset1, subTreeButtonScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI2", firstWindowUILoc + scienceUIButtonOffset2, subTreeButtonScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI3", firstWindowUILoc + scienceUIButtonOffset3, subTreeButtonScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI4", firstWindowUILoc + scienceUIButtonOffset4, subTreeButtonScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI5", firstWindowUILoc + scienceUIButtonOffset5, subTreeButtonScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI6", firstWindowUILoc + scienceUIButtonOffset6, subTreeButtonScale, scienceWindowScrollUI);
+	mpUIManager->createAndAddUIElement(SCIENCE_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI7", firstWindowUILoc + scienceUIButtonOffset7, scienceButtonScale, scienceWindowScrollUI);
 
 	UIElement* settingsUI = mpUIManager->createAndAddUIElement(SETTINGS_UI_FILEPATH, "settingsUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, secondWindowUILoc, windowScale);
 	mpUIManager->createAndAddUIElement(SETTINGS_UI_BUTTON_FILEPATH, "settingsButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, settingsButtonUILoc, buttonScale, settingsUI, true);
@@ -277,6 +280,9 @@ void Game::initShaderObjects()
 	mpGraphicsSystem->createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
 	mpGraphicsSystem->createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
 
+	mpGraphicsSystem->createAndAddShader("Textured Bounded Vert", VERTEX_SHADER, "texturedBounded.vert");
+	mpGraphicsSystem->createAndAddShader("Textured Bounded Frag", FRAGMENT_SHADER, "texturedBounded.frag");
+
 	mpGraphicsSystem->createAndAddShader("Chicken Color", FRAGMENT_SHADER, "chickenColor.frag");
 }
 
@@ -296,6 +302,10 @@ void Game::initShaderPrograms()
 
 	mpGraphicsSystem->createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
 	mpGraphicsSystem->linkShaderProgram("Text");
+
+	mpGraphicsSystem->createAndAddShaderProgram("Textured Bounded", "Textured Bounded Vert", "Textured Bounded Frag");
+	mpGraphicsSystem->linkShaderProgram("Textured Bounded");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("Textured Bounded", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
 
 	mpGraphicsSystem->createAndAddShaderProgram("ChickenColor", "Textured Vert", "Chicken Color");
 	mpGraphicsSystem->linkShaderProgram("ChickenColor");
@@ -381,6 +391,7 @@ void Game::update()
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec2Uniform("Textured Bounded", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
 	mpGraphicsSystem->setIntegerUniform("ChickenColor", "uTexture0", 0);
@@ -389,6 +400,8 @@ void Game::update()
 
 bool Game::render()
 {
+	string previousShader;
+
 	mpGraphicsSystem->setActiveShaderProgram("ChickenColor");
 
 	mpChickenManager->drawAllChickens();
@@ -412,7 +425,7 @@ bool Game::render()
 			mpChickenSelectionMesh = new Mesh2D(verticies, 4, drawOrder, 6);
 		}
 
-		string previousShader = mpGraphicsSystem->getCurrentShaderProgram();
+		previousShader = mpGraphicsSystem->getCurrentShaderProgram();
 		GraphicsSystem::DrawMode previousDrawMode = mpGraphicsSystem->getDrawMode();
 
 		mpGraphicsSystem->setActiveShaderProgram("Color");
@@ -426,7 +439,11 @@ bool Game::render()
 		mpGraphicsSystem->setDrawMode(previousDrawMode);
 	}
 
+
+	previousShader = mpGraphicsSystem->getCurrentShaderProgram();
+	mpGraphicsSystem->setActiveShaderProgram("Textured Bounded");
 	mpUIManager->draw();
+	mpGraphicsSystem->setActiveShaderProgram(previousShader);
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
 

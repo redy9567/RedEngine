@@ -411,6 +411,18 @@
     <ClInclude Include="Header Files\Texture2DManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\UIElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\UIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\UIScrollElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Cursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\GraphicsSystem.cpp">
@@ -464,6 +476,18 @@
     <ClCompile Include="Source Files\Texture2DManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\UIElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\UIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\UIScrollElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\Cursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\color.frag">
@@ -498,6 +522,12 @@
     </None>
     <None Include="Fragment Shaders\chickenColor.frag">
       <Filter>Fragment Shaders</Filter>
+    </None>
+    <None Include="Fragment Shaders\texturedBounded.frag">
+      <Filter>Fragment Shaders</Filter>
+    </None>
+    <None Include="Vertex Shaders\texturedBounded.vert">
+      <Filter>Vertex Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

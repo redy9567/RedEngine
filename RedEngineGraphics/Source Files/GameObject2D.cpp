@@ -64,3 +64,19 @@ Vector2D GameObject2D::getGameSize()
 		break;
 	}
 }
+
+Vector2D GameObject2D::getScale()
+{
+	switch (mDrawingMode)
+	{
+	case DrawMode::SpriteMode:
+		return mImage.s->getScale();
+		break;
+	case DrawMode::AnimationMode:
+		return mImage.a->getCurrentSprite()->getScale();
+		break;
+	default:
+		return Vector2D::Zero();
+		break;
+	}
+}

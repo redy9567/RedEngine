@@ -15,7 +15,11 @@ public:
 
 	void update();
 
+	void updateScroll(double xOffset, double yOffset);
+
 private:
+	InputSystem();
+
 	bool getMouseButton(MouseAction);
 	bool getMouseButtonDown(MouseAction);
 	bool getMouseButtonUp(MouseAction);
@@ -30,6 +34,7 @@ private:
 
 	bool mLeftClick, mRightClick, mMiddleClick;
 	Vector2D mMousePos;
+	double mScrollXOffset, mScrollYOffset;
 
 	std::vector<KeyCode> mPressedKeys;
 

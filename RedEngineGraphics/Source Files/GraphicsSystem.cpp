@@ -25,6 +25,8 @@
 #include "Texture2DManager.h"
 #include "Matrix3D.h"
 #include "Camera2D.h"
+#include "UIElement.h"
+#include "UIScrollElement.h"
 
 using namespace std;
 
@@ -73,6 +75,11 @@ GraphicsSystem::~GraphicsSystem()
 		cleanup();
 }
 
+void _scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	GraphicsSystem::getInstance()->callSrollCallback(xoffset, yoffset);
+}
+
 bool GraphicsSystem::init(int displayWidth, int displayHeight)
 {
 	//Initialize OpenGL, and set our context
@@ -111,6 +118,8 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glfwSetScrollCallback(mWindow, _scrollCallback);
 
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
@@ -267,7 +276,7 @@ void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
 	glDrawElements(convertMeshType(sprite.mpMesh->mMeshType), sprite.mpMesh->mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location)
+void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBound, Vector2D upperBound)
 {
 	internalDrawSprite(sprite);
 
@@ -283,8 +292,13 @@ void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location)
 		0.0f, 0.0f, 1.0f
 	);
 
+	if (upperBound == Vector2D::Zero())
+		upperBound = mWindowResolution;
+
 	setMat3Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
 	setMat3Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
+	setVec2Uniform(mCurrentShaderProgram, "uLowerBound", lowerBound);
+	setVec2Uniform(mCurrentShaderProgram, "uUpperBound", upperBound);
 
 	setActiveShaderProgram(mCurrentShaderProgram);
 
@@ -350,30 +364,46 @@ void GraphicsSystem::drawUI(Animation& animation, Vector2D location)
 
 void GraphicsSystem::draw(GameObject2D* obj)
 {
-	Vector2D offset = obj->mParent ? obj->mParent->mLoc : Vector2D::Zero();
-
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		draw(*obj->mImage.s, obj->mLoc + offset);
+		draw(*obj->mImage.s, obj->getLoc());
 		break;
 	case GameObject2D::AnimationMode:
-		draw(*obj->mImage.a, obj->mLoc + offset);
+		draw(*obj->mImage.a, obj->getLoc());
 		break;
 	}
 }
 
 void GraphicsSystem::drawUI(GameObject2D* obj)
 {
-	Vector2D offset = obj->mParent ? obj->mParent->mLoc : Vector2D::Zero();
+	switch (obj->mDrawingMode)
+	{
+	case GameObject2D::SpriteMode:
+		drawUI(*obj->mImage.s, obj->getLoc());
+		break;
+	case GameObject2D::AnimationMode:
+		drawUI(*obj->mImage.a, obj->getLoc());
+		break;
+	}
+}
+
+void GraphicsSystem::drawUI(UIElement* obj)
+{
+	UIScrollElement* scrollWindow = dynamic_cast<UIScrollElement*>(obj->getParent());
+
+	Rect bounds;
+
+	if (scrollWindow)
+		bounds = scrollWindow->getBounds();
 
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		drawUI(*obj->mImage.s, obj->mLoc + offset);
+		drawUI(*obj->mImage.s, obj->getLoc(), bounds.lower, bounds.upper);
 		break;
 	case GameObject2D::AnimationMode:
-		drawUI(*obj->mImage.a, obj->mLoc + offset);
+		drawUI(*obj->mImage.a, obj->getLoc());
 		break;
 	}
 }
@@ -1072,4 +1102,15 @@ void GraphicsSystem::setCursorHidden(bool isHidden)
 		glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	else
 		glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void GraphicsSystem::_imSetScrollCallback(ScrollFunctionCallback callback, GraphicsSystemIMKey key)
+{
+	mScrollCallback = callback;
+}
+
+void GraphicsSystem::callSrollCallback(double xOffset, double yOffset)
+{
+	if(mScrollCallback)
+		mScrollCallback(xOffset, yOffset);
 }

@@ -132,28 +132,22 @@
   <ItemGroup>
     <ClInclude Include="Header Files\Chicken.h" />
     <ClInclude Include="Header Files\ChickenManager.h" />
-    <ClInclude Include="Header Files\Cursor.h" />
     <ClInclude Include="Header Files\Filepaths.h" />
     <ClInclude Include="Header Files\Game.h" />
     <ClInclude Include="Header Files\GameCursor.h" />
     <ClInclude Include="Header Files\GameEvents.h" />
     <ClInclude Include="Header Files\GameListener.h" />
     <ClInclude Include="Header Files\SyringeButton.h" />
-    <ClInclude Include="Header Files\UIElement.h" />
-    <ClInclude Include="Header Files\UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Chicken.cpp" />
     <ClCompile Include="Source Files\ChickenManager.cpp" />
-    <ClCompile Include="Source Files\Cursor.cpp" />
     <ClCompile Include="Source Files\Game.cpp" />
     <ClCompile Include="Source Files\GameCursor.cpp" />
     <ClCompile Include="Source Files\GameEvents.cpp" />
     <ClCompile Include="Source Files\GameListener.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\SyringeButton.cpp" />
-    <ClCompile Include="Source Files\UIElement.cpp" />
-    <ClCompile Include="Source Files\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

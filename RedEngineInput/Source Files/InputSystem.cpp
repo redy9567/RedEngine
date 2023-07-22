@@ -26,6 +26,16 @@ void InputSystem::cleanupInstance()
 	}
 }
 
+void _scrollCallback(double xOffset, double yOffset)
+{
+	InputSystem::getInstance()->updateScroll(xOffset, yOffset);
+}
+
+InputSystem::InputSystem()
+{
+	GraphicsSystem::getInstance()->_imSetScrollCallback(_scrollCallback, GraphicsSystem::GraphicsSystemIMKey());
+}
+
 bool InputSystem::getKey(KeyCode key)
 {
 	unsigned int glfwKey = 0;
@@ -459,6 +469,15 @@ void InputSystem::update()
 	mRightClick = getMouseButton(MouseAction::RightClick);
 	mMiddleClick = getMouseButton(MouseAction::MiddleClick);
 	mMousePos = mousePos;
+
+	if (mScrollXOffset || mScrollYOffset)
+	{
+		MouseEvent mouseEvent(MouseAction::Scroll, ButtonState::None, mousePos, Vector2D(mScrollXOffset, mScrollYOffset));
+		es->fireEvent(mouseEvent);
+
+		mScrollXOffset = 0.0;
+		mScrollYOffset = 0.0;
+	}
 }
 
 bool InputSystem::getMouseButtonDown(MouseAction button)
@@ -537,4 +556,10 @@ void InputSystem::getKeyboardState()
 		}
 
 	}
+}
+
+void InputSystem::updateScroll(double xOffset, double yOffset)
+{
+	mScrollXOffset = xOffset;
+	mScrollYOffset = yOffset;
 }

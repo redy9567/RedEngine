@@ -1,5 +1,6 @@
 #include "UIManager.h"
 #include "GraphicsSystem.h"
+#include "UIScrollElement.h"
 
 using namespace std;
 
@@ -67,6 +68,15 @@ UIElement* UIManager::createAndAddUIElement(string spriteTextureFilepath, string
 UIElement* UIManager::createAndAddUIElement(string textureFilepath, string objectKey, int animationColumns, int animationRows, Vector2D location, bool animateOnHover)
 {
 	UIElement* obj = new UIElement(textureFilepath, objectKey, animationColumns, animationRows, location, animateOnHover);
+
+	mUIElements.push_back(obj);
+
+	return obj;
+}
+
+UIScrollElement* UIManager::createAndAddUIScrollElement(Vector2D indentDistance, float scrollSpeed, string objectKey, Vector2D location, Vector2D scale, GameObject2D* parent)
+{
+	UIScrollElement* obj = new UIScrollElement(indentDistance, scrollSpeed, objectKey, location, scale, parent);
 
 	mUIElements.push_back(obj);
 

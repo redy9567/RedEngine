@@ -150,6 +150,7 @@
     <ClInclude Include="Header Files\Animation.h" />
     <ClInclude Include="Header Files\AnimationData.h" />
     <ClInclude Include="Header Files\AnimationManager.h" />
+    <ClInclude Include="Header Files\Cursor.h" />
     <ClInclude Include="Header Files\Font.h" />
     <ClInclude Include="Header Files\FontManager.h" />
     <ClInclude Include="Header Files\FreeType\dlg\dlg.h" />
@@ -266,11 +267,15 @@
     <ClInclude Include="Header Files\stb\stb_image.h" />
     <ClInclude Include="Header Files\Texture2D.h" />
     <ClInclude Include="Header Files\Texture2DManager.h" />
+    <ClInclude Include="Header Files\UIElement.h" />
+    <ClInclude Include="Header Files\UIManager.h" />
+    <ClInclude Include="Header Files\UIScrollElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Animation.cpp" />
     <ClCompile Include="Source Files\AnimationData.cpp" />
     <ClCompile Include="Source Files\AnimationManager.cpp" />
+    <ClCompile Include="Source Files\Cursor.cpp" />
     <ClCompile Include="Source Files\Font.cpp" />
     <ClCompile Include="Source Files\FontManager.cpp" />
     <ClCompile Include="Source Files\GameObject2D.cpp" />
@@ -285,6 +290,9 @@
     <ClCompile Include="Source Files\SpriteManager.cpp" />
     <ClCompile Include="Source Files\Texture2D.cpp" />
     <ClCompile Include="Source Files\Texture2DManager.cpp" />
+    <ClCompile Include="Source Files\UIElement.cpp" />
+    <ClCompile Include="Source Files\UIManager.cpp" />
+    <ClCompile Include="Source Files\UIScrollElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\chickenColor.frag" />
@@ -292,12 +300,14 @@
     <None Include="Fragment Shaders\color.frag" />
     <None Include="Fragment Shaders\test.frag" />
     <None Include="Fragment Shaders\textured.frag" />
+    <None Include="Fragment Shaders\texturedBounded.frag" />
     <None Include="Fragment Shaders\triColor.frag" />
     <None Include="Vertex Shaders\basic.vert" />
     <None Include="Vertex Shaders\basicUI.vert" />
     <None Include="Vertex Shaders\test.vert" />
     <None Include="Vertex Shaders\text.vert" />
     <None Include="Vertex Shaders\textured.vert" />
+    <None Include="Vertex Shaders\texturedBounded.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

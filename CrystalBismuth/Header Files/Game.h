@@ -115,6 +115,9 @@ const float BASE_TREE_SCALE = 5.0f;
 const float SCIENCE_TREE_SCALE = 4.5f;
 const float SCIENCE_BUTTON_SCALE = 3.0f;
 
+const float SCROLL_WINDOW_SPEED = 10.0f;
+const Vector2D SCROLL_WINDOW_INSET(15, 15);
+
 const int EGG_SELL_AMOUNT = 5;
 
 class Game : public Trackable

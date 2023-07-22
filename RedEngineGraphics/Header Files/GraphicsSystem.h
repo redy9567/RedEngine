@@ -29,10 +29,13 @@ class GameObject2DManager;
 class GameObject2D;
 class Texture2DManager;
 class Camera2D;
+class UIElement;
 
 
 class DebugHUD;
 class GridSystem;
+
+typedef void (*ScrollFunctionCallback)(double, double);
 
 class GraphicsSystem : public Trackable
 {
@@ -72,8 +75,9 @@ public:
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
 	void draw(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
-	void drawUI(Sprite& sprite, Vector2D location);
+	void drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBound = Vector2D::Zero(), Vector2D upperBound = Vector2D::Zero());
 	void drawUI(GameObject2D* gameObject);
+	void drawUI(UIElement* element);
 	void drawUI(Animation& animation, Vector2D location);
 	void setDrawMode(DrawMode);
 
@@ -141,6 +145,8 @@ public:
 	bool _imGetKey(unsigned int keyCode, GraphicsSystemIMKey key);
 	bool _imGetMouseButton(unsigned int mouseCode, GraphicsSystemIMKey key);
 	Vector2D _imGetMousePosition(GraphicsSystemIMKey key);
+	void _imSetScrollCallback(ScrollFunctionCallback callback, GraphicsSystemIMKey key);
+	void callSrollCallback(double xOffset, double yOffset);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
@@ -223,5 +229,7 @@ private:
 
 	bool mInit;
 	bool mDebugMode;
+
+	ScrollFunctionCallback mScrollCallback;
 
 };
