@@ -31,7 +31,9 @@ void main()
     vec3 hueColor = convertRGBtoHSV(uColor.xyz);
     vec3 texHSV = convertRGBtoHSV(tex.xyz);
 
-    vec4 finalColor = vec4(convertHSVtoRGB(vec3(hueColor.xy, texHSV.z)), tex.w);
+    float value = texHSV.z < hueColor.z ? texHSV.z : hueColor.z;
+
+    vec4 finalColor = vec4(convertHSVtoRGB(vec3(hueColor.xy, value)), tex.w);
     
     FragColor = finalColor;
 }

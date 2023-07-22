@@ -446,7 +446,7 @@ Vector3D Chicken::GetChickenColor(ChickenColor color)
 		return Vector3D(1.0f, 1.0f, 1.0f);
 
 	case ChickenColor::BLACK:
-		return Vector3D(0.24f, 0.24f, 0.24f);
+		return Vector3D(0.5f, 0.5f, 0.5f);
 
 	case ChickenColor::BLUE:
 		return Vector3D(0.55f, 0.67f, 1.0f);
