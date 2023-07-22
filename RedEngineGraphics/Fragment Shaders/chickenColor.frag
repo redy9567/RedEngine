@@ -35,5 +35,8 @@ void main()
 
     vec4 finalColor = vec4(convertHSVtoRGB(vec3(hueColor.xy, value)), tex.w);
     
-    FragColor = finalColor;
+    if(uColor.xyz == vec3(1.0f, 1.0f, 1.0f))
+        FragColor = tex;
+    else
+        FragColor = finalColor;
 }
