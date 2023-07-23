@@ -498,9 +498,9 @@ void Game::onChickenRightClick(Chicken* ckn)
 	{
 		if (ckn->isEgg())
 		{
-			mpChickenManager->removeAndDeleteChicken(ckn);
+			mCurrentMoney += Chicken::GetSellAmount(ckn);
 
-			mCurrentMoney += EGG_SELL_AMOUNT;
+			mpChickenManager->removeAndDeleteChicken(ckn);
 		}
 	}
 }

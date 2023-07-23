@@ -38,6 +38,8 @@ void GameListener::handleEvent(const Event& ev)
 		case MouseAction::LeftClick:
 			game->onChickenLeftClick(eventUnion->chickenClickEvent->getChicken());
 			break;
+		case MouseAction::RightClick:
+			game->onChickenRightClick(eventUnion->chickenClickEvent->getChicken());
 		}
 		break;
 

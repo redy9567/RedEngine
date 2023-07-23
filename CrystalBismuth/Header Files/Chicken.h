@@ -36,6 +36,9 @@ const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 const std::string CKN_CHICKEN_DEATH_KEY = "ChickenDeath";
 const std::string CKN_CHICK_CHAO_GROW_KEY = "ChickChao";
 
+const int INFERTILE_EGG_SELL_AMOUNT = 10;
+const int FERTILE_EGG_SELL_AMOUNT = 20;
+
 enum class ChickenColor
 {
 	WHITE,
@@ -77,9 +80,11 @@ public:
 	void moveToLocation(Vector2D location);
 	void setDebugMode(bool isDebugMode) { mDebugMode = isDebugMode; }
 
-	bool isEgg() { return mState == ChickenState::EGG; }
+	bool isEgg() { return mState == ChickenState::EGG || mState == ChickenState::INFERTILE_EGG; }
 
 	void paintEgg(ChickenColor color) { if (mState == ChickenState::EGG) updateProperties(color); }
+
+	const static int GetSellAmount(Chicken* ckn) { if (ckn->isEgg()) return ckn->mState == ChickenState::EGG ? FERTILE_EGG_SELL_AMOUNT : INFERTILE_EGG_SELL_AMOUNT; else return 0; }
 
 private:
 	enum class ChickenState
