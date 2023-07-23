@@ -200,7 +200,10 @@ bool GraphicsSystem::render()
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	drawGrid();
+	if (mpBackground)
+		draw(mpBackground);
+
+	//drawGrid();
 
 	return true;
 }
@@ -1016,8 +1019,6 @@ void GraphicsSystem::removeAndDeleteGameObject2D(int id)
 
 void GraphicsSystem::drawGrid()
 {
-	if (mpBackground) 
-		draw(mpBackground);
 
 	string previousShader = mCurrentShaderProgram;
 	setActiveShaderProgram("ColorUI");
