@@ -15,15 +15,15 @@ const float STARTING_MOVEMENT_TIMER = 3.0f;
 
 const float MAXIMUM_MOVE_TIMER = 3.0f;
 const float MINIMUM_MOVE_TIMER = 1.0f;
-const float DEBUG_MOVE_TIMER = 1.0f;
+//const float DEBUG_MOVE_TIMER = 1.0f;
 
 const float MOVEMENT_SPEED = 0.01f;
 
 const float MAXIMUM_MOVE_DISTANCE = 1.0f;
 const float MINIMUM_MOVE_DISTANCE = 0.25f;
 
-const float BREEDING_COOLDOWN = 5.0f;
-
+const float BREEDING_COOLDOWN = 60.0f;
+const float EGG_LAYING_TIMER = 10.0f;
 const float MOVE_RANGE = MAXIMUM_MOVE_TIMER - MINIMUM_MOVE_TIMER;
 
 const std::string CKN_EGG_KEY = "Egg";
@@ -91,6 +91,7 @@ private:
 		CHICK_GROWING,
 		CHICKEN,
 		CHICKEN_WALKING,
+		INFERTILE_EGG,
 		DEAD
 	};
 
@@ -104,6 +105,8 @@ private:
 
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenColor color, Vector2D location = Vector2D::Zero());
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenProperties properties, Vector2D location = Vector2D::Zero());
+
+	Chicken(ChickenProperties properties, Vector2D location = Vector2D::Zero()); //Infertile Egg
 	~Chicken();
 	Chicken() = delete;
 
@@ -112,6 +115,11 @@ private:
 	void updateImage();
 	void move();
 	void updatePosition();
+	void layEgg();
+	void fertilize(ChickenProperties babyProperties, float fertilizeTimer);
+
+	bool isFertilized() { return mIsFertile || mFertileTimer > 0.0f; }
+	bool canBreed() { return mBreedingTimer <= 0.0f; }
 
 	void changeState(ChickenState state); 
 
@@ -137,6 +145,10 @@ private:
 
 	float mMoveUpdateTimer = 0.0f;
 
+	float mEggLayingTimer = 0.0f;
+	bool mIsFertile = false;
+	float mFertileTimer = 0.0f;
+	ChickenProperties mFertileProperties;
 	float mBreedingTimer = 0.0f;
 
 	bool mIsMoving;

@@ -72,6 +72,7 @@ public:
 	static float Dot(const Vector2D a, const Vector2D b);
 
 	static bool IsPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper);
+	static Vector2D Midpoint(const Vector2D a, const Vector2D b);
 
 private:
 	float mX, mY;

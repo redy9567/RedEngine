@@ -65,6 +65,15 @@ Chicken* ChickenManager::createAndAddChicken(ChickenProperties properties, Vecto
 	return obj;
 }
 
+Chicken* ChickenManager::createUnfertileEgg(ChickenProperties properties, Vector2D location)
+{
+	Chicken* obj = new Chicken(properties, location);
+
+	mChickens.push_back(obj);
+
+	return obj;
+}
+
 void ChickenManager::removeAndDeleteChicken(int chickenID)
 {
 	int i = 0;
@@ -97,34 +106,27 @@ Chicken* ChickenManager::getChicken(int chickenID)
 
 void ChickenManager::update(float deltaTime)
 {
-	Chicken* mate1 = nullptr;
-	Chicken* mate2 = nullptr;
-
-	for (vector<Chicken*>::iterator it = mChickens.begin(); it != mChickens.end(); it++)
+	vector<Chicken*> mChickensSnapshot = mChickens;
+	
+	for (vector<Chicken*>::iterator it = mChickensSnapshot.begin(); it != mChickensSnapshot.end(); it++)
 	{
 		(*it)->update(deltaTime);
-
-		for (vector<Chicken*>::iterator it2 = mChickens.end()-1; it2 != it; it2--)
+		
+		for (vector<Chicken*>::iterator it2 = mChickensSnapshot.end()-1; it2 != it; it2--)
 		{
 			Vector2D chicken1HalfSize = GraphicsSystem::getInstance()->convertToGridCoordinates((*it)->getSize() / 2.0f);
 			Vector2D chicken1Center = (*it)->getLoc() + chicken1HalfSize;
 
-			if (Vector2D::IsPointWithinBounds(chicken1Center, (*it2)->getLoc(), (*it2)->getLoc() + (*it2)->getSize()))
+			if (abs((*it)->getLoc().length() - (*it2)->getLoc().length()) < CHICKEN_BREED_RADIUS
+				&& checkBreeding(*it, *it2))
 			{
-				if (checkBreeding((*it), (*it2)))
-				{
-					mate1 = (*it);
-					mate2 = (*it2);
-					break;
-				}
+				
+				breed((*it), (*it2));
+				
 			}
 		}
-		if (mate1)
-			break;
+			
 	}
-
-	if(mate1 && mate2)
-		breed(mate1, mate2);
 }
 
 void ChickenManager::drawAllChickens()
@@ -161,12 +163,12 @@ bool ChickenManager::checkBreeding(Chicken* chicken1, Chicken* chicken2)
 {
 	return (chicken1->mState == Chicken::ChickenState::CHICKEN || chicken1->mState == Chicken::ChickenState::CHICKEN_WALKING) &&
 		(chicken2->mState == Chicken::ChickenState::CHICKEN || chicken2->mState == Chicken::ChickenState::CHICKEN_WALKING) &&
-		chicken1->mBreedingTimer <= 0.0f;
+		chicken1->mBreedingTimer <= 0.0f && chicken2->mBreedingTimer <= 0.0f;
 }
 
 void ChickenManager::breed(Chicken* chicken1, Chicken* chicken2)
 {
-	ChickenProperties ckn1Prop = chicken1->mProperties, 
+	ChickenProperties ckn1Prop = chicken1->mProperties,
 		ckn2Prop = chicken2->mProperties,
 		newCknProp;
 
@@ -226,7 +228,14 @@ void ChickenManager::breed(Chicken* chicken1, Chicken* chicken2)
 	newCknProp.chickenColor = newColor;
 	newCknProp.colorGeneStrength = rand() % 10 + 1;
 
-	createAndAddChicken(newCknProp, chicken1->getLoc());
-	chicken1->mBreedingTimer = BREEDING_COOLDOWN;
-	chicken2->mBreedingTimer = BREEDING_COOLDOWN;
+	Vector2D midpoint = Vector2D::Midpoint(chicken1->getLoc(), chicken2->getLoc());
+	chicken1->moveToLocation(midpoint);
+	chicken2->moveToLocation(midpoint);
+
+	chicken1->fertilize(newCknProp, 2.0f);
+	if (rand() % 10 == 0) //double breeding
+	{
+		
+		chicken2->fertilize(newCknProp, 2.0f);
+	}
 }

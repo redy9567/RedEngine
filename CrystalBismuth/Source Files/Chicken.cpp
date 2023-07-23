@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Texture2D.h"
 #include "Animation.h"
+#include "ChickenManager.h"
 
 const float pi = 3.14159265358979323846f;
 
@@ -38,6 +39,29 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Chi
 	mTimeToDeath = mTimeToHatch + mTimeToMaturity + timeToDeath;
 
 	mState = ChickenState::EGG;
+	mDrawingMode = GameObject2D::SpriteMode;
+	mImage.s = GraphicsSystem::getInstance()->getSprite(CKN_EGG_KEY);
+
+	mProperties = properties;
+
+	mLoc = location;
+	mIsMoving = false;
+	mStateChanged = false;
+
+	mDebugMode = false;
+
+	mMoveUpdateTimer = STARTING_MOVEMENT_TIMER;
+}
+
+Chicken::Chicken(ChickenProperties properties, Vector2D location)
+{
+	loadData();
+
+	mTimeToHatch = 0.0f;
+	mTimeToMaturity = 0.0f;
+	mTimeToDeath = 0.0f;
+
+	mState = ChickenState::INFERTILE_EGG;
 	mDrawingMode = GameObject2D::SpriteMode;
 	mImage.s = GraphicsSystem::getInstance()->getSprite(CKN_EGG_KEY);
 
@@ -98,8 +122,23 @@ void Chicken::update(float deltaTime)
 {
 	mLifeTime += deltaTime;
 
-	if (mBreedingTimer > 0.0f)
-		mBreedingTimer -= deltaTime;
+	if (mState == ChickenState::CHICKEN || mState == ChickenState::CHICKEN_WALKING)
+	{
+		if (mFertileTimer > 0.0f)
+		{
+			mFertileTimer -= deltaTime;
+			if (mFertileTimer <= 0.0f)
+				mIsFertile = true;
+		}
+
+		if (mBreedingTimer > 0.0f)
+			mBreedingTimer -= deltaTime;
+
+		if (mEggLayingTimer > 0.0f)
+			mEggLayingTimer -= deltaTime;
+		else
+			layEgg();
+	}
 
 	updateAnimation(deltaTime);
 	updateChickenState();
@@ -164,6 +203,7 @@ void Chicken::updateChickenState()
 		if (growingAnimation->getIsDone())
 		{
 			changeState(ChickenState::CHICKEN);
+			mEggLayingTimer = EGG_LAYING_TIMER;
 			mStateChanged = true;
 		}
 	}
@@ -284,13 +324,13 @@ void Chicken::updateImage()
 
 void Chicken::moveToLocation(Vector2D location)
 {
-	if (mDebugMode && (mState == ChickenState::CHICK || mState == ChickenState::CHICKEN || mState == ChickenState::CHICK_WALKING || mState == ChickenState::CHICKEN_WALKING))
+	if ((mState == ChickenState::CHICK || mState == ChickenState::CHICKEN || mState == ChickenState::CHICK_WALKING || mState == ChickenState::CHICKEN_WALKING))
 	{
 		mMoveStart = mLoc;
 		mMoveEnd = location;
 		mIsMoving = true;
 
-		mMoveUpdateTimer = DEBUG_MOVE_TIMER;
+		mMoveUpdateTimer = MAXIMUM_MOVE_TIMER;
 
 		switch (mState)
 		{
@@ -496,4 +536,29 @@ void Chicken::updateProperties(ChickenColor color)
 	mProperties.growTimerGeneStrength = rand() % 10 + 1;
 	mProperties.hatchGeneStrength = rand() % 10 + 1;
 	mProperties.colorGeneStrength = rand() % 10 + 1;
+}
+
+void Chicken::layEgg()
+{
+	mEggLayingTimer = EGG_LAYING_TIMER;
+	ChickenManager* cm = ChickenManager::getInstance();
+
+	if (mIsFertile)
+		cm->createAndAddChicken(mFertileProperties, mLoc);
+	//else
+		//cm->createUnfertileEgg(mProperties, mLoc);
+
+	mIsFertile = false;
+}
+
+void Chicken::fertilize(ChickenProperties babyProperties, float fertilizeTimer)
+{
+	if (mState == ChickenState::CHICKEN || mState == ChickenState::CHICKEN_WALKING)
+	{
+		mFertileTimer = fertilizeTimer;
+		mFertileProperties = babyProperties;
+		mIsFertile = true;
+
+		mBreedingTimer = BREEDING_COOLDOWN;
+	}
 }

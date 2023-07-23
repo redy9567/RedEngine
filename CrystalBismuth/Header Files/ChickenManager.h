@@ -11,6 +11,8 @@ const float DEFAULT_TIME_TO_HATCH = 20.0f;
 const float DEFAULT_TIME_TO_MATURITY = 20.0f;
 const float DEFAULT_TIME_TO_DEATH = 500.0f;
 
+const float CHICKEN_BREED_RADIUS = 2.0f;
+
 class ChickenManager : public Trackable
 {
 public:
@@ -26,6 +28,7 @@ public:
 
 	Chicken* createAndAddChicken(ChickenColor color, Vector2D location = Vector2D::Zero());
 	Chicken* createAndAddChicken(ChickenProperties properties, Vector2D location = Vector2D::Zero());
+	Chicken* createUnfertileEgg(ChickenProperties properties, Vector2D location = Vector2D::Zero());
 	void removeAndDeleteChicken(Chicken* chicken);
 	void removeAndDeleteChicken(int chickenID);
 

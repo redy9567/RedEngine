@@ -240,3 +240,8 @@ bool Vector2D::IsPointWithinBounds(Vector2D point, Vector2D lower, Vector2D uppe
 		point.getX() < upper.getX() &&
 		point.getY() < upper.getY();
 }
+
+Vector2D Vector2D::Midpoint(const Vector2D a, const Vector2D b)
+{
+	return (a + b) / 2;
+}
