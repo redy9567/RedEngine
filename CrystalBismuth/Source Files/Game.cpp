@@ -90,13 +90,7 @@ void Game::init(int mFPS)
 
 	mpChickenManager = ChickenManager::getInstance();
 	mpChickenManager->createAndAddChicken(ChickenColor::WHITE, Vector2D(9, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::BLACK, Vector2D(10, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::BLUE, Vector2D(11, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::LIGHT_BLUE, Vector2D(12, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::GREEN, Vector2D(13, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::YELLOW, Vector2D(14, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::RED, Vector2D(15, 5));
-	mpChickenManager->createAndAddChicken(ChickenColor::PURPLE, Vector2D(16, 5));
+	mpChickenManager->createAndAddChicken(ChickenColor::WHITE, Vector2D(10, 5));
 
 	mpUIManager = UIManager::getInstance();
 	mpUIManager->init();
