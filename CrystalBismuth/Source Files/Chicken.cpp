@@ -545,8 +545,8 @@ void Chicken::layEgg()
 
 	if (mIsFertile)
 		cm->createAndAddChicken(mFertileProperties, mLoc);
-	//else
-		//cm->createUnfertileEgg(mProperties, mLoc);
+	else
+		cm->createUnfertileEgg(mProperties, mLoc);
 
 	mIsFertile = false;
 }
