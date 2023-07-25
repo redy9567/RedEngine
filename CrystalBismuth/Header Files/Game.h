@@ -37,6 +37,9 @@ const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f;
 const float CURRENCY_UI_VERTICAL_OFFSET = 20.0f;
 const float CURRENCY_UI_HORIZONTAL_OFFSET = 18.0f;
 
+const float SCIENCE_TEXT_VERTICAL_OFFSET = 60.0f;
+const float SCIENCE_TEXT_HORIZONTAL_OFFSET = 60.0f;
+
 const float SCIENCE_UI_MOVE_DISTANCE = 47.0f;
 const float SCIENCE_UI_ANIMATION_SPEED = 5.0f;
 const float SCIENCE_UI_VERTICAL_OFFSET = 55.0f;
@@ -200,6 +203,7 @@ private:
 	bool mInputLastF5State;
 
 	int mCurrentMoney;
+	int mCurrentScience;
 
 	GameListener* mpGameListener;
 

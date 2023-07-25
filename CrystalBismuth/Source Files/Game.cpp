@@ -254,6 +254,7 @@ void Game::init(int mFPS)
 	}
 
 	mCurrentMoney = 300;
+	mCurrentScience = 0;
 
 	mpGameListener = new GameListener();
 
@@ -371,10 +372,6 @@ void Game::update()
 
 	mpUIManager->update(mDeltaTime);
 
-	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
-	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
-		Vector3D::Up());
-
 	int fps = debugGetFPS();
 	if(fps != -1)
 		mpGraphicsSystem->addToDebugHUD("FPS: " + to_string(debugGetFPS()));
@@ -440,6 +437,14 @@ bool Game::render()
 	mpGraphicsSystem->setActiveShaderProgram(previousShader);
 
 	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
+
+	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
+	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
+		Vector3D::Up());
+
+	Vector2D scienceTextOffset = Vector2D(SCIENCE_TEXT_HORIZONTAL_OFFSET, SCIENCE_TEXT_VERTICAL_OFFSET);
+	mpGraphicsSystem->draw("&: " + to_string(mCurrentScience), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - scienceTextOffset,
+		Vector3D::Forward());
 
 	return mpGraphicsSystem->render();
 }
