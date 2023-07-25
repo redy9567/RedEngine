@@ -20,6 +20,7 @@ const std::string CHICKEN_BLACKHOLE_DEATH_FILENAME = "Blackhole Death-Sheet.png"
 const std::string CHICK_CHAO_GROW_FILENAME = "Chick Chao.png";
 const std::string CHICK_MORPH_FILENAME = "Chick Grow 3-Sheet.png";
 const std::string CHICK_FF7HATCH_FILENAME = "Chicken Hatching 3 Sheet.png";
+const std::string CHICKEN_MAGIC_CIRCLE_FILENAME = "Chicken Fall Into Circle.png";
 
 const std::string UI_DIRECTORY = "UI/";
 const std::string MAIN_BUTTONS_DIRECTORY = "Main Buttons/";

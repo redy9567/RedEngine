@@ -38,6 +38,7 @@ const std::string CKN_CHICKEN_BLACKHOLE_DEATH_KEY = "BlackHoleDeath";
 const std::string CKN_MORPHING_KEY = "Morphing";
 const std::string CKN_CHICK_CHAO_GROW_KEY = "ChickChao";
 const std::string CKN_CHICK_FF7_HATCH_KEY = "ChickFF7Hatch";
+const std::string CKN_FALL_INTO_CIRCLE_KEY = "ChickenDeathCircle";
 
 const int INFERTILE_EGG_SELL_AMOUNT = 10;
 const int FERTILE_EGG_SELL_AMOUNT = 20;

@@ -115,8 +115,6 @@ void Chicken::loadData()
 		Texture2D* chickChaoGrowTexture = gs->createAndAddTexture2D(CKN_CHICK_CHAO_GROW_KEY, RESOURCES_DIRECTORY + CHICKS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICK_CHAO_GROW_FILENAME, true);
 		gs->createAndAddAnimationData(CKN_CHICK_CHAO_GROW_KEY, &chickChaoGrowTexture, 59, 1);
 
-		//New Animations
-
 		Texture2D* chickenBlackHoleTexture = gs->createAndAddTexture2D(CKN_CHICKEN_BLACKHOLE_DEATH_KEY, RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICKEN_BLACKHOLE_DEATH_FILENAME, true);
 		gs->createAndAddAnimationData(CKN_CHICKEN_BLACKHOLE_DEATH_KEY, &chickenBlackHoleTexture, 10, 1);
 
@@ -125,6 +123,9 @@ void Chicken::loadData()
 
 		Texture2D* ChickFF7HatchTexture = gs->createAndAddTexture2D(CKN_CHICK_FF7_HATCH_KEY, RESOURCES_DIRECTORY + CHICKS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICK_FF7HATCH_FILENAME, true);
 		gs->createAndAddAnimationData(CKN_CHICK_FF7_HATCH_KEY, &ChickFF7HatchTexture, 35, 1);
+
+		Texture2D* ChickenMagicCircleDeathTexture = gs->createAndAddTexture2D(CKN_FALL_INTO_CIRCLE_KEY, RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICKEN_MAGIC_CIRCLE_FILENAME, true);
+		gs->createAndAddAnimationData(CKN_FALL_INTO_CIRCLE_KEY, &ChickenMagicCircleDeathTexture, 49, 1);
 	}
 	
 }
@@ -342,7 +343,7 @@ void Chicken::updateImage()
 		break;
 	case ChickenState::DEAD:
 		mDrawingMode = GameObject2D::AnimationMode;
-		RandomNumber = rand() % 2;
+		RandomNumber = rand() % 3;
 		if (RandomNumber == 0)
 		{
 			mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_DEATH_KEY, 18);
@@ -350,6 +351,10 @@ void Chicken::updateImage()
 		else if (RandomNumber == 1)
 		{
 			mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_BLACKHOLE_DEATH_KEY, 5);
+		}
+		else
+		{
+			mImage.a = gs->createAndAddAnimation(CKN_FALL_INTO_CIRCLE_KEY, 12);
 		}
 			break;
 	}
