@@ -34,7 +34,10 @@ const std::string CKN_CHICKEN_KEY = "Chicken";
 const std::string CKN_CHICK_WALKING_KEY = "ChickWalking";
 const std::string CKN_CHICKEN_WALKING_KEY = "ChickenWalking";
 const std::string CKN_CHICKEN_DEATH_KEY = "ChickenDeath";
+const std::string CKN_CHICKEN_BLACKHOLE_DEATH_KEY = "BlackHoleDeath";
+const std::string CKN_MORPHING_KEY = "Morphing";
 const std::string CKN_CHICK_CHAO_GROW_KEY = "ChickChao";
+const std::string CKN_CHICK_FF7_HATCH_KEY = "ChickFF7Hatch";
 
 const int INFERTILE_EGG_SELL_AMOUNT = 10;
 const int FERTILE_EGG_SELL_AMOUNT = 20;
@@ -100,14 +103,6 @@ private:
 		DEAD
 	};
 
-	enum class GrowType
-	{
-		REGULAR,
-		CHAO,
-		SHIFT
-
-	};
-
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenColor color, Vector2D location = Vector2D::Zero());
 	Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, ChickenProperties properties, Vector2D location = Vector2D::Zero());
 
@@ -139,7 +134,6 @@ private:
 	static Vector3D GetChickenColor(ChickenColor color);
 
 	ChickenState mState;
-	GrowType mGrowType;
 	bool mStateChanged;
 	bool mDebugMode;
 	
