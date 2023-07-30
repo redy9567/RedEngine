@@ -19,9 +19,11 @@ public:
 
 	void setLoc(Vector2D location) { mLoc = location; }
 
+	virtual void update(float deltaTime) {}
+
 protected:
 	GameObject2D();
-	~GameObject2D();
+	virtual ~GameObject2D();
 
 	GameObject2D(Sprite*, Vector2D loc = Vector2D::Zero(), GameObject2D* parent = nullptr);
 	GameObject2D(Animation*, Vector2D loc = Vector2D::Zero(), GameObject2D* parent = nullptr);

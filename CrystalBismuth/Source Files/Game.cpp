@@ -22,7 +22,8 @@
 #include "GridSystem.h"
 #include "UIManager.h"
 #include "GameCursor.h"
-#include "SyringeButton.h"
+#include "ShopButton.h"
+#include "Building.h"
 #include <fstream>
 
 #include <assert.h>
@@ -63,6 +64,8 @@ Game::Game()
 	mpSelectedChicken = nullptr;
 
 	mpGameListener = nullptr;
+
+	mpBuildingHighlight = nullptr;
 }
 
 Game::~Game()
@@ -81,6 +84,8 @@ void Game::init(int mFPS)
 	initShaderObjects();
 
 	initShaderPrograms();
+
+	loadData();
 
 	Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("Background", RESOURCES_DIRECTORY + BACKGROUNDS_DIRECTORY + BACKGROUND_FILENAME, true);
 	Vector2D bgScale = Vector2D(2, 2);
@@ -102,6 +107,8 @@ void Game::init(int mFPS)
 	Vector2D greenSyringeButtonLoc = Vector2D(-200, 0);
 	Vector2D yellowSyringeButtonLoc = Vector2D(-200, -50);
 	Vector2D redSyringeButtonLoc = Vector2D(-200, -100);
+
+	Vector2D scienceBuildingButtonLoc = Vector2D(-100, 200);
 
 	Texture2D* purpleSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(PURPLE_SYRINGE_KEY, PURPLE_SYRINGE_FILEPATH, true);
 	Sprite* purpleSyringeSprite = mpGraphicsSystem->createAndAddSprite(PURPLE_SYRINGE_KEY, &purpleSyringeTexture, Vector2D::Zero(), purpleSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);
@@ -161,20 +168,23 @@ void Game::init(int mFPS)
 	UIElement* shopUI = mpUIManager->createAndAddUIElement(SHOP_UI_FILEPATH, "shopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
 	mpUIManager->createAndAddUIElement(SHOP_UI_BUTTON_FILEPATH, "shopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, shopButtonUILoc, buttonScale, shopUI, true);
 
-	SyringeButton* purpleSyringeButton = new SyringeButton(ChickenColor::PURPLE, PURPLE_SYRINGE_BUTTON_FILEPATH, "PurpleSyringeButton", purpleSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* purpleSyringeButton = new ShopButton(ChickenColor::PURPLE, PURPLE_SYRINGE_BUTTON_FILEPATH, "PurpleSyringeButton", purpleSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(purpleSyringeButton);
-	SyringeButton* blackSyringeButton = new SyringeButton(ChickenColor::BLACK, BLACK_SYRINGE_BUTTON_FILEPATH, "BlackSyringeButton", blackSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* blackSyringeButton = new ShopButton(ChickenColor::BLACK, BLACK_SYRINGE_BUTTON_FILEPATH, "BlackSyringeButton", blackSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(blackSyringeButton);
-	SyringeButton* blueSyringeButton = new SyringeButton(ChickenColor::BLUE, BLUE_SYRINGE_BUTTON_FILEPATH, "BlueSyringeButton", blueSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* blueSyringeButton = new ShopButton(ChickenColor::BLUE, BLUE_SYRINGE_BUTTON_FILEPATH, "BlueSyringeButton", blueSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(blueSyringeButton);
-	SyringeButton* lightBlueSyringeButton = new SyringeButton(ChickenColor::LIGHT_BLUE, LIGHT_BLUE_SYRINGE_BUTTON_FILEPATH, "LightBlueSyringeButton", lightBlueSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* lightBlueSyringeButton = new ShopButton(ChickenColor::LIGHT_BLUE, LIGHT_BLUE_SYRINGE_BUTTON_FILEPATH, "LightBlueSyringeButton", lightBlueSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(lightBlueSyringeButton);
-	SyringeButton* greenSyringeButton = new SyringeButton(ChickenColor::GREEN, GREEN_SYRINGE_BUTTON_FILEPATH, "GreenSyringeButton", greenSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* greenSyringeButton = new ShopButton(ChickenColor::GREEN, GREEN_SYRINGE_BUTTON_FILEPATH, "GreenSyringeButton", greenSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(greenSyringeButton);
-	SyringeButton* yellowSyringeButton = new SyringeButton(ChickenColor::YELLOW, YELLOW_SYRINGE_BUTTON_FILEPATH, "YellowSyringeButton", yellowSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* yellowSyringeButton = new ShopButton(ChickenColor::YELLOW, YELLOW_SYRINGE_BUTTON_FILEPATH, "YellowSyringeButton", yellowSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(yellowSyringeButton);
-	SyringeButton* redSyringeButton = new SyringeButton(ChickenColor::RED, RED_SYRINGE_BUTTON_FILEPATH, "RedSyringeButton", redSyringeButtonLoc, Vector2D::One(), shopUI);
+	ShopButton* redSyringeButton = new ShopButton(ChickenColor::RED, RED_SYRINGE_BUTTON_FILEPATH, "RedSyringeButton", redSyringeButtonLoc, Vector2D::One(), shopUI);
 	mpUIManager->addUIElement(redSyringeButton);
+
+	ShopButton* scienceBuildingButton = new ShopButton(Building::BuildingType::Research, SCIENCE_BUILDING_FILEPATH, "ScienceBuildingButton", scienceBuildingButtonLoc, Vector2D::One(), shopUI);
+	mpUIManager->addUIElement(scienceBuildingButton);
 
 	UIElement* coopUI = mpUIManager->createAndAddUIElement(COOP_UI_FILEPATH, "coopUI", Direction::Up, BASE_WINDOW_UI_MOVE_DISTANCE, BASE_WINDOW_UI_ANIMATION_SPEED, firstWindowUILoc, windowScale);
 	mpUIManager->createAndAddUIElement(COOP_UI_BUTTON_FILEPATH, "coopButtonUI", Direction::Up, BASE_BUTTON_UI_MOVE_DISTANCE, BASE_BUTTON_UI_ANIMATION_SPEED, coopButtonUILoc, buttonScale, coopUI, true);
@@ -261,8 +271,15 @@ void Game::init(int mFPS)
 	EventSystem::getInstance()->addListener(Event::MOUSE_EVENT, mpGameListener);
 	EventSystem::getInstance()->addListener(Event::KEYBOARD_EVENT, mpGameListener);
 	EventSystem::getInstance()->addListener((Event::EventType)GameEvent::CHICKEN_CLICK_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener((Event::EventType)GameEvent::RESEARCH_ADD_EVENT, mpGameListener);
 
 	srand(time(NULL));
+}
+
+void Game::loadData()
+{
+	Texture2D* tex = mpGraphicsSystem->createAndAddTexture2D("ScienceBuilding", SCIENCE_BUILDING_FILEPATH, true);
+	mpGraphicsSystem->createAndAddSprite("ScienceBuilding", &tex, Vector2D::Zero(), tex->getSize());
 }
 
 void Game::initShaderObjects()
@@ -391,6 +408,8 @@ void Game::update()
 
 bool Game::render()
 {
+	mpGraphicsSystem->drawInternalObjects();
+
 	string previousShader;
 
 	mpGraphicsSystem->setActiveShaderProgram("ChickenColor");
@@ -524,6 +543,18 @@ void Game::stopMouseDrag()
 
 void Game::onMouseMove(Vector2D mousePos)
 {
+	if (mpGameCursor && mpGameCursor->getCursorType() == GameCursor::CursorType::Building)
+	{
+		if (!mpBuildingHighlight)
+		{
+			Sprite* buildingSprite = mpGraphicsSystem->getSprite("ScienceBuilding");
+
+			mpBuildingHighlight = mpUIManager->createAndAddUIElement(buildingSprite);
+		}
+
+		mpBuildingHighlight->setLoc(mousePos);
+	}
+
 	//Should probably merge these functions into one
 	mpUIManager->onMouseHover(mousePos);
 	mpUIManager->updateCursorPosition(mousePos);
@@ -632,8 +663,35 @@ void Game::setMouseToSyringe(ChickenColor color, Vector2D mousePos)
 	mpGraphicsSystem->setCursorHidden(true);
 }
 
+void Game::setMouseToBuilding(Building::BuildingType buildingType, Vector2D mousePos)
+{
+	if (mpGameCursor)
+	{
+		delete mpGameCursor;
+		mpGameCursor = nullptr;
+		mpUIManager->setCursor(nullptr);
+	}
+
+	mpGameCursor = new GameCursor(buildingType);
+	mpGameCursor->setLoc(mousePos);
+
+	mpUIManager->setCursor(mpGameCursor);
+	mpGraphicsSystem->setCursorHidden(false);
+}
+
 void Game::onClick(const MouseEvent event)
 {
+
+	if (event.getMouseAction() == MouseAction::LeftClick && event.getButtonState() == ButtonState::Down && mpGameCursor && mpGameCursor->getCursorType() == GameCursor::CursorType::Building)
+	{
+		placeBuilding(mpGameCursor->getBuildingType(), mpGraphicsSystem->convertToGridCoordinates(event.getMousePosition()));
+
+		mpUIManager->removeAndDeleteUIElement(mpBuildingHighlight);
+		delete mpGameCursor;
+		mpGameCursor = nullptr;
+		mpUIManager->setCursor(nullptr);
+	}
+
 	if(checkUIClicked(event))
 		return;
 
@@ -665,4 +723,25 @@ bool Game::buySyringe(ChickenColor color, Vector2D mousePos, int cost)
 	}
 	else
 		return false;
+}
+
+bool Game::buyBuilding(Building::BuildingType buildingType, Vector2D mousePos, int cost)
+{
+	if (mCurrentMoney >= cost)
+	{
+		setMouseToBuilding(buildingType, mousePos);
+		mCurrentMoney -= cost;
+		return true;
+	}
+	else
+		return false;
+}
+
+void Game::placeBuilding(Building::BuildingType buildingType, Vector2D pos)
+{
+	Sprite* sprite = mpGraphicsSystem->getSprite("ScienceBuilding");
+
+	Building* building = new Building(sprite, buildingType, pos);
+
+	mpGraphicsSystem->addGameObject2D(building);
 }

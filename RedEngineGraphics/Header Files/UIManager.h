@@ -27,10 +27,12 @@ private:
 	UIElement* createAndAddUIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr, bool animateOnHover = false);
 	UIElement* createAndAddUIElement(std::string spriteTextureFilepath, std::string objectKey, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
 	UIElement* createAndAddUIElement(std::string textureFilepath, std::string objectKey, int animationColumns, int animationRows, Vector2D location = Vector2D::Zero(), bool animateOnHover = false);
+	UIElement* createAndAddUIElement(Sprite* sprite, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
 	UIScrollElement* createAndAddUIScrollElement(Vector2D indentDistance, float scrollSpeed, std::string objectKey, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
 	void addUIElement(UIElement* element);
 
 	void removeAndDeleteUIElement(int id);
+	void removeAndDeleteUIElement(UIElement* element);
 
 	UIElement* getUIElement(int id);
 	void setCursor(Cursor* cursor) { mCursor = cursor; }

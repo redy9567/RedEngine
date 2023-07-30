@@ -26,6 +26,7 @@ const std::string UI_DIRECTORY = "UI/";
 const std::string MAIN_BUTTONS_DIRECTORY = "Main Buttons/";
 const std::string TREE_BUTTONS_DIRECTORY = "Tree Buttons/";
 const std::string BUTTONS_DIRECTORY = "Buttons/";
+const std::string BUILDINGS_DIRECTORY = "Buildings/";
 
 const std::string RESEARCH_TREES_DIRECTORY = "Research Tree Layouts/";
 const std::string SYRINGES_DIRECTORY = "Syringes/";
@@ -80,6 +81,7 @@ const std::string GREEN_SYRINGE_BUTTON_FILENAME = "Green Syringe Button.png";
 const std::string YELLOW_SYRINGE_BUTTON_FILENAME = "Yellow Syringe Button.png";
 const std::string RED_SYRINGE_BUTTON_FILENAME = "Red Syringe Button.png";
 
+const std::string SCIENCE_BUILDING_FILENAME = "Science Building.png";
 
 /////////////////////////////////////////////////////////////////////////////////
 // Combined Filepaths (so code looks less gross when we use these filepaths
@@ -131,3 +133,5 @@ const std::string LIGHT_BLUE_SYRINGE_BUTTON_FILEPATH = RESOURCES_DIRECTORY + UI_
 const std::string GREEN_SYRINGE_BUTTON_FILEPATH = RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + TREE_BUTTONS_DIRECTORY + GREEN_SYRINGE_BUTTON_FILENAME;
 const std::string YELLOW_SYRINGE_BUTTON_FILEPATH = RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + TREE_BUTTONS_DIRECTORY + YELLOW_SYRINGE_BUTTON_FILENAME;
 const std::string RED_SYRINGE_BUTTON_FILEPATH = RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + TREE_BUTTONS_DIRECTORY + RED_SYRINGE_BUTTON_FILENAME;
+
+const std::string SCIENCE_BUILDING_FILEPATH = RESOURCES_DIRECTORY + BUILDINGS_DIRECTORY + SCIENCE_BUILDING_FILENAME;

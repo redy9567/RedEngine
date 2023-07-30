@@ -43,6 +43,10 @@ void GameListener::handleEvent(const Event& ev)
 		}
 		break;
 
+	case GameEvent::RESEARCH_ADD_EVENT:
+		game->addResearch(eventUnion->researchAddEvent->getAmount());
+		break;
+
 	case Event::KEYBOARD_EVENT:
 		if (eventUnion->keyboardEvent->getButtonState() == KeyState::Down)
 		{

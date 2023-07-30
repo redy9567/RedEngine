@@ -930,7 +930,7 @@ Animation* GraphicsSystem::getAnimation(int id)
 
 void GraphicsSystem::update(float deltaTime)
 {
-	
+	mpGameObjectManager->updateAll(deltaTime);
 }
 
 bool GraphicsSystem::_imGetKey(unsigned int keyCode, GraphicsSystemIMKey key)
@@ -1005,6 +1005,11 @@ GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D 
 GameObject2D* GraphicsSystem::createAndAddGameObject2D(Animation* anim, Vector2D loc)
 {
 	return mpGameObjectManager->createAndAddGameObject2D(anim, loc);
+}
+
+void GraphicsSystem::addGameObject2D(GameObject2D* obj)
+{
+	mpGameObjectManager->addGameObject2D(obj);
 }
 
 void GraphicsSystem::removeAndDeleteGameObject2D(GameObject2D* obj)
@@ -1114,4 +1119,9 @@ void GraphicsSystem::callSrollCallback(double xOffset, double yOffset)
 {
 	if(mScrollCallback)
 		mScrollCallback(xOffset, yOffset);
+}
+
+void GraphicsSystem::drawInternalObjects()
+{
+	mpGameObjectManager->drawAll();
 }

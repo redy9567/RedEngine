@@ -23,6 +23,11 @@ private:
 	GameObject2D* createAndAddGameObject2D(Animation*, Vector2D loc = Vector2D::Zero());
 	void removeAndDeleteGameObject2D(GameObject2D* obj);
 	void removeAndDeleteGameObject2D(int id);
+	void addGameObject2D(GameObject2D*);
+
+	void updateAll(float deltaTime);
+
+	void drawAll();
 
 	GameObject2D* getGameObject2D(int id);
 

@@ -74,6 +74,15 @@ UIElement* UIManager::createAndAddUIElement(string textureFilepath, string objec
 	return obj;
 }
 
+UIElement* UIManager::createAndAddUIElement(Sprite* sprite, Vector2D location, Vector2D scale, GameObject2D* parent)
+{
+	UIElement* obj = new UIElement(sprite, location, scale, parent);
+
+	mUIElements.push_back(obj);
+
+	return obj;
+}
+
 UIScrollElement* UIManager::createAndAddUIScrollElement(Vector2D indentDistance, float scrollSpeed, string objectKey, Vector2D location, Vector2D scale, GameObject2D* parent)
 {
 	UIScrollElement* obj = new UIScrollElement(indentDistance, scrollSpeed, objectKey, location, scale, parent);
@@ -90,6 +99,19 @@ void UIManager::removeAndDeleteUIElement(int id)
 	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
 		if (i++ == id)
+		{
+			delete *it;
+			mUIElements.erase(it);
+			break;
+		}
+	}
+}
+
+void UIManager::removeAndDeleteUIElement(UIElement* element)
+{
+	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
+	{
+		if (*it == element)
 		{
 			delete *it;
 			mUIElements.erase(it);

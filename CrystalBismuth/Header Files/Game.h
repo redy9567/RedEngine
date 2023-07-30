@@ -3,6 +3,7 @@
 #include "Vector2D.h"
 #include "MouseEvent.h"
 #include "Chicken.h"
+#include "Building.h"
 
 class GraphicsSystem;
 class Sprite;
@@ -18,6 +19,7 @@ class Mesh2D;
 class GameObject2D;
 class GameListener;
 class GameCursor;
+class UIElement;
 
 const int GAME_DISPLAY_WIDTH = 1536;
 const int GAME_DISPLAY_HEIGHT = 864;
@@ -137,10 +139,13 @@ public:
 	int debugGetFPS() { return mDebugMode ? 1 / mDeltaTime : -1; }
 
 	bool buySyringe(ChickenColor, Vector2D mousePos, int cost);
+	bool buyBuilding(Building::BuildingType, Vector2D mousePos, int cost);
 
 private:
 	Game();
 	~Game();
+
+	void loadData();
 
 	bool gameLoop();
 
@@ -166,14 +171,17 @@ private:
 	void onShaderHotReload();
 	void onToggleDebugMode();
 
-	
-
 	void startMouseDrag(Vector2D mousePos);
 	void stopMouseDrag();
 
 	void moveDebugChicken(Vector2D mousePos);
 
 	void setMouseToSyringe(ChickenColor color, Vector2D mousePos);
+	void setMouseToBuilding(Building::BuildingType buildingType, Vector2D mousePos);
+
+	void placeBuilding(Building::BuildingType buildingType, Vector2D pos);
+
+	void addResearch(int amount) { mCurrentScience += amount; }
 
 	static Game* mspInstance;
 
@@ -187,6 +195,8 @@ private:
 	Mesh2D* mpChickenSelectionMesh;
 
 	GameObject2D* mpBackground;
+
+	UIElement* mpBuildingHighlight;
 
 	//Timing Stuff
 	float mTimePerFrame;

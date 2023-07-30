@@ -4,6 +4,7 @@
 
 class Texture2D;
 class AnimationData;
+class Sprite;
 
 enum class Direction
 {
@@ -18,6 +19,8 @@ class UIElement : public GameObject2D
 
 public:
 	friend class UIManager;
+
+	UIElement(Sprite* sprite, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);
 
 	UIElement(std::string spriteTextureFilepath, std::string objectKey, Direction animationDirection, float distanceToMove, float speed, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr, bool animateOnHover = false);
 	UIElement(std::string spriteTextureFilepath, std::string objectKey, Vector2D location = Vector2D::Zero(), Vector2D scale = Vector2D::One(), GameObject2D* parent = nullptr);

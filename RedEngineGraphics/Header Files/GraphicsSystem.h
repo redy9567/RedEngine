@@ -70,6 +70,7 @@ public:
 	void update(float deltaTime);
 
 	void setActiveShaderProgram(std::string program);
+	void drawInternalObjects(); //THIS SHOULDNT EXIST
 	void draw(Mesh2D& mesh);
 	void draw(Sprite& sprite, Vector2D location);
 	void draw(Animation& animation, Vector2D location);
@@ -130,6 +131,7 @@ public:
 	GameObject2D* createAndAddGameObject2D(Animation*, Vector2D loc = Vector2D::Zero());
 	void removeAndDeleteGameObject2D(GameObject2D* obj);
 	void removeAndDeleteGameObject2D(int id);
+	void addGameObject2D(GameObject2D*);
 
 	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
 

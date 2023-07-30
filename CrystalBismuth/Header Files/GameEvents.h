@@ -17,6 +17,7 @@ public:
         MOUSE_EVENT,
         PLAYER_MOVE_EVENT,
         CHICKEN_CLICK_EVENT,
+        RESEARCH_ADD_EVENT,
         NUM_EVENT_TYPES
     };
 
@@ -50,10 +51,28 @@ private:
     MouseAction mMouseAction;
 };
 
+class ResearchAddEvent : public GameEvent
+{
+public:
+    ResearchAddEvent(int amount);
+    ~ResearchAddEvent() {};
+
+    int getAmount() const { return mAmount; }
+
+    std::string getTypeName() const override { return "ReasearchAddEvent"; }
+    std::string getEventDetails() const override { std::stringstream ss; ss << "Research Add Amount: " << mAmount; return ss.str(); }
+
+private:
+    ResearchAddEvent() = delete;
+
+    int mAmount;
+};
+
 union GameEventUnion
 {
     const Event* event;
     const MouseEvent* mouseEvent;
     const KeyboardEvent* keyboardEvent;
     const ChickenClickEvent* chickenClickEvent;
+    const ResearchAddEvent* researchAddEvent;
 };

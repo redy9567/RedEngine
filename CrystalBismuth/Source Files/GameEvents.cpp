@@ -6,3 +6,9 @@ ChickenClickEvent::ChickenClickEvent(Chicken* ckn, MouseAction button)
 	mChicken = ckn;
 	mMouseAction = button;
 }
+
+ResearchAddEvent::ResearchAddEvent(int amount)
+	: GameEvent(RESEARCH_ADD_EVENT)
+{
+	mAmount = amount;
+}
