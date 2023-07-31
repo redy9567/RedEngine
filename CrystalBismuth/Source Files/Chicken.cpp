@@ -27,6 +27,8 @@ Chicken::Chicken(float timeToHatch, float timeToMaturity, float timeToDeath, Chi
 
 	mDebugMode = false;
 
+	mIsEvolved = false;
+
 	mMoveUpdateTimer = STARTING_MOVEMENT_TIMER;
 }
 
@@ -126,6 +128,13 @@ void Chicken::loadData()
 
 		Texture2D* ChickenMagicCircleDeathTexture = gs->createAndAddTexture2D(CKN_FALL_INTO_CIRCLE_KEY, RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + CHICKEN_MAGIC_CIRCLE_FILENAME, true);
 		gs->createAndAddAnimationData(CKN_FALL_INTO_CIRCLE_KEY, &ChickenMagicCircleDeathTexture, 49, 1);
+
+		//Funky Chicken Evolution
+		Texture2D* funkyChickenTexture = gs->createAndAddTexture2D(CKN_FUNKY_CHICKEN_KEY, FUNKY_CHICKEN_FILEPATH, true);
+		gs->createAndAddSprite(CKN_FUNKY_CHICKEN_KEY, &funkyChickenTexture, Vector2D::Zero(), funkyChickenTexture->getSize());
+
+		Texture2D* funkyChickenWalkingTexture = gs->createAndAddTexture2D(CKN_FUNKY_CHICKEN_WALKING_KEY, FUNKY_CHICKEN_WALKING_FILEPATH, true);
+		gs->createAndAddAnimationData(CKN_FUNKY_CHICKEN_WALKING_KEY, &funkyChickenWalkingTexture, 20, 1);
 	}
 	
 }
@@ -331,7 +340,7 @@ void Chicken::updateImage()
 		
 	case ChickenState::CHICKEN:
 		mDrawingMode = GameObject2D::SpriteMode;
-		mImage.s = gs->getSprite(CKN_CHICKEN_KEY);
+		mImage.s = mIsEvolved ? gs->getSprite(CKN_FUNKY_CHICKEN_KEY) : gs->getSprite(CKN_CHICKEN_KEY);
 		break;
 	case ChickenState::CHICK_WALKING:
 		mDrawingMode = GameObject2D::AnimationMode;
@@ -339,7 +348,7 @@ void Chicken::updateImage()
 		break;
 	case ChickenState::CHICKEN_WALKING:
 		mDrawingMode = GameObject2D::AnimationMode;
-		mImage.a = gs->createAndAddAnimation(CKN_CHICKEN_WALKING_KEY, 18, true);
+		mImage.a = mIsEvolved ? gs->createAndAddAnimation(CKN_FUNKY_CHICKEN_WALKING_KEY, 18, true) : gs->createAndAddAnimation(CKN_CHICKEN_WALKING_KEY, 18, true);
 		break;
 	case ChickenState::DEAD:
 		mDrawingMode = GameObject2D::AnimationMode;

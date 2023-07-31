@@ -40,6 +40,9 @@ const std::string CKN_CHICK_CHAO_GROW_KEY = "ChickChao";
 const std::string CKN_CHICK_FF7_HATCH_KEY = "ChickFF7Hatch";
 const std::string CKN_FALL_INTO_CIRCLE_KEY = "ChickenDeathCircle";
 
+const std::string CKN_FUNKY_CHICKEN_KEY = "FunkyChicken";
+const std::string CKN_FUNKY_CHICKEN_WALKING_KEY = "FunkyChickenWalking";
+
 const int INFERTILE_EGG_SELL_AMOUNT = 10;
 const int FERTILE_EGG_SELL_AMOUNT = 20;
 
@@ -87,6 +90,8 @@ public:
 	bool isEgg() { return mState == ChickenState::EGG || mState == ChickenState::INFERTILE_EGG; }
 
 	void paintEgg(ChickenColor color) { if (mState == ChickenState::EGG) updateProperties(color); }
+
+	void evolve() { mIsEvolved = true; }
 
 	const static int GetSellAmount(Chicken* ckn) { if (ckn->isEgg()) return ckn->mState == ChickenState::EGG ? FERTILE_EGG_SELL_AMOUNT : INFERTILE_EGG_SELL_AMOUNT; else return 0; }
 
@@ -156,4 +161,6 @@ private:
 	Vector2D mMoveEnd;
 
 	ChickenProperties mProperties;
+
+	bool mIsEvolved; //Change this to a enum for evolution type later
 };

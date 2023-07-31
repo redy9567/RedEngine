@@ -21,6 +21,14 @@ ShopButton::ShopButton(Building::BuildingType buildingType, string spriteTexture
 	mCost = BUILDING_COST;
 }
 
+ShopButton::ShopButton(string spriteTextureFilepath, string objectKey, Vector2D location, Vector2D scale, GameObject2D* parent)
+	: UIElement(spriteTextureFilepath, objectKey, location, scale, parent)
+{
+	mType = ShopButtonType::Evolution;
+
+	mCost = EVOLUTION_COST;
+}
+
 ShopButton::~ShopButton()
 {
 
@@ -36,4 +44,7 @@ void ShopButton::onClick(Vector2D mousePos)
 		if (Game::getInstance()->buyBuilding(mData.b, mousePos, mCost))
 			mCost *= 2;
 	
+	if (mType == ShopButtonType::Evolution)
+		if (Game::getInstance()->buyEvolution(mousePos, mCost))
+			mCost *= 2;
 }

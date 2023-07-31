@@ -140,6 +140,7 @@ public:
 
 	bool buySyringe(ChickenColor, Vector2D mousePos, int cost);
 	bool buyBuilding(Building::BuildingType, Vector2D mousePos, int cost);
+	bool buyEvolution(Vector2D mousePos, int cost);
 
 private:
 	Game();
@@ -178,6 +179,7 @@ private:
 
 	void setMouseToSyringe(ChickenColor color, Vector2D mousePos);
 	void setMouseToBuilding(Building::BuildingType buildingType, Vector2D mousePos);
+	void setMouseToEvolution(Vector2D mousePos);
 
 	void placeBuilding(Building::BuildingType buildingType, Vector2D pos);
 

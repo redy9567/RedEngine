@@ -9,7 +9,8 @@ public:
 	enum class CursorType
 	{
 		Syringe,
-		Building
+		Building,
+		Evolution
 	};
 
 	union CursorData
@@ -20,6 +21,7 @@ public:
 
 	GameCursor(ChickenColor syringeColor);
 	GameCursor(Building::BuildingType);
+	GameCursor(); //Evolution Cursor
 	~GameCursor();
 
 	void setSyringeColor(ChickenColor syringeColor) { if(mCursorType == CursorType::Syringe) mData.c = syringeColor; }
@@ -31,7 +33,6 @@ public:
 	CursorType getCursorType() { return mCursorType; }
 
 private:
-	GameCursor() = delete;
 
 	CursorData mData;
 	CursorType mCursorType;

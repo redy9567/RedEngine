@@ -232,6 +232,10 @@ void Game::init(int mFPS)
 
 	mpUIManager->createAndAddUIElement(SCIENCE_RESEARCH_TREE_FILEPATH, "scienceResearchTreeUI", firstWindowUILoc + scienceTreeUIOffset, scienceTreeScale, scienceWindowScrollUI);
 	mpUIManager->createAndAddUIElement(RED_SYRINGE_TREE_BUTTON_FILEPATH, "redSyringeButtonUI", firstWindowUILoc + scienceUIButtonOffset1, subTreeButtonScale, scienceWindowScrollUI);
+
+	ShopButton* evoultionButton = new ShopButton(FUNKY_CHICKEN_FILEPATH, "evolutionButtonUI", firstWindowUILoc + scienceUIButtonOffset1 - Vector2D(100, 0), Vector2D::One(), scienceWindowScrollUI);
+	mpUIManager->addUIElement(evoultionButton);
+
 	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI2", firstWindowUILoc + scienceUIButtonOffset2, subTreeButtonScale, scienceWindowScrollUI);
 	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI3", firstWindowUILoc + scienceUIButtonOffset3, subTreeButtonScale, scienceWindowScrollUI);
 	mpUIManager->createAndAddUIElement(BASIC_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI4", firstWindowUILoc + scienceUIButtonOffset4, subTreeButtonScale, scienceWindowScrollUI);
@@ -474,6 +478,13 @@ void Game::checkChickenClicked(Vector2D mousePos, MouseAction mouseButton)
 	Chicken* clickedChicken = mpChickenManager->checkChickenHovered(grs->convertPixelsToGrid(mousePos));
 	EventSystem* es = EventSystem::getInstance();
 
+	if (clickedChicken)
+	{
+		
+		ChickenClickEvent cknEvent(clickedChicken, mouseButton);
+		es->fireEvent(cknEvent);
+	}
+
 	if (mpGameCursor && mouseButton == MouseAction::LeftClick)
 	{
 		if (clickedChicken)
@@ -483,13 +494,6 @@ void Game::checkChickenClicked(Vector2D mousePos, MouseAction mouseButton)
 		mpGameCursor = nullptr;
 		mpUIManager->setCursor(nullptr);
 		mpGraphicsSystem->setCursorHidden(false);
-	}
-
-	if (clickedChicken)
-	{
-		
-		ChickenClickEvent cknEvent(clickedChicken, mouseButton);
-		es->fireEvent(cknEvent);
 	}
 }
 
@@ -505,6 +509,10 @@ void Game::onChickenLeftClick(Chicken* ckn)
 
 		mpSelectedChicken = ckn;
 		mpSelectedChicken->setDebugMode(true);
+	}
+	else if (mpGameCursor && mpGameCursor->getCursorType() == GameCursor::CursorType::Evolution)
+	{
+		ckn->evolve();
 	}
 	else
 		ckn->onMouseClick();
@@ -679,6 +687,24 @@ void Game::setMouseToBuilding(Building::BuildingType buildingType, Vector2D mous
 	mpGraphicsSystem->setCursorHidden(false);
 }
 
+void Game::setMouseToEvolution(Vector2D mousePos)
+{
+	if (mpGameCursor)
+	{
+		delete mpGameCursor;
+		mpGameCursor = nullptr;
+		mpUIManager->setCursor(nullptr);
+	}
+
+	mpGameCursor = new GameCursor();
+	mpGameCursor->setLoc(mousePos);
+
+	mpGameCursor->setImage(mpGraphicsSystem->getSprite(CKN_FUNKY_CHICKEN_KEY));
+
+	mpUIManager->setCursor(mpGameCursor);
+	mpGraphicsSystem->setCursorHidden(true);
+}
+
 void Game::onClick(const MouseEvent event)
 {
 
@@ -691,6 +717,7 @@ void Game::onClick(const MouseEvent event)
 		mpGameCursor = nullptr;
 		mpUIManager->setCursor(nullptr);
 	}
+
 
 	if(checkUIClicked(event))
 		return;
@@ -744,4 +771,16 @@ void Game::placeBuilding(Building::BuildingType buildingType, Vector2D pos)
 	Building* building = new Building(sprite, buildingType, pos);
 
 	mpGraphicsSystem->addGameObject2D(building);
+}
+
+bool Game::buyEvolution(Vector2D mousePos, int cost)
+{
+	if (mCurrentScience >= cost)
+	{
+		setMouseToEvolution(mousePos);
+		mCurrentScience -= cost;
+		return true;
+	}
+	else
+		return false;
 }

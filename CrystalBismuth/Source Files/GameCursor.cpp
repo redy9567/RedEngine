@@ -12,6 +12,11 @@ GameCursor::GameCursor(Building::BuildingType buildingType)
 	mCursorType = CursorType::Building;
 }
 
+GameCursor::GameCursor()
+{
+	mCursorType = CursorType::Evolution;
+}
+
 GameCursor::~GameCursor()
 {
 
