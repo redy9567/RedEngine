@@ -1,12 +1,15 @@
 #include "UIScrollElement.h"
 #include "MouseEvent.h"
 #include "EventSystem.h"
+#include "GraphicsSystem.h"
 
 UIScrollElement::UIScrollElement(Vector2D indentDistance, float scrollSpeed, std::string objectKey, Vector2D location, Vector2D scale, GameObject2D* parent)
 	: UIElement(objectKey, location, scale, parent)
 {
-	mSize = Vector2D((parent->getSize().getX() - indentDistance.getX()) * parent->getScale().getX(),
-		(parent->getSize().getY() - indentDistance.getY()) * parent->getScale().getY());
+	Vector2D parentScreenSize = GraphicsSystem::getInstance()->convertToScreenCoordinates(parent->getSize());
+
+	mSize = Vector2D((parentScreenSize.getX() - indentDistance.getX()) * parent->getScale().getX(),
+		(parentScreenSize.getY() - indentDistance.getY()) * parent->getScale().getY());
 	mOriginalLoc = location;
 	mScrollSpeed = scrollSpeed;
 

@@ -7,11 +7,13 @@ Camera2D::Camera2D()
     mIsBeingDragged = false;
     mDragStartPos = Vector2D::Zero();
     mCameraStartPos = Vector2D::Zero();
+    mResolution = Vector2D::Zero();
 }
 
-Camera2D::Camera2D(Vector2D location)
+Camera2D::Camera2D(Vector2D location, Vector2D resolution)
 {
     mLoc = location;
+    mResolution = resolution;
     mIsBeingDragged = false;
     mDragStartPos = Vector2D::Zero();
     mCameraStartPos = Vector2D::Zero();

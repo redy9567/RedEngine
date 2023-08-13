@@ -154,8 +154,8 @@ void Game::init(int mFPS)
 	Vector2D scienceUIButtonOffset6 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_6_X, SCIENCE_UI_BUTTON_OFFSET_6_Y);
 	Vector2D scienceUIButtonOffset7 = Vector2D(SCIENCE_UI_BUTTON_OFFSET_7_X, SCIENCE_UI_BUTTON_OFFSET_7_Y);
 
-	Vector2D currencyUILoc = Vector2D(GAME_DISPLAY_WIDTH + CURRENCY_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - CURRENCY_UI_VERTICAL_OFFSET);
-	Vector2D scienceUILoc = Vector2D(GAME_DISPLAY_WIDTH + SCIENCE_UI_HORIZONTAL_OFFSET, GAME_DISPLAY_HEIGHT - SCIENCE_UI_VERTICAL_OFFSET);
+	Vector2D currencyUILoc = Vector2D(1.0f + CURRENCY_UI_HORIZONTAL_OFFSET, 1.0f - CURRENCY_UI_VERTICAL_OFFSET); //These two lines should be adjusted to have an absolute position rather than to be offset from the end of the screen
+	Vector2D scienceUILoc = Vector2D(1.0f + SCIENCE_UI_HORIZONTAL_OFFSET, 1.0f - SCIENCE_UI_VERTICAL_OFFSET);
 
 	Vector2D windowScale = Vector2D(WINDOW_SCALE);
 	Vector2D buttonScale = Vector2D(BUTTON_SCALE);
@@ -233,7 +233,7 @@ void Game::init(int mFPS)
 	mpUIManager->createAndAddUIElement(SCIENCE_RESEARCH_TREE_FILEPATH, "scienceResearchTreeUI", firstWindowUILoc + scienceTreeUIOffset, scienceTreeScale, scienceWindowScrollUI);
 	mpUIManager->createAndAddUIElement(RED_SYRINGE_TREE_BUTTON_FILEPATH, "redSyringeButtonUI", firstWindowUILoc + scienceUIButtonOffset1, subTreeButtonScale, scienceWindowScrollUI);
 
-	ShopButton* evoultionButton = new ShopButton(FUNKY_CHICKEN_FILEPATH, "evolutionButtonUI", firstWindowUILoc + scienceUIButtonOffset1 - Vector2D(100, 0), Vector2D::One(), scienceWindowScrollUI);
+	ShopButton* evoultionButton = new ShopButton(FUNKY_CHICKEN_FILEPATH, "evolutionButtonUI", firstWindowUILoc + scienceUIButtonOffset1 - Vector2D(0.0651f, 0.0f), Vector2D::One(), scienceWindowScrollUI);
 	mpUIManager->addUIElement(evoultionButton);
 
 	mpUIManager->createAndAddUIElement(ADVANCED_TREE_BUTTON_FILEPATH, "scienceTreeButtonUI2", firstWindowUILoc + scienceUIButtonOffset2, subTreeButtonScale, scienceWindowScrollUI);
@@ -402,12 +402,12 @@ void Game::update()
 	mpGraphicsSystem->addToDebugHUD("Camera Position: " + mpGraphicsSystem->getCamera()->getLoc().toString());
 
 	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
-	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
-	mpGraphicsSystem->setVec2Uniform("Textured Bounded", "uResolution", mpGraphicsSystem->getDisplayResolution());
-	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getDisplayResolution());
-	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
+	mpGraphicsSystem->setVec2Uniform("Textured Bounded", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
+	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
+	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
 	mpGraphicsSystem->setIntegerUniform("ChickenColor", "uTexture0", 0);
-	mpGraphicsSystem->setVec2Uniform("ChickenColor", "uResolution", mpGraphicsSystem->getDisplayResolution());
+	mpGraphicsSystem->setVec2Uniform("ChickenColor", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
 }
 
 bool Game::render()
@@ -474,8 +474,7 @@ bool Game::render()
 
 void Game::checkChickenClicked(Vector2D mousePos, MouseAction mouseButton)
 {
-	GridSystem* grs = GridSystem::getInstance();
-	Chicken* clickedChicken = mpChickenManager->checkChickenHovered(grs->convertPixelsToGrid(mousePos));
+	Chicken* clickedChicken = mpChickenManager->checkChickenHovered(mpGraphicsSystem->convertScreenToGridCoordinates(mousePos));
 	EventSystem* es = EventSystem::getInstance();
 
 	if (clickedChicken)
@@ -699,7 +698,7 @@ void Game::setMouseToEvolution(Vector2D mousePos)
 	mpGameCursor = new GameCursor();
 	mpGameCursor->setLoc(mousePos);
 
-	mpGameCursor->setImage(mpGraphicsSystem->getSprite(CKN_FUNKY_CHICKEN_KEY));
+	mpGameCursor->setImage(mpGraphicsSystem->getSprite(BLACK_SYRINGE_KEY));
 
 	mpUIManager->setCursor(mpGameCursor);
 	mpGraphicsSystem->setCursorHidden(true);

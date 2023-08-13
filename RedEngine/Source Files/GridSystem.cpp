@@ -36,9 +36,14 @@ GridSystem::~GridSystem()
 
 void GridSystem::init(int displayWidth, int displayHeight)
 {
+	updateResolution(displayWidth, displayHeight);
+	mInit = true;
+}
+
+void GridSystem::updateResolution(int displayWidth, int displayHeight)
+{
 	mGridBoxWidth = displayWidth / STARTING_GRID_COUNT_X;
 	mGridBoxHeight = displayHeight / STARTING_GRID_COUNT_Y;
-	mInit = true;
 }
 
 void GridSystem::cleanup()
@@ -64,4 +69,12 @@ Vector2D GridSystem::convertGridToPixels(Vector2D gridLoc)
 		(int)(gridLoc.getX() * mGridBoxWidth),
 		(int)(gridLoc.getY() * mGridBoxHeight)
 			);
+}
+
+Vector2D GridSystem::convertScreenToGrid(Vector2D screenLoc)
+{
+	return Vector2D(
+		screenLoc.getX() * STARTING_GRID_COUNT_X,
+		screenLoc.getY() * STARTING_GRID_COUNT_Y
+	);
 }

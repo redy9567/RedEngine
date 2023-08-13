@@ -154,6 +154,8 @@ void UIManager::draw()
 
 void UIManager::onMouseHover(Vector2D mousePos)
 {
+	GraphicsSystem* gs = GraphicsSystem::getInstance();
+
 	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
 		UIElement* element = (*it);
@@ -161,7 +163,7 @@ void UIManager::onMouseHover(Vector2D mousePos)
 		if (!element->mAnimateOnHover)
 			continue;
 
-		Vector2D elementHalfSize = element->getSize() / 2.0f;
+		Vector2D elementHalfSize = gs->convertToScreenCoordinates(element->getSize() / 2.0f);
 
 		Vector2D elementLowerBound = element->getLoc() - elementHalfSize;
 		Vector2D elementUpperBound = element->getLoc() + elementHalfSize;
@@ -172,11 +174,13 @@ void UIManager::onMouseHover(Vector2D mousePos)
 
 bool UIManager::onClick(Vector2D mousePos)
 {
+	GraphicsSystem* gs = GraphicsSystem::getInstance();
+
 	for (vector<UIElement*>::iterator it = mUIElements.begin(); it != mUIElements.end(); it++)
 	{
 		UIElement* element = (*it);
 
-		Vector2D elementHalfSize = element->getSize() / 2.0f;
+		Vector2D elementHalfSize = gs->convertToScreenCoordinates(element->getSize() / 2.0f);
 
 		Vector2D elementLowerBound = element->getLoc() - elementHalfSize;
 		Vector2D elementUpperBound = element->getLoc() + elementHalfSize;

@@ -30,13 +30,18 @@ vec2 normalizePoint(vec2 point)
 	return (normalizedPosition * 2.0f - 1.0f); //Makes the bottom left (0,0)
 }
 
+vec2 reposition(vec2 point)
+{
+	return (point * 2.0f - 1.0f);
+}
+
 void main()
 {
 	
 	vec2 offsetPosition = normalizePoint(transformPoint(aPos));
 
-	vLowerBound = normalizePoint(uLowerBound);
-	vUpperBound = normalizePoint(uUpperBound);
+	vLowerBound = reposition(uLowerBound);
+	vUpperBound = reposition(uUpperBound);
 
 	vColor = aColor;
 	vTexCoord = aTexCoord;

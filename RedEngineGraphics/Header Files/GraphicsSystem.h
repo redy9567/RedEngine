@@ -134,6 +134,9 @@ public:
 	void addGameObject2D(GameObject2D*);
 
 	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
+	Vector2D convertToScreenCoordinates(Vector2D pixelCoordinates);
+
+	Vector2D convertScreenToGridCoordinates(Vector2D screenCoordinates);
 
 	Camera2D* getCamera() { return mpCamera; }
 
@@ -148,7 +151,7 @@ public:
 	bool _imGetMouseButton(unsigned int mouseCode, GraphicsSystemIMKey key);
 	Vector2D _imGetMousePosition(GraphicsSystemIMKey key);
 	void _imSetScrollCallback(ScrollFunctionCallback callback, GraphicsSystemIMKey key);
-	void callSrollCallback(double xOffset, double yOffset);
+	void callScrollCallback(double xOffset, double yOffset);
 
 	DrawMode getDrawMode() { return mDrawMode; }
 
@@ -166,6 +169,7 @@ public:
 	std::string getCurrentShaderProgram() { return mCurrentShaderProgram; }
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+	void OnWindowSizeUpdated(int width, int height);
 
 	//GLCleanupFunctions
 	void cleanupMesh2D(Mesh2D*);

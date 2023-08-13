@@ -17,8 +17,12 @@ public:
 	Vector2D convertPixelsToGrid(Vector2D pxLoc);
 	Vector2D convertGridToPixels(Vector2D gridLoc);
 
+	Vector2D convertScreenToGrid(Vector2D screenLoc);
+
 	float getGridBoxWidth() { return mGridBoxWidth; }
 	float getGridBoxHeight() { return mGridBoxHeight; }
+
+	void updateResolution(int displayWidth, int displayHeight);
 
 private:
 	GridSystem();

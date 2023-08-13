@@ -77,7 +77,7 @@ GraphicsSystem::~GraphicsSystem()
 
 void _scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	GraphicsSystem::getInstance()->callSrollCallback(xoffset, yoffset);
+	GraphicsSystem::getInstance()->callScrollCallback(xoffset, yoffset);
 }
 
 bool GraphicsSystem::init(int displayWidth, int displayHeight)
@@ -142,7 +142,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
-	mpCamera = new Camera2D(Vector2D(0, 0));
+	mpCamera = new Camera2D(Vector2D(0, 0), mWindowResolution);
 
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
@@ -210,7 +210,14 @@ bool GraphicsSystem::render()
 
 void GraphicsSystem::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+	GraphicsSystem::getInstance()->OnWindowSizeUpdated(width, height);
+
 	glViewport(0, 0, width, height);
+}
+
+void GraphicsSystem::OnWindowSizeUpdated(int width, int height)
+{
+	mWindowResolution = Vector2D(width, height);
 }
 
 void GraphicsSystem::draw(Mesh2D& mesh)
@@ -284,8 +291,8 @@ void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBou
 	internalDrawSprite(sprite);
 
 	Matrix3D modelMatrix = Matrix3D(
-		sprite.mScale.getX(), 0.0f, location.getX(),
-		0.0f, sprite.mScale.getY(), location.getY(),
+		sprite.mScale.getX(), 0.0f, location.getX() * mpCamera->getResolution().getX(),
+		0.0f, sprite.mScale.getY(), location.getY() * mpCamera->getResolution().getY(),
 		0.0f, 0.0f, 1.0f
 	);
 
@@ -296,7 +303,7 @@ void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBou
 	);
 
 	if (upperBound == Vector2D::Zero())
-		upperBound = mWindowResolution;
+		upperBound = Vector2D(1.0f);
 
 	setMat3Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
 	setMat3Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
@@ -949,6 +956,9 @@ Vector2D GraphicsSystem::_imGetMousePosition(GraphicsSystemIMKey key)
 	glfwGetCursorPos(mWindow, &x, &y);
 	y = mWindowResolution.getY() - y;
 
+	x /= mWindowResolution.getX();
+	y /= mWindowResolution.getY();
+
 	return Vector2D(x, y);
 }
 
@@ -1031,7 +1041,7 @@ void GraphicsSystem::drawGrid()
 	Vector4D white = Vector4D(1.0f, 1.0f, 1.0f, 1.0f);
 	setVec4Uniform("ColorUI", "uColor", white);
 
-	setVec2Uniform("ColorUI", "uResolution", getDisplayResolution());
+	setVec2Uniform("ColorUI", "uResolution", mpCamera->getResolution());
 
 	float boxHeight = mpGridSystem->getGridBoxHeight();
 	float boxWidth = mpGridSystem->getGridBoxWidth();
@@ -1087,6 +1097,15 @@ Vector2D GraphicsSystem::convertToGridCoordinates(Vector2D pixelCoordinates)
 	return mpGridSystem->convertPixelsToGrid(pixelCoordinates);
 }
 
+Vector2D GraphicsSystem::convertToScreenCoordinates(Vector2D pixelCoordinates)
+{
+	return Vector2D(pixelCoordinates.getX() / mWindowResolution.getX(), pixelCoordinates.getY() / mWindowResolution.getY());
+}
+
+Vector2D GraphicsSystem::convertScreenToGridCoordinates(Vector2D screenCoordinates)
+{
+	return mpGridSystem->convertScreenToGrid(screenCoordinates);
+}
 
 void GraphicsSystem::cleanupMesh2D(Mesh2D* mesh)
 {
@@ -1115,7 +1134,7 @@ void GraphicsSystem::_imSetScrollCallback(ScrollFunctionCallback callback, Graph
 	mScrollCallback = callback;
 }
 
-void GraphicsSystem::callSrollCallback(double xOffset, double yOffset)
+void GraphicsSystem::callScrollCallback(double xOffset, double yOffset)
 {
 	if(mScrollCallback)
 		mScrollCallback(xOffset, yOffset);

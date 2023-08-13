@@ -8,12 +8,13 @@ class Camera2D : public Trackable
 
 public:
     Camera2D();
-    Camera2D(Vector2D location);
+    Camera2D(Vector2D location, Vector2D resolution);
     ~Camera2D();
 
     void setLoc(Vector2D location) { mLoc = location; }
 
     Vector2D getLoc() { return mLoc; }
+    Vector2D getResolution() { return mResolution; }
 
     void startMouseDrag(Vector2D mousePos);
     void update(Vector2D mousePos);
@@ -24,5 +25,7 @@ private:
 
     bool mIsBeingDragged;
     Vector2D mDragStartPos, mCameraStartPos;
+
+    Vector2D mResolution;
 
 };
