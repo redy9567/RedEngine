@@ -100,15 +100,15 @@ void Game::init(int mFPS)
 	mpUIManager = UIManager::getInstance();
 	mpUIManager->init();
 
-	Vector2D purpleSyringeButtonLoc = Vector2D(-200, 200);
-	Vector2D blackSyringeButtonLoc = Vector2D(-200, 150);
-	Vector2D blueSyringeButtonLoc = Vector2D(-200, 100);
-	Vector2D lightBlueSyringeButtonLoc = Vector2D(-200, 50);
-	Vector2D greenSyringeButtonLoc = Vector2D(-200, 0);
-	Vector2D yellowSyringeButtonLoc = Vector2D(-200, -50);
-	Vector2D redSyringeButtonLoc = Vector2D(-200, -100);
+	Vector2D purpleSyringeButtonLoc = Vector2D(-0.1302f, 0.2315f);
+	Vector2D blackSyringeButtonLoc = Vector2D(-0.1302f, 0.1736f);
+	Vector2D blueSyringeButtonLoc = Vector2D(-0.1302f, 0.1157f);
+	Vector2D lightBlueSyringeButtonLoc = Vector2D(-0.1302f, 0.0579f);
+	Vector2D greenSyringeButtonLoc = Vector2D(-0.1302f, 0.0f);
+	Vector2D yellowSyringeButtonLoc = Vector2D(-0.1302f, -0.0579f);
+	Vector2D redSyringeButtonLoc = Vector2D(-0.1302f, -0.1157f);
 
-	Vector2D scienceBuildingButtonLoc = Vector2D(-100, 200);
+	Vector2D scienceBuildingButtonLoc = Vector2D(-0.0651f, 0.2315f);
 
 	Texture2D* purpleSyringeTexture = mpGraphicsSystem->createAndAddTexture2D(PURPLE_SYRINGE_KEY, PURPLE_SYRINGE_FILEPATH, true);
 	Sprite* purpleSyringeSprite = mpGraphicsSystem->createAndAddSprite(PURPLE_SYRINGE_KEY, &purpleSyringeTexture, Vector2D::Zero(), purpleSyringeTexture->getSize(), Vector2D::One(), ImageAnchor::BottomLeft);

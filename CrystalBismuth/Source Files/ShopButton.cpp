@@ -39,4 +39,10 @@ void ShopButton::onClick(Vector2D mousePos)
 	if(mType == ShopButtonType::Syringe)
 		if (Game::getInstance()->buySyringe(mData.c, mousePos, mCost))
 			mCost *= 2;
+
+	if (mType == ShopButtonType::Building)
+		Game::getInstance()->buyBuilding(mData.b, mousePos, mCost);
+	
+	if (mType == ShopButtonType::Evolution)
+		Game::getInstance()->buyEvolution(mousePos, mCost);
 }
