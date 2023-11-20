@@ -22,26 +22,38 @@ Shader::~Shader()
 
 bool Shader::loadFromFile()
 {
-	string filepath = "";
+	//This later should be changed to one filepath, one being enabled by a command line arg, probably the external one
+	string internalfilepath = "", externalFilepath = "";
 
 	switch (mType)
 	{
 	case VERTEX_SHADER:
-		filepath = "Vertex Shaders/";
+		internalfilepath = "./Vertex Shaders/";
+		externalFilepath = "../RedEngineGraphics/Vertex Shaders/";
 		break;
 	case FRAGMENT_SHADER:
-		filepath = "Fragment Shaders/";
+		internalfilepath = "./Fragment Shaders/";
+		externalFilepath = "../RedEngineGraphics/Fragment Shaders/";
+		break;
 	}
 
-	filepath += mFilename;
+	internalfilepath += mFilename;
+	externalFilepath += mFilename;
 
-	ifstream in = ifstream(filepath);
+	ifstream in = ifstream(internalfilepath);
 	string input = "";
 
 	if (!in.is_open())
 	{
-		cout << "ERROR: SHADER FILEPATH \"" << filepath << "\" NOT FOUND!" << endl;
-		return false;
+		//Attempting alternate filepath
+		in.open(externalFilepath);
+
+		if (!in.is_open())
+		{
+			cout << "ERROR: SHADER FILEPATH \"" << internalfilepath << "\" NOT FOUND!" << endl;
+			return false;
+		}
+		
 	}
 
 	string temp;

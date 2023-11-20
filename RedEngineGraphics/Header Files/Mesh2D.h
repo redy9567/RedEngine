@@ -9,16 +9,22 @@ typedef unsigned int ElementBufferIndex;
 
 class Texture2D;
 
+enum MeshType
+{
+	Triangles,
+	Lines
+};
+
 class Mesh2D : public Trackable
 {
 
 public:
 	friend class GraphicsSystem;
 
-	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount);
-	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[]);
+	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, MeshType meshType = Triangles);
+	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[], MeshType meshType = Triangles);
 	Mesh2D(Vector2D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[],
-		Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[]);
+		Texture2D** textureData, unsigned int textureDataCount, Vector2D textureCoords[], MeshType meshType = Triangles);
 	~Mesh2D();
 
 	Vector2D getVertexAt(int index) { return mVerticies[index]; }
@@ -29,6 +35,7 @@ public:
 private:
 	Mesh2D() = delete;
 
+	MeshType mMeshType;
 	Vector2D* mVerticies;
 	unsigned int mVertexCount;
 

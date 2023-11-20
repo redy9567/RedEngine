@@ -1,5 +1,8 @@
 #include "Vector2D.h"
 #include <math.h>
+#include <assert.h>
+#include <Matrix2D.h>
+#include <string>
 
 using namespace std;
 
@@ -30,6 +33,36 @@ Vector2D::Vector2D(double x, double y) //NOTE: loss of precision, used to remove
 {
 	mX = (float)x;
 	mY = (float)y;
+}
+
+Vector2D::Vector2D(unsigned int x, unsigned int y)
+{
+	mX = (float)x;
+	mY = (float)y;
+}
+
+Vector2D::Vector2D(float xy)
+{
+	mX = xy;
+	mY = xy;
+}
+
+Vector2D::Vector2D(int xy)
+{
+	mX = (float)xy;
+	mY = (float)xy;
+}
+
+Vector2D::Vector2D(double xy) //NOTE: loss of precision, used to remove ambiguity
+{
+	mX = (float)xy;
+	mY = (float)xy;
+}
+
+Vector2D::Vector2D(unsigned int xy)
+{
+	mX = (float)xy;
+	mY = (float)xy;
 }
 
 Vector2D Vector2D::operator=(const Vector2D& other)
@@ -135,16 +168,21 @@ Vector2D Vector2D::normalized() const
 	if(len == 0.0f)
 		return Zero();
 	else if(len == 1.0f)
-		return Vector2D(mX, mY);
+		return *this;
 
 	return Vector2D(mX / len, mY / len);
 }
 
 ostream& Vector2D::write(ostream& out) const
 {
-	out << "(" << mX << ", " << mY << ")";
+	out << toString();
 	
 	return out;
+}
+
+string Vector2D::toString() const
+{
+	return "(" + to_string(mX) + ", " + to_string(mY) + ")";
 }
 
 std::ostream& operator<<(std::ostream& out, Vector2D const &vec)
@@ -161,4 +199,49 @@ bool Vector2D::operator==(const Vector2D& other) const
 bool Vector2D::operator!=(const Vector2D& other) const
 {
 	return !(mX == other.getX() && mY == other.getY());
+}
+
+float Vector2D::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return mX;
+		break;
+	case 1:
+		return mY;
+		break;
+	default:
+		assert(false);
+		return -1.0f;
+		break;
+	}
+}
+
+float Vector2D::Dot(const Vector2D a, const Vector2D b)
+{
+	return a[0] * b[0] + a[1] * b[1];
+}
+
+float Vector2D::operator*(const Vector2D& other) const
+{
+	return Dot(*this, other);
+}
+
+Vector2D Vector2D::operator*(const Matrix2D& other) const
+{
+	return Vector2D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)));
+}
+
+bool Vector2D::IsPointWithinBounds(Vector2D point, Vector2D lower, Vector2D upper)
+{
+	return point.getX() > lower.getX() &&
+		point.getY() > lower.getY() &&
+		point.getX() < upper.getX() &&
+		point.getY() < upper.getY();
+}
+
+Vector2D Vector2D::Midpoint(const Vector2D a, const Vector2D b)
+{
+	return (a + b) / 2;
 }

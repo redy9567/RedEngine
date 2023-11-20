@@ -1,5 +1,8 @@
 #include "Vector3D.h"
 #include <math.h>
+#include <assert.h>
+#include "Matrix3D.h"
+#include <string>
 
 using namespace std;
 
@@ -30,6 +33,13 @@ Vector3D::Vector3D(int x, int y, int z)
 }
 
 Vector3D::Vector3D(double x, double y, double z) //NOTE: loss of precision, used to remove ambiguity
+{
+	mX = (float)x;
+	mY = (float)y;
+	mZ = (float)z;
+}
+
+Vector3D::Vector3D(unsigned int x, unsigned int y, unsigned int z)
 {
 	mX = (float)x;
 	mY = (float)y;
@@ -146,16 +156,21 @@ Vector3D Vector3D::normalized() const
 	if(len == 0.0f)
 		return Zero();
 	else if(len == 1.0f)
-		return Vector3D(mX, mY, mZ);
+		return *this;
 
 	return Vector3D(mX / len, mY / len, mZ / len);
 }
 
 ostream& Vector3D::write(ostream& out) const
 {
-	out << "(" << mX << ", " << mY << ", " << mZ << ")";
+	out << toString();
 	
 	return out;
+}
+
+string Vector3D::toString() const
+{
+	return "(" + to_string(mX) + ", " + to_string(mY) + ", " + to_string(mZ) + ")";
 }
 
 std::ostream& operator<<(std::ostream& out, Vector3D const &vec)
@@ -172,4 +187,58 @@ bool Vector3D::operator==(const Vector3D& other) const
 bool Vector3D::operator!=(const Vector3D& other) const
 {
 	return !(mX == other.getX() && mY == other.getY() && mZ == other.getZ());
+}
+
+float Vector3D::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return mX;
+		break;
+	case 1:
+		return mY;
+		break;
+	case 2:
+		return mZ;
+		break;
+	default:
+		assert(false);
+		return -1.0f;
+		break;
+	}
+}
+
+float Vector3D::Dot(const Vector3D a, const Vector3D b)
+{
+	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+float Vector3D::operator*(const Vector3D& other) const
+{
+	return Dot(*this, other);
+}
+
+Vector3D Vector3D::Cross(const Vector3D a, const Vector3D b)
+{
+	return Vector3D(
+		a.mY * b.mZ - a.mZ * b.mY,
+		a.mZ * b.mX - a.mX * b.mZ,
+		a.mX * b.mY - a.mY * b.mX
+	);
+}
+
+Vector3D Vector3D::operator*(const Matrix3D& other) const
+{
+	return Vector3D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)), Dot(*this, other.getColumn(2)));
+}
+
+bool Vector3D::IsPointWithinBounds(Vector3D point, Vector3D lower, Vector3D upper)
+{
+	return	point.getX() > lower.getX() &&
+		point.getY() > lower.getY() &&
+		point.getZ() > lower.getZ() &&
+		point.getX() < upper.getX() &&
+		point.getY() < upper.getY() &&
+		point.getZ() < upper.getZ();
 }

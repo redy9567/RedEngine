@@ -2,6 +2,7 @@
 #include "stb\stb_image.h"
 #include <assert.h>
 #include <iostream>
+#include "GraphicsSystem.h"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ Texture2D::~Texture2D()
 	assert(!mReferences); //Ensure that no object still expects to use this Texture
 	if (mData)
 		freeRawData();
+
+	GraphicsSystem::getInstance()->cleanupTexture2D(this);
 }
 
 void Texture2D::freeRawData()
