@@ -10,3 +10,8 @@ PlayerMoveEvent::~PlayerMoveEvent()
 {
     
 }
+
+std::string PlayerMoveEvent::getEventDetails() const
+{
+    return moveLoc.toString();
+}

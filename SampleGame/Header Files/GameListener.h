@@ -1,23 +1,11 @@
 #pragma once
-
 #include "EventListener.h"
-
 
 class GameListener : public EventListener
 {
-
 public:
-    GameListener();
-    ~GameListener();
+	GameListener();
+	~GameListener();
 
-    void handleEvent(const Event&);
-
-    //void processKeyUp(KeyCode key);
-    //void processKey(KeyCode key);
-    //void processKeyDown(KeyCode key);
-
-    void processMouseButtonUp(int button);
-    void processMouseButton(int button);
-    void processMouseButtonDown(int button);
-
+	void handleEvent(const Event&) override;
 };

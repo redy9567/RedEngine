@@ -1,10 +1,12 @@
 #include "MouseEvent.h"
 
-MouseEvent::MouseEvent(int button, ButtonState state)
+MouseEvent::MouseEvent(MouseAction button, ButtonState state, Vector2D mousePos, Vector2D scrollOffset)
     : Event(MOUSE_EVENT)
 {
-    mButton = button;
+    mAction = button;
     mState = state;
+    mMousePos = mousePos;
+    mScrollOffset = scrollOffset;
 }
 
 MouseEvent::~MouseEvent()

@@ -24,14 +24,9 @@
     <ProjectGuid>{c546ad46-2176-4ca0-901b-f0b48eebd398}</ProjectGuid>
     <RootNamespace>RedLib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <OutputPath>bin\x64\Debug\</OutputPath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -39,7 +34,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -76,8 +71,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -117,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\spyid\Documents\RedEngine\RedLib\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,20 +137,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Header Files\IsolatedTrackable.h" />
+    <ClInclude Include="Header Files\Matrix2D.h" />
+    <ClInclude Include="Header Files\Matrix3D.h" />
+    <ClInclude Include="Header Files\Matrix4D.h" />
     <ClInclude Include="Header Files\MemoryTracker.h" />
     <ClInclude Include="Header Files\Timer.h" />
     <ClInclude Include="Header Files\Trackable.h" />
     <ClInclude Include="Header Files\Vector2D.h" />
     <ClInclude Include="Header Files\Vector3D.h" />
-    <ClInclude Include="Header Files\WinTimer.h" />
+    <ClInclude Include="Header Files\Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source Files\IsolatedTrackable.cpp" />
+    <ClCompile Include="Source Files\Matrix2D.cpp" />
+    <ClCompile Include="Source Files\Matrix3D.cpp" />
+    <ClCompile Include="Source Files\Matrix4D.cpp" />
     <ClCompile Include="Source Files\MemoryTracker.cpp" />
     <ClCompile Include="Source Files\Timer.cpp" />
     <ClCompile Include="Source Files\Trackable.cpp" />
     <ClCompile Include="Source Files\Vector2D.cpp" />
     <ClCompile Include="Source Files\Vector3D.cpp" />
-    <ClCompile Include="Source Files\WinTimer.cpp" />
+    <ClCompile Include="Source Files\Vector4D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

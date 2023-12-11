@@ -1,9 +1,7 @@
 #include "GameListener.h"
-#include "PlayerMoveEvent.h"
-#include "KeyboardEvent.h"
-#include "MouseEvent.h"
+#include "Event.h"
 #include "Game.h"
-#include "GraphicsSystem.h"
+#include "GameEvents.h"
 
 GameListener::GameListener()
 {
@@ -15,119 +13,52 @@ GameListener::~GameListener()
 
 }
 
-/*
-void GameListener::handleEvent(const Event& event)
+void GameListener::handleEvent(const Event& ev)
 {
-    if(event.getType() == PLAYER_MOVE_EVENT)
-    {
-        const PlayerMoveEvent& moveEvent = (const PlayerMoveEvent&)event;
+	Game* game = Game::getInstance();
 
-        Game::getInstance()->DPlayerMove(moveEvent.getMoveLoc());
-    }
-    
-    else if(event.getType() == KEYBOARD_EVENT)
-    {
-        const KeyboardEvent& keyboardEvent = (const KeyboardEvent&)event;
+	GameEventUnion* eventUnion = new GameEventUnion();
+	eventUnion->event = &ev;
 
-        if(keyboardEvent.getButtonState() == BUTTON_DOWN)
-        {
-	        processKeyDown(keyboardEvent.getKey());
-        }
-        else if(keyboardEvent.getButtonState() == BUTTON_HELD)
-        {
-            processKey(keyboardEvent.getKey());
-        }
-        else if(keyboardEvent.getButtonState() == BUTTON_UP)
-        {
-            if(keyboardEvent.getKey() == Key_A || keyboardEvent.getKey() == Key_D)
-	        {
-                InputSystem::getInstance()->setHorizonalMovementAxis(0.0f);
-	        }
-	        if(keyboardEvent.getKey() == Key_S || keyboardEvent.getKey() == Key_W)
-	        {
-		        InputSystem::getInstance()->setVerticalMovementAxis(0.0f);
-	        }
+	switch(ev.getType())
+	{
+	case Event::MOUSE_EVENT:
 
-            //Game::getInstance()->DKeyRelease(keyboardEvent.getKey());
-        }
-    }
-    else if(event.getType() == MOUSE_EVENT)
-    {
-        const MouseEvent& mouseEvent = (const MouseEvent&)event;
+		if (eventUnion->mouseEvent->getMouseAction() == MouseAction::Move)
+			game->onMouseMove(eventUnion->mouseEvent->getMousePosition());
+		else
+			game->onClick(*eventUnion->mouseEvent);
 
-        if(mouseEvent.getButtonState() == BUTTON_DOWN)
-        {
+		break;
 
-            if(mouseEvent.getMouseButton() == 0)
-	        {
-		        Game::getInstance()->fireProj();
-	        }
+	case Event::KEYBOARD_EVENT:
+		if (eventUnion->keyboardEvent->getButtonState() == KeyState::Down)
+		{
+			switch (eventUnion->keyboardEvent->getKey())
+			{
+			case KeyCode::F1:
+				game->onToggleDrawMode();
+				break;
 
-            //Game::getInstance()->DMousePress(mouseEvent.getMouseButton());
-        }
-        else if(mouseEvent.getButtonState() == BUTTON_UP)
-        {
-            //Game::getInstance()->DMouseRelease(mouseEvent.getMouseButton());
-        }
-    }
-    
+			case KeyCode::F2:
+				game->onToggleShaders();
+				break;
+
+			case KeyCode::F4:
+				game->onShaderHotReload();
+				break;
+
+			case KeyCode::F5:
+				game->onToggleDebugMode();
+				break;
+			}
+		}
+		break;
+
+	case Event::AXIS_EVENT:
+		game->onAxis(*eventUnion->axisEvent);
+		break;
+	}
+
+	delete eventUnion;
 }
-
-void GameListener::processKeyDown(KeyCode key)
-{
-
-    switch(key)
-    {
-        case Key_Escape:
-            Game::getInstance()->quitGame();
-            break;
-    }
-
-    //Game::getInstance()->DKeyPress(keyboardEvent.getKey());
-}
-
-void GameListener::processKey(KeyCode key)
-{
-
-    Vector2D loc;
-    switch(key)
-    {
-        case Key_Right:
-            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(20, 0));
-            break;
-
-        case Key_Left:
-            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(-20, 0));
-            break;
-
-        case Key_Down:
-            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, 20));
-            break;
-
-        case Key_Up:
-            loc = Game::getInstance()->mpGraphicsSystem->getCameraLocation();
-            Game::getInstance()->mpGraphicsSystem->setCameraLocation(loc + Vector2D(0, -20));
-            break;
-
-        case Key_A:
-            InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Left().getX());
-            break;
-
-        case Key_S:
-            InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Down().getY());
-            break;
-
-        case Key_D:
-            InputSystem::getInstance()->setHorizonalMovementAxis(Vector2D::Right().getX());
-            break;
-
-        case Key_W:
-            InputSystem::getInstance()->setVerticalMovementAxis(Vector2D::Up().getY());
-            break;
-    }
-
-}
-*/

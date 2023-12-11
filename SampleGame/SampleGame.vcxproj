@@ -104,12 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>Header Files;C:\Users\spyid\Documents\RedEngine\RedLib\Header Files;C:\Users\spyid\Documents\RedEngine\RedEnginePhysics\Header Files;C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Header Files;C:\Users\spyid\Documents\RedEngine\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\RedEngineInput\Header Files;Header Files;..\RedLib\Header Files;..\RedEnginePhysics\Header Files;..\RedEngineGraphics\Header Files;..\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\spyid\Documents\RedEngine\SampleGame\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\RedEngineGraphics\Linker Files;..\glfw-3.3.8;x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>RedLib.lib;RedEngine.lib;RedEnginePhysics.lib;RedEngineGraphics.lib;RedEngineInput.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,12 +135,11 @@
     <Image Include="Assets\Sphere_Glow.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\RedEngine\Header Files\GameEvents.h" />
     <ClInclude Include="Header Files\Game.h" />
     <ClInclude Include="Header Files\GameListener.h" />
     <ClInclude Include="Header Files\Player.h" />
     <ClInclude Include="Header Files\PlayerMoveEvent.h" />
-    <ClInclude Include="Header Files\Unit.h" />
-    <ClInclude Include="Header Files\UnitManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Game.cpp" />
@@ -147,8 +147,6 @@
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\Player.cpp" />
     <ClCompile Include="Source Files\PlayerMoveEvent.cpp" />
-    <ClCompile Include="Source Files\Unit.cpp" />
-    <ClCompile Include="Source Files\UnitManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

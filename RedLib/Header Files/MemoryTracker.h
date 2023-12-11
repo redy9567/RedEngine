@@ -11,7 +11,9 @@ public:
 	static void cleanupInstance();
 
 	void addAllocation(void* ptr, size_t size);
+	void addIsolatedAllocation(void* ptr, size_t size);
 	void removeAllocation(void* ptr);
+	void removeIsolatedAllocation(void* ptr);
 
 	void reportAllocations(std::ostream& stream);
 
@@ -26,8 +28,11 @@ private:
 	MemoryTracker() {};
 	~MemoryTracker() {};
 
-	std::unordered_map<void*, AllocationRecord> mAllocaitons;
+	std::unordered_map<void*, AllocationRecord> mAllocations;
+	std::unordered_map<void*, AllocationRecord> mIsolatedAllocations;
 
 	static int msAllocationNum;
+	static int msIsolatedAllocationNum;
+
 	static MemoryTracker* mspInstance;
 };

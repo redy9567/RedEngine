@@ -4,20 +4,18 @@
 
 const int MAX_COLOR_VALUE = 255;
 
-class RColor : public Trackable
+class Color : public Trackable
 {
 
 public:
 	friend class GraphicsSystem;
 
-	RColor();
-	~RColor();
-	RColor(int, int, int, int);
-	RColor(float, float, float, float);
+	Color();
+	~Color();
+	Color(int, int, int, int);
+	Color(float, float, float, float);
 
 private:
 	int mR, mG, mB, mA;
-
-	//raylib::Color getRayColor();
 
 };

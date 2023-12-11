@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\spyid\Documents\RedEngine\glfw-3.3.8\include;C:\Users\spyid\Documents\RedEngine\RedLib\Header Files;C:\Users\spyid\Documents\RedEngine\RedEngineGraphics\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Header Files\FreeType;..\glfw-3.3.8\include;..\RedLib\Header Files;Header Files;..\RedEngine\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,32 +147,164 @@
   <ItemGroup>
     <ClInclude Include="..\glad\glad\glad.h" />
     <ClInclude Include="..\glad\KHR\khrplatform.h" />
-    <ClInclude Include="Header Files\Game.h" />
+    <ClInclude Include="Header Files\Animation.h" />
+    <ClInclude Include="Header Files\AnimationData.h" />
+    <ClInclude Include="Header Files\AnimationManager.h" />
+    <ClInclude Include="Header Files\Cursor.h" />
+    <ClInclude Include="Header Files\Font.h" />
+    <ClInclude Include="Header Files\FontManager.h" />
+    <ClInclude Include="Header Files\FreeType\dlg\dlg.h" />
+    <ClInclude Include="Header Files\FreeType\dlg\output.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\ftconfig.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\ftheader.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\ftmodule.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\ftoption.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\ftstdlib.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\integer-types.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\mac-support.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\config\public-macros.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\freetype.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftadvanc.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftbbox.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftbdf.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftbitmap.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftbzip2.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftcache.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftchapters.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftcid.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftcolor.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftdriver.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\fterrdef.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\fterrors.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftfntfmt.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftgasp.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftglyph.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftgxval.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftgzip.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftimage.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftincrem.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftlcdfil.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftlist.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftlogging.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftlzw.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftmac.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftmm.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftmodapi.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftmoderr.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftotval.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftoutln.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftparams.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftpfr.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftrender.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftsizes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftsnames.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftstroke.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftsynth.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftsystem.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\fttrigon.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\fttypes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ftwinfnt.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\autohint.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\cffotypes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\cfftypes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\compiler-macros.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftcalc.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftdebug.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftdrv.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\fthash.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftmemory.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftmmtypes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftobjs.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftpsprop.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftrfork.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftserv.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftstream.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\fttrace.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\ftvalid.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\psaux.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\pshints.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svcfftl.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svcid.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svkern.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svmetric.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svmm.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svotval.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svprop.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\sfnt.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\svginterface.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\t1types.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\tttypes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\internal\wofftypes.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\otsvg.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\t1tables.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\ttnameid.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\tttables.h" />
+    <ClInclude Include="Header Files\FreeType\freetype\tttags.h" />
+    <ClInclude Include="Header Files\FreeType\ft2build.h" />
+    <ClInclude Include="Header Files\GameObject2D.h" />
+    <ClInclude Include="Header Files\GameObject2DManager.h" />
     <ClInclude Include="Header Files\GraphicsSystem.h" />
     <ClInclude Include="Header Files\Mesh2D.h" />
     <ClInclude Include="Header Files\Shader.h" />
     <ClInclude Include="Header Files\ShaderManager.h" />
     <ClInclude Include="Header Files\ShaderProgram.h" />
+    <ClInclude Include="Header Files\Sprite.h" />
+    <ClInclude Include="Header Files\SpriteManager.h" />
     <ClInclude Include="Header Files\stb\stb_image.h" />
     <ClInclude Include="Header Files\Texture2D.h" />
+    <ClInclude Include="Header Files\Texture2DManager.h" />
+    <ClInclude Include="Header Files\UIElement.h" />
+    <ClInclude Include="Header Files\UIManager.h" />
+    <ClInclude Include="Header Files\UIScrollElement.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source Files\Game.cpp" />
+    <ClCompile Include="Source Files\Animation.cpp" />
+    <ClCompile Include="Source Files\AnimationData.cpp" />
+    <ClCompile Include="Source Files\AnimationManager.cpp" />
+    <ClCompile Include="Source Files\Cursor.cpp" />
+    <ClCompile Include="Source Files\Font.cpp" />
+    <ClCompile Include="Source Files\FontManager.cpp" />
+    <ClCompile Include="Source Files\GameObject2D.cpp" />
+    <ClCompile Include="Source Files\GameObject2DManager.cpp" />
     <ClCompile Include="Source Files\glad\glad.c" />
     <ClCompile Include="Source Files\GraphicsSystem.cpp" />
-    <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\Mesh2D.cpp" />
     <ClCompile Include="Source Files\Shader.cpp" />
     <ClCompile Include="Source Files\ShaderManager.cpp" />
     <ClCompile Include="Source Files\ShaderProgram.cpp" />
+    <ClCompile Include="Source Files\Sprite.cpp" />
+    <ClCompile Include="Source Files\SpriteManager.cpp" />
     <ClCompile Include="Source Files\Texture2D.cpp" />
+    <ClCompile Include="Source Files\Texture2DManager.cpp" />
+    <ClCompile Include="Source Files\UIElement.cpp" />
+    <ClCompile Include="Source Files\UIManager.cpp" />
+    <ClCompile Include="Source Files\UIScrollElement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fragment Shaders\basic.frag" />
+    <None Include="Fragment Shaders\text.frag" />
+    <None Include="Fragment Shaders\color.frag" />
     <None Include="Fragment Shaders\test.frag" />
+    <None Include="Fragment Shaders\textured.frag" />
     <None Include="Fragment Shaders\triColor.frag" />
     <None Include="Vertex Shaders\basic.vert" />
+    <None Include="Vertex Shaders\basicUI.vert" />
     <None Include="Vertex Shaders\test.vert" />
+    <None Include="Vertex Shaders\text.vert" />
+    <None Include="Vertex Shaders\textured.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

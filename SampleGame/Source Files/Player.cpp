@@ -3,13 +3,13 @@
 #include "PlayerMoveEvent.h"
 
 Player::Player()
-    : Unit()
+    : GameObject2D()
 {
     
 }
 
 Player::Player(Animation* anim, float moveSpeed, Vector2D loc)
-    : Unit(anim, loc)
+    : GameObject2D(anim, loc)
 {
     mMoveDir = Vector2D::Zero();
     mSpeed = moveSpeed;
@@ -20,7 +20,7 @@ Player::~Player()
     
 }
 
-void Player::update(double deltaTime)
+void Player::update(float deltaTime)
 {
 
     if(mMoveDir != Vector2D::Zero())

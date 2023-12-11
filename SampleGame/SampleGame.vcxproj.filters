@@ -29,27 +29,21 @@
     <ClInclude Include="Header Files\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\GameListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\PlayerMoveEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Unit.h">
+    <ClInclude Include="Header Files\GameListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\UnitManager.h">
+    <ClInclude Include="..\RedEngine\Header Files\GameEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Files\GameListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source Files\main.cpp">
@@ -61,10 +55,7 @@
     <ClCompile Include="Source Files\PlayerMoveEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source Files\Unit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Files\UnitManager.cpp">
+    <ClCompile Include="Source Files\GameListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,14 +6,13 @@ class GraphicsSystem;
 class InputSystem;
 class Player;
 class Timer;
-class UnitManager;
-class AnimationManager;
-class GraphicsBufferManager;
 class GameListener;
 class EventSystem;
 class Vector2D;
+class MouseEvent;
+class AxisEvent;
 
-const std::string ASSET_PATH = "";//GAMEASSETS; //MAKE THIS RELATIVE PATH
+const std::string ASSET_PATH = "Assets/";//GAMEASSETS; //MAKE THIS RELATIVE PATH
 const std::string SMURF_FILENAME = "smurf_sprites.png";
 const std::string PROJECTILE_FILENAME = "Sphere_Glow.png";
 const std::string BACKGROUND_FILEPATH = "room/room0000.png";
@@ -44,30 +43,36 @@ private:
 	void debug(); //Just a bunch of stuff to do in Debug Mode
 
 	void DPlayerMove(Vector2D loc); //Functions that begin with the prefix D are debug functions
-	//void DKeyPress(KeyCode);
 	void DMousePress(int);
-	//void DKeyRelease(KeyCode);
 	void DMouseRelease(int);
 
 	void fireProj();
 
 	void quitGame();
 
+	void initShaderObjects();
+	void initShaderPrograms();
+
+	void onMouseMove(Vector2D);
+	void onClick(const MouseEvent&);
+	void onAxis(const AxisEvent&);
+
+	void onToggleDrawMode();
+	void onToggleShaders();
+	void onShaderHotReload();
+	void onToggleDebugMode();
+
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
-
-	UnitManager* mpUnitManager;
-	AnimationManager* mpAnimationManager;
-	GraphicsBufferManager* mpGraphicsBufferManager;
-
-	GameListener* mpGameListener;
 
 	Player* mpPlayerUnit;
 
 	Timer* mpGameTimer;
 
-	double deltaTime;
+	GameListener* mpGameListener;
+
+	double mDeltaTime;
 	bool mDebugMode, mIsPlaying;
 
 	float mTimePerFrame;

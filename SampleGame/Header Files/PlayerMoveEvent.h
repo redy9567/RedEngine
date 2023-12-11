@@ -12,6 +12,9 @@ public:
 
     Vector2D getMoveLoc() const { return moveLoc; }
 
+    virtual std::string getTypeName() const { return "PlayerMoveEvent"; }
+    virtual std::string getEventDetails() const;
+
 private:
     PlayerMoveEvent() = delete;
 

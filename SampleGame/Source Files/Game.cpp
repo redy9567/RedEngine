@@ -5,12 +5,18 @@
 #include "AnimationData.h"
 #include "Player.h"
 #include "Timer.h"
-#include "UnitManager.h"
 #include "AnimationManager.h"
 #include "EventSystem.h"
+#include "GameObject2DManager.h"
+#include "Texture2D.h"
+#include "InputSystem.h"
+#include "MouseEvent.h"
 #include "GameListener.h"
+#include "AxisEvent.h"
 
 #include <iostream>
+#include <Shader.h>
+#include <cassert>
 
 using namespace std;
 
@@ -39,7 +45,7 @@ void Game::startGame()
 	mpGameTimer->start();
 	while (mIsPlaying)    // Detect window close button or ESC key
 	{
-		deltaTime = mpGameTimer->getElapsedTime();
+		mDeltaTime = mpGameTimer->getElapsedTime();
 		mpGameTimer->start();
 
 		getInput();
@@ -60,15 +66,11 @@ Game::Game()
 	mpPlayerUnit = nullptr;
 	mpGameTimer = nullptr;
 
-	mpUnitManager = nullptr;
-	mpGraphicsBufferManager = nullptr;
-	mpAnimationManager = nullptr;
-
-	mpGameListener = nullptr;
-
 	mDebugMode = false;
 	mIsPlaying = false;
 	mTimePerFrame = 0.0f;
+
+	mDeltaTime = 0.0f;
 }
 
 Game::~Game()
@@ -81,27 +83,33 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
-	mpGraphicsSystem->init(screenWidth, screenHeight);
+	assert(mpGraphicsSystem->init(screenWidth, screenHeight));
 
-	mpUnitManager = new UnitManager();
+	initShaderObjects();
+	initShaderPrograms();
 
-	//mpGraphicsBufferManager = new GraphicsBufferManager();
-	//GraphicsBuffer* smurfBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("smurf", ASSET_PATH + SMURF_FILENAME);
-	//GraphicsBuffer* projBuffer = mpGraphicsBufferManager->createAndManageGraphicsBuffer("proj", ASSET_PATH + PROJECTILE_FILENAME);
-	//mpGraphicsBufferManager->createAndManageGraphicsBuffer("background", ASSET_PATH + BACKGROUND_FILEPATH);
+	mpGraphicsSystem->setActiveShaderProgram("Textured");
 
-	mpAnimationManager = new AnimationManager();
+	Texture2D* smurfTexture = mpGraphicsSystem->createAndAddTexture2D("smurf", ASSET_PATH + SMURF_FILENAME, true);
+	Texture2D* projTexture = mpGraphicsSystem->createAndAddTexture2D("proj", ASSET_PATH + PROJECTILE_FILENAME, true);
+	Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("bg", ASSET_PATH + BACKGROUND_FILEPATH);
 
-	//AnimationData* playerAnimData = mpAnimationManager->createAndManageAnimationData("smurf", smurfBuffer, 4, 4);
-	//mpAnimationManager->createAndManageAnimationData("proj", projBuffer, 1, 13, 0.25f);
+	Vector2D bgScale = Vector2D(1.0f, 0.75f);
+	Sprite* bgSprite = mpGraphicsSystem->createAndAddSprite("Background", &bgTexture, Vector2D::Zero(), bgTexture->getSize(), bgScale);
+	mpGraphicsSystem->setBackground(mpGraphicsSystem->createAndAddGameObject2D(bgSprite, Vector2D(21.5f, 15.5f)));
 
-	//Animation* playerAnim = mpAnimationManager->createAndManageAnimation(playerAnimData, 16);
-	//mpPlayerUnit = new Player(playerAnim, 200.0f, Vector2D(300, 300));
+	mpGraphicsSystem->createAndAddAnimationData("smurf", &smurfTexture, 4, 4);
+	mpGraphicsSystem->createAndAddAnimationData("proj", &projTexture, 1, 13, 0.25f);
+
+
+	Animation* playerAnim = mpGraphicsSystem->createAndAddAnimation("smurf", 16, true);
+	mpPlayerUnit = new Player(playerAnim, 50.0f, Vector2D(3.0f, 3.0f));
+	mpGraphicsSystem->addGameObject2D(mpPlayerUnit);
 
 	mpGameListener = new GameListener();
-	EventSystem::getInstance()->addListener(PLAYER_MOVE_EVENT, mpGameListener);
-	EventSystem::getInstance()->addListener(KEYBOARD_EVENT, mpGameListener);
-	EventSystem::getInstance()->addListener(MOUSE_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener(Event::KEYBOARD_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener(Event::MOUSE_EVENT, mpGameListener);
+	EventSystem::getInstance()->addListener(Event::AXIS_EVENT, mpGameListener);
 
 	mpGameTimer = new Timer();
 
@@ -113,24 +121,13 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 void Game::cleanup()
 {
-	EventSystem::getInstance()->removeListenerFromAllEvents(mpGameListener);
 	delete mpGameListener;
 	mpGameListener = nullptr;
 
 	delete mpPlayerUnit;
 	mpPlayerUnit = nullptr;
 
-	delete mpUnitManager;
-	mpUnitManager = nullptr;
-
-	delete mpAnimationManager;
-	mpAnimationManager = nullptr;
-
-	delete mpGraphicsBufferManager;
-	mpGraphicsBufferManager = nullptr;
-
 	EventSystem::cleanupInstance();
-
 
 	mpGraphicsSystem->cleanup();
 
@@ -143,40 +140,30 @@ void Game::cleanup()
 
 void Game::getInput()
 {
-	//InputSystem::getInstance()->inputUpdate();
+	InputSystem::getInstance()->update();
 }
 
 void Game::update()
 {
-	mpUnitManager->update(deltaTime);
+	mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
+	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
 
-	mpAnimationManager->update(deltaTime);
+	mpGraphicsSystem->getAnimation(0)->update(mDeltaTime);
 
-	//mpPlayerUnit->setMoveDirection(InputSystem::getInstance()->getMovementAxis().normalized());
-	mpPlayerUnit->update(deltaTime);
+	mpGraphicsSystem->update(mDeltaTime);
 }
 
 void Game::render()
 {
-	RColor lightGrey = RColor(150, 150, 150, 255);
-	RColor white = RColor(255, 255, 255, 255);
-
-	//mpGraphicsSystem->clearScreenToColor(white);
-
-	//mpGraphicsSystem->draw(mpGraphicsBufferManager->getGraphicsBuffer("background"), Vector2D::Zero());
-
-	mpPlayerUnit->draw(mpGraphicsSystem);
-
-	mpUnitManager->draw(mpGraphicsSystem);
-
-	//mpGraphicsSystem->flip();
+	mpGraphicsSystem->drawInternalObjects();
+	mpGraphicsSystem->render();
 }
 
 void Game::debug()
 {
 	if(mDebugMode)
 	{
-		cout << "Frame Length: " << deltaTime << ", which is equal to " << 1 / deltaTime << " FPS." << endl;
+		//cout << "Frame Length: " << mDeltaTime << ", which is equal to " << 1 / mDeltaTime << " FPS." << endl;
 	}
 }
 
@@ -184,23 +171,11 @@ void Game::DPlayerMove(Vector2D loc)
 {
 	cout << "Player move to: " << loc << endl;
 }
-/*
-void Game::DKeyPress(KeyCode key)
-{
-	cout << "Key pressed with ID: " << key << endl;
-}
-*/
 
 void Game::DMousePress(int button)
 {
 	cout << "Mouse Button pressed with ID: " << button << endl;
 }
-/*
-void Game::DKeyRelease(KeyCode key)
-{
-	cout << "Key released with ID: " << key << endl;
-}
-*/
 
 void Game::DMouseRelease(int button)
 {
@@ -213,17 +188,93 @@ void Game::quitGame()
 	cout << "QUIT" << endl;
 }
 
-/*
-void Game::fireProj()
+void Game::initShaderObjects()
 {
-	Vector2D dir = Vector2D(
-		//InputSystem::getInstance()->getMousePosition().getX() - mpPlayerUnit->getLocation().getX() + mpGraphicsSystem->getCameraLocation().getX(), 
-		//InputSystem::getInstance()->getMousePosition().getY() - mpPlayerUnit->getLocation().getY() + mpGraphicsSystem->getCameraLocation().getY());
-	dir.normalize();
-
-	AnimationData* projAnimData = mpAnimationManager->getAnimationData("proj");
-	Animation* projAnim = mpAnimationManager->createAndManageAnimation(projAnimData, 13);
-
-	mpUnitManager->createAndManageUnit(projAnim, mpPlayerUnit->getLocation(), dir, PROJECTILE_SPEED);
+	mpGraphicsSystem->createAndAddShader("Textured Vert", VERTEX_SHADER, "textured.vert");
+	mpGraphicsSystem->createAndAddShader("Textured Frag", FRAGMENT_SHADER, "textured.frag");
+	mpGraphicsSystem->createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
+	mpGraphicsSystem->createAndAddShader("Basic UI Vert", VERTEX_SHADER, "basicUI.vert");
+	mpGraphicsSystem->createAndAddShader("Color Frag", FRAGMENT_SHADER, "color.frag");
+	mpGraphicsSystem->createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
+	mpGraphicsSystem->createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
 }
-*/
+
+void Game::initShaderPrograms()
+{
+	mpGraphicsSystem->createAndAddShaderProgram("Textured", "Textured Vert", "Textured Frag");
+	mpGraphicsSystem->linkShaderProgram("Textured");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("Textured", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	mpGraphicsSystem->createAndAddShaderProgram("Color", "Basic Vert", "Color Frag");
+	mpGraphicsSystem->linkShaderProgram("Color");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("Color", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	mpGraphicsSystem->createAndAddShaderProgram("ColorUI", "Basic UI Vert", "Color Frag");
+	mpGraphicsSystem->linkShaderProgram("ColorUI");
+	mpGraphicsSystem->activateFloatAttributeOnProgram("ColorUI", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	mpGraphicsSystem->createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
+	mpGraphicsSystem->linkShaderProgram("Text");
+
+	mpGraphicsSystem->setActiveShaderProgram("Textured");
+}
+
+void Game::onMouseMove(Vector2D mouseLoc)
+{
+
+}
+
+void Game::onClick(const MouseEvent& event)
+{
+
+}
+
+void Game::onToggleDrawMode()
+{
+	switch (mpGraphicsSystem->getDrawMode())
+	{
+	case GraphicsSystem::DrawMode::Fill:
+		mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Wireframe);
+		break;
+
+	case GraphicsSystem::DrawMode::Wireframe:
+		mpGraphicsSystem->setDrawMode(GraphicsSystem::DrawMode::Fill);
+		break;
+	}
+}
+
+void Game::onToggleShaders()
+{
+	if (mpGraphicsSystem->getCurrentShaderProgram() == "Textured")
+	{
+		mpGraphicsSystem->setActiveShaderProgram("Color");
+		Vector4D green = Vector4D(0.0f, 1.0f, 0.0f, 1.0f);
+		mpGraphicsSystem->setVec4Uniform("Color", "uColor", green);
+	}
+	else
+		mpGraphicsSystem->setActiveShaderProgram("Textured");
+}
+
+void Game::onShaderHotReload()
+{
+	//Hot Reload Shaders... Should probably do this through the managers (to not add a line for every new shader)
+	mpGraphicsSystem->reloadShader("Textured Vert");
+	mpGraphicsSystem->reloadShader("Textured Frag");
+	mpGraphicsSystem->reloadShader("Basic Vert");
+	mpGraphicsSystem->reloadShader("Color Frag");
+
+	mpGraphicsSystem->linkShaderProgram("Textured");
+	mpGraphicsSystem->linkShaderProgram("Color");
+}
+
+void Game::onToggleDebugMode()
+{
+	mDebugMode = !mDebugMode;
+
+	mpGraphicsSystem->setDebugMode(mDebugMode);
+}
+
+void Game::onAxis(const AxisEvent& ev)
+{
+	mpPlayerUnit->setMoveDirection(ev.getState());
+}

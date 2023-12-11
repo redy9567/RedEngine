@@ -13,8 +13,8 @@ public:
     static void cleanupInstance();
     static EventSystem* getInstance();
 
-    void addListener(EventType, EventListener*);
-    bool removeListener(EventType, EventListener*);
+    void addListener(Event::EventType, EventListener*);
+    bool removeListener(Event::EventType, EventListener*);
     void removeListenerFromAllEvents(EventListener*);
     void fireEvent(const Event&);
 
@@ -23,6 +23,6 @@ private:
     ~EventSystem();
 
     static EventSystem* mspInstance;
-    std::multimap<EventType, EventListener*> mListenerMap;
+    std::multimap<Event::EventType, EventListener*> mListenerMap;
 
 };
