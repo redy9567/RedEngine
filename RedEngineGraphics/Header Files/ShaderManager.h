@@ -25,6 +25,7 @@ private:
 	bool createAndAddShader(std::string key, SHADER_TYPE type, std::string filename);
 	void removeShader(std::string key);
 	bool reloadShader(std::string key);
+	void initDefaultShaders();
 
 	//ShaderPrograms
 	void createAndAddShaderProgram(std::string key);
@@ -33,6 +34,7 @@ private:
 	bool attachShaderToProgram(std::string programKey, std::string shaderKey);
 	void activateFloatAttributeOnProgram(std::string key, int index, int dimensions);
 	bool linkShaderProgram(std::string key);
+	void initDefaultShaderPrograms();
 
 	ShaderProgram* getShaderProgram(std::string key) { return mShaderPrograms.at(key); }
 

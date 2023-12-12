@@ -123,6 +123,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
+	setActiveShaderProgram("Textured");
 
 	mpTexture2DManager = Texture2DManager::getInstance();
 	mpTexture2DManager->init();
@@ -148,8 +149,6 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpGridSystem->init(displayWidth, displayHeight);
 
 	cout << "Well here we are!" << endl;
-
-	mCurrentShaderProgram = "";
 
 	mInit = true;
 	return true;

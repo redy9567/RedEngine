@@ -50,9 +50,6 @@ private:
 
 	void quitGame();
 
-	void initShaderObjects();
-	void initShaderPrograms();
-
 	void onMouseMove(Vector2D);
 	void onClick(const MouseEvent&);
 	void onAxis(const AxisEvent&);

@@ -35,7 +35,8 @@ ShaderManager::~ShaderManager()
 
 void ShaderManager::init()
 {
-
+	initDefaultShaders();
+	initDefaultShaderPrograms();
 }
 
 void ShaderManager::cleanup()
@@ -152,4 +153,33 @@ bool ShaderManager::linkShaderProgram(string key)
 		return program->linkProgram();
 	else
 		return false;
+}
+
+void ShaderManager::initDefaultShaders()
+{
+	createAndAddShader("Textured Vert", VERTEX_SHADER, "textured.vert");
+	createAndAddShader("Textured Frag", FRAGMENT_SHADER, "textured.frag");
+	createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
+	createAndAddShader("Basic UI Vert", VERTEX_SHADER, "basicUI.vert");
+	createAndAddShader("Color Frag", FRAGMENT_SHADER, "color.frag");
+	createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
+	createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
+}
+
+void ShaderManager::initDefaultShaderPrograms()
+{
+	createAndAddShaderProgram("Textured", "Textured Vert", "Textured Frag");
+	linkShaderProgram("Textured");
+	activateFloatAttributeOnProgram("Textured", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	createAndAddShaderProgram("Color", "Basic Vert", "Color Frag");
+	linkShaderProgram("Color");
+	activateFloatAttributeOnProgram("Color", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	createAndAddShaderProgram("ColorUI", "Basic UI Vert", "Color Frag");
+	linkShaderProgram("ColorUI");
+	activateFloatAttributeOnProgram("ColorUI", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
+
+	createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
+	linkShaderProgram("Text");
 }

@@ -85,9 +85,6 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	assert(mpGraphicsSystem->init(screenWidth, screenHeight));
 
-	initShaderObjects();
-	initShaderPrograms();
-
 	mpGraphicsSystem->setActiveShaderProgram("Textured");
 
 	Texture2D* smurfTexture = mpGraphicsSystem->createAndAddTexture2D("smurf", ASSET_PATH + SMURF_FILENAME, true);
@@ -186,37 +183,6 @@ void Game::quitGame()
 {
 	mIsPlaying = false;
 	cout << "QUIT" << endl;
-}
-
-void Game::initShaderObjects()
-{
-	mpGraphicsSystem->createAndAddShader("Textured Vert", VERTEX_SHADER, "textured.vert");
-	mpGraphicsSystem->createAndAddShader("Textured Frag", FRAGMENT_SHADER, "textured.frag");
-	mpGraphicsSystem->createAndAddShader("Basic Vert", VERTEX_SHADER, "basic.vert");
-	mpGraphicsSystem->createAndAddShader("Basic UI Vert", VERTEX_SHADER, "basicUI.vert");
-	mpGraphicsSystem->createAndAddShader("Color Frag", FRAGMENT_SHADER, "color.frag");
-	mpGraphicsSystem->createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
-	mpGraphicsSystem->createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
-}
-
-void Game::initShaderPrograms()
-{
-	mpGraphicsSystem->createAndAddShaderProgram("Textured", "Textured Vert", "Textured Frag");
-	mpGraphicsSystem->linkShaderProgram("Textured");
-	mpGraphicsSystem->activateFloatAttributeOnProgram("Textured", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
-
-	mpGraphicsSystem->createAndAddShaderProgram("Color", "Basic Vert", "Color Frag");
-	mpGraphicsSystem->linkShaderProgram("Color");
-	mpGraphicsSystem->activateFloatAttributeOnProgram("Color", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
-
-	mpGraphicsSystem->createAndAddShaderProgram("ColorUI", "Basic UI Vert", "Color Frag");
-	mpGraphicsSystem->linkShaderProgram("ColorUI");
-	mpGraphicsSystem->activateFloatAttributeOnProgram("ColorUI", 0, 3); //Sets Attribute 0 to a 3 dimentional float value
-
-	mpGraphicsSystem->createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
-	mpGraphicsSystem->linkShaderProgram("Text");
-
-	mpGraphicsSystem->setActiveShaderProgram("Textured");
 }
 
 void Game::onMouseMove(Vector2D mouseLoc)
