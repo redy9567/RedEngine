@@ -38,4 +38,6 @@ private:
 
 	std::vector<KeyCode> mPressedKeys;
 
+	Vector2D mAxis;
+
 };

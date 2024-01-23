@@ -13,6 +13,7 @@ public:
         INVALID_EVENT_TYPE = -1,
         KEYBOARD_EVENT,
         MOUSE_EVENT,
+        AXIS_EVENT,
         PLAYER_MOVE_EVENT,
         NUM_EVENT_TYPES
     };

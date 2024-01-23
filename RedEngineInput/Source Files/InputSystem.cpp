@@ -4,6 +4,7 @@
 #include "EventSystem.h"
 #include <MouseEvent.h>
 #include <KeyboardEvent.h>
+#include <AxisEvent.h>
 
 using namespace std;
 
@@ -556,6 +557,60 @@ void InputSystem::getKeyboardState()
 		}
 
 	}
+
+	//Determine axis
+	Vector2D axis;
+
+	vector<KeyCode>::iterator op1 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::D);
+	vector<KeyCode>::iterator op2 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::Right);
+	
+	if (op1 != mPressedKeys.end() || op2 != mPressedKeys.end())
+	{
+		axis.setX(1.0f);
+	}
+
+
+	op1 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::W);
+	op2 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::Up);
+
+	if (op1 != mPressedKeys.end() || op2 != mPressedKeys.end())
+	{
+		axis.setY(1.0f);
+	}
+
+
+	op1 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::A);
+	op2 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::Left);
+
+	if (op1 != mPressedKeys.end() || op2 != mPressedKeys.end())
+	{
+		axis.setX(axis.getX() - 1.0f); //Subtract here to cancel out right press, rather than override
+	}
+
+
+	op1 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::S);
+	op2 = find(mPressedKeys.begin(), mPressedKeys.end(), KeyCode::Down);
+
+	if (op1 != mPressedKeys.end() || op2 != mPressedKeys.end())
+	{
+		axis.setY(axis.getY() - 1.0f); //Subtract here to cancel out up press, rather than override
+	}
+
+
+	//Normalize if we have both axis
+	if (axis.getX() != 0.0f && axis.getY() != 0.0f)
+	{
+		axis.normalize();
+	}
+
+	if (mAxis != axis) //Only update if axis are different than last frame
+	{
+		mAxis = axis;
+
+		AxisEvent ev(axis);
+		es->fireEvent(ev);
+	}
+
 }
 
 void InputSystem::updateScroll(double xOffset, double yOffset)

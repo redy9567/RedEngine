@@ -123,6 +123,30 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 	mpShaderManager = ShaderManager::getInstance();
 	mpShaderManager->init();
+	setActiveShaderProgram("Textured");
+
+	mpTexture2DManager = Texture2DManager::getInstance();
+	mpTexture2DManager->init();
+
+	mpSpriteManager = SpriteManager::getInstance();
+	mpSpriteManager->init();
+
+	mpAnimationManager = AnimationManager::getInstance();
+	mpAnimationManager->init();
+
+	mpFontManager = FontManager::getInstance();
+	mpFontManager->init();
+
+	mpGameObjectManager = GameObject2DManager::getInstance();
+	mpGameObjectManager->init();
+
+	mpDebugHUD = DebugHUD::getInstance();
+	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
+
+	mpCamera = new Camera2D(Vector2D(0, 0), mWindowResolution);
+
+	mpGridSystem = GridSystem::getInstance();
+	mpGridSystem->init(displayWidth, displayHeight);
 
 	mpTexture2DManager = Texture2DManager::getInstance();
 	mpTexture2DManager->init();
