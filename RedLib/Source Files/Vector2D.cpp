@@ -245,3 +245,8 @@ Vector2D Vector2D::Midpoint(const Vector2D a, const Vector2D b)
 {
 	return (a + b) / 2;
 }
+
+Vector2D Vector2D::axisDivide(const Vector2D& other) const
+{
+	return Vector2D(mX / other.mX, mY / other.mY);
+}

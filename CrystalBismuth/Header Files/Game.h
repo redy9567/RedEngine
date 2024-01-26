@@ -34,13 +34,13 @@ const std::string RED_SYRINGE_KEY = "redSyringe";
 
 const float CURRENCY_UI_MOVE_DISTANCE = 0.0306f;
 const float CURRENCY_UI_ANIMATION_SPEED = 5.0f; 
-const float MONEY_TEXT_VERTICAL_OFFSET = 20.0f; //Change GrpahicsSystem::drawText() to use standard coordinates
-const float MONEY_TEXT_HORIZONTAL_OFFSET = 60.0f; //^^
+const float MONEY_TEXT_VERTICAL_LOC = 0.977f;
+const float MONEY_TEXT_HORIZONTAL_LOC = 0.961f;
 const float CURRENCY_UI_VERTICAL_OFFSET = 0.0231f;
 const float CURRENCY_UI_HORIZONTAL_OFFSET = 0.0117f;
 
-const float SCIENCE_TEXT_VERTICAL_OFFSET = 60.0f; //^^
-const float SCIENCE_TEXT_HORIZONTAL_OFFSET = 60.0f; //^^
+const float SCIENCE_TEXT_VERTICAL_LOC = 0.931f;
+const float SCIENCE_TEXT_HORIZONTAL_LOC = 0.961f;
 
 const float SCIENCE_UI_MOVE_DISTANCE = 0.0306f;
 const float SCIENCE_UI_ANIMATION_SPEED = 5.0f; 

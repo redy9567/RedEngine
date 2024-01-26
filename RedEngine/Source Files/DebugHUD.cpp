@@ -136,13 +136,13 @@ void DebugHUD::draw()
 
 		}
 
-		GraphicsSystem::getInstance()->draw(output, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
+		GraphicsSystem::getInstance()->drawUI(output, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
 	}
 
 	for (vector<string>::iterator i = mDebugValueMap.begin(); i != mDebugValueMap.end(); i++, offset -= offsetAmount)
 	{
 		Vector2D loc = Vector2D(0.0f, offset);
-		GraphicsSystem::getInstance()->draw(*i, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
+		GraphicsSystem::getInstance()->drawUI(*i, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
 	}
 
 	offset = 10;
@@ -150,7 +150,7 @@ void DebugHUD::draw()
 	for (vector<string>::iterator i = mPersistantDebugValueMap.begin(); i != mPersistantDebugValueMap.end(); i++, offset += offsetAmount)
 	{
 		Vector2D loc = Vector2D(0.0f, offset);
-		GraphicsSystem::getInstance()->draw(*i, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
+		GraphicsSystem::getInstance()->drawUI(*i, "arial", "Text", loc, Vector3D(1.0f, 1.0f, 0.0f));
 	}
 
 	mDebugValueMap.clear();

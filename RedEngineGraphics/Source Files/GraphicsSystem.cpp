@@ -314,6 +314,8 @@ void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBou
 {
 	internalDrawSprite(sprite);
 
+
+	// Matrix Math should DEF be moved to the GPU
 	Matrix3D modelMatrix = Matrix3D(
 		sprite.mScale.getX(), 0.0f, location.getX() * mpCamera->getResolution().getX(),
 		0.0f, sprite.mScale.getY(), location.getY() * mpCamera->getResolution().getY(),
@@ -442,10 +444,11 @@ void GraphicsSystem::drawUI(UIElement* obj)
 	}
 }
 
-void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
+void GraphicsSystem::drawUI(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
 {
 	//No need to set active shader program, as setting a uniform sets the shader program as active
 	setVec3Uniform(shaderProgram, "textColor", color);
+	setVec2Uniform(shaderProgram, "uResolution", mpCamera->getResolution());
 
 	Font* font = mpFontManager->getFont(fontKey);
 
@@ -478,11 +481,11 @@ void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vec
 	{
 		Font::Character ch = font->mCharacters.at(*c);
 
-		float x = loc.getX() + ch.bearing.getX() * scale;
-		float y = loc.getY() - (ch.size.getY() - ch.bearing.getY()) * scale;
+		float x = loc.getX() + ch.bearing.getX() * scale / mpCamera->getResolution().getX();
+		float y = loc.getY() - (ch.size.getY() - ch.bearing.getY()) * scale / mpCamera->getResolution().getY();
 
-		float w = ch.size.getX() * scale;
-		float h = ch.size.getY() * scale;
+		float w = ch.size.getX() * scale / mpCamera->getResolution().getX();
+		float h = ch.size.getY() * scale / mpCamera->getResolution().getY();
 
 		float verticies[6][4] = { //Should this be changed? I think the x, y position might be flipped from game on y.
 			{x,		y + h,	0.0f, 0.0f },
@@ -501,7 +504,7 @@ void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vec
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		loc.setX(loc.getX() + (ch.advance >> 6) * scale);
+		loc.setX(loc.getX() + (ch.advance >> 6) * scale / mpCamera->getResolution().getX());
 	}
 
 	setActiveShaderProgram(mCurrentShaderProgram);

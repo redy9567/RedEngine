@@ -459,14 +459,14 @@ bool Game::render()
 	mpUIManager->draw();
 	mpGraphicsSystem->setActiveShaderProgram(previousShader);
 
-	mpGraphicsSystem->draw("Hello World!", "arial", "Text", Vector2D(50, 50));
+	mpGraphicsSystem->drawUI("Hello World!", "arial", "Text", Vector2D(50, 50));
 
-	Vector2D moneyTextOffset = Vector2D(MONEY_TEXT_HORIZONTAL_OFFSET, MONEY_TEXT_VERTICAL_OFFSET);
-	mpGraphicsSystem->draw("$: " + to_string(mCurrentMoney), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - moneyTextOffset,
+	Vector2D moneyTextLocation = Vector2D(MONEY_TEXT_HORIZONTAL_LOC, MONEY_TEXT_VERTICAL_LOC);
+	mpGraphicsSystem->drawUI("$: " + to_string(mCurrentMoney), "arial", "Text", moneyTextLocation,
 		Vector3D::Up());
 
-	Vector2D scienceTextOffset = Vector2D(SCIENCE_TEXT_HORIZONTAL_OFFSET, SCIENCE_TEXT_VERTICAL_OFFSET);
-	mpGraphicsSystem->draw("&: " + to_string(mCurrentScience), "arial", "Text", mpGraphicsSystem->getDisplayResolution() - scienceTextOffset,
+	Vector2D scienceTextLocation = Vector2D(SCIENCE_TEXT_HORIZONTAL_LOC, SCIENCE_TEXT_VERTICAL_LOC);
+	mpGraphicsSystem->drawUI("&: " + to_string(mCurrentScience), "arial", "Text", scienceTextLocation,
 		Vector3D::Forward());
 
 	return mpGraphicsSystem->render();
