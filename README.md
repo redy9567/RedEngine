@@ -1,3 +1,3 @@
-# RedEngine
+# Crystal Bismuth
 
-This is a dummy edit
+This is the Crystal Bismuth project
