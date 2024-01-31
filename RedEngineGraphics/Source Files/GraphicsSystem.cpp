@@ -1126,7 +1126,9 @@ Vector2D GraphicsSystem::convertToGridCoordinates(Vector2D pixelCoordinates)
 
 Vector2D GraphicsSystem::convertToScreenCoordinates(Vector2D pixelCoordinates)
 {
-	return Vector2D(pixelCoordinates.getX() / mWindowResolution.getX(), pixelCoordinates.getY() / mWindowResolution.getY());
+	Vector2D cameraResolution = mpCamera->getResolution();
+
+	return Vector2D(pixelCoordinates.getX() / cameraResolution.getX(), pixelCoordinates.getY() / cameraResolution.getY());
 }
 
 Vector2D GraphicsSystem::convertScreenToGridCoordinates(Vector2D screenCoordinates)
