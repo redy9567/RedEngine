@@ -175,6 +175,8 @@ public:
 	void cleanupMesh2D(Mesh2D*);
 	void cleanupTexture2D(Texture2D*);
 
+	void setBackgroundColor(Vector3D color);
+
 private:
 	GraphicsSystem();
 	~GraphicsSystem();

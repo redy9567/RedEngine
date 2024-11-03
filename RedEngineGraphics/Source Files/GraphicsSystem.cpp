@@ -1173,3 +1173,8 @@ void GraphicsSystem::drawInternalObjects()
 {
 	mpGameObjectManager->drawAll();
 }
+
+void GraphicsSystem::setBackgroundColor(Vector3D color)
+{
+	glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
+}
