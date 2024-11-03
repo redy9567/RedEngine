@@ -2,6 +2,8 @@
 #include <string>
 
 const std::string RESOURCES_DIRECTORY = "Resource Files/";
+
+/*
 const std::string ANIMATIONS_DIRECTORY = "Animations/";
 const std::string EGG_DIRECTORY = "Eggs/";
 const std::string CHICKS_DIRECTORY = "Chicks/";
@@ -85,10 +87,12 @@ const std::string YELLOW_SYRINGE_BUTTON_FILENAME = "Yellow Syringe Button.png";
 const std::string RED_SYRINGE_BUTTON_FILENAME = "Red Syringe Button.png";
 
 const std::string SCIENCE_BUILDING_FILENAME = "Science Building.png";
+*/
 
 /////////////////////////////////////////////////////////////////////////////////
 // Combined Filepaths (so code looks less gross when we use these filepaths
 
+/*
 const std::string SHOP_UI_FILEPATH = RESOURCES_DIRECTORY + UI_DIRECTORY + WINDOWS_DIRECTORY + BASE_WINDOW_FILENAME;
 const std::string SHOP_UI_BUTTON_FILEPATH = RESOURCES_DIRECTORY + UI_DIRECTORY + BUTTONS_DIRECTORY + MAIN_BUTTONS_DIRECTORY + SHOP_BUTTON_FILENAME;
 
@@ -141,3 +145,4 @@ const std::string SCIENCE_BUILDING_FILEPATH = RESOURCES_DIRECTORY + BUILDINGS_DI
 
 const std::string FUNKY_CHICKEN_FILEPATH = RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + FUNKY_CHICKEN_FILENAME;
 const std::string FUNKY_CHICKEN_WALKING_FILEPATH = RESOURCES_DIRECTORY + CHICKENS_DIRECTORY + ANIMATIONS_DIRECTORY + FUNKY_CHICKEN_WALKING_FILENAME;
+*/
