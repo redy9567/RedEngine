@@ -70,6 +70,7 @@ private:
 	float mTimePerFrame;
 	Timer* mpTimer;
 	float mDeltaTime;
+	float mRunningTime;
 
 	//Are we in Debug Mode?
 	bool mDebugMode;
@@ -79,5 +80,8 @@ private:
 	bool mInputLastF2State;
 	bool mInputLastF4State;
 	bool mInputLastF5State;
+
+	GameObject2D* mCircleObj;
+	GameObject2D* mRodObj;
 
 };

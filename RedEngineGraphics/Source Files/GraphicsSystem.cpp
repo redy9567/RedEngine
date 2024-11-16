@@ -286,15 +286,30 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
+void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle)
 {
 	internalDrawSprite(sprite);
 
-	Matrix3D modelMatrix = Matrix3D(
-		sprite.mScale.getX(), 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
-		0.0f, sprite.mScale.getY(), location.getY() * mpGridSystem->getGridBoxHeight(),
+	Matrix3D scaleMatrix = Matrix3D(
+		sprite.mScale.getX(), 0.0f, 0.0f,
+		0.0f, sprite.mScale.getY(), 0.0f,
 		0.0f, 0.0f, 1.0f
 	);
+
+	Matrix3D rotationMatrix = Matrix3D(
+		cos(angle), -sin(angle), 0.0f,
+		sin(angle), cos(angle), 0.0f,
+		0.0f, 0.0f, 1.0f
+	);
+
+	Matrix3D translationMatrix = Matrix3D(
+		1.0f, 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
+		0.0f, 1.0f, location.getY() * mpGridSystem->getGridBoxHeight(),
+		0.0f, 0.0f, 1.0f
+	);
+	
+	Matrix3D modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	
 
 	Matrix3D viewMatrix = Matrix3D(
 		1.0f, 0.0f, -mpCamera->getLoc().getX() * mpGridSystem->getGridBoxWidth(),
@@ -403,7 +418,7 @@ void GraphicsSystem::draw(GameObject2D* obj)
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		draw(*obj->mImage.s, obj->getLoc());
+		draw(*obj->mImage.s, obj->getLoc(), obj->getRotation());
 		break;
 	case GameObject2D::AnimationMode:
 		draw(*obj->mImage.a, obj->getLoc());

@@ -17,7 +17,10 @@ public:
 	Vector2D getGameSize();
 	Vector2D getScale();
 
+	float getRotation() { return mRotation; }
+
 	void setLoc(Vector2D location) { mLoc = location; }
+	void setRotation(float rot) { mRotation = rot; }
 
 	virtual void update(float deltaTime) {}
 
@@ -44,6 +47,7 @@ protected:
 	DrawMode mDrawingMode;
 	Image mImage;
 	Vector2D mLoc;
+	float mRotation = 0.0f;
 
 	GameObject2D* mParent;
 };

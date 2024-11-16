@@ -296,6 +296,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\chickenColor.frag" />
+    <None Include="Fragment Shaders\colorTextured.frag" />
     <None Include="Fragment Shaders\text.frag" />
     <None Include="Fragment Shaders\color.frag" />
     <None Include="Fragment Shaders\test.frag" />

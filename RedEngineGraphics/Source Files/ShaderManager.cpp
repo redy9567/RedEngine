@@ -164,6 +164,8 @@ void ShaderManager::initDefaultShaders()
 	createAndAddShader("Color Frag", FRAGMENT_SHADER, "color.frag");
 	createAndAddShader("Text Vert", VERTEX_SHADER, "text.vert");
 	createAndAddShader("Text Frag", FRAGMENT_SHADER, "text.frag");
+
+	createAndAddShader("Color Textured Frag", FRAGMENT_SHADER, "colorTextured.frag");
 }
 
 void ShaderManager::initDefaultShaderPrograms()
@@ -182,4 +184,8 @@ void ShaderManager::initDefaultShaderPrograms()
 
 	createAndAddShaderProgram("Text", "Text Vert", "Text Frag");
 	linkShaderProgram("Text");
+
+	createAndAddShaderProgram("ColorTextured", "Textured Vert", "Color Textured Frag");
+	linkShaderProgram("ColorTextured");
+	activateFloatAttributeOnProgram("ColorTextured", 0, 3);
 }

@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="Source Files\Game.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
+    <ClCompile Include="Source Files\Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\Filepaths.h" />
     <ClInclude Include="Header Files\Game.h" />
+    <ClInclude Include="Header Files\Physics.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

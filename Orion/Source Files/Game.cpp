@@ -21,6 +21,7 @@
 #include "Filepaths.h"
 #include "Vector2D.h"
 #include <fstream>
+#include "Physics.h"
 
 #include <assert.h>
 #include <iostream>
@@ -28,6 +29,9 @@
 using namespace std;
 
 Game* Game::mspInstance = nullptr;
+
+const Vector2D circleStartLoc = Vector2D(21.5f, 11.0f);
+const Vector2D rodStartLoc = Vector2D(21.5f, 22.0f);
 
 Game* Game::getInstance()
 {
@@ -79,7 +83,21 @@ void Game::init(int mFPS)
 
 	loadData();
 
-	mpGraphicsSystem->setBackgroundColor(Vector3D(0.753f, 0.753f, 0.753f));
+	mpGraphicsSystem->setBackgroundColor(Vector3D(0.7f, 0.7f, 0.7f));
+
+	Texture2D* circleTexture = mpGraphicsSystem->createAndAddTexture2D("circle", RESOURCES_DIRECTORY + "circle.png", true);
+	Texture2D* squareTexture = mpGraphicsSystem->createAndAddTexture2D("square", RESOURCES_DIRECTORY + "square.png", false);
+
+	Vector2D circleScale = Vector2D(0.05f, 0.05f);
+	Vector2D rodScale = Vector2D(0.01f, 0.85f);
+
+	Sprite* squareSprite = mpGraphicsSystem->createAndAddSprite("square", &squareTexture, Vector2D::Zero(), squareTexture->getSize(), rodScale);
+	mRodObj = mpGraphicsSystem->createAndAddGameObject2D(squareSprite, rodStartLoc);
+
+	Sprite* circleSprite = mpGraphicsSystem->createAndAddSprite("circle", &circleTexture, Vector2D::Zero(), circleTexture->getSize(), circleScale);
+	mCircleObj = mpGraphicsSystem->createAndAddGameObject2D(circleSprite, circleStartLoc);
+
+	mRodObj->setRotation(mRunningTime);
 
 	//Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("Background", RESOURCES_DIRECTORY + BACKGROUNDS_DIRECTORY + BACKGROUND_FILENAME, true);
 	//Vector2D bgScale = Vector2D(2, 2);
@@ -95,6 +113,7 @@ void Game::init(int mFPS)
 
 	mTimePerFrame = 1.0f / mFPS;
 	mDeltaTime = 0.0f;
+	mRunningTime = 0.0f;
 	mpTimer = new Timer();
 
 	ifstream versionFile = ifstream("buildInfo.dat");
@@ -192,6 +211,7 @@ bool Game::gameLoop()
 	bool result = render();
 
 	mpTimer->sleepUntilElapsed(mTimePerFrame * 1000);
+	mRunningTime += mDeltaTime;
 	mDeltaTime = mpTimer->getElapsedTime();
 	//cout << "Delta Time: " << mDeltaTime << endl;
 	mpTimer->start();
@@ -206,6 +226,9 @@ void Game::input()
 
 void Game::update()
 {
+	mCircleObj->setLoc(circleStartLoc + Vector2D(smallAnglePendulumFunction(mRunningTime), 0.0f));
+	mRodObj->setRotation(smallAnglePendulumAngle(mRunningTime));
+	
 	mpGraphicsSystem->update(mDeltaTime);
 
 	mpUIManager->update(mDeltaTime);
@@ -223,10 +246,15 @@ void Game::update()
 	mpGraphicsSystem->setVec2Uniform("Textured Bounded", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
 	mpGraphicsSystem->setVec2Uniform("Color", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
 	mpGraphicsSystem->setVec2Uniform("Text", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
+	mpGraphicsSystem->setVec2Uniform("ColorTextured", "uResolution", mpGraphicsSystem->getCamera()->getResolution());
 }
 
 bool Game::render()
 {
+
+	mpGraphicsSystem->setActiveShaderProgram("ColorTextured");
+	mpGraphicsSystem->setVec4Uniform("ColorTextured", "uColor", Vector4D(1.0f, 0.0f, 0.0f, 1.0f));
+	
 	mpGraphicsSystem->drawInternalObjects();
 
 	mpGraphicsSystem->setActiveShaderProgram("Textured");

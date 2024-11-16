@@ -529,6 +529,9 @@
     <None Include="Vertex Shaders\texturedBounded.vert">
       <Filter>Vertex Shaders</Filter>
     </None>
+    <None Include="Fragment Shaders\colorTextured.frag">
+      <Filter>Fragment Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\wall.jpg">

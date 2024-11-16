@@ -72,7 +72,7 @@ public:
 	void setActiveShaderProgram(std::string program);
 	void drawInternalObjects(); //THIS SHOULDNT EXIST
 	void draw(Mesh2D& mesh);
-	void draw(Sprite& sprite, Vector2D location);
+	void draw(Sprite& sprite, Vector2D location, float angle = 0.0f);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
 	void drawUI(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
