@@ -33,6 +33,10 @@ Game* Game::mspInstance = nullptr;
 const Vector2D circleStartLoc = Vector2D(21.5f, 11.0f);
 const Vector2D rodStartLoc = Vector2D(21.5f, 22.0f);
 
+const Vector2D circleStartLoc3 = Vector2D(21.5f, 18.0f);
+
+const float pi = 3.14159265358979323846f;
+
 Game* Game::getInstance()
 {
 	if (!mspInstance)
@@ -62,6 +66,16 @@ Game::Game()
 	mDebugMode = false;
 
 	mpBuildingHighlight = nullptr;
+
+	mCurrentScene = 0;
+
+	mPendulumAngleVelocity = 0.0f;
+	mPendulumAngle = 0.0f;
+
+	mPendulumAngleAcceleration = 0.0f;
+	mPendulum2Angle = 0.0f;
+	mPendulum2AngleVelocity = 0.0f;
+	mPendulum2AngleAcceleration = 0.0f;
 }
 
 Game::~Game()
@@ -88,28 +102,20 @@ void Game::init(int mFPS)
 	Texture2D* circleTexture = mpGraphicsSystem->createAndAddTexture2D("circle", RESOURCES_DIRECTORY + "circle.png", true);
 	Texture2D* squareTexture = mpGraphicsSystem->createAndAddTexture2D("square", RESOURCES_DIRECTORY + "square.png", false);
 
-	Vector2D circleScale = Vector2D(0.05f, 0.05f);
-	Vector2D rodScale = Vector2D(0.01f, 0.85f);
+	Vector2D originScale = Vector2D(0.01f, 0.01f);
 
-	Sprite* squareSprite = mpGraphicsSystem->createAndAddSprite("square", &squareTexture, Vector2D::Zero(), squareTexture->getSize(), rodScale);
-	mRodObj = mpGraphicsSystem->createAndAddGameObject2D(squareSprite, rodStartLoc);
+	Sprite* originSprite = mpGraphicsSystem->createAndAddSprite("origin", &circleTexture, Vector2D::Zero(), squareTexture->getSize(), originScale);
 
-	Sprite* circleSprite = mpGraphicsSystem->createAndAddSprite("circle", &circleTexture, Vector2D::Zero(), circleTexture->getSize(), circleScale);
-	mCircleObj = mpGraphicsSystem->createAndAddGameObject2D(circleSprite, circleStartLoc);
+	mOriginObj = mpGraphicsSystem->createGameObject2D(originSprite, circleStartLoc);
 
-	mRodObj->setRotation(mRunningTime);
-
-	//Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("Background", RESOURCES_DIRECTORY + BACKGROUNDS_DIRECTORY + BACKGROUND_FILENAME, true);
-	//Vector2D bgScale = Vector2D(2, 2);
-	//Sprite* bgSprite = mpGraphicsSystem->createAndAddSprite("Background", &bgTexture, Vector2D::Zero(), bgTexture->getSize(), bgScale);
-	//mpBackground = mpGraphicsSystem->createAndAddGameObject2D(bgSprite, Vector2D(21.5f, 19.5f));
-	//mpGraphicsSystem->setBackground(mpBackground);
+	mCurrentScene = 1;
+	initScene1();
 
 	mpUIManager = UIManager::getInstance();
 	mpUIManager->init();
 
 	
-	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 20);
+	mpGraphicsSystem->createAndAddFont("arial", "Resource Files/Fonts/arial.ttf", 34);
 
 	mTimePerFrame = 1.0f / mFPS;
 	mDeltaTime = 0.0f;
@@ -127,6 +133,8 @@ void Game::init(int mFPS)
 		versionFile >> version;
 		mpGraphicsSystem->addPersistantToDebugHUD("Version: " + version);
 	}
+
+	EventSystem::getInstance()->addListener(Event::EventType::KEYBOARD_EVENT, (EventListener*) & mListener);
 
 	srand(time(NULL));
 }
@@ -177,6 +185,8 @@ void Game::initShaderPrograms()
 
 void Game::cleanup()
 {
+	cleanupCurrentScene();
+
 	mpUIManager->cleanup();
 	UIManager::cleanupInstance();
 	mpUIManager = nullptr;
@@ -226,8 +236,19 @@ void Game::input()
 
 void Game::update()
 {
-	mCircleObj->setLoc(circleStartLoc + Vector2D(smallAnglePendulumFunction(mRunningTime), 0.0f));
-	mRodObj->setRotation(smallAnglePendulumAngle(mRunningTime));
+	switch (mCurrentScene)
+	{
+	case 1:
+		updateScene1();
+		break;
+
+	case 2:
+		updateScene2();
+		break;
+
+	case 3:
+		updateScene3();
+	}
 	
 	mpGraphicsSystem->update(mDeltaTime);
 
@@ -253,20 +274,30 @@ bool Game::render()
 {
 
 	mpGraphicsSystem->setActiveShaderProgram("ColorTextured");
+
+	mpGraphicsSystem->setVec4Uniform("ColorTextured", "uColor", Vector4D(0.0f, 0.0f, 0.0f, 1.0f));
+
+	mpGraphicsSystem->draw(mOriginObj);
+
 	mpGraphicsSystem->setVec4Uniform("ColorTextured", "uColor", Vector4D(1.0f, 0.0f, 0.0f, 1.0f));
 	
 	mpGraphicsSystem->drawInternalObjects();
 
 	mpGraphicsSystem->setActiveShaderProgram("Textured");
 
-
-
 	string previousShader = mpGraphicsSystem->getCurrentShaderProgram();
 	mpGraphicsSystem->setActiveShaderProgram("Textured Bounded");
 	mpUIManager->draw();
 	mpGraphicsSystem->setActiveShaderProgram(previousShader);
 
-	mpGraphicsSystem->drawUI("Hello World!", "arial", "Text", Vector2D(50, 50));
+	mpGraphicsSystem->drawUI("Coordinates: ", "arial", "Text", Vector2D(0.01f, 0.02f), Vector3D(0.0f, 0.0f, 0.0f));
+	mpGraphicsSystem->drawUI((mCircleObj->getLoc() - circleStartLoc).toString(), "arial", "Text", Vector2D(0.15f, 0.02f), Vector3D(0.0f, 0.0f, 0.0f));
+
+	if (mCurrentScene != 1)
+	{
+		mpGraphicsSystem->drawUI("Theta: ", "arial", "Text", Vector2D(0.01f, 0.06f), Vector3D(0.0f, 0.0f, 0.0f));
+		mpGraphicsSystem->drawUI(to_string(mPendulumAngle), "arial", "Text", Vector2D(0.08f, 0.06f), Vector3D(0.0f, 0.0f, 0.0f));
+	}
 
 	return mpGraphicsSystem->render();
 }
@@ -315,4 +346,199 @@ void Game::onToggleDebugMode()
 	mDebugMode = !mDebugMode;
 
 	mpGraphicsSystem->setDebugMode(mDebugMode);
+}
+
+void Game::initScene1()
+{
+	mCurrentScene = 1;
+
+	Vector2D circleScale = Vector2D(0.05f, 0.05f);
+	Vector2D rodScale = Vector2D(0.01f, 0.85f);
+	
+	Texture2D* squareTexture = mpGraphicsSystem->getTexture2D("square");
+	Texture2D* circleTexture = mpGraphicsSystem->getTexture2D("circle");
+
+	Sprite* squareSprite = mpGraphicsSystem->createAndAddSprite("square", &squareTexture, Vector2D::Zero(), squareTexture->getSize(), rodScale);
+	Sprite* circleSprite = mpGraphicsSystem->createAndAddSprite("circle", &circleTexture, Vector2D::Zero(), circleTexture->getSize(), circleScale);
+	
+	mRodObj = mpGraphicsSystem->createAndAddGameObject2D(squareSprite, rodStartLoc);
+	mCircleObj = mpGraphicsSystem->createAndAddGameObject2D(circleSprite, circleStartLoc);
+
+	mRodObj->setRotation(0.0f);
+}
+
+void Game::cleanupScene1()
+{
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mRodObj);
+	mRodObj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mCircleObj);
+	mCircleObj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteSprite("square");
+	mpGraphicsSystem->removeAndDeleteSprite("circle");
+}
+
+void Game::updateScene1()
+{
+	mCircleObj->setLoc(circleStartLoc + Vector2D(smallAnglePendulumFunction(mRunningTime), 0.0f));
+	mRodObj->setRotation(smallAnglePendulumAngle(mRunningTime));
+}
+
+void Game::initScene2()
+{
+	mCurrentScene = 2;
+
+	Vector2D circleScale = Vector2D(0.05f, 0.05f);
+	Vector2D rodScale = Vector2D(0.01f, 0.25f);
+
+	Texture2D* squareTexture = mpGraphicsSystem->getTexture2D("square");
+	Texture2D* circleTexture = mpGraphicsSystem->getTexture2D("circle");
+
+	Sprite* squareSprite = mpGraphicsSystem->createAndAddSprite("square", &squareTexture, Vector2D::Zero(), squareTexture->getSize(), rodScale);
+	Sprite* circleSprite = mpGraphicsSystem->createAndAddSprite("circle", &circleTexture, Vector2D::Zero(), circleTexture->getSize(), circleScale);
+
+	mRodObj = mpGraphicsSystem->createAndAddGameObject2D(squareSprite, circleStartLoc, true);
+	mCircleObj = mpGraphicsSystem->createAndAddGameObject2D(circleSprite, circleStartLoc);
+
+	mPendulumAngle = 80.0f;
+	mPendulumAngleVelocity = 0.0f;
+	
+}
+
+void Game::cleanupScene2()
+{
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mRodObj);
+	mRodObj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mCircleObj);
+	mCircleObj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteSprite("square");
+	mpGraphicsSystem->removeAndDeleteSprite("circle");
+}
+
+void Game::updateScene2()
+{
+
+	float rod2LengthX = 7.0f;
+	float rod2LengthY = 6.5f;
+
+	mCircleObj->setLoc(circleStartLoc + Vector2D(sin(mPendulumAngle * pi / 180.0f) * rod2LengthX, -cos(mPendulumAngle * pi / 180.0f) * rod2LengthY));
+	mRodObj->setRotation(mPendulumAngle);
+
+	mPendulumAngleVelocity += singlePendulumAccelerationFunction(6.75f, mPendulumAngle) * mDeltaTime;
+	mPendulumAngle += mPendulumAngleVelocity;
+	
+}
+
+void Game::initScene3()
+{
+	mCurrentScene = 3;
+
+	Vector2D circleScale = Vector2D(0.05f, 0.05f);
+	Vector2D rodScale = Vector2D(0.01f, 0.25f);
+
+	Texture2D* squareTexture = mpGraphicsSystem->getTexture2D("square");
+	Texture2D* circleTexture = mpGraphicsSystem->getTexture2D("circle");
+
+	Sprite* squareSprite = mpGraphicsSystem->createAndAddSprite("square", &squareTexture, Vector2D::Zero(), squareTexture->getSize(), rodScale);
+	Sprite* circleSprite = mpGraphicsSystem->createAndAddSprite("circle", &circleTexture, Vector2D::Zero(), circleTexture->getSize(), circleScale);
+
+	mRodObj = mpGraphicsSystem->createAndAddGameObject2D(squareSprite, circleStartLoc3, true);
+	mCircleObj = mpGraphicsSystem->createAndAddGameObject2D(circleSprite, circleStartLoc3);
+
+	mRod2Obj = mpGraphicsSystem->createAndAddGameObject2D(squareSprite, circleStartLoc3, true);
+	mCircle2Obj = mpGraphicsSystem->createAndAddGameObject2D(circleSprite, circleStartLoc3);
+
+	mPendulumAngle = 0.0f;
+	mPendulumAngleVelocity = 0.0f;
+
+	mPendulumAngleAcceleration = 0.0f;
+	mPendulum2Angle = 30.0f;
+	mPendulum2AngleVelocity = 0.0f;
+	mPendulum2AngleAcceleration = 0.0f;
+
+}
+
+void Game::cleanupScene3()
+{
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mRodObj);
+	mRodObj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mCircleObj);
+	mCircleObj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mRod2Obj);
+	mRod2Obj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteGameObject2D(mCircle2Obj);
+	mCircle2Obj = nullptr;
+
+	mpGraphicsSystem->removeAndDeleteSprite("square");
+	mpGraphicsSystem->removeAndDeleteSprite("circle");
+}
+
+void Game::updateScene3()
+{
+
+	float rod2LengthX = 7.0f;
+	float rod2LengthY = 6.5f;
+
+	mCircleObj->setLoc(circleStartLoc3 + Vector2D(sin(mPendulumAngle * pi / 180.0f) * rod2LengthX, -cos(mPendulumAngle * pi / 180.0f) * rod2LengthY));
+	mRodObj->setRotation(mPendulumAngle);
+
+	mCircle2Obj->setLoc(mCircleObj->getLoc() + Vector2D(sin(mPendulum2Angle * pi / 180.0f) * rod2LengthX, -cos(mPendulum2Angle * pi / 180.0f) * rod2LengthY));
+	mRod2Obj->setLoc(mCircleObj->getLoc());
+	mRod2Obj->setRotation(mPendulum2Angle);
+
+	float oldAcc1 = mPendulumAngleAcceleration;
+
+	mPendulumAngleAcceleration = -doublePendulumFirstAccelerationFunction(1.0f, 1.0f, 6.75f, 6.75f, mPendulumAngle, mPendulum2Angle, mPendulum2AngleVelocity, mPendulum2AngleAcceleration) * mDeltaTime * 2;
+	mPendulum2AngleAcceleration = -doublePendulumSecondAccelerationFunction(6.75f, 6.75f, mPendulumAngle, mPendulum2Angle, mPendulumAngleVelocity, oldAcc1) * mDeltaTime * 2;
+	
+	mPendulumAngleVelocity += mPendulumAngleAcceleration;
+	mPendulum2AngleVelocity += mPendulum2AngleAcceleration;
+
+	mPendulumAngle += mPendulumAngleVelocity;
+	mPendulum2Angle += mPendulum2AngleVelocity;
+
+}
+
+void Game::cleanupCurrentScene()
+{
+	switch (mCurrentScene)
+	{
+	case 1:
+		cleanupScene1();
+		break;
+
+	case 2:
+		cleanupScene2();
+		break;
+
+	case 3:
+		cleanupScene3();
+	}
+}
+
+void Game::startScene1()
+{
+	cleanupCurrentScene();
+
+	initScene1();
+}
+
+void Game::startScene2()
+{
+	cleanupCurrentScene();
+
+	initScene2();
+}
+
+void Game::startScene3()
+{
+	cleanupCurrentScene();
+
+	initScene3();
 }

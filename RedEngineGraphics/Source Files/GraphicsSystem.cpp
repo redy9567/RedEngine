@@ -286,9 +286,21 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle)
+void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle, bool useTopAnchoring)
 {
+	float pi = 3.14159265358979323846f;
+
 	internalDrawSprite(sprite);
+
+	float yOffset =
+		useTopAnchoring ?
+		-sprite.getSize().getY() / 2.0f * sprite.getScale().getY() * cos(angle * pi / 180.0f) :
+		0.0f;
+
+	float xOffset =
+		useTopAnchoring ?
+		sprite.getSize().getY() / 2.0f * sprite.getScale().getY() * sin(angle * pi / 180.0f) :
+		0.0f;
 
 	Matrix3D scaleMatrix = Matrix3D(
 		sprite.mScale.getX(), 0.0f, 0.0f,
@@ -297,14 +309,14 @@ void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle)
 	);
 
 	Matrix3D rotationMatrix = Matrix3D(
-		cos(angle), -sin(angle), 0.0f,
-		sin(angle), cos(angle), 0.0f,
+		cos(angle * pi / 180.0f), -sin(angle * pi / 180.0f), 0.0f,
+		sin(angle * pi / 180.0f), cos(angle * pi / 180.0f), 0.0f,
 		0.0f, 0.0f, 1.0f
 	);
 
 	Matrix3D translationMatrix = Matrix3D(
-		1.0f, 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
-		0.0f, 1.0f, location.getY() * mpGridSystem->getGridBoxHeight(),
+		1.0f, 0.0f, location.getX() * mpGridSystem->getGridBoxWidth() + xOffset,
+		0.0f, 1.0f, location.getY() * mpGridSystem->getGridBoxHeight() + yOffset,
 		0.0f, 0.0f, 1.0f
 	);
 	
@@ -418,7 +430,7 @@ void GraphicsSystem::draw(GameObject2D* obj)
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		draw(*obj->mImage.s, obj->getLoc(), obj->getRotation());
+		draw(*obj->mImage.s, obj->getLoc(), obj->getRotation(), obj->getIsUsingTopAnchoring());
 		break;
 	case GameObject2D::AnimationMode:
 		draw(*obj->mImage.a, obj->getLoc());
@@ -1024,6 +1036,11 @@ void GraphicsSystem::removeAndDeleteTexture2D(std::string key)
 	mpTexture2DManager->removeAndDeleteTexture2D(key);
 }
 
+Texture2D* GraphicsSystem::getTexture2D(std::string key)
+{
+	return mpTexture2DManager->getTexture2D(key);
+}
+
 void GraphicsSystem::addToDebugHUD(std::string text) 
 {
 	mpDebugHUD->addDebugValue(text); 
@@ -1049,9 +1066,14 @@ Sprite* GraphicsSystem::getSprite(string key)
 	return mpSpriteManager->getSprite(key);
 }
 
-GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D loc)
+GameObject2D* GraphicsSystem::createGameObject2D(Sprite* sprite, Vector2D loc)
 {
-	return mpGameObjectManager->createAndAddGameObject2D(sprite, loc);
+	return mpGameObjectManager->createGameObject2D(sprite, loc);
+}
+
+GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D loc, bool useTopAnchoring)
+{
+	return mpGameObjectManager->createAndAddGameObject2D(sprite, loc, useTopAnchoring);
 }
 
 GameObject2D* GraphicsSystem::createAndAddGameObject2D(Animation* anim, Vector2D loc)

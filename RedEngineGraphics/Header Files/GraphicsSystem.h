@@ -72,7 +72,7 @@ public:
 	void setActiveShaderProgram(std::string program);
 	void drawInternalObjects(); //THIS SHOULDNT EXIST
 	void draw(Mesh2D& mesh);
-	void draw(Sprite& sprite, Vector2D location, float angle = 0.0f);
+	void draw(Sprite& sprite, Vector2D location, float angle = 0.0f, bool useTopAnchoring = false);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
 	void drawUI(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
@@ -120,6 +120,7 @@ public:
 	//Texture2Ds
 	Texture2D* createAndAddTexture2D(std::string key, std::string filepath, bool hasAlpha = false);
 	void removeAndDeleteTexture2D(std::string key);
+	Texture2D* getTexture2D(std::string key);
 
 	//Sprites
 	Sprite* createAndAddSprite(std::string key, Texture2D** texture, Vector2D textureStartLoc, Vector2D size, Vector2D scale = Vector2D::One(), ImageAnchor anchoring = ImageAnchor::Center);
@@ -127,7 +128,8 @@ public:
 	Sprite* getSprite(std::string key);
 
 	//GameObject2D
-	GameObject2D* createAndAddGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero());
+	GameObject2D* createGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero());
+	GameObject2D* createAndAddGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero(), bool useTopAnchoring = false);
 	GameObject2D* createAndAddGameObject2D(Animation*, Vector2D loc = Vector2D::Zero());
 	void removeAndDeleteGameObject2D(GameObject2D* obj);
 	void removeAndDeleteGameObject2D(int id);

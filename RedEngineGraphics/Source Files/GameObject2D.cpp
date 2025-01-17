@@ -15,20 +15,22 @@ GameObject2D::~GameObject2D()
 
 }
 
-GameObject2D::GameObject2D(Sprite* sprite, Vector2D location, GameObject2D* parent)
+GameObject2D::GameObject2D(Sprite* sprite, Vector2D location, GameObject2D* parent, bool useTopAnchoring)
 {
 	mLoc = location;
 	mDrawingMode = DrawMode::SpriteMode;
 	mImage.s = sprite;
 	mParent = parent;
+	mUseTopAnchoring = useTopAnchoring;
 }
 
-GameObject2D::GameObject2D(Animation* animation, Vector2D location, GameObject2D* parent)
+GameObject2D::GameObject2D(Animation* animation, Vector2D location, GameObject2D* parent, bool useTopAnchoring)
 {
 	mLoc = location;
 	mDrawingMode = DrawMode::AnimationMode;
 	mImage.a = animation;
 	mParent = parent;
+	mUseTopAnchoring = useTopAnchoring;
 }
 
 Vector2D GameObject2D::getSize()
