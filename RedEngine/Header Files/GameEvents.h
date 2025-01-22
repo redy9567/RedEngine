@@ -5,8 +5,6 @@
 #include <string>
 #include <sstream>
 
-class Chicken;
-
 class GameEvent : public Event
 {
 public:

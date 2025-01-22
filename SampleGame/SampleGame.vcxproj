@@ -18,23 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source Files\Game.cpp" />
-    <ClCompile Include="Source Files\GameListener.cpp" />
-    <ClCompile Include="Source Files\main.cpp" />
-    <ClCompile Include="Source Files\Physics.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Header Files\Filepaths.h" />
-    <ClInclude Include="Header Files\Game.h" />
-    <ClInclude Include="Header Files\GameListener.h" />
-    <ClInclude Include="Header Files\Physics.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{09f76015-9bc3-4855-ae77-d1f9f9ea5833}</ProjectGuid>
-    <RootNamespace>Orion</RootNamespace>
+    <ProjectGuid>{d61a7871-07ac-421b-b776-2c4b5efe1cb8}</ProjectGuid>
+    <RootNamespace>SampleGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -141,6 +129,25 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <Image Include="Assets\smurf_sprites.png" />
+    <Image Include="Assets\Sphere_Glow.bmp" />
+    <Image Include="Assets\Sphere_Glow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\RedEngine\Header Files\GameEvents.h" />
+    <ClInclude Include="Header Files\Game.h" />
+    <ClInclude Include="Header Files\GameListener.h" />
+    <ClInclude Include="Header Files\Player.h" />
+    <ClInclude Include="Header Files\PlayerMoveEvent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source Files\Game.cpp" />
+    <ClCompile Include="Source Files\GameListener.cpp" />
+    <ClCompile Include="Source Files\main.cpp" />
+    <ClCompile Include="Source Files\Player.cpp" />
+    <ClCompile Include="Source Files\PlayerMoveEvent.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
