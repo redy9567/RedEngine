@@ -54,10 +54,6 @@ void GameListener::handleEvent(const Event& ev)
 			}
 		}
 		break;
-
-	case Event::AXIS_EVENT:
-		game->onAxis(*eventUnion->axisEvent);
-		break;
 	}
 
 	delete eventUnion;

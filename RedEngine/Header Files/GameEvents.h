@@ -1,12 +1,9 @@
 #pragma once
 #include "MouseEvent.h"
 #include "KeyboardEvent.h"
-#include "PlayerMoveEvent.h"
 
 #include <string>
 #include <sstream>
-
-class Chicken;
 
 class GameEvent : public Event
 {
@@ -36,6 +33,4 @@ union GameEventUnion
     const Event* event;
     const MouseEvent* mouseEvent;
     const KeyboardEvent* keyboardEvent;
-    const PlayerMoveEvent* playerMoveEvent;
-    const AxisEvent* axisEvent;
 };

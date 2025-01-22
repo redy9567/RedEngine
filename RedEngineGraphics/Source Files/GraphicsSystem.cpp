@@ -148,7 +148,32 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
 
+	mpTexture2DManager = Texture2DManager::getInstance();
+	mpTexture2DManager->init();
+
+	mpSpriteManager = SpriteManager::getInstance();
+	mpSpriteManager->init();
+
+	mpAnimationManager = AnimationManager::getInstance();
+	mpAnimationManager->init();
+
+	mpFontManager = FontManager::getInstance();
+	mpFontManager->init();
+
+	mpGameObjectManager = GameObject2DManager::getInstance();
+	mpGameObjectManager->init();
+
+	mpDebugHUD = DebugHUD::getInstance();
+	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
+
+	mpCamera = new Camera2D(Vector2D(0, 0), mWindowResolution);
+
+	mpGridSystem = GridSystem::getInstance();
+	mpGridSystem->init(displayWidth, displayHeight);
+
 	cout << "Well here we are!" << endl;
+
+	mCurrentShaderProgram = "";
 
 	mInit = true;
 	return true;
@@ -261,15 +286,42 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(Sprite& sprite, Vector2D location)
+void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle, bool useTopAnchoring)
 {
+	float pi = 3.14159265358979323846f;
+
 	internalDrawSprite(sprite);
 
-	Matrix3D modelMatrix = Matrix3D(
-		sprite.mScale.getX(), 0.0f, location.getX() * mpGridSystem->getGridBoxWidth(),
-		0.0f, sprite.mScale.getY(), location.getY() * mpGridSystem->getGridBoxHeight(),
+	float yOffset =
+		useTopAnchoring ?
+		-sprite.getSize().getY() / 2.0f * sprite.getScale().getY() * cos(angle * pi / 180.0f) :
+		0.0f;
+
+	float xOffset =
+		useTopAnchoring ?
+		sprite.getSize().getY() / 2.0f * sprite.getScale().getY() * sin(angle * pi / 180.0f) :
+		0.0f;
+
+	Matrix3D scaleMatrix = Matrix3D(
+		sprite.mScale.getX(), 0.0f, 0.0f,
+		0.0f, sprite.mScale.getY(), 0.0f,
 		0.0f, 0.0f, 1.0f
 	);
+
+	Matrix3D rotationMatrix = Matrix3D(
+		cos(angle * pi / 180.0f), -sin(angle * pi / 180.0f), 0.0f,
+		sin(angle * pi / 180.0f), cos(angle * pi / 180.0f), 0.0f,
+		0.0f, 0.0f, 1.0f
+	);
+
+	Matrix3D translationMatrix = Matrix3D(
+		1.0f, 0.0f, location.getX() * mpGridSystem->getGridBoxWidth() + xOffset,
+		0.0f, 1.0f, location.getY() * mpGridSystem->getGridBoxHeight() + yOffset,
+		0.0f, 0.0f, 1.0f
+	);
+	
+	Matrix3D modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	
 
 	Matrix3D viewMatrix = Matrix3D(
 		1.0f, 0.0f, -mpCamera->getLoc().getX() * mpGridSystem->getGridBoxWidth(),
@@ -289,6 +341,8 @@ void GraphicsSystem::drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBou
 {
 	internalDrawSprite(sprite);
 
+
+	// Matrix Math should DEF be moved to the GPU
 	Matrix3D modelMatrix = Matrix3D(
 		sprite.mScale.getX(), 0.0f, location.getX() * mpCamera->getResolution().getX(),
 		0.0f, sprite.mScale.getY(), location.getY() * mpCamera->getResolution().getY(),
@@ -376,7 +430,7 @@ void GraphicsSystem::draw(GameObject2D* obj)
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		draw(*obj->mImage.s, obj->getLoc());
+		draw(*obj->mImage.s, obj->getLoc(), obj->getRotation(), obj->getIsUsingTopAnchoring());
 		break;
 	case GameObject2D::AnimationMode:
 		draw(*obj->mImage.a, obj->getLoc());
@@ -417,10 +471,11 @@ void GraphicsSystem::drawUI(UIElement* obj)
 	}
 }
 
-void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
+void GraphicsSystem::drawUI(string text, string fontKey, string shaderProgram, Vector2D loc, Vector3D color, float scale)
 {
 	//No need to set active shader program, as setting a uniform sets the shader program as active
 	setVec3Uniform(shaderProgram, "textColor", color);
+	setVec2Uniform(shaderProgram, "uResolution", mpCamera->getResolution());
 
 	Font* font = mpFontManager->getFont(fontKey);
 
@@ -453,11 +508,11 @@ void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vec
 	{
 		Font::Character ch = font->mCharacters.at(*c);
 
-		float x = loc.getX() + ch.bearing.getX() * scale;
-		float y = loc.getY() - (ch.size.getY() - ch.bearing.getY()) * scale;
+		float x = loc.getX() + ch.bearing.getX() * scale / mpCamera->getResolution().getX();
+		float y = loc.getY() - (ch.size.getY() - ch.bearing.getY()) * scale / mpCamera->getResolution().getY();
 
-		float w = ch.size.getX() * scale;
-		float h = ch.size.getY() * scale;
+		float w = ch.size.getX() * scale / mpCamera->getResolution().getX();
+		float h = ch.size.getY() * scale / mpCamera->getResolution().getY();
 
 		float verticies[6][4] = { //Should this be changed? I think the x, y position might be flipped from game on y.
 			{x,		y + h,	0.0f, 0.0f },
@@ -476,7 +531,7 @@ void GraphicsSystem::draw(string text, string fontKey, string shaderProgram, Vec
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		loc.setX(loc.getX() + (ch.advance >> 6) * scale);
+		loc.setX(loc.getX() + (ch.advance >> 6) * scale / mpCamera->getResolution().getX());
 	}
 
 	setActiveShaderProgram(mCurrentShaderProgram);
@@ -981,6 +1036,11 @@ void GraphicsSystem::removeAndDeleteTexture2D(std::string key)
 	mpTexture2DManager->removeAndDeleteTexture2D(key);
 }
 
+Texture2D* GraphicsSystem::getTexture2D(std::string key)
+{
+	return mpTexture2DManager->getTexture2D(key);
+}
+
 void GraphicsSystem::addToDebugHUD(std::string text) 
 {
 	mpDebugHUD->addDebugValue(text); 
@@ -1006,9 +1066,14 @@ Sprite* GraphicsSystem::getSprite(string key)
 	return mpSpriteManager->getSprite(key);
 }
 
-GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D loc)
+GameObject2D* GraphicsSystem::createGameObject2D(Sprite* sprite, Vector2D loc)
 {
-	return mpGameObjectManager->createAndAddGameObject2D(sprite, loc);
+	return mpGameObjectManager->createGameObject2D(sprite, loc);
+}
+
+GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D loc, bool useTopAnchoring)
+{
+	return mpGameObjectManager->createAndAddGameObject2D(sprite, loc, useTopAnchoring);
 }
 
 GameObject2D* GraphicsSystem::createAndAddGameObject2D(Animation* anim, Vector2D loc)
@@ -1098,7 +1163,9 @@ Vector2D GraphicsSystem::convertToGridCoordinates(Vector2D pixelCoordinates)
 
 Vector2D GraphicsSystem::convertToScreenCoordinates(Vector2D pixelCoordinates)
 {
-	return Vector2D(pixelCoordinates.getX() / mWindowResolution.getX(), pixelCoordinates.getY() / mWindowResolution.getY());
+	Vector2D cameraResolution = mpCamera->getResolution();
+
+	return Vector2D(pixelCoordinates.getX() / cameraResolution.getX(), pixelCoordinates.getY() / cameraResolution.getY());
 }
 
 Vector2D GraphicsSystem::convertScreenToGridCoordinates(Vector2D screenCoordinates)
@@ -1142,4 +1209,9 @@ void GraphicsSystem::callScrollCallback(double xOffset, double yOffset)
 void GraphicsSystem::drawInternalObjects()
 {
 	mpGameObjectManager->drawAll();
+}
+
+void GraphicsSystem::setBackgroundColor(Vector3D color)
+{
+	glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
 }

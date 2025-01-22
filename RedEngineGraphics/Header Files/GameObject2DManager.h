@@ -19,7 +19,8 @@ private:
 	void init();
 	void cleanup();
 
-	GameObject2D* createAndAddGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero());
+	GameObject2D* createGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero());
+	GameObject2D* createAndAddGameObject2D(Sprite*, Vector2D loc = Vector2D::Zero(), bool useTopAnchoring = false);
 	GameObject2D* createAndAddGameObject2D(Animation*, Vector2D loc = Vector2D::Zero());
 	void removeAndDeleteGameObject2D(GameObject2D* obj);
 	void removeAndDeleteGameObject2D(int id);

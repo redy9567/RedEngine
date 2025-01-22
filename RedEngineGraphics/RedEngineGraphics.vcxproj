@@ -295,16 +295,20 @@
     <ClCompile Include="Source Files\UIScrollElement.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fragment Shaders\chickenColor.frag" />
+    <None Include="Fragment Shaders\colorTextured.frag" />
     <None Include="Fragment Shaders\text.frag" />
     <None Include="Fragment Shaders\color.frag" />
     <None Include="Fragment Shaders\test.frag" />
     <None Include="Fragment Shaders\textured.frag" />
+    <None Include="Fragment Shaders\texturedBounded.frag" />
     <None Include="Fragment Shaders\triColor.frag" />
     <None Include="Vertex Shaders\basic.vert" />
     <None Include="Vertex Shaders\basicUI.vert" />
     <None Include="Vertex Shaders\test.vert" />
     <None Include="Vertex Shaders\text.vert" />
     <None Include="Vertex Shaders\textured.vert" />
+    <None Include="Vertex Shaders\texturedBounded.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource Files\awesomeface.png" />

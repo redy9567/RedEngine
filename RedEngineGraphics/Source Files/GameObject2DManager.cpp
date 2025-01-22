@@ -47,9 +47,14 @@ void GameObject2DManager::cleanup()
 	mGameObjects.clear();
 }
 
-GameObject2D* GameObject2DManager::createAndAddGameObject2D(Sprite* sprite, Vector2D loc)
+GameObject2D* GameObject2DManager::createGameObject2D(Sprite* sprite, Vector2D loc)
 {
-	GameObject2D* obj = new GameObject2D(sprite, loc);
+	return new GameObject2D(sprite, loc);
+}
+
+GameObject2D* GameObject2DManager::createAndAddGameObject2D(Sprite* sprite, Vector2D loc, bool useTopAnchoring)
+{
+	GameObject2D* obj = new GameObject2D(sprite, loc, nullptr, useTopAnchoring);
 
 	mGameObjects.push_back(obj);
 
@@ -76,6 +81,7 @@ void GameObject2DManager::removeAndDeleteGameObject2D(GameObject2D* obj)
 	{
 		delete *it;
 		mGameObjects.erase(it);
+		break;
 	}
 }
 

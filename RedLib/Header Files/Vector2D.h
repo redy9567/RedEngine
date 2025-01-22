@@ -51,6 +51,10 @@ public:
 
 	Vector2D normalized() const;
 
+	// returns Vector2D(x / o.x, y / o.y)
+	// Opted to NOT user operator/ to ensure INTENTIONAL usage (as vectors are not normally divided this way)
+	Vector2D axisDivide(const Vector2D& other) const;
+
 	float getX() const { return mX; }
 	float getY() const { return mY; }
 

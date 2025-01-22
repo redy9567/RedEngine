@@ -610,6 +610,7 @@ void InputSystem::getKeyboardState()
 		AxisEvent ev(axis);
 		es->fireEvent(ev);
 	}
+
 }
 
 void InputSystem::updateScroll(double xOffset, double yOffset)

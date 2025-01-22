@@ -9,7 +9,7 @@ void main()
 {
 	vec3 newPos = aPos * uModelMat * uViewMat;
 	vec2 normalizedPosition = newPos.xy / uResolution;
-	vec2 offsetPosition = (normalizedPosition * 2.0f - 1.0f); //Makes the bottom left (0,0)
+	vec2 offsetPosition = (normalizedPosition * 2.0f - 1.0f); //Makes the bottom left (0,0) pre-shader (Translate's to OpenGL's [-1, 1])
 
 	
 	gl_Position = vec4(offsetPosition, aPos.z, 1.0f);
