@@ -259,6 +259,8 @@
     <ClInclude Include="Header Files\GameObject2DManager.h" />
     <ClInclude Include="Header Files\GraphicsSystem.h" />
     <ClInclude Include="Header Files\Mesh2D.h" />
+    <ClInclude Include="Header Files\Mesh3D.h" />
+    <ClInclude Include="Header Files\MeshType.h" />
     <ClInclude Include="Header Files\Shader.h" />
     <ClInclude Include="Header Files\ShaderManager.h" />
     <ClInclude Include="Header Files\ShaderProgram.h" />
@@ -283,6 +285,7 @@
     <ClCompile Include="Source Files\glad\glad.c" />
     <ClCompile Include="Source Files\GraphicsSystem.cpp" />
     <ClCompile Include="Source Files\Mesh2D.cpp" />
+    <ClCompile Include="Source Files\Mesh3D.cpp" />
     <ClCompile Include="Source Files\Shader.cpp" />
     <ClCompile Include="Source Files\ShaderManager.cpp" />
     <ClCompile Include="Source Files\ShaderProgram.cpp" />
@@ -304,6 +307,7 @@
     <None Include="Fragment Shaders\texturedBounded.frag" />
     <None Include="Fragment Shaders\triColor.frag" />
     <None Include="Vertex Shaders\basic.vert" />
+    <None Include="Vertex Shaders\basic3D.vert" />
     <None Include="Vertex Shaders\basicUI.vert" />
     <None Include="Vertex Shaders\test.vert" />
     <None Include="Vertex Shaders\text.vert" />

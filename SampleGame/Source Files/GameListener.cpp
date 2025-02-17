@@ -53,6 +53,26 @@ void GameListener::handleEvent(const Event& ev)
 				break;
 			}
 		}
+		else if (eventUnion->keyboardEvent->getButtonState() == KeyState::Hold)
+		{
+			switch (eventUnion->keyboardEvent->getKey())
+			{
+			case KeyCode::W:
+			case KeyCode::A:
+			case KeyCode::S:
+			case KeyCode::D:
+			case KeyCode::E:
+			case KeyCode::Q:
+			case KeyCode::U:
+			case KeyCode::O:
+			case KeyCode::I:
+			case KeyCode::J:
+			case KeyCode::K:
+			case KeyCode::L:
+				game->handleCameraMovement(eventUnion->keyboardEvent->getKey());
+				break;
+			}
+		}
 		break;
 	}
 

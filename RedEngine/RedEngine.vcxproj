@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="Header Files\AxisEvent.h" />
     <ClInclude Include="Header Files\Camera2D.h" />
+    <ClInclude Include="Header Files\Camera3D.h" />
     <ClInclude Include="Header Files\Color.h" />
     <ClInclude Include="Header Files\DebugHUD.h" />
     <ClInclude Include="Header Files\Event.h" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="Source Files\AxisEvent.cpp" />
     <ClCompile Include="Source Files\Camera2D.cpp" />
+    <ClCompile Include="Source Files\Camera3D.cpp" />
     <ClCompile Include="Source Files\Color.cpp" />
     <ClCompile Include="Source Files\DebugHUD.cpp" />
     <ClCompile Include="Source Files\Event.cpp" />

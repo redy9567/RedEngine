@@ -3,6 +3,7 @@
 #include <ostream>
 #include "Vector4D.h"
 
+// Represents a 4x4 matrix that is stored and accessed as Row-Major
 class Matrix4D : public Trackable
 {
 
@@ -56,14 +57,14 @@ public:
 		);
 	}
 
-	float* convertToFloatArray();
+	float* convertToColumnMajorFloatArray();
 
 private:
-	void cleanupFloatArray();
+	void cleanupColumnMajorFloatArray();
 
 	Vector4D mFirstRow, mSecondRow, mThirdRow, mFourthRow;
 
-	float* mConvertedFloatArray;
+	float* mColumnMajorFloatArray;
 
 };
 

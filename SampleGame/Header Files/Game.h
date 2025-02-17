@@ -1,6 +1,7 @@
 #pragma once
 #include "Trackable.h"
 #include <string>
+#include "KeyboardEvent.h"
 
 class GraphicsSystem;
 class InputSystem;
@@ -11,6 +12,7 @@ class EventSystem;
 class Vector2D;
 class MouseEvent;
 class AxisEvent;
+class Mesh3D;
 
 const std::string ASSET_PATH = "Assets/";//GAMEASSETS; //MAKE THIS RELATIVE PATH
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -59,6 +61,8 @@ private:
 	void onShaderHotReload();
 	void onToggleDebugMode();
 
+	void handleCameraMovement(KeyCode key);
+
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
@@ -73,5 +77,9 @@ private:
 	bool mDebugMode, mIsPlaying;
 
 	float mTimePerFrame;
+
+	Mesh3D* mpCube;
+	Mesh3D* mpPlane;
+	float mTimeElapsed;
 	
 };

@@ -7,6 +7,7 @@
 #include "GLFW\glfw3.h"
 #include <iostream>
 #include "Mesh2D.h"
+#include "Mesh3D.h"
 #include "Texture2D.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
@@ -24,9 +25,10 @@
 #include "AnimationData.h"
 #include "Texture2DManager.h"
 #include "Matrix3D.h"
-#include "Camera2D.h"
+#include "Camera3D.h"
 #include "UIElement.h"
 #include "UIScrollElement.h"
+#include "Matrix4D.h"
 
 using namespace std;
 
@@ -67,6 +69,7 @@ GraphicsSystem::GraphicsSystem()
 	mpGameObjectManager = nullptr;
 	mpTexture2DManager = nullptr;
 	mpBackground = nullptr;
+	mDEBUGtimer = 0.0f;
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -119,6 +122,9 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glfwSetScrollCallback(mWindow, _scrollCallback);
 
 	mpShaderManager = ShaderManager::getInstance();
@@ -143,7 +149,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
-	mpCamera = new Camera2D(Vector2D(0, 0), mWindowResolution);
+	mpCamera = new Camera3D(Vector3D(0.0f, 0.0f, 2.0f), mWindowResolution);
 
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
@@ -166,7 +172,7 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
-	mpCamera = new Camera2D(Vector2D(0, 0), mWindowResolution);
+	mpCamera = new Camera3D(Vector3D(0.0f, 0.0f, -1.0f), mWindowResolution);
 
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
@@ -222,7 +228,7 @@ bool GraphicsSystem::render()
 	glfwSwapBuffers(mWindow);
 	glfwPollEvents();
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (mpBackground)
 		draw(mpBackground);
@@ -286,6 +292,124 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
+void GraphicsSystem::draw(Mesh3D& mesh, Vector3D location, Vector3D scale, Vector3D angle)
+{
+	assert(mCurrentShaderProgram != "");
+	setActiveShaderProgram(mCurrentShaderProgram);
+
+	if (mesh.mVBO == -1)
+	{
+		initMesh3D(&mesh);
+
+		bindMesh3D(&mesh);
+
+		//Packing and linking only need to occur on mesh init, as the data is stored in the VAO
+		packGPUData(mesh);
+
+		//Copy draw order data into bound buffer (EBO)
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh.mDrawCount, mesh.mDrawOrder, GL_STATIC_DRAW);
+
+		linkGPUData(mesh);
+
+	}
+	else
+	{
+		bindMesh3D(&mesh);
+	}
+
+	float pi = 3.14159265358979323846f;
+
+	Matrix4D scaleMatrix = Matrix4D(
+		Vector4D(scale.getX(), 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, scale.getY(), 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, scale.getZ(), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D rotationZMatrix = Matrix4D(
+		Vector4D(cos(angle.getZ() * pi / 180.0f), -sin(angle.getZ() * pi / 180.0f), 0.0f, 0.0f),
+		Vector4D(sin(angle.getZ() * pi / 180.0f), cos(angle.getZ() * pi / 180.0f), 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 1.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D rotationYMatrix = Matrix4D(
+		Vector4D(cos(angle.getY() * pi / 180.0f), 0.0f, -sin(angle.getY() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 1.0f, 0.0f, 0.0f),
+		Vector4D(sin(angle.getY() * pi / 180.0f), 0.0f, cos(angle.getY() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D rotationXMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, cos(angle.getX() * pi / 180.0f), -sin(angle.getX() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, sin(angle.getX() * pi / 180.0f), cos(angle.getX() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D rotationMatrix = rotationZMatrix * rotationYMatrix * rotationXMatrix;
+	
+	Matrix4D translationMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, location.getX()),
+		Vector4D(0.0f, 1.0f, 0.0f, location.getY()),
+		Vector4D(0.0f, 0.0f, 1.0f, location.getZ()),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+
+
+	Matrix4D viewTranslateMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, -mpCamera->getLoc().getX() * mpGridSystem->getGridBoxWidth()),
+		Vector4D(0.0f, 1.0f, 0.0f, -mpCamera->getLoc().getY() * mpGridSystem->getGridBoxHeight()),
+		Vector4D(0.0f, 0.0f, 1.0f, -mpCamera->getLoc().getZ() * mpGridSystem->getGridBoxWidth()),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	float cameraZRot = mpCamera->getRotation().getZ();
+	Matrix4D viewRotationZMatrix = Matrix4D(
+		Vector4D(cos(cameraZRot * pi / 180.0f), -sin(cameraZRot * pi / 180.0f), 0.0f, 0.0f),
+		Vector4D(sin(cameraZRot * pi / 180.0f), cos(cameraZRot * pi / 180.0f), 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 1.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	float cameraYRot = mpCamera->getRotation().getY();
+	Matrix4D viewRotationYMatrix = Matrix4D(
+		Vector4D(cos(cameraYRot * pi / 180.0f), 0.0f, -sin(cameraYRot * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 1.0f, 0.0f, 0.0f),
+		Vector4D(sin(cameraYRot * pi / 180.0f), 0.0f, cos(cameraYRot * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	float cameraXRot = mpCamera->getRotation().getX();
+	Matrix4D viewRotationXMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, cos(cameraXRot * pi / 180.0f), -sin(cameraXRot * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, sin(cameraXRot * pi / 180.0f), cos(cameraXRot * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D viewMatrix = viewTranslateMatrix * viewRotationZMatrix * viewRotationYMatrix * viewRotationXMatrix;
+
+	Matrix4D projectionMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, 1.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, -1.0f, -1.0f),
+		Vector4D(0.0f, 0.0f, -1.0f, 0.0f)
+	);
+
+	//projectionMatrix = Matrix4D::Identity();
+
+	setMat4Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
+	setMat4Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
+	setMat4Uniform(mCurrentShaderProgram, "uProjMat", projectionMatrix);
+
+	setActiveShaderProgram(mCurrentShaderProgram);
+
+	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
+}
+
 void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle, bool useTopAnchoring)
 {
 	float pi = 3.14159265358979323846f;
@@ -302,35 +426,51 @@ void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle, bool u
 		sprite.getSize().getY() / 2.0f * sprite.getScale().getY() * sin(angle * pi / 180.0f) :
 		0.0f;
 
-	Matrix3D scaleMatrix = Matrix3D(
-		sprite.mScale.getX(), 0.0f, 0.0f,
-		0.0f, sprite.mScale.getY(), 0.0f,
-		0.0f, 0.0f, 1.0f
+	Matrix4D scaleMatrix = Matrix4D(
+		Vector4D(sprite.mScale.getX(), 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, sprite.mScale.getY(), 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 1.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
-	Matrix3D rotationMatrix = Matrix3D(
-		cos(angle * pi / 180.0f), -sin(angle * pi / 180.0f), 0.0f,
-		sin(angle * pi / 180.0f), cos(angle * pi / 180.0f), 0.0f,
-		0.0f, 0.0f, 1.0f
+	Matrix4D rotationMatrix = Matrix4D(
+		Vector4D(cos(angle * pi / 180.0f), 0.0f, -sin(angle * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 1.0f, 0.0f, 0.0f),
+		Vector4D(sin(angle * pi / 180.0f), 0.0f, cos(angle * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
-	Matrix3D translationMatrix = Matrix3D(
-		1.0f, 0.0f, location.getX() * mpGridSystem->getGridBoxWidth() + xOffset,
-		0.0f, 1.0f, location.getY() * mpGridSystem->getGridBoxHeight() + yOffset,
-		0.0f, 0.0f, 1.0f
+	float objZLoc = -1.0f;
+
+	Matrix4D translationMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, location.getX() * mpGridSystem->getGridBoxWidth() + xOffset),
+		Vector4D(0.0f, 1.0f, 0.0f, location.getY() * mpGridSystem->getGridBoxHeight() + yOffset),
+		Vector4D(0.0f, 0.0f, 1.0f, objZLoc),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 	
-	Matrix3D modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	Matrix4D modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 	
 
-	Matrix3D viewMatrix = Matrix3D(
-		1.0f, 0.0f, -mpCamera->getLoc().getX() * mpGridSystem->getGridBoxWidth(),
-		0.0f, 1.0f, -mpCamera->getLoc().getY() * mpGridSystem->getGridBoxHeight(),
-		0.0f, 0.0f, 1.0f
+	Matrix4D viewMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, -mpCamera->getLoc().getX() * mpGridSystem->getGridBoxWidth()),
+		Vector4D(0.0f, 1.0f, 0.0f, -mpCamera->getLoc().getY() * mpGridSystem->getGridBoxHeight()),
+		Vector4D(0.0f, 0.0f, 1.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
-	setMat3Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
-	setMat3Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
+	Matrix4D projectionMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, 1.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, -1.0f, -1.0f),
+		Vector4D(0.0f, 0.0f, -1.0f, 0.0f)
+	);
+
+	//projectionMatrix = Matrix4D::Identity();
+
+	setMat4Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
+	setMat4Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
+	setMat4Uniform(mCurrentShaderProgram, "uProjMat", projectionMatrix);
 
 	setActiveShaderProgram(mCurrentShaderProgram);
 
@@ -430,7 +570,9 @@ void GraphicsSystem::draw(GameObject2D* obj)
 	switch (obj->mDrawingMode)
 	{
 	case GameObject2D::SpriteMode:
-		draw(*obj->mImage.s, obj->getLoc(), obj->getRotation(), obj->getIsUsingTopAnchoring());
+		//DEBUG: 
+		draw(*obj->mImage.s, obj->getLoc(), mDEBUGtimer * 16.0f, obj->getIsUsingTopAnchoring());
+		//draw(*obj->mImage.s, obj->getLoc(), obj->getRotation(), obj->getIsUsingTopAnchoring());
 		break;
 	case GameObject2D::AnimationMode:
 		draw(*obj->mImage.a, obj->getLoc());
@@ -737,7 +879,20 @@ void GraphicsSystem::setMat3Uniform(std::string program, std::string uniformName
 		return;
 
 	glUseProgram(sp->mSPI);
-	glUniformMatrix3fv(uniformLocation, 1, false, matrix.convertToFloatArray());
+	glUniformMatrix3fv(uniformLocation, 1, false, matrix.convertToColumnMajorFloatArray());
+}
+
+void GraphicsSystem::setMat4Uniform(std::string program, std::string uniformName, Matrix4D matrix)
+{
+	ShaderProgram* sp = ShaderManager::getInstance()->getInstance()->getShaderProgram(program);
+
+	int uniformLocation = glGetUniformLocation(sp->mSPI, uniformName.c_str());
+
+	if (uniformLocation == -1)
+		return;
+
+	glUseProgram(sp->mSPI);
+	glUniformMatrix4fv(uniformLocation, 1, false, matrix.convertToColumnMajorFloatArray());
 }
 
 float GraphicsSystem::getTime()
@@ -761,6 +916,18 @@ void GraphicsSystem::initTexture2D(Texture2D* texture)
 }
 
 void GraphicsSystem::initMesh2D(Mesh2D* mesh)
+{
+	//Setup Vertex Buffer Object (VBO)
+	glGenBuffers(1, &mesh->mVBO);
+
+	//Setup Vertex Array Object (VAO)
+	glGenVertexArrays(1, &mesh->mVAO);
+
+	//Setup Element Buffer Object
+	glGenBuffers(1, &mesh->mEBO);
+}
+
+void GraphicsSystem::initMesh3D(Mesh3D* mesh)
 {
 	//Setup Vertex Buffer Object (VBO)
 	glGenBuffers(1, &mesh->mVBO);
@@ -832,6 +999,18 @@ void GraphicsSystem::bindMesh2D(Mesh2D* mesh)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->mEBO);
 }
 
+void GraphicsSystem::bindMesh3D(Mesh3D* mesh)
+{
+	//Bind VAO to OpenGL
+	glBindVertexArray(mesh->mVAO);
+
+	//Bind VBO to OpenGL
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->mVBO);
+
+	//Bind EBO to VAO (Don't unbind EBO before VAO [VAO remembers all])
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->mEBO);
+}
+
 void GraphicsSystem::bindTexture2D(Texture2D* texture, unsigned int textureLocation)
 {
 	glActiveTexture(GL_TEXTURE0 + textureLocation);
@@ -849,7 +1028,7 @@ void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D size, ImageAnchor anchor
 	Vector2D offset;
 	float largerSide = size.getX() > size.getY() ? size.getX() : size.getY();
 	float halfXSize = size.getX() / 2.0f;
-	float halfYSize = size.getX() / 2.0f;
+	float halfYSize = size.getY() / 2.0f;
 
 	switch (anchoring)
 	{
@@ -888,6 +1067,50 @@ void GraphicsSystem::packGPUData(Mesh2D& mesh, Vector2D size, ImageAnchor anchor
 	verticies = nullptr;
 }
 
+void GraphicsSystem::packGPUData(Mesh3D& mesh, Vector3D size, ImageAnchor anchoring)
+{
+	unsigned int valuesPerVertex = (mesh.mHasColorData) ? 6 : 3;
+	//valuesPerVertex += (mesh.mTextureDataCount) ? 2 : 0;
+	unsigned int numOfFloats = valuesPerVertex * (double)mesh.mVertexCount;
+
+	float* verticies = new float[numOfFloats];
+
+	Vector3D offset;
+	float halfXSize = size.getX() / 2.0f;
+	float halfYSize = size.getY() / 2.0f;
+	float halfZSize = size.getZ() / 2.0f;
+
+	switch (anchoring)
+	{
+	case ImageAnchor::BottomLeft:
+		offset = Vector3D::Zero();
+		break;
+
+	case ImageAnchor::Center:
+		offset = Vector3D(-halfXSize, -halfYSize, -halfZSize);
+	}
+
+	for (int i = 0; i < mesh.mVertexCount; i++)
+	{
+		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() + offset.getX();
+		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() + offset.getY();
+		verticies[i * valuesPerVertex + 2] = mesh.getVertexAt(i).getZ() + offset.getZ();
+
+		if (mesh.mHasColorData)
+		{
+			verticies[i * valuesPerVertex + 3] = mesh.mColorData[i].getX();
+			verticies[i * valuesPerVertex + 4] = mesh.mColorData[i].getY();
+			verticies[i * valuesPerVertex + 5] = mesh.mColorData[i].getZ();
+		}
+	}
+
+	//Copy data into bound buffer (VBO)
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numOfFloats, verticies, GL_STATIC_DRAW);
+
+	delete[] verticies;
+	verticies = nullptr;
+}
+
 void GraphicsSystem::linkGPUData(Mesh2D& mesh)
 {
 	//Linking Vertex Attributes
@@ -901,6 +1124,23 @@ void GraphicsSystem::linkGPUData(Mesh2D& mesh)
 		glEnableVertexAttribArray(2);
 	}
 	else if (mesh.mHasColorData)
+	{
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+	}
+	else
+	{
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+	}
+}
+
+void GraphicsSystem::linkGPUData(Mesh3D& mesh)
+{
+	//Linking Vertex Attributes
+	if (mesh.mHasColorData)
 	{
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
@@ -991,6 +1231,7 @@ Animation* GraphicsSystem::getAnimation(int id)
 
 void GraphicsSystem::update(float deltaTime)
 {
+	mDEBUGtimer += deltaTime;
 	mpGameObjectManager->updateAll(deltaTime);
 }
 
@@ -1174,6 +1415,15 @@ Vector2D GraphicsSystem::convertScreenToGridCoordinates(Vector2D screenCoordinat
 }
 
 void GraphicsSystem::cleanupMesh2D(Mesh2D* mesh)
+{
+	glDeleteBuffers(1, &mesh->mVBO);
+
+	glDeleteVertexArrays(1, &mesh->mVAO);
+
+	glDeleteBuffers(1, &mesh->mEBO);
+}
+
+void GraphicsSystem::cleanupMesh3D(Mesh3D* mesh)
 {
 	glDeleteBuffers(1, &mesh->mVBO);
 

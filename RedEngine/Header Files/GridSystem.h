@@ -19,8 +19,9 @@ public:
 
 	Vector2D convertScreenToGrid(Vector2D screenLoc);
 
-	float getGridBoxWidth() { return mGridBoxWidth; }
-	float getGridBoxHeight() { return mGridBoxHeight; }
+	//DEBUG: Changed to 1 to disable grid system
+	float getGridBoxWidth() { return 1; }
+	float getGridBoxHeight() { return 1; }
 
 	void updateResolution(int displayWidth, int displayHeight);
 

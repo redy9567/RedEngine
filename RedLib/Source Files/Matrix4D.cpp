@@ -7,7 +7,7 @@ Matrix4D::Matrix4D()
 	mSecondRow = Vector4D::Zero();
 	mThirdRow = Vector4D::Zero();
 	mFourthRow = Vector4D::Zero();
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 };
 
 Matrix4D::Matrix4D(Vector4D row1, Vector4D row2, Vector4D row3, Vector4D row4)
@@ -16,17 +16,17 @@ Matrix4D::Matrix4D(Vector4D row1, Vector4D row2, Vector4D row3, Vector4D row4)
 	mSecondRow = row2;
 	mThirdRow = row3;
 	mFourthRow = row4;
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 }
 
 Matrix4D::~Matrix4D()
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 }
 
 Matrix4D Matrix4D::operator=(const Matrix4D& other)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 	mFirstRow = other.mFirstRow;
 	mSecondRow = other.mSecondRow;
 	mThirdRow = other.mThirdRow;
@@ -86,7 +86,7 @@ Matrix4D Matrix4D::operator*(const Matrix4D& other) const
 
 Matrix4D Matrix4D::operator+=(const Matrix4D& other)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 	mFirstRow += other.mFirstRow;
 	mSecondRow += other.mSecondRow;
 	mThirdRow += other.mThirdRow;
@@ -97,7 +97,7 @@ Matrix4D Matrix4D::operator+=(const Matrix4D& other)
 
 Matrix4D Matrix4D::operator-=(const Matrix4D& other)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 	mFirstRow -= other.mFirstRow;
 	mSecondRow -= other.mSecondRow;
 	mThirdRow -= other.mThirdRow;
@@ -108,7 +108,7 @@ Matrix4D Matrix4D::operator-=(const Matrix4D& other)
 
 Matrix4D Matrix4D::operator*=(const float scalar)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 	mFirstRow *= scalar;
 	mSecondRow *= scalar;
 	mThirdRow *= scalar;
@@ -118,7 +118,7 @@ Matrix4D Matrix4D::operator*=(const float scalar)
 
 Matrix4D Matrix4D::operator/=(const float scalar)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 	mFirstRow /= scalar;
 	mSecondRow /= scalar;
 	mThirdRow /= scalar;
@@ -182,41 +182,41 @@ std::ostream& operator<<(std::ostream& out, Matrix4D const& mat)
 	return out;
 }
 
-void Matrix4D::cleanupFloatArray()
+void Matrix4D::cleanupColumnMajorFloatArray()
 {
-	if (mConvertedFloatArray)
+	if (mColumnMajorFloatArray)
 	{
-		delete[] mConvertedFloatArray;
-		mConvertedFloatArray = nullptr;
+		delete[] mColumnMajorFloatArray;
+		mColumnMajorFloatArray = nullptr;
 	}
 }
 
-float* Matrix4D::convertToFloatArray()
+float* Matrix4D::convertToColumnMajorFloatArray()
 {
-	if (!mConvertedFloatArray)
+	if (!mColumnMajorFloatArray)
 	{
-		mConvertedFloatArray = new float[16];
+		mColumnMajorFloatArray = new float[16];
 
-		mConvertedFloatArray[0] = mFirstRow[0];
-		mConvertedFloatArray[1] = mFirstRow[1];
-		mConvertedFloatArray[2] = mFirstRow[2];
-		mConvertedFloatArray[3] = mFirstRow[3];
+		mColumnMajorFloatArray[0] = mFirstRow[0];
+		mColumnMajorFloatArray[1] = mSecondRow[0];
+		mColumnMajorFloatArray[2] = mThirdRow[0];
+		mColumnMajorFloatArray[3] = mFourthRow[0];
 
-		mConvertedFloatArray[4] = mSecondRow[0];
-		mConvertedFloatArray[5] = mSecondRow[1];
-		mConvertedFloatArray[6] = mSecondRow[2];
-		mConvertedFloatArray[7] = mSecondRow[3];
+		mColumnMajorFloatArray[4] = mFirstRow[1];
+		mColumnMajorFloatArray[5] = mSecondRow[1];
+		mColumnMajorFloatArray[6] = mThirdRow[1];
+		mColumnMajorFloatArray[7] = mFourthRow[1];
 
-		mConvertedFloatArray[8] = mThirdRow[0];
-		mConvertedFloatArray[9] = mThirdRow[1];
-		mConvertedFloatArray[10] = mThirdRow[2];
-		mConvertedFloatArray[11] = mThirdRow[3];
+		mColumnMajorFloatArray[8] = mFirstRow[2];
+		mColumnMajorFloatArray[9] = mSecondRow[2];
+		mColumnMajorFloatArray[10] = mThirdRow[2];
+		mColumnMajorFloatArray[11] = mFourthRow[2];
 
-		mConvertedFloatArray[12] = mFourthRow[0];
-		mConvertedFloatArray[13] = mFourthRow[1];
-		mConvertedFloatArray[14] = mFourthRow[2];
-		mConvertedFloatArray[15] = mFourthRow[3];
+		mColumnMajorFloatArray[12] = mFirstRow[3];
+		mColumnMajorFloatArray[13] = mSecondRow[3];
+		mColumnMajorFloatArray[14] = mThirdRow[3];
+		mColumnMajorFloatArray[15] = mFourthRow[3];
 	}
 
-	return mConvertedFloatArray;
+	return mColumnMajorFloatArray;
 }

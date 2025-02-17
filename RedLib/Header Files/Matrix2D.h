@@ -3,6 +3,7 @@
 #include <ostream>
 #include "Vector2D.h"
 
+// Represents a 2x2 matrix that is stored and accessed as Row-Major
 class Matrix2D : public Trackable
 {
 
@@ -46,14 +47,14 @@ public:
 	static const Matrix2D Zero() { return Matrix2D(0, 0, 0, 0); }
 	static const Matrix2D Identity() { return Matrix2D(1, 0, 0, 1); }
 
-	float* convertToFloatArray();
+	float* convertToColumnMajorFloatArray();
 
 private:
-	void cleanupFloatArray();
+	void cleanupColumnMajorFloatArray();
 
 	Vector2D mFirstRow, mSecondRow;
 
-	float* mConvertedFloatArray;
+	float* mColumnMajorFloatArray;
 
 };
 

@@ -423,6 +423,12 @@
     <ClInclude Include="Header Files\Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\Mesh3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\MeshType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\GraphicsSystem.cpp">
@@ -488,6 +494,9 @@
     <ClCompile Include="Source Files\Cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source Files\Mesh3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shaders\color.frag">
@@ -531,6 +540,9 @@
     </None>
     <None Include="Fragment Shaders\colorTextured.frag">
       <Filter>Fragment Shaders</Filter>
+    </None>
+    <None Include="Vertex Shaders\basic3D.vert">
+      <Filter>Vertex Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include <ostream>
 #include "Vector3D.h"
 
+// Represents a 3x3 matrix that is stored and accessed as Row-Major
 class Matrix3D : public Trackable
 {
 
@@ -63,14 +64,14 @@ public:
 														0, 1, 0,
 														0, 0, 1); }
 
-	float* convertToFloatArray();
+	float* convertToColumnMajorFloatArray();
 
 private:
-	void cleanupFloatArray();
+	void cleanupColumnMajorFloatArray();
 
 	Vector3D mFirstRow, mSecondRow, mThirdRow;
 
-	float* mConvertedFloatArray;
+	float* mColumnMajorFloatArray;
 
 };
 

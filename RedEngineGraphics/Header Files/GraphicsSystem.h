@@ -9,12 +9,13 @@
 struct GLFWwindow;
 
 class Mesh2D;
+class Mesh3D;
 class Animation;
 class AnimationData;
 class Font;
 
 enum SHADER_TYPE;
-enum MeshType;
+enum class MeshType;
 
 typedef unsigned int ShaderObjectIndex;
 typedef unsigned int ShaderProgramIndex;
@@ -28,7 +29,7 @@ class SpriteManager;
 class GameObject2DManager;
 class GameObject2D;
 class Texture2DManager;
-class Camera2D;
+class Camera3D;
 class UIElement;
 
 
@@ -72,6 +73,7 @@ public:
 	void setActiveShaderProgram(std::string program);
 	void drawInternalObjects(); //THIS SHOULDNT EXIST
 	void draw(Mesh2D& mesh);
+	void draw(Mesh3D& mesh, Vector3D location, Vector3D scale = Vector3D::One(), Vector3D angle = Vector3D::Zero());
 	void draw(Sprite& sprite, Vector2D location, float angle = 0.0f, bool useTopAnchoring = false);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
@@ -89,6 +91,7 @@ public:
 	void setVec4Uniform(std::string program, std::string uniformName, Vector4D value);
 	void setMat3Uniform(std::string program, std::string uniformName, Sprite& sprite, Vector2D location); //This needs to be Deprecated
 	void setMat3Uniform(std::string program, std::string uniformName, Matrix3D matrix);
+	void setMat4Uniform(std::string program, std::string uniformName, Matrix4D matrix);
 
 	//Shaders
 	bool createAndAddShader(std::string key, SHADER_TYPE type, std::string filename);
@@ -140,7 +143,7 @@ public:
 
 	Vector2D convertScreenToGridCoordinates(Vector2D screenCoordinates);
 
-	Camera2D* getCamera() { return mpCamera; }
+	Camera3D* getCamera() { return mpCamera; }
 
 	void setCursorHidden(bool isHidden);
 
@@ -175,6 +178,7 @@ public:
 
 	//GLCleanupFunctions
 	void cleanupMesh2D(Mesh2D*);
+	void cleanupMesh3D(Mesh3D*);
 	void cleanupTexture2D(Texture2D*);
 
 	void setBackgroundColor(Vector3D color);
@@ -198,14 +202,18 @@ private:
 
 	//GLInitFunctions
 	void initMesh2D(Mesh2D*);
+	void initMesh3D(Mesh3D*);
 	void initTexture2D(Texture2D*);
 	void initFont(Font*);
 
 	//Helper Draw Functions
 	void bindMesh2D(Mesh2D*);
+	void bindMesh3D(Mesh3D*);
 	void bindTexture2D(Texture2D*, unsigned int textureLocation);
 	void packGPUData(Mesh2D&, Vector2D size = Vector2D::One(), ImageAnchor anchoring = ImageAnchor::Center);
+	void packGPUData(Mesh3D&, Vector3D size = Vector3D::One(), ImageAnchor anchoring = ImageAnchor::Center);
 	void linkGPUData(Mesh2D&);
+	void linkGPUData(Mesh3D&);
 	void internalDrawSprite(Sprite& sprite);
 
 	void drawDebugInfo();
@@ -228,7 +236,7 @@ private:
 
 	GameObject2D* mpBackground;
 
-	Camera2D* mpCamera;
+	Camera3D* mpCamera;
 
 	DebugHUD* mpDebugHUD;
 	GridSystem* mpGridSystem;
@@ -241,5 +249,7 @@ private:
 	bool mDebugMode;
 
 	ScrollFunctionCallback mScrollCallback;
+
+	float mDEBUGtimer;
 
 };

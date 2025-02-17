@@ -5,42 +5,42 @@ Matrix2D::Matrix2D()
 {
 	mFirstRow = Vector2D::Zero();
 	mSecondRow = Vector2D::Zero();
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 };
 
 Matrix2D::Matrix2D(float a, float b, float c, float d)
 {
 	mFirstRow = Vector2D(a, b);
 	mSecondRow = Vector2D(c, d);
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 }
 
 Matrix2D::Matrix2D(int a, int b, int c, int d)
 {
 	mFirstRow = Vector2D(a, b);
 	mSecondRow = Vector2D(c, d);
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 }
 
 Matrix2D::Matrix2D(double a, double b, double c, double d)
 {
 	mFirstRow = Vector2D(a, b);
 	mSecondRow = Vector2D(c, d);
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 }
 
 Matrix2D::Matrix2D(unsigned int a, unsigned int b, unsigned int c, unsigned int d)
 {
 	mFirstRow = Vector2D(a, b);
 	mSecondRow = Vector2D(c, d);
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 }
 
 Matrix2D::Matrix2D(Vector2D row1, Vector2D row2)
 {
 	mFirstRow = row1;
 	mSecondRow = row2;
-	mConvertedFloatArray = nullptr;
+	mColumnMajorFloatArray = nullptr;
 }
 
 Matrix2D::~Matrix2D()
@@ -50,7 +50,7 @@ Matrix2D::~Matrix2D()
 
 Matrix2D Matrix2D::operator=(const Matrix2D& other)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 
 	mFirstRow = other.mFirstRow;
 	mSecondRow = other.mSecondRow;
@@ -107,7 +107,7 @@ Matrix2D Matrix2D::operator*(const Matrix2D& other) const
 
 Matrix2D Matrix2D::operator+=(const Matrix2D& other)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 
 	mFirstRow += other.mFirstRow;
 	mSecondRow += other.mSecondRow;
@@ -117,7 +117,7 @@ Matrix2D Matrix2D::operator+=(const Matrix2D& other)
 
 Matrix2D Matrix2D::operator-=(const Matrix2D& other)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 
 	mFirstRow -= other.mFirstRow;
 	mSecondRow -= other.mSecondRow;
@@ -127,7 +127,7 @@ Matrix2D Matrix2D::operator-=(const Matrix2D& other)
 
 Matrix2D Matrix2D::operator*=(const float scalar)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 
 	mFirstRow *= scalar;
 	mSecondRow *= scalar;
@@ -136,7 +136,7 @@ Matrix2D Matrix2D::operator*=(const float scalar)
 
 Matrix2D Matrix2D::operator/=(const float scalar)
 {
-	cleanupFloatArray();
+	cleanupColumnMajorFloatArray();
 
 	mFirstRow /= scalar;
 	mSecondRow /= scalar;
@@ -193,27 +193,27 @@ std::ostream& operator<<(std::ostream& out, Matrix2D const& mat)
 	return out;
 }
 
-void Matrix2D::cleanupFloatArray()
+void Matrix2D::cleanupColumnMajorFloatArray()
 {
-	if (mConvertedFloatArray)
+	if (mColumnMajorFloatArray)
 	{
-		delete[] mConvertedFloatArray;
-		mConvertedFloatArray = nullptr;
+		delete[] mColumnMajorFloatArray;
+		mColumnMajorFloatArray = nullptr;
 	}
 }
 
-float* Matrix2D::convertToFloatArray()
+float* Matrix2D::convertToColumnMajorFloatArray()
 {
-	if (!mConvertedFloatArray)
+	if (!mColumnMajorFloatArray)
 	{
-		mConvertedFloatArray = new float[4];
+		mColumnMajorFloatArray = new float[4];
 
-		mConvertedFloatArray[0] = mFirstRow[0];
-		mConvertedFloatArray[1] = mFirstRow[1];
+		mColumnMajorFloatArray[0] = mFirstRow[0];
+		mColumnMajorFloatArray[1] = mSecondRow[0];
 
-		mConvertedFloatArray[2] = mSecondRow[0];
-		mConvertedFloatArray[3] = mSecondRow[1];
+		mColumnMajorFloatArray[2] = mFirstRow[1];
+		mColumnMajorFloatArray[3] = mSecondRow[1];
 	}
 
-	return mConvertedFloatArray;
+	return mColumnMajorFloatArray;
 }
