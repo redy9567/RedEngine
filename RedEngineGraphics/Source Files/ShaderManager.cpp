@@ -168,6 +168,9 @@ void ShaderManager::initDefaultShaders()
 	createAndAddShader("Basic3D Vert", VERTEX_SHADER, "basic3D.vert");
 
 	createAndAddShader("Color Textured Frag", FRAGMENT_SHADER, "colorTextured.frag");
+
+	createAndAddShader("Skybox Vert", VERTEX_SHADER, "skybox.vert");
+	createAndAddShader("Skybox Frag", FRAGMENT_SHADER, "skybox.frag");
 }
 
 void ShaderManager::initDefaultShaderPrograms()
@@ -194,4 +197,8 @@ void ShaderManager::initDefaultShaderPrograms()
 	createAndAddShaderProgram("Basic3D", "Basic3D Vert", "Color Frag");
 	linkShaderProgram("Basic3D");
 	activateFloatAttributeOnProgram("Basic3D", 0, 3);
+
+	createAndAddShaderProgram("Skybox", "Skybox Vert", "Skybox Frag");
+	linkShaderProgram("Skybox");
+	activateFloatAttributeOnProgram("Skybox", 0, 3);
 }

@@ -51,6 +51,14 @@ Vector4D::Vector4D(unsigned int x, unsigned int y, unsigned int z, unsigned int 
 	mW = (float)w;
 }
 
+Vector4D::Vector4D(Vector3D subset, float w)
+{
+	mX = subset.getX();
+	mY = subset.getY();
+	mZ = subset.getZ();
+	mW = w;
+}
+
 Vector4D Vector4D::operator=(const Vector4D& other)
 {
 	mX = other.mX;

@@ -41,15 +41,7 @@ void GameListener::handleEvent(const Event& ev)
 				break;
 
 			case KeyCode::F2:
-				game->onToggleShaders();
-				break;
-
-			case KeyCode::F4:
-				game->onShaderHotReload();
-				break;
-
-			case KeyCode::F5:
-				game->onToggleDebugMode();
+				game->onTogglePause();
 				break;
 			}
 		}

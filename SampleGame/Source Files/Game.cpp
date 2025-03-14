@@ -15,6 +15,7 @@
 #include "AxisEvent.h"
 #include "Mesh3D.h"
 #include "Camera3D.h"
+#include "GameObject3D.h"
 
 #include <iostream>
 #include <Shader.h>
@@ -50,7 +51,8 @@ void Game::startGame()
 	mpGameTimer->start();
 	while (mIsPlaying)    // Detect window close button or ESC key
 	{
-		mDeltaTime = mpGameTimer->getElapsedTime();
+		if(!mIsPaused)
+			mDeltaTime = mpGameTimer->getElapsedTime();
 		mTimeElapsed += mDeltaTime;
 		mpGameTimer->start();
 
@@ -96,25 +98,17 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpCube = new Mesh3D(PrimitiveType::Cube);
 	mpPlane = new Mesh3D(PrimitiveType::Plane);
+	mpSphere = new Mesh3D(PrimitiveType::Sphere);
 
-	/*
-	Texture2D* smurfTexture = mpGraphicsSystem->createAndAddTexture2D("smurf", ASSET_PATH + SMURF_FILENAME, true);
-	Texture2D* projTexture = mpGraphicsSystem->createAndAddTexture2D("proj", ASSET_PATH + PROJECTILE_FILENAME, true);
-	Texture2D* bgTexture = mpGraphicsSystem->createAndAddTexture2D("bg", ASSET_PATH + BACKGROUND_FILEPATH);
-	
+	vector<string> skyboxFilepaths;
+	skyboxFilepaths.push_back("Assets/skybox/right.jpg");
+	skyboxFilepaths.push_back("Assets/skybox/left.jpg");
+	skyboxFilepaths.push_back("Assets/skybox/top.jpg");
+	skyboxFilepaths.push_back("Assets/skybox/bottom.jpg");
+	skyboxFilepaths.push_back("Assets/skybox/front.jpg");
+	skyboxFilepaths.push_back("Assets/skybox/back.jpg");
 
-	Vector2D bgScale = Vector2D(0.001f, 0.001f);
-	Sprite* bgSprite = mpGraphicsSystem->createAndAddSprite("Background", &bgTexture, Vector2D::Zero(), bgTexture->getSize(), bgScale);
-	mpGraphicsSystem->setBackground(mpGraphicsSystem->createAndAddGameObject2D(bgSprite, Vector2D::Zero()));
-
-	mpGraphicsSystem->createAndAddAnimationData("smurf", &smurfTexture, 4, 4);
-	mpGraphicsSystem->createAndAddAnimationData("proj", &projTexture, 1, 13, 0.25f);
-	
-
-	Animation* playerAnim = mpGraphicsSystem->createAndAddAnimation("smurf", 16, true);
-	mpPlayerUnit = new Player(playerAnim, 50.0f, Vector2D(3.0f, 3.0f));
-	*/
-	//mpGraphicsSystem->addGameObject2D(mpPlayerUnit);
+	mpGraphicsSystem->setSkybox(skyboxFilepaths);
 
 	mpGameListener = new GameListener();
 	EventSystem::getInstance()->addListener(Event::KEYBOARD_EVENT, mpGameListener);
@@ -127,6 +121,22 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 	mDebugMode = debugMode;
 
 	mpGraphicsSystem->setBackgroundColor(Vector3D(0.1f, 0.03f, 0.25f));
+
+	mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(0.0f, -1.0f, -3.0f), Vector3D(0.0f, 0.5f, 0.0f), Vector3D(5.0f, 1.0f, 5.0f));
+
+	const float SPIN_SPEED = 10.0f;
+
+	mBall1 = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(-1.0f, 0.0f, -2.0f), Vector3D(0.5f, 0.0f, 0.5f), Vector3D(0.5f, 0.5f, 0.5f));
+	mBall1->enablePhysics();
+	mBall1->getPhysics()->setVel(Vector3D(0.25f, 0.0f, 0.0f));
+	mBall1->getPhysics()->setRotVel(Vector3D(0.13f, 0.75f, 0.48f) * SPIN_SPEED);
+
+	mBall2 = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(1.0f, 0.0f, -2.0f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.5f, 0.5f, 0.5f));
+	mBall2->enablePhysics();
+	mBall2->getPhysics()->setVel(Vector3D(-0.25f, 0.0f, 0.0f));
+	mBall2->getPhysics()->setRotVel(Vector3D(0.83f, 0.13f, 0.74f) * SPIN_SPEED);
+	
+	mIsPaused = false;
 
 	srand(time(NULL));
 }
@@ -160,6 +170,31 @@ void Game::update()
 	//mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
 
+	if (mpLine)
+	{
+		delete mpLine;
+		mpLine = nullptr;
+	}
+
+	//Check for Collision Detection between the two spheres... (We are assuming the scale is uniform on all axes, using one as radius)
+	if ((mBall1->getLoc() - mBall2->getLoc()).length() < mBall1->getScale().getX() + mBall2->getScale().getX())
+	{
+		//Collision!
+		mBall1->setColor(Vector3D(1.0f, 0.0f, 0.0f));
+		mBall2->setColor(Vector3D(1.0f, 0.0f, 0.0f));
+
+		Vector3D collisionDir = (mBall2->getLoc() - mBall1->getLoc()).normalized();
+		//Create a line on the surface of ball1, with the length of the penetration
+		Vector3D surfacePoint = mBall1->getLoc() + (collisionDir * mBall1->getScale().getX());
+		float penetrationLength = mBall1->getScale().getX() + mBall2->getScale().getX() - (mBall2->getLoc() - mBall1->getLoc()).length();
+		mpLine = new Mesh3D(surfacePoint, surfacePoint + collisionDir * penetrationLength);
+	}
+	else
+	{
+		mBall1->setColor(Vector3D(0.5f, 0.0f, 0.5f));
+		mBall2->setColor(Vector3D(0.0f, 0.5f, 0.5f));
+	}
+
 	//mpGraphicsSystem->getAnimation(0)->update(mDeltaTime);
 
 	mpGraphicsSystem->update(mDeltaTime);
@@ -168,15 +203,15 @@ void Game::update()
 void Game::render()
 {
 	mpGraphicsSystem->drawInternalObjects();
-	
-	mpGraphicsSystem->setVec4Uniform("Basic3D", "uColor", Vector4D(1.0f, 0.0f, 0.0f, 1.0f));
-	mpGraphicsSystem->draw(*mpCube, Vector3D(0.0f, 0.0f, -3.0f), Vector3D::One(), Vector3D(mTimeElapsed * 10.0f, mTimeElapsed * 20.0f, mTimeElapsed * 5.0f));
 
-	mpGraphicsSystem->setVec4Uniform("Basic3D", "uColor", Vector4D(0.0f, 0.0f, 1.0f, 1.0f));
-	mpGraphicsSystem->draw(*mpCube, Vector3D(0.0f, 2.0f - mTimeElapsed / 2.0f, -3.0f), Vector3D(0.5f, 0.5f, 0.5f), Vector3D::Zero());
-
-	mpGraphicsSystem->setVec4Uniform("Basic3D", "uColor", Vector4D(0.0f, 0.5f, 0.0f, 1.0f));
-	mpGraphicsSystem->draw(*mpPlane, Vector3D(0.0f, -1.0f, -3.0f), Vector3D(5.0f, 1.0f, 5.0f), Vector3D::Zero());
+	if (mpLine)
+	{
+		mpGraphicsSystem->setVec4Uniform("Basic3D", "uColor", Vector4D(1.0f, 1.0f, 0.0f, 1.0f));
+		
+		mpGraphicsSystem->setDrawLineWidth(4.0f);
+		mpGraphicsSystem->draw(*mpLine, Vector3D::Zero());
+		mpGraphicsSystem->setDrawLineWidth(1.0f);
+	}
 
 	mpGraphicsSystem->render();
 }
@@ -327,4 +362,12 @@ void Game::handleCameraMovement(KeyCode key)
 		break;
 	}
 
+}
+
+void Game::onTogglePause()
+{
+	mIsPaused = !mIsPaused;
+
+	if (mIsPaused)
+		mDeltaTime = 0.0f;
 }

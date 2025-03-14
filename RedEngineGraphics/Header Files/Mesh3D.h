@@ -14,6 +14,9 @@ enum PrimitiveType
 {
 	Cube,
 	Plane,
+	Sphere, //Oh boy, spheres are complicated primitives!
+	Skybox, //Not really a primitive, but definitely a hack because I'm lazy
+	Line,
 	None
 };
 
@@ -24,6 +27,7 @@ public:
 	friend class GraphicsSystem;
 
 	Mesh3D(PrimitiveType type);
+	Mesh3D(Vector3D linePoint1, Vector3D linePoint2);
 	Mesh3D(Vector3D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, MeshType meshType = MeshType::Triangles);
 	Mesh3D(Vector3D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[], MeshType meshType = MeshType::Triangles);
 	//Mesh3D(Vector3D vertexArray[], unsigned int vertexCount, unsigned int drawOrder[], unsigned int drawCount, Vector3D colorData[],
@@ -37,6 +41,8 @@ public:
 
 private:
 	Mesh3D() = delete;
+
+	void generateSphere();
 
 	MeshType mMeshType;
 	PrimitiveType mPrimitiveType;

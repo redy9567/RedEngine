@@ -21,7 +21,9 @@
 #include "GridSystem.h"
 #include "SpriteManager.h"
 #include "GameObject2DManager.h"
+#include "GameObject3DManager.h"
 #include "GameObject2D.h"
+#include "GameObject3D.h"
 #include "AnimationData.h"
 #include "Texture2DManager.h"
 #include "Matrix3D.h"
@@ -66,9 +68,11 @@ GraphicsSystem::GraphicsSystem()
 	mpSpriteManager = nullptr;
 	mpDebugHUD = nullptr;
 	mpFontManager = nullptr;
-	mpGameObjectManager = nullptr;
+	mpGameObject2DManager = nullptr;
+	mpGameObject3DManager = nullptr;
 	mpTexture2DManager = nullptr;
 	mpBackground = nullptr;
+	mpSkybox = nullptr;
 	mDEBUGtimer = 0.0f;
 }
 
@@ -143,13 +147,14 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpFontManager = FontManager::getInstance();
 	mpFontManager->init();
 
-	mpGameObjectManager = GameObject2DManager::getInstance();
-	mpGameObjectManager->init();
+	mpGameObject2DManager = GameObject2DManager::getInstance();
+	mpGameObject2DManager->init();
+
+	mpGameObject3DManager = GameObject3DManager::getInstance();
+	mpGameObject3DManager->init();
 
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
-
-	mpCamera = new Camera3D(Vector3D(0.0f, 0.0f, 2.0f), mWindowResolution);
 
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
@@ -166,13 +171,10 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 	mpFontManager = FontManager::getInstance();
 	mpFontManager->init();
 
-	mpGameObjectManager = GameObject2DManager::getInstance();
-	mpGameObjectManager->init();
-
 	mpDebugHUD = DebugHUD::getInstance();
 	mpDebugHUD->addDebugValue("Current Shader Program: ", &GraphicsSystem::getCurrentShaderProgram);
 
-	mpCamera = new Camera3D(Vector3D(0.0f, 0.0f, -1.0f), mWindowResolution);
+	mpCamera = new Camera3D(Vector3D(0.0f, 0.0f, 0.0f), mWindowResolution);
 
 	mpGridSystem = GridSystem::getInstance();
 	mpGridSystem->init(displayWidth, displayHeight);
@@ -187,8 +189,11 @@ bool GraphicsSystem::init(int displayWidth, int displayHeight)
 
 void GraphicsSystem::cleanup()
 {
-	mpGameObjectManager->cleanup();
+	mpGameObject2DManager->cleanup();
 	GameObject2DManager::cleanupInstance();
+
+	mpGameObject3DManager->cleanup();
+	GameObject3DManager::cleanupInstance();
 
 	mpShaderManager->cleanup();
 	ShaderManager::cleanupInstance();
@@ -232,6 +237,8 @@ bool GraphicsSystem::render()
 
 	if (mpBackground)
 		draw(mpBackground);
+	else if(mpSkybox)
+		drawSkybox();
 
 	//drawGrid();
 
@@ -390,7 +397,7 @@ void GraphicsSystem::draw(Mesh3D& mesh, Vector3D location, Vector3D scale, Vecto
 		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
-	Matrix4D viewMatrix = viewTranslateMatrix * viewRotationZMatrix * viewRotationYMatrix * viewRotationXMatrix;
+	Matrix4D viewMatrix = viewRotationZMatrix * viewRotationYMatrix * viewRotationXMatrix * viewTranslateMatrix;
 
 	Matrix4D projectionMatrix = Matrix4D(
 		Vector4D(1.0f, 0.0f, 0.0f, 0.0f),
@@ -404,6 +411,10 @@ void GraphicsSystem::draw(Mesh3D& mesh, Vector3D location, Vector3D scale, Vecto
 	setMat4Uniform(mCurrentShaderProgram, "uModelMat", modelMatrix); //These game objects shouldn't need these uniforms sent here. Need some gs funciton to be called by game.
 	setMat4Uniform(mCurrentShaderProgram, "uViewMat", viewMatrix);
 	setMat4Uniform(mCurrentShaderProgram, "uProjMat", projectionMatrix);
+
+	//DEBUG:This shouldn't be set here... Ideally, the view and proj matricies aren't calculated every object draw, and can live somewhere else.
+	setMat4Uniform("Skybox", "uViewMat", viewMatrix.getMat3());
+	setMat4Uniform("Skybox", "uProjMat", projectionMatrix);
 
 	setActiveShaderProgram(mCurrentShaderProgram);
 
@@ -578,6 +589,13 @@ void GraphicsSystem::draw(GameObject2D* obj)
 		draw(*obj->mImage.a, obj->getLoc());
 		break;
 	}
+}
+
+void GraphicsSystem::draw(GameObject3D* obj)
+{
+	setVec4Uniform("Basic3D", "uColor", Vector4D(obj->mColor, 1.0f));
+
+	draw(*obj->mpMesh, obj->getLoc(), obj->mScale, obj->getRotation());
 }
 
 void GraphicsSystem::drawUI(GameObject2D* obj)
@@ -906,9 +924,9 @@ void GraphicsSystem::initTexture2D(Texture2D* texture)
 	glBindTexture(GL_TEXTURE_2D, texture->mTOI);
 
 	if(texture->mHasAlpha)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->mWidth, texture->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->mData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->mWidth, texture->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->mData[0]);
 	else
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->mWidth, texture->mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->mData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->mWidth, texture->mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->mData[0]);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -1075,26 +1093,11 @@ void GraphicsSystem::packGPUData(Mesh3D& mesh, Vector3D size, ImageAnchor anchor
 
 	float* verticies = new float[numOfFloats];
 
-	Vector3D offset;
-	float halfXSize = size.getX() / 2.0f;
-	float halfYSize = size.getY() / 2.0f;
-	float halfZSize = size.getZ() / 2.0f;
-
-	switch (anchoring)
-	{
-	case ImageAnchor::BottomLeft:
-		offset = Vector3D::Zero();
-		break;
-
-	case ImageAnchor::Center:
-		offset = Vector3D(-halfXSize, -halfYSize, -halfZSize);
-	}
-
 	for (int i = 0; i < mesh.mVertexCount; i++)
 	{
-		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX() + offset.getX();
-		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY() + offset.getY();
-		verticies[i * valuesPerVertex + 2] = mesh.getVertexAt(i).getZ() + offset.getZ();
+		verticies[i * valuesPerVertex] = mesh.getVertexAt(i).getX();
+		verticies[i * valuesPerVertex + 1] = mesh.getVertexAt(i).getY();
+		verticies[i * valuesPerVertex + 2] = mesh.getVertexAt(i).getZ();
 
 		if (mesh.mHasColorData)
 		{
@@ -1232,7 +1235,8 @@ Animation* GraphicsSystem::getAnimation(int id)
 void GraphicsSystem::update(float deltaTime)
 {
 	mDEBUGtimer += deltaTime;
-	mpGameObjectManager->updateAll(deltaTime);
+	mpGameObject2DManager->updateAll(deltaTime);
+	mpGameObject3DManager->updateAll(deltaTime);
 }
 
 bool GraphicsSystem::_imGetKey(unsigned int keyCode, GraphicsSystemIMKey key)
@@ -1309,32 +1313,57 @@ Sprite* GraphicsSystem::getSprite(string key)
 
 GameObject2D* GraphicsSystem::createGameObject2D(Sprite* sprite, Vector2D loc)
 {
-	return mpGameObjectManager->createGameObject2D(sprite, loc);
+	return mpGameObject2DManager->createGameObject2D(sprite, loc);
 }
 
 GameObject2D* GraphicsSystem::createAndAddGameObject2D(Sprite* sprite, Vector2D loc, bool useTopAnchoring)
 {
-	return mpGameObjectManager->createAndAddGameObject2D(sprite, loc, useTopAnchoring);
+	return mpGameObject2DManager->createAndAddGameObject2D(sprite, loc, useTopAnchoring);
 }
 
 GameObject2D* GraphicsSystem::createAndAddGameObject2D(Animation* anim, Vector2D loc)
 {
-	return mpGameObjectManager->createAndAddGameObject2D(anim, loc);
+	return mpGameObject2DManager->createAndAddGameObject2D(anim, loc);
 }
 
 void GraphicsSystem::addGameObject2D(GameObject2D* obj)
 {
-	mpGameObjectManager->addGameObject2D(obj);
+	mpGameObject2DManager->addGameObject2D(obj);
 }
 
 void GraphicsSystem::removeAndDeleteGameObject2D(GameObject2D* obj)
 {
-	mpGameObjectManager->removeAndDeleteGameObject2D(obj);
+	mpGameObject2DManager->removeAndDeleteGameObject2D(obj);
 }
 
 void GraphicsSystem::removeAndDeleteGameObject2D(int id)
 {
-	mpGameObjectManager->removeAndDeleteGameObject2D(id);
+	mpGameObject2DManager->removeAndDeleteGameObject2D(id);
+}
+
+GameObject3D* GraphicsSystem::createGameObject3D(Mesh3D* mesh, Vector3D loc, Vector3D color, Vector3D scale, Vector3D rot)
+{
+	return mpGameObject3DManager->createGameObject3D(mesh, loc, color, scale, rot);
+}
+
+GameObject3D* GraphicsSystem::createAndAddGameObject3D(Mesh3D* mesh, Vector3D loc, Vector3D color, Vector3D scale, Vector3D rot)
+{
+	return mpGameObject3DManager->createAndAddGameObject3D(mesh, loc, color, scale, rot);
+}
+
+void GraphicsSystem::addGameObject3D(GameObject3D* obj)
+{
+	mpGameObject3DManager->addGameObject3D(obj);
+}
+
+void GraphicsSystem::removeAndDeleteGameObject3D(GameObject3D* obj)
+{
+	mpGameObject3DManager->removeAndDeleteGameObject3D(obj);
+}
+
+void GraphicsSystem::removeAndDeleteGameObject3D(int id)
+{
+	mpGameObject3DManager->removeAndDeleteGameObject3D(id);
 }
 
 void GraphicsSystem::drawGrid()
@@ -1458,10 +1487,61 @@ void GraphicsSystem::callScrollCallback(double xOffset, double yOffset)
 
 void GraphicsSystem::drawInternalObjects()
 {
-	mpGameObjectManager->drawAll();
+	mpGameObject2DManager->drawAll();
+	mpGameObject3DManager->drawAll();
 }
 
 void GraphicsSystem::setBackgroundColor(Vector3D color)
 {
 	glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
+}
+
+//Face filepaths NEED to be passed in the following order: right, left, top, bottom, front, back
+void GraphicsSystem::setSkybox(vector<string> faceFilepaths)
+{
+	if (mpSkybox)
+		delete mpSkybox;
+
+	mpSkybox = new Texture2D(faceFilepaths);
+
+	glGenTextures(1, &mpSkybox->mTOI);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, mpSkybox->mTOI);
+
+	for (int i = 0; i < mpSkybox->mData.size(); ++i)
+	{
+		if (mpSkybox->mHasAlpha)
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, mpSkybox->mWidth, mpSkybox->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mpSkybox->mData[i]);
+		else
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, mpSkybox->mWidth, mpSkybox->mHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, mpSkybox->mData[i]);
+	}
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+	mpSkybox->freeRawData();
+}
+
+void GraphicsSystem::drawSkybox()
+{
+	Mesh3D cube(PrimitiveType::Skybox);
+
+	glDepthMask(GL_FALSE);
+
+	string previousShader = mCurrentShaderProgram;
+	setActiveShaderProgram("Skybox");
+	
+	glBindTexture(GL_TEXTURE_CUBE_MAP, mpSkybox->mTOI);
+
+	draw(cube, Vector3D::Zero());
+
+	setActiveShaderProgram(previousShader);
+	glDepthMask(GL_TRUE);
+}
+
+void GraphicsSystem::setDrawLineWidth(float width)
+{
+	glLineWidth(width);
 }

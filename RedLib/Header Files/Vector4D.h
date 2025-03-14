@@ -1,6 +1,7 @@
 #pragma once
 #include "Trackable.h"
 #include <ostream>
+#include "Vector3D.h"
 
 class Matrix4D;
 
@@ -13,6 +14,7 @@ public:
 	Vector4D(int x, int y, int z, int w);
 	Vector4D(double x, double y, double z, double w);
 	Vector4D(unsigned int x, unsigned int y, unsigned int z, unsigned int w);
+	Vector4D(Vector3D subset, float w);
 	~Vector4D();
 
 	Vector4D operator=(const Vector4D& other);

@@ -1,6 +1,7 @@
 #pragma once
 #include "Trackable.h"
 #include <string>
+#include <vector>
 #include "Vector2D.h"
 
 class Texture2D : public Trackable
@@ -17,6 +18,7 @@ public:
 
 private:
 	Texture2D(std::string filepath, bool hasAlpha = false);
+	Texture2D(std::vector<std::string> filepaths, bool hasAlpha = false);
 	~Texture2D();
 	Texture2D() = delete;
 
@@ -30,7 +32,7 @@ private:
 
 	unsigned int mTOI;
 
-	unsigned char* mData;
+	std::vector<unsigned char*> mData;
 
 	int mReferences; //Count of how many objects are using this texture
 

@@ -13,6 +13,7 @@ class Vector2D;
 class MouseEvent;
 class AxisEvent;
 class Mesh3D;
+class GameObject3D;
 
 const std::string ASSET_PATH = "Assets/";//GAMEASSETS; //MAKE THIS RELATIVE PATH
 const std::string SMURF_FILENAME = "smurf_sprites.png";
@@ -48,8 +49,6 @@ private:
 	void DMousePress(int);
 	void DMouseRelease(int);
 
-	void fireProj();
-
 	void quitGame();
 
 	void onMouseMove(Vector2D);
@@ -60,6 +59,7 @@ private:
 	void onToggleShaders();
 	void onShaderHotReload();
 	void onToggleDebugMode();
+	void onTogglePause();
 
 	void handleCameraMovement(KeyCode key);
 
@@ -80,6 +80,12 @@ private:
 
 	Mesh3D* mpCube;
 	Mesh3D* mpPlane;
+	Mesh3D* mpSphere;
+	Mesh3D* mpLine;
 	float mTimeElapsed;
+
+	GameObject3D* mBall1;
+	GameObject3D* mBall2;
 	
+	bool mIsPaused;
 };

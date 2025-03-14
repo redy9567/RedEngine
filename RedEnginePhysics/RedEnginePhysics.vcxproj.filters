@@ -18,9 +18,15 @@
     <ClInclude Include="Header Files\PhysicsData2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\PhysicsData3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Files\PhysicsData2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Files\PhysicsData3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

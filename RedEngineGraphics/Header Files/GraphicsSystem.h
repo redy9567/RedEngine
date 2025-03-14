@@ -5,6 +5,7 @@
 #include "Vector3D.h"
 #include "Vector4D.h"
 #include "Sprite.h"
+#include <vector>
 
 struct GLFWwindow;
 
@@ -27,7 +28,9 @@ class AnimationManager;
 class FontManager;
 class SpriteManager;
 class GameObject2DManager;
+class GameObject3DManager;
 class GameObject2D;
+class GameObject3D;
 class Texture2DManager;
 class Camera3D;
 class UIElement;
@@ -77,6 +80,7 @@ public:
 	void draw(Sprite& sprite, Vector2D location, float angle = 0.0f, bool useTopAnchoring = false);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);
+	void draw(GameObject3D* gameobject);
 	void drawUI(std::string text, std::string fontKey, std::string shaderProgram, Vector2D loc, Vector3D color = Vector3D::One(), float scale = 1.0f);
 	void drawUI(Sprite& sprite, Vector2D location, Vector2D lowerBound = Vector2D::Zero(), Vector2D upperBound = Vector2D::Zero());
 	void drawUI(GameObject2D* gameObject);
@@ -138,6 +142,13 @@ public:
 	void removeAndDeleteGameObject2D(int id);
 	void addGameObject2D(GameObject2D*);
 
+	//GameObject3D
+	GameObject3D* createGameObject3D(Mesh3D* mesh, Vector3D loc = Vector3D::Zero(), Vector3D color = Vector3D::Zero(), Vector3D scale = Vector3D::One(), Vector3D rot = Vector3D::Zero());
+	GameObject3D* createAndAddGameObject3D(Mesh3D* mesh, Vector3D loc = Vector3D::Zero(), Vector3D color = Vector3D::Zero(), Vector3D scale = Vector3D::One(), Vector3D rot = Vector3D::Zero());
+	void removeAndDeleteGameObject3D(GameObject3D* obj);
+	void removeAndDeleteGameObject3D(int id);
+	void addGameObject3D(GameObject3D*);
+
 	Vector2D convertToGridCoordinates(Vector2D pixelCoordinates);
 	Vector2D convertToScreenCoordinates(Vector2D pixelCoordinates);
 
@@ -166,6 +177,8 @@ public:
 
 	void setBackground(GameObject2D* bg) { mpBackground = bg; }
 
+	void setSkybox(std::vector<std::string> faceFilepaths);
+
 	bool render();
 
 	void setDebugMode(bool val) { mDebugMode = val; }
@@ -182,6 +195,8 @@ public:
 	void cleanupTexture2D(Texture2D*);
 
 	void setBackgroundColor(Vector3D color);
+
+	void setDrawLineWidth(float width);
 
 private:
 	GraphicsSystem();
@@ -219,6 +234,7 @@ private:
 	void drawDebugInfo();
 
 	void drawGrid();
+	void drawSkybox();
 
 	unsigned int convertMeshType(MeshType meshType);
 
@@ -231,10 +247,13 @@ private:
 	AnimationManager* mpAnimationManager;
 	FontManager* mpFontManager;
 	SpriteManager* mpSpriteManager;
-	GameObject2DManager* mpGameObjectManager;
+	GameObject2DManager* mpGameObject2DManager;
+	GameObject3DManager* mpGameObject3DManager;
 	Texture2DManager* mpTexture2DManager;
 
 	GameObject2D* mpBackground;
+
+	Texture2D* mpSkybox;
 
 	Camera3D* mpCamera;
 

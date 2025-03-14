@@ -19,6 +19,15 @@ Matrix4D::Matrix4D(Vector4D row1, Vector4D row2, Vector4D row3, Vector4D row4)
 	mColumnMajorFloatArray = nullptr;
 }
 
+Matrix4D::Matrix4D(Matrix3D subset)
+{
+	mFirstRow = Vector4D(subset.getRow(0), 0.0f);
+	mSecondRow = Vector4D(subset.getRow(1), 0.0f);
+	mThirdRow = Vector4D(subset.getRow(2), 0.0f);
+	mFourthRow = Vector4D(0.0f, 0.0f, 0.0f, 1.0f);
+	mColumnMajorFloatArray = nullptr;
+}
+
 Matrix4D::~Matrix4D()
 {
 	cleanupColumnMajorFloatArray();
@@ -219,4 +228,13 @@ float* Matrix4D::convertToColumnMajorFloatArray()
 	}
 
 	return mColumnMajorFloatArray;
+}
+
+Matrix3D Matrix4D::getMat3() const
+{
+	return Matrix3D(
+		mFirstRow[0], mFirstRow[1], mFirstRow[2],
+		mSecondRow[0], mSecondRow[1], mSecondRow[2],
+		mThirdRow[0], mThirdRow[1], mThirdRow[2]
+	);
 }

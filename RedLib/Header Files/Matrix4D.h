@@ -2,6 +2,7 @@
 #include "Trackable.h"
 #include <ostream>
 #include "Vector4D.h"
+#include "Matrix3D.h"
 
 // Represents a 4x4 matrix that is stored and accessed as Row-Major
 class Matrix4D : public Trackable
@@ -10,6 +11,7 @@ class Matrix4D : public Trackable
 public:
 	Matrix4D();
 	Matrix4D(Vector4D row1, Vector4D row2, Vector4D row3, Vector4D row4);
+	Matrix4D(Matrix3D);
 	~Matrix4D();
 
 	Matrix4D operator=(const Matrix4D& other);
@@ -39,6 +41,8 @@ public:
 
 	Vector4D getRow(int index) const;
 	Vector4D getColumn(int index) const;
+
+	Matrix3D getMat3() const;
 
 	static const Matrix4D Zero() {
 		return Matrix4D(
