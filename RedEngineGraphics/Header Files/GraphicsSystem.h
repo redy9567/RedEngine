@@ -76,7 +76,7 @@ public:
 	void setActiveShaderProgram(std::string program);
 	void drawInternalObjects(); //THIS SHOULDNT EXIST
 	void draw(Mesh2D& mesh);
-	void draw(Mesh3D& mesh, Vector3D location, Vector3D scale = Vector3D::One(), Vector3D angle = Vector3D::Zero());
+	void draw(Mesh3D& mesh, Vector3D location, Vector3D scale = Vector3D::One(), Vector3D angle = Vector3D::Zero(), Matrix4D* outModelMatrix = nullptr, Matrix4D* outInverseModelMatrix = nullptr);
 	void draw(Sprite& sprite, Vector2D location, float angle = 0.0f, bool useTopAnchoring = false);
 	void draw(Animation& animation, Vector2D location);
 	void draw(GameObject2D* gameObject);

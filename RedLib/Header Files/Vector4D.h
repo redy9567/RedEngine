@@ -81,6 +81,8 @@ public:
 
 	static float Dot(const Vector4D a, const Vector4D b);
 
+	Vector3D getVec3() const;
+
 private:
 	float mX, mY, mZ, mW;
 	

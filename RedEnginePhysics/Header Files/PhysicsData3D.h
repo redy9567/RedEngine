@@ -15,6 +15,7 @@ public:
     Vector3D getRotation() { return mRotation; }
     Vector3D getRotVel() { return mRotVel; }
     float getDampingConstnat() { return mDampingConstant; }
+    float getInverseMass() { return mInverseMass; }
 
     void setPos(Vector3D pos) { mPos = pos; }
     void setVel(Vector3D vel) { mVel = vel; }

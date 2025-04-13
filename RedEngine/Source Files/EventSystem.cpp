@@ -65,7 +65,7 @@ void EventSystem::removeListenerFromAllEvents(EventListener* listener)
 
 void EventSystem::fireEvent(const Event& event)
 {
-    cout << "Event Fired: " << event.getTypeName() << " | " << event.getEventDetails() << endl;
+    //cout << "Event Fired: " << event.getTypeName() << " | " << event.getEventDetails() << endl;
 
     pair<multimap<Event::EventType, EventListener*>::iterator, multimap<Event::EventType, EventListener*>::iterator> range;
     range = mListenerMap.equal_range(event.getType());

@@ -2,6 +2,7 @@
 #include "Trackable.h"
 #include <string>
 #include "KeyboardEvent.h"
+#include <vector>
 
 class GraphicsSystem;
 class InputSystem;
@@ -10,6 +11,7 @@ class Timer;
 class GameListener;
 class EventSystem;
 class Vector2D;
+class Vector3D;
 class MouseEvent;
 class AxisEvent;
 class Mesh3D;
@@ -63,6 +65,16 @@ private:
 
 	void handleCameraMovement(KeyCode key);
 
+	void createPoolTable();
+
+	void processCollisions();
+	void processBallCollisions();
+	void detectBallCollision(GameObject3D* ball1, GameObject3D* ball2);
+	void processWallCollisions();
+	void detectWallCollision(GameObject3D* wall, GameObject3D* ball);
+
+	void evaluateCollision(GameObject3D* obj1, GameObject3D* obj2, Vector3D collisionPoint, Vector3D collisionNormal);
+
 	static Game* mspInstance;
 
 	GraphicsSystem* mpGraphicsSystem;
@@ -84,8 +96,8 @@ private:
 	Mesh3D* mpLine;
 	float mTimeElapsed;
 
-	GameObject3D* mBall1;
-	GameObject3D* mBall2;
+	std::vector<GameObject3D*> mPoolBalls;
+	std::vector<GameObject3D*> mWalls;
 	
 	bool mIsPaused;
 };

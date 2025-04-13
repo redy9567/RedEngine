@@ -245,3 +245,8 @@ Vector4D Vector4D::operator*(const Matrix4D& other) const
 {
 	return Vector4D(Dot(*this, other.getColumn(0)), Dot(*this, other.getColumn(1)), Dot(*this, other.getColumn(2)), Dot(*this, other.getColumn(3)));
 }
+
+Vector3D Vector4D::getVec3() const
+{
+	return Vector3D(mX, mY, mZ);
+}

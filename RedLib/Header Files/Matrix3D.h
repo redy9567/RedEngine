@@ -40,6 +40,7 @@ public:
 	Matrix3D operator/(const double scalar) const;
 
 	Matrix3D operator*(const Matrix3D& other) const;
+	Vector3D operator*(const Vector3D& other) const;
 
 	Matrix3D operator+=(const Matrix3D& other);
 	Matrix3D operator-=(const Matrix3D& other);
@@ -56,6 +57,9 @@ public:
 	Vector3D getRow(int index) const;
 	Vector3D getColumn(int index) const;
 
+	void setRow(int index, Vector3D newRow);
+	void setColumn(int index, Vector3D newColumn);
+
 	static const Matrix3D Zero() { return Matrix3D(	0, 0, 0, 
 													0, 0, 0,
 													0, 0, 0); }
@@ -65,6 +69,12 @@ public:
 														0, 0, 1); }
 
 	float* convertToColumnMajorFloatArray();
+
+	void convertToColumnMajorOrthonormalBasis();
+
+	void transpose();
+
+	Matrix3D transposed() const;
 
 private:
 	void cleanupColumnMajorFloatArray();

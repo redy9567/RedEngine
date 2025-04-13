@@ -93,6 +93,11 @@ Matrix4D Matrix4D::operator*(const Matrix4D& other) const
 	);
 }
 
+Vector4D Matrix4D::operator*(const Vector4D& other) const
+{
+	return Vector4D(Vector4D::Dot(mFirstRow, other), Vector4D::Dot(mSecondRow, other), Vector4D::Dot(mThirdRow, other), Vector4D::Dot(mFourthRow, other));
+}
+
 Matrix4D Matrix4D::operator+=(const Matrix4D& other)
 {
 	cleanupColumnMajorFloatArray();

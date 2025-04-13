@@ -16,6 +16,7 @@
 #include "Mesh3D.h"
 #include "Camera3D.h"
 #include "GameObject3D.h"
+#include "Matrix3D.h"
 
 #include <iostream>
 #include <Shader.h>
@@ -122,21 +123,32 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	mpGraphicsSystem->setBackgroundColor(Vector3D(0.1f, 0.03f, 0.25f));
 
-	mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(0.0f, -1.0f, -3.0f), Vector3D(0.0f, 0.5f, 0.0f), Vector3D(5.0f, 1.0f, 5.0f));
+	createPoolTable();
 
 	const float SPIN_SPEED = 10.0f;
+	
+	GameObject3D* ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(-1.0f, 0.0f, -2.0f), Vector3D(0.5f, 0.0f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(-4.0f, 0.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+	//mBall1->getPhysics()->setRotVel(Vector3D(0.13f, 0.75f, 0.48f) * SPIN_SPEED);
+	
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(1.0f, 0.0f, -2.0f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 4.0f));
+	mPoolBalls.push_back(ball);
+	//mBall2->getPhysics()->setRotVel(Vector3D(0.83f, 0.13f, 0.74f) * SPIN_SPEED);
 
-	mBall1 = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(-1.0f, 0.0f, -2.0f), Vector3D(0.5f, 0.0f, 0.5f), Vector3D(0.5f, 0.5f, 0.5f));
-	mBall1->enablePhysics();
-	mBall1->getPhysics()->setVel(Vector3D(0.25f, 0.0f, 0.0f));
-	mBall1->getPhysics()->setRotVel(Vector3D(0.13f, 0.75f, 0.48f) * SPIN_SPEED);
-
-	mBall2 = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(1.0f, 0.0f, -2.0f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.5f, 0.5f, 0.5f));
-	mBall2->enablePhysics();
-	mBall2->getPhysics()->setVel(Vector3D(-0.25f, 0.0f, 0.0f));
-	mBall2->getPhysics()->setRotVel(Vector3D(0.83f, 0.13f, 0.74f) * SPIN_SPEED);
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(2.0f, 0.0f, -2.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(-4.0f, 0.0f, 0.0f));
+	mPoolBalls.push_back(ball);
 	
 	mIsPaused = false;
+
+	mpGraphicsSystem->getCamera()->setLoc(Vector3D(2.0f, 4.0f, 0.0f));
+	mpGraphicsSystem->getCamera()->setRotation(Vector3D(65.0f, 0.0f, 0.0f));
+	//mpGraphicsSystem->getCamera()->setRotation(Vector3D(45.0f, 20.0f, -20.0f));
 
 	srand(time(NULL));
 }
@@ -170,32 +182,20 @@ void Game::update()
 	//mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
 
-	if (mpLine)
-	{
-		delete mpLine;
-		mpLine = nullptr;
-	}
-
-	//Check for Collision Detection between the two spheres... (We are assuming the scale is uniform on all axes, using one as radius)
-	if ((mBall1->getLoc() - mBall2->getLoc()).length() < mBall1->getScale().getX() + mBall2->getScale().getX())
-	{
-		//Collision!
-		mBall1->setColor(Vector3D(1.0f, 0.0f, 0.0f));
-		mBall2->setColor(Vector3D(1.0f, 0.0f, 0.0f));
-
-		Vector3D collisionDir = (mBall2->getLoc() - mBall1->getLoc()).normalized();
-		//Create a line on the surface of ball1, with the length of the penetration
-		Vector3D surfacePoint = mBall1->getLoc() + (collisionDir * mBall1->getScale().getX());
-		float penetrationLength = mBall1->getScale().getX() + mBall2->getScale().getX() - (mBall2->getLoc() - mBall1->getLoc()).length();
-		mpLine = new Mesh3D(surfacePoint, surfacePoint + collisionDir * penetrationLength);
-	}
-	else
-	{
-		mBall1->setColor(Vector3D(0.5f, 0.0f, 0.5f));
-		mBall2->setColor(Vector3D(0.0f, 0.5f, 0.5f));
-	}
+	processCollisions();
 
 	//mpGraphicsSystem->getAnimation(0)->update(mDeltaTime);
+
+	float MAX_SPEED = 5.0f;
+	//Limit the speed of the moving balls
+	for (vector<GameObject3D*>::iterator i = mPoolBalls.begin(); i != mPoolBalls.end(); i++)
+	{
+		Vector3D currentVel = (*i)->getPhysics()->getVel();
+		if (currentVel.length() > MAX_SPEED)
+		{
+			(*i)->getPhysics()->setVel(currentVel.normalized() * MAX_SPEED);
+		}
+	}
 
 	mpGraphicsSystem->update(mDeltaTime);
 }
@@ -370,4 +370,171 @@ void Game::onTogglePause()
 
 	if (mIsPaused)
 		mDeltaTime = 0.0f;
+}
+
+void Game::createPoolTable()
+{
+
+	mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -3.0f), Vector3D(0.0f, 0.5f, 0.0f), Vector3D(4.4f, 1.0f, 8.8f), Vector3D(0.0f, 90.0f, 0.0f));
+	
+	GameObject3D* wall;
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(6.4f, -0.25f, -3.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(4.4f, 0.01f, 1.0f), Vector3D(90.0f, 90.0f, 0.0f));
+	mWalls.push_back(wall);
+	
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -5.2f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(1.0f, 0.01f, 8.8f), Vector3D(90.0f, 0.0f, 90.0f));
+	mWalls.push_back(wall);
+
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(-2.4f, -0.25f, -3.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(4.4f, 0.01f, 1.0f), Vector3D(90.0f, 90.0f, 0.0f));
+	mWalls.push_back(wall);
+
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -0.8f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(1.0f, 0.01f, 8.8f), Vector3D(90.0f, 0.0f, 90.0f));
+	mWalls.push_back(wall);
+}
+
+void Game::processCollisions()
+{
+	if (mpLine)
+	{
+		delete mpLine;
+		mpLine = nullptr;
+	}
+
+	processBallCollisions();
+
+	processWallCollisions();
+	
+	
+}
+
+void Game::processBallCollisions()
+{
+	for (vector<GameObject3D*>::iterator i = mPoolBalls.begin(); i != mPoolBalls.end() && i+1 != mPoolBalls.end(); i++)
+	{
+		for (vector<GameObject3D*>::iterator j = i + 1; j != mPoolBalls.end(); j++)
+		{
+			detectBallCollision(*i, *j);
+		}
+	}
+}
+
+void Game::detectBallCollision(GameObject3D* ball1, GameObject3D* ball2)
+{
+	//Check for Collision Detection between the two spheres... (We are assuming the scale is uniform on all axes, using one as radius)
+	if ((ball1->getLoc() - ball2->getLoc()).length() < ball1->getScale().getX() + ball2->getScale().getX())
+	{
+		//Collision!
+
+		Vector3D collisionDir = (ball2->getLoc() - ball1->getLoc()).normalized();
+		//Create a line on the surface of ball1, with the length of the penetration
+		Vector3D surfacePoint = ball1->getLoc() + (collisionDir * ball1->getScale().getX());
+		float penetrationLength = ball1->getScale().getX() + ball2->getScale().getX() - (ball2->getLoc() - ball1->getLoc()).length();
+		mpLine = new Mesh3D(surfacePoint, surfacePoint + collisionDir * penetrationLength);
+
+		evaluateCollision(ball1, ball2, surfacePoint, collisionDir);
+	}
+}
+
+void Game::evaluateCollision(GameObject3D* obj1, GameObject3D* obj2, Vector3D collisionPoint, Vector3D collisionNormal)
+{
+	PhysicsData3D* obj1phy = nullptr, *obj2phy = nullptr;
+	
+	obj1phy = obj1->getPhysics(); 
+	
+	if(obj2)
+		obj2phy = obj2->getPhysics();
+
+	float restitution = 0.0f;
+	if (!obj2)
+		restitution = 1.0f;
+
+	Matrix3D collisionToWorldBasis;
+	collisionToWorldBasis.setColumn(0, collisionNormal);
+
+	collisionToWorldBasis.convertToColumnMajorOrthonormalBasis();
+
+	Matrix3D worldToCollisionBasis = collisionToWorldBasis.transposed();
+	
+	//Change in velocity due to linear motion
+	float deltaVelocity = obj1phy->getInverseMass();
+	if(obj2)
+		deltaVelocity += obj2phy->getInverseMass();
+
+	Vector3D totalVelocity = obj1phy->getVel();
+	if (obj2)
+		totalVelocity += obj2phy->getVel();
+	else if (totalVelocity == Vector3D::Zero())
+		return;	//If the singular object isn't moving... No need to process a collision
+
+	Vector3D contactVelocity = worldToCollisionBasis * totalVelocity;
+
+	float desiredContactVelocity = -contactVelocity.getY() * (1.0f + restitution);
+
+	Vector3D contactImpulse = Vector3D(desiredContactVelocity / contactVelocity.getY(), 0.0f, 0.0f);
+
+	Vector3D impulse = collisionToWorldBasis * contactImpulse;
+
+	Vector3D obj1VelocityChange = impulse * obj1phy->getInverseMass();
+
+	Vector3D obj2VelocityChange;
+	if(obj2)
+		obj2VelocityChange = impulse * -1.0f * obj2phy->getInverseMass();
+
+	//Lock objects along the Y axis
+	obj1VelocityChange.setY(0.0f);
+	obj2VelocityChange.setY(0.0f);
+
+	obj1phy->setVel(obj1phy->getVel() + obj1VelocityChange);
+	if(obj2)
+		obj2phy->setVel(obj2phy->getVel() + obj2VelocityChange);
+}
+
+void Game::processWallCollisions()
+{
+
+	for (vector<GameObject3D*>::iterator i = mWalls.begin(); i != mWalls.end(); i++)
+	{
+		for (vector<GameObject3D*>::iterator j = mPoolBalls.begin(); j != mPoolBalls.end(); j++)
+		{
+			detectWallCollision(*i, *j);
+		}
+	}
+
+}
+
+void Game::detectWallCollision(GameObject3D* wall, GameObject3D* ball)
+{
+	//Check for Collision Detecion between a ball and a wall
+	Vector4D ballLocCopy = Vector4D(ball->getLoc(), 1.0f);
+	Matrix4D wallWorldToObjMatrix = wall->getWorldToObjMatrix();
+
+	if (wallWorldToObjMatrix != Matrix4D::Zero())
+	{
+		Vector4D relBallPos = wallWorldToObjMatrix * ballLocCopy;
+		assert(relBallPos.getW() == 1.0f);
+
+		Vector4D relBallSize = Vector4D(ball->getScale(), 0.0f);
+		relBallSize = wallWorldToObjMatrix * relBallSize;
+		float relBallRadius = relBallSize.length();
+
+		float ballRadius = ball->getScale().getX() / 2.0f;
+
+		//if (mBall1->getLoc().getX() - mnXWall->getLoc().getX() < mBall1->getScale().getX())
+		if (abs(relBallPos.getX()) < 0.5f
+			&& abs(relBallPos.getY()) < relBallRadius
+			&& abs(relBallPos.getZ()) < 0.5f)
+		{
+			//Collision!
+			Vector3D collisionDir = (Vector4D(Vector3D::Up(), 0.0f) * wallWorldToObjMatrix).getVec3();
+			collisionDir.normalize();
+			//Collision direction could be backwards...
+			if (relBallPos.getY() > 0)
+				collisionDir *= -1.0f;
+
+			//Create a line on the surface of ball1, with the length of the penetration
+			Vector3D surfacePoint = ball->getLoc() + (collisionDir * ball->getScale().getX());
+
+			evaluateCollision(ball, nullptr, surfacePoint, collisionDir);
+
+		}
+	}
 }

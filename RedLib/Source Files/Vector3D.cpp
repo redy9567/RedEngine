@@ -46,6 +46,13 @@ Vector3D::Vector3D(unsigned int x, unsigned int y, unsigned int z)
 	mZ = (float)z;
 }
 
+Vector3D::Vector3D(const Vector3D& other)
+{
+	mX = other.mX;
+	mY = other.mY;
+	mZ = other.mZ;
+}
+
 Vector3D Vector3D::operator=(const Vector3D& other)
 {
 	mX = other.mX;

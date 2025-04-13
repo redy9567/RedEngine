@@ -113,6 +113,11 @@ Matrix3D Matrix3D::operator*(const Matrix3D& other) const
 	);
 }
 
+Vector3D Matrix3D::operator*(const Vector3D& other) const
+{
+	return Vector3D(Vector3D::Dot(mFirstRow, other), Vector3D::Dot(mSecondRow, other), Vector3D::Dot(mThirdRow, other));
+}
+
 Matrix3D Matrix3D::operator+=(const Matrix3D& other)
 {
 	cleanupColumnMajorFloatArray();
@@ -237,4 +242,96 @@ float* Matrix3D::convertToColumnMajorFloatArray()
 	}
 
 	return mColumnMajorFloatArray;
+}
+
+void Matrix3D::setRow(int index, Vector3D newRow)
+{
+	switch (index)
+	{
+	case 0:
+		mFirstRow = newRow;
+		break;
+	case 1:
+		mSecondRow = newRow;
+		break;
+	case 2:
+		mThirdRow = newRow;
+		break;
+	default:
+		assert(false); //ERROR: Invalid row index
+	}
+}
+
+void Matrix3D::setColumn(int index, Vector3D newColumn)
+{
+	switch (index)
+	{
+	case 0:
+		mFirstRow.setX(newColumn[0]);
+		mSecondRow.setX(newColumn[1]);
+		mThirdRow.setX(newColumn[2]);
+		break;
+	case 1:
+		mFirstRow.setY(newColumn[0]);
+		mSecondRow.setY(newColumn[1]);
+		mThirdRow.setY(newColumn[2]);
+		break;
+	case 2:
+		mFirstRow.setZ(newColumn[0]);
+		mSecondRow.setZ(newColumn[1]);
+		mThirdRow.setZ(newColumn[2]);
+		break;
+	default:
+		assert(false); //ERROR: Invalid column index
+	}
+}
+
+void Matrix3D::convertToColumnMajorOrthonormalBasis()
+{
+	Vector3D firstColumn = Vector3D(mFirstRow[0], mSecondRow[0], mThirdRow[0]);
+	firstColumn.normalize();
+
+	if (firstColumn == Vector3D::Up())
+	{
+		*this = Matrix3D::Identity();
+	}
+	else if (firstColumn == Vector3D::Up() * -1.0f)
+	{
+		*this = Matrix3D::Identity() * -1.0f;
+	}
+	else
+	{
+		Vector3D secondColumn = Vector3D::Cross(firstColumn, Vector3D::Up());
+		Vector3D thirdColumn = Vector3D::Cross(firstColumn, secondColumn);
+
+		mFirstRow.setY(secondColumn[0]);
+		mSecondRow.setY(secondColumn[1]);
+		mThirdRow.setY(secondColumn[2]);
+
+		mFirstRow.setZ(thirdColumn[0]);
+		mSecondRow.setZ(thirdColumn[1]);
+		mThirdRow.setZ(thirdColumn[2]);
+	}
+}
+
+void Matrix3D::transpose()
+{
+	float temp = mFirstRow[1];
+	mFirstRow.setY(mSecondRow[0]);
+	mSecondRow.setX(temp);
+
+	temp = mFirstRow[2];
+	mFirstRow.setZ(mThirdRow[0]);
+	mThirdRow.setX(temp);
+
+	temp = mSecondRow[2];
+	mSecondRow.setZ(mThirdRow[1]);
+	mThirdRow.setY(temp);
+}
+
+Matrix3D Matrix3D::transposed() const
+{
+	Matrix3D copy = *this;
+	copy.transpose();
+	return copy;
 }

@@ -299,7 +299,7 @@ void GraphicsSystem::draw(Mesh2D& mesh)
 	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
 }
 
-void GraphicsSystem::draw(Mesh3D& mesh, Vector3D location, Vector3D scale, Vector3D angle)
+void GraphicsSystem::draw(Mesh3D& mesh, Vector3D location, Vector3D scale, Vector3D angle, Matrix4D* outModelMatrix, Matrix4D* outInverseModelMatrix)
 {
 	assert(mCurrentShaderProgram != "");
 	setActiveShaderProgram(mCurrentShaderProgram);
@@ -419,6 +419,53 @@ void GraphicsSystem::draw(Mesh3D& mesh, Vector3D location, Vector3D scale, Vecto
 	setActiveShaderProgram(mCurrentShaderProgram);
 
 	glDrawElements(convertMeshType(mesh.mMeshType), mesh.mDrawCount, GL_UNSIGNED_INT, 0);
+
+
+	// Calculate Inverse Model Matrix
+	Matrix4D inverseScaleMatrix = Matrix4D(
+		Vector4D(1.0f/scale.getX(), 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, 1.0f/scale.getY(), 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 1.0f/scale.getZ(), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D inverseRotationZMatrix = Matrix4D(
+		Vector4D(cos(angle.getZ() * pi / 180.0f), sin(angle.getZ() * pi / 180.0f), 0.0f, 0.0f),
+		Vector4D(-sin(angle.getZ() * pi / 180.0f), cos(angle.getZ() * pi / 180.0f), 0.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 1.0f, 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D inverseRotationYMatrix = Matrix4D(
+		Vector4D(cos(angle.getY() * pi / 180.0f), 0.0f, sin(angle.getY() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 1.0f, 0.0f, 0.0f),
+		Vector4D(-sin(angle.getY() * pi / 180.0f), 0.0f, cos(angle.getY() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D inverseRotationXMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, 0.0f),
+		Vector4D(0.0f, cos(angle.getX() * pi / 180.0f), sin(angle.getX() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, -sin(angle.getX() * pi / 180.0f), cos(angle.getX() * pi / 180.0f), 0.0f),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D inverseRotationMatrix = inverseRotationXMatrix * inverseRotationYMatrix * inverseRotationZMatrix;
+
+	Matrix4D inverseTranslationMatrix = Matrix4D(
+		Vector4D(1.0f, 0.0f, 0.0f, -location.getX()),
+		Vector4D(0.0f, 1.0f, 0.0f, -location.getY()),
+		Vector4D(0.0f, 0.0f, 1.0f, -location.getZ()),
+		Vector4D(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	Matrix4D inverseModelMatrix = inverseScaleMatrix * inverseRotationMatrix * inverseTranslationMatrix;
+
+	if(outModelMatrix)
+		*outModelMatrix = modelMatrix;
+
+	if(outInverseModelMatrix)
+		*outInverseModelMatrix = inverseModelMatrix;
 }
 
 void GraphicsSystem::draw(Sprite& sprite, Vector2D location, float angle, bool useTopAnchoring)
@@ -595,7 +642,7 @@ void GraphicsSystem::draw(GameObject3D* obj)
 {
 	setVec4Uniform("Basic3D", "uColor", Vector4D(obj->mColor, 1.0f));
 
-	draw(*obj->mpMesh, obj->getLoc(), obj->mScale, obj->getRotation());
+	draw(*obj->mpMesh, obj->getLoc(), obj->mScale, obj->getRotation(), &(obj->mObjToWorldMatrix), &(obj->mWorldToObjMatrix));
 }
 
 void GraphicsSystem::drawUI(GameObject2D* obj)

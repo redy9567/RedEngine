@@ -26,6 +26,7 @@ public:
 	Matrix4D operator/(const double scalar) const;
 
 	Matrix4D operator*(const Matrix4D& other) const;
+	Vector4D operator*(const Vector4D& other) const;
 
 	Matrix4D operator+=(const Matrix4D& other);
 	Matrix4D operator-=(const Matrix4D& other);

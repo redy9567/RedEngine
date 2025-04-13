@@ -3,6 +3,7 @@
 #include "Vector3D.h"
 #include "PhysicsData3D.h"
 #include <assert.h>
+#include "Matrix4D.h"
 
 class Mesh3D;
 
@@ -29,6 +30,9 @@ public:
 
 	void enablePhysics() { mPhysicsData.setPos(mLoc); mPhysicsData.setRotation(mRotation); mPhysicsEnabled = true; }
 
+	Matrix4D getWorldToObjMatrix() { return mWorldToObjMatrix; }
+	Matrix4D getObjToWorldMatrix() { return mObjToWorldMatrix; }
+
 protected:
 	GameObject3D();
 	virtual ~GameObject3D();
@@ -45,5 +49,8 @@ protected:
 
 	bool mPhysicsEnabled = false;
 	PhysicsData3D mPhysicsData;
+
+	Matrix4D mWorldToObjMatrix;
+	Matrix4D mObjToWorldMatrix;
 
 };
