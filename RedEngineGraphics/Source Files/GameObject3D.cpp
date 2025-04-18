@@ -18,6 +18,8 @@ GameObject3D::GameObject3D(Mesh3D* mesh, Vector3D loc, Vector3D color, Vector3D 
 	mColor = color;
 
 	mpMesh = mesh;
+
+	mPhysicsData.setDampingConstant(0.99f);
 }
 
 GameObject3D::~GameObject3D()

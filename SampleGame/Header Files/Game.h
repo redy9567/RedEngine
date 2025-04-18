@@ -3,6 +3,8 @@
 #include <string>
 #include "KeyboardEvent.h"
 #include <vector>
+#include <Vector3D.h>
+#include "Matrix3D.h"
 
 class GraphicsSystem;
 class InputSystem;
@@ -11,7 +13,6 @@ class Timer;
 class GameListener;
 class EventSystem;
 class Vector2D;
-class Vector3D;
 class MouseEvent;
 class AxisEvent;
 class Mesh3D;
@@ -65,15 +66,27 @@ private:
 
 	void handleCameraMovement(KeyCode key);
 
+	void updateBallRolling();
+
 	void createPoolTable();
+	void createPoolBalls();
 
 	void processCollisions();
 	void processBallCollisions();
 	void detectBallCollision(GameObject3D* ball1, GameObject3D* ball2);
 	void processWallCollisions();
 	void detectWallCollision(GameObject3D* wall, GameObject3D* ball);
+	void processGoalCollisions();
+	bool detectGoalCollision(GameObject3D* goal, GameObject3D* ball);
+	void evaluateGoal(GameObject3D* ball);
 
 	void evaluateCollision(GameObject3D* obj1, GameObject3D* obj2, Vector3D collisionPoint, Vector3D collisionNormal);
+
+	void fireCueBall();
+	void increaseShotPower();
+	void decreaseShotPower();
+	void increaseShotAngle();
+	void decreaseShotAngle();
 
 	static Game* mspInstance;
 
@@ -98,6 +111,17 @@ private:
 
 	std::vector<GameObject3D*> mPoolBalls;
 	std::vector<GameObject3D*> mWalls;
+	GameObject3D* mCueBall;
+	std::vector<GameObject3D*> mGoals;
+
+	Vector3D mShotDirection;
 	
 	bool mIsPaused;
+
+	Matrix3D mIncreaseAngleMatrix;
+	Matrix3D mDecreaseAngleMatrix;
+
+	bool mIsTableActive;
+
+	bool mCueBallPit;
 };

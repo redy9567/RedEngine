@@ -70,9 +70,12 @@ void GameObject3DManager::removeAndDeleteGameObject3D(GameObject3D* obj)
 {
 	for (vector<GameObject3D*>::iterator it = mGameObjects.begin(); it != mGameObjects.end(); it++)
 	{
-		delete* it;
-		mGameObjects.erase(it);
-		break;
+		if (*it == obj)
+		{
+			delete* it;
+			mGameObjects.erase(it);
+			break;
+		}
 	}
 }
 

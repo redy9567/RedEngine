@@ -78,6 +78,8 @@ public:
 
 	static bool IsPointWithinBounds(Vector3D point, Vector3D lower, Vector3D upper);
 
+	float getMostSignificantComponent();
+
 private:
 	float mX, mY, mZ;
 	

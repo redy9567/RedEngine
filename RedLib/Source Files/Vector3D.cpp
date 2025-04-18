@@ -249,3 +249,22 @@ bool Vector3D::IsPointWithinBounds(Vector3D point, Vector3D lower, Vector3D uppe
 		point.getY() < upper.getY() &&
 		point.getZ() < upper.getZ();
 }
+
+float Vector3D::getMostSignificantComponent()
+{
+	float absX = abs(getX());
+	float absY = abs(getY());
+	float absZ = abs(getZ());
+
+	if (absX > absY && absX > absZ)
+		return getX();
+	else if (absY > absX && absY > absZ)
+		return getY();
+	else if (absZ > absX && absZ > absY)
+		return getZ();
+
+	if (absY == absZ && absY > absX)
+		return getY();
+	else
+		return getX();
+}

@@ -11,6 +11,7 @@ public:
 
     Vector3D getPos() { return mPos; }
     Vector3D getVel() { return mVel; }
+    Vector3D getAcc() { return mAcc; }
     float getMass() { return 1.0f / mInverseMass; }
     Vector3D getRotation() { return mRotation; }
     Vector3D getRotVel() { return mRotVel; }
@@ -19,6 +20,7 @@ public:
 
     void setPos(Vector3D pos) { mPos = pos; }
     void setVel(Vector3D vel) { mVel = vel; }
+    void setAcc(Vector3D acc) { mAcc = acc; }
     void setMass(float mass) { mInverseMass = (mass == 0.0f) ? 0.0f : 1.0f / mass; }
     void setRotation(Vector3D rot) { mRotation = rot; }
     void setRotVel(Vector3D rotVel) { mRotVel = rotVel; }
@@ -39,6 +41,7 @@ private:
     Vector3D mRotation;
     Vector3D mRotVel;
     float mDampingConstant;
+    Vector3D mAcc;
 
     Vector3D mForceAccumulator;
     Vector3D mTorqueAccumulator;

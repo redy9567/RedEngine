@@ -27,6 +27,18 @@ using namespace std;
 const float CAMERA_MOVE_SPEED = 0.01f;
 const float CAMERA_ROTATE_SPEED = 1.0f;
 
+const float SHOT_POWER_DELTA = 0.1f;
+const float SHOT_POWER_MAX = 10.0f;
+const float SHOT_POWER_MIN = 0.5f;
+
+const float SHOT_ANGLE_DELTA = 1.0f;
+
+const float MIN_COLLISION_SPEED = 0.5f;
+
+const float GOAL_TOLERENCE = 0.5f;
+
+const float BALL_ROLL_FACTOR = 2.0f;
+
 Game* Game::mspInstance = nullptr;
 
 Game* Game::getInstance()
@@ -90,6 +102,7 @@ Game::~Game()
 
 void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 {
+	mCueBallPit = false;
 
 	mpGraphicsSystem = GraphicsSystem::getInstance();
 
@@ -125,30 +138,25 @@ void Game::init(int screenWidth, int screenHeight, int fps, bool debugMode)
 
 	createPoolTable();
 
-	const float SPIN_SPEED = 10.0f;
-	
-	GameObject3D* ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(-1.0f, 0.0f, -2.0f), Vector3D(0.5f, 0.0f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
-	ball->enablePhysics();
-	ball->getPhysics()->setVel(Vector3D(-4.0f, 0.0f, 0.0f));
-	mPoolBalls.push_back(ball);
-	//mBall1->getPhysics()->setRotVel(Vector3D(0.13f, 0.75f, 0.48f) * SPIN_SPEED);
-	
-	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(1.0f, 0.0f, -2.0f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
-	ball->enablePhysics();
-	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 4.0f));
-	mPoolBalls.push_back(ball);
-	//mBall2->getPhysics()->setRotVel(Vector3D(0.83f, 0.13f, 0.74f) * SPIN_SPEED);
-
-	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(2.0f, 0.0f, -2.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
-	ball->enablePhysics();
-	ball->getPhysics()->setVel(Vector3D(-4.0f, 0.0f, 0.0f));
-	mPoolBalls.push_back(ball);
+	createPoolBalls();
 	
 	mIsPaused = false;
 
 	mpGraphicsSystem->getCamera()->setLoc(Vector3D(2.0f, 4.0f, 0.0f));
 	mpGraphicsSystem->getCamera()->setRotation(Vector3D(65.0f, 0.0f, 0.0f));
 	//mpGraphicsSystem->getCamera()->setRotation(Vector3D(45.0f, 20.0f, -20.0f));
+
+	float pi = 3.14159265358979323846f;
+
+	mIncreaseAngleMatrix = Matrix3D(
+		cos(SHOT_ANGLE_DELTA * pi / 180.0f), 0.0f, sin(SHOT_ANGLE_DELTA * pi / 180.0f),
+		0.0f, 1.0f, 0.0f,
+		-sin(SHOT_ANGLE_DELTA * pi / 180.0f), 0.0f, cos(SHOT_ANGLE_DELTA * pi / 180.0f)
+	);
+
+	mDecreaseAngleMatrix = mIncreaseAngleMatrix.transposed();
+
+	mIsTableActive = false;
 
 	srand(time(NULL));
 }
@@ -179,8 +187,16 @@ void Game::getInput()
 
 void Game::update()
 {
+	if (mCueBall->getPhysics()->getVel().length() < 0.01f)
+		mIsTableActive = false;
+
 	//mpGraphicsSystem->setIntegerUniform("Textured", "uTexture0", 0);
 	mpGraphicsSystem->setVec2Uniform("Textured", "uResolution", mpGraphicsSystem->getDisplayResolution());
+
+	if (mpLine)
+		delete mpLine;
+
+	mpLine = new Mesh3D(mCueBall->getLoc(), mCueBall->getLoc() + mShotDirection * 0.5f);
 
 	processCollisions();
 
@@ -198,13 +214,21 @@ void Game::update()
 	}
 
 	mpGraphicsSystem->update(mDeltaTime);
+
+	updateBallRolling();
+
+	if (mCueBallPit && !mIsTableActive)
+	{
+		mCueBallPit = false;
+		mCueBall->setLoc(Vector3D(0.0f, 0.0f, -3.0f));
+	}
 }
 
 void Game::render()
 {
 	mpGraphicsSystem->drawInternalObjects();
 
-	if (mpLine)
+	if (mpLine && !mIsTableActive)
 	{
 		mpGraphicsSystem->setVec4Uniform("Basic3D", "uColor", Vector4D(1.0f, 1.0f, 0.0f, 1.0f));
 		
@@ -374,36 +398,42 @@ void Game::onTogglePause()
 
 void Game::createPoolTable()
 {
-
 	mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -3.0f), Vector3D(0.0f, 0.5f, 0.0f), Vector3D(4.4f, 1.0f, 8.8f), Vector3D(0.0f, 90.0f, 0.0f));
-	
+
 	GameObject3D* wall;
-	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(6.4f, -0.25f, -3.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(4.4f, 0.01f, 1.0f), Vector3D(90.0f, 90.0f, 0.0f));
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(6.4f, -0.25f, -3.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(3.6f, 0.01f, 1.0f), Vector3D(90.0f, 90.0f, 0.0f));
 	mWalls.push_back(wall);
 	
-	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -5.2f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(1.0f, 0.01f, 8.8f), Vector3D(90.0f, 0.0f, 90.0f));
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -5.2f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(1.0f, 0.01f, 8.2f), Vector3D(90.0f, 0.0f, 90.0f));
 	mWalls.push_back(wall);
 
-	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(-2.4f, -0.25f, -3.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(4.4f, 0.01f, 1.0f), Vector3D(90.0f, 90.0f, 0.0f));
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(-2.4f, -0.25f, -3.0f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(3.6f, 0.01f, 1.0f), Vector3D(90.0f, 90.0f, 0.0f));
 	mWalls.push_back(wall);
 
-	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -0.8f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(1.0f, 0.01f, 8.8f), Vector3D(90.0f, 0.0f, 90.0f));
+	wall = mpGraphicsSystem->createAndAddGameObject3D(mpPlane, Vector3D(2.0f, -0.25f, -0.8f), Vector3D(0.5f, 0.5f, 0.0f), Vector3D(1.0f, 0.01f, 8.2f), Vector3D(90.0f, 0.0f, 90.0f));
 	mWalls.push_back(wall);
+
+	GameObject3D* goal = mpGraphicsSystem->createAndAddGameObject3D(mpCube, Vector3D(-2.5f, 0.0f, -5.25f), Vector3D::Zero(), Vector3D(0.5f, 0.5f, 0.5f));
+	mGoals.push_back(goal);
+
+	goal = mpGraphicsSystem->createAndAddGameObject3D(mpCube, Vector3D(6.5f, 0.0f, -5.25f), Vector3D::Zero(), Vector3D(0.5f, 0.5f, 0.5f));
+	mGoals.push_back(goal);
+
+	goal = mpGraphicsSystem->createAndAddGameObject3D(mpCube, Vector3D(-2.5f, 0.0f, -0.75f), Vector3D::Zero(), Vector3D(0.5f, 0.5f, 0.5f));
+	mGoals.push_back(goal);
+
+	goal = mpGraphicsSystem->createAndAddGameObject3D(mpCube, Vector3D(6.5f, 0.0f, -0.75f), Vector3D::Zero(), Vector3D(0.5f, 0.5f, 0.5f));
+	mGoals.push_back(goal);
 }
 
 void Game::processCollisions()
 {
-	if (mpLine)
-	{
-		delete mpLine;
-		mpLine = nullptr;
-	}
 
 	processBallCollisions();
 
 	processWallCollisions();
 	
-	
+	processGoalCollisions();
 }
 
 void Game::processBallCollisions()
@@ -428,9 +458,41 @@ void Game::detectBallCollision(GameObject3D* ball1, GameObject3D* ball2)
 		//Create a line on the surface of ball1, with the length of the penetration
 		Vector3D surfacePoint = ball1->getLoc() + (collisionDir * ball1->getScale().getX());
 		float penetrationLength = ball1->getScale().getX() + ball2->getScale().getX() - (ball2->getLoc() - ball1->getLoc()).length();
-		mpLine = new Mesh3D(surfacePoint, surfacePoint + collisionDir * penetrationLength);
 
 		evaluateCollision(ball1, ball2, surfacePoint, collisionDir);
+
+		float pi = 3.14159265358979323846f;
+
+		float dotProduct = Vector3D::Dot(collisionDir, ball1->getPhysics()->getVel().normalized());
+		if (dotProduct > 1.0f)
+			dotProduct = 1.0f;
+		else if (dotProduct < -1.0f)
+			dotProduct = -1.0f;
+
+		float rotationAngle1 = float(acos(dotProduct));
+		rotationAngle1 = rotationAngle1 * 180.0f / pi;
+
+		dotProduct = Vector3D::Dot(collisionDir * -1.0f, ball2->getPhysics()->getVel().normalized());
+		if (dotProduct > 1.0f)
+			dotProduct = 1.0f;
+		else if (dotProduct < -1.0f)
+			dotProduct = -1.0f;
+
+		float rotationAngle2 = float(acos(dotProduct));
+		rotationAngle2 = rotationAngle2 * 180.0f / pi;
+
+		assert(rotationAngle1 == rotationAngle1);
+		assert(rotationAngle2 == rotationAngle2);
+
+		//cout << rotationAngle << endl;
+		Vector3D ballRotation = ball1->getRotation();
+		ballRotation += Vector3D(0.0f, rotationAngle1, 0.0f);
+		ball1->setRotation(ballRotation);
+
+		ballRotation = ball2->getRotation();
+		ballRotation += Vector3D(0.0f, rotationAngle2, 0.0f);
+		ball2->setRotation(ballRotation);
+		
 	}
 }
 
@@ -443,9 +505,7 @@ void Game::evaluateCollision(GameObject3D* obj1, GameObject3D* obj2, Vector3D co
 	if(obj2)
 		obj2phy = obj2->getPhysics();
 
-	float restitution = 0.0f;
-	if (!obj2)
-		restitution = 1.0f;
+	float restitution = -0.1f;
 
 	Matrix3D collisionToWorldBasis;
 	collisionToWorldBasis.setColumn(0, collisionNormal);
@@ -467,9 +527,9 @@ void Game::evaluateCollision(GameObject3D* obj1, GameObject3D* obj2, Vector3D co
 
 	Vector3D contactVelocity = worldToCollisionBasis * totalVelocity;
 
-	float desiredContactVelocity = -contactVelocity.getY() * (1.0f + restitution);
+	float desiredContactVelocity = -contactVelocity.getMostSignificantComponent() * (1.0f + restitution);
 
-	Vector3D contactImpulse = Vector3D(desiredContactVelocity / contactVelocity.getY(), 0.0f, 0.0f);
+	Vector3D contactImpulse = Vector3D(desiredContactVelocity / contactVelocity.getMostSignificantComponent(), 0.0f, 0.0f);
 
 	Vector3D impulse = collisionToWorldBasis * contactImpulse;
 
@@ -482,6 +542,16 @@ void Game::evaluateCollision(GameObject3D* obj1, GameObject3D* obj2, Vector3D co
 	//Lock objects along the Y axis
 	obj1VelocityChange.setY(0.0f);
 	obj2VelocityChange.setY(0.0f);
+
+	assert(obj1VelocityChange.length() < 10.0f);
+	assert(obj2VelocityChange.length() < 10.0f);
+
+	//If we are a small collision, make sure we keep trending that way...
+	if (totalVelocity.length() < MIN_COLLISION_SPEED)
+	{
+		obj1VelocityChange /= 4.0f;
+		obj2VelocityChange /= 4.0f;
+	}
 
 	obj1phy->setVel(obj1phy->getVel() + obj1VelocityChange);
 	if(obj2)
@@ -536,5 +606,214 @@ void Game::detectWallCollision(GameObject3D* wall, GameObject3D* ball)
 			evaluateCollision(ball, nullptr, surfacePoint, collisionDir);
 
 		}
+	}
+}
+
+void Game::fireCueBall()
+{
+	if (!mIsTableActive)
+	{
+		mCueBall->getPhysics()->setVel(mShotDirection);
+		mIsTableActive = true;
+	}
+}
+
+void Game::increaseShotPower()
+{
+	float shotPower = mShotDirection.length();
+
+	if (shotPower + SHOT_POWER_DELTA > SHOT_POWER_MAX)
+		mShotDirection = mShotDirection.normalized() * SHOT_POWER_MAX;
+	else
+		mShotDirection = mShotDirection.normalized() * (shotPower + SHOT_POWER_DELTA);
+}
+
+void Game::decreaseShotPower()
+{
+	float shotPower = mShotDirection.length();
+
+	if (shotPower - SHOT_POWER_DELTA < SHOT_POWER_MIN)
+		mShotDirection = mShotDirection.normalized() * SHOT_POWER_MIN;
+	else
+		mShotDirection = mShotDirection.normalized() * (shotPower - SHOT_POWER_DELTA);
+}
+
+void Game::increaseShotAngle()
+{
+	mShotDirection = mShotDirection * mIncreaseAngleMatrix;
+	Vector3D cueBallRotation = mCueBall->getRotation();
+	cueBallRotation += Vector3D(0.0f, SHOT_ANGLE_DELTA, 0.0f);
+	//mCueBall->setRotation(cueBallRotation);
+}
+
+void Game::decreaseShotAngle()
+{
+	mShotDirection = mShotDirection * mDecreaseAngleMatrix;
+	Vector3D cueBallRotation = mCueBall->getRotation();
+	cueBallRotation += Vector3D(0.0f, -SHOT_ANGLE_DELTA, 0.0f);
+	//mCueBall->setRotation(cueBallRotation);
+}
+
+void Game::createPoolBalls()
+{
+	mCueBall = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(0.0f, 0.0f, -3.0f), Vector3D(0.7f, 0.7f, 0.7f), Vector3D(0.225f, 0.225f, 0.225f));
+	mCueBall->enablePhysics();
+	mCueBall->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	mCueBall->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(mCueBall);
+
+	mShotDirection = Vector3D::Right();
+
+	//Layer 1
+	GameObject3D* ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(3.0f, 0.0f, -3.0f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	//Layer 2
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(3.4f, 0.0f, -2.75f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(3.4f, 0.0f, -3.25f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	//Layer 3
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(3.8f, 0.0f, -2.5f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(3.8f, 0.0f, -3.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(3.8f, 0.0f, -3.5f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	//Layer 4
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.2f, 0.0f, -2.25f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.2f, 0.0f, -2.75f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.2f, 0.0f, -3.25f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.2f, 0.0f, -3.75f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+
+	//Layer 5
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.6f, 0.0f, -2.0f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.6f, 0.0f, -2.5f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.6f, 0.0f, -3.0f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.6f, 0.0f, -3.5f), Vector3D(0.0f, 0.5f, 0.5f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+
+	ball = mpGraphicsSystem->createAndAddGameObject3D(mpSphere, Vector3D(4.6f, 0.0f, -4.0f), Vector3D(0.6f, 0.0f, 0.0f), Vector3D(0.225f, 0.225f, 0.225f));
+	ball->enablePhysics();
+	ball->getPhysics()->setVel(Vector3D(0.0f, 0.0f, 0.0f));
+	ball->setRotation(Vector3D(0.0f, 90.0f, 0.0f));
+	mPoolBalls.push_back(ball);
+}
+
+void Game::processGoalCollisions()
+{
+	for (vector<GameObject3D*>::iterator i = mGoals.begin(); i != mGoals.end(); i++)
+	{
+		for (vector<GameObject3D*>::iterator j = mPoolBalls.begin(); j != mPoolBalls.end(); j++)
+		{
+			if (detectGoalCollision(*i, *j))
+				break;
+		}
+	}
+}
+
+bool Game::detectGoalCollision(GameObject3D* goal, GameObject3D* ball)
+{
+	//Since the goal is in such an enclosed space, we will just check if they are close to one another
+	if ((goal->getLoc() - ball->getLoc()).length() < GOAL_TOLERENCE)
+	{
+		evaluateGoal(ball);
+		return true;
+	}
+	else
+		return false;
+}
+
+void Game::evaluateGoal(GameObject3D* ball)
+{
+	if (ball == mCueBall)
+	{
+		mCueBallPit = true;
+		mCueBall->getPhysics()->setVel(Vector3D::Zero());
+		mCueBall->setLoc(Vector3D(500.0f, 0.0f, 500.0f));
+	}
+	else
+	{
+		for (vector<GameObject3D*>::iterator i = mPoolBalls.begin(); i != mPoolBalls.end(); i++)
+		{
+			if (*i == ball)
+			{
+				mpGraphicsSystem->removeAndDeleteGameObject3D(ball);
+				mPoolBalls.erase(i);
+				break;
+			}
+		}
+	}
+	
+}
+
+void Game::updateBallRolling()
+{
+	for (vector<GameObject3D*>::iterator i = mPoolBalls.begin(); i != mPoolBalls.end(); i++)
+	{
+		Vector3D ballRotation = (*i)->getRotation();
+		ballRotation += Vector3D(-BALL_ROLL_FACTOR * (*i)->getPhysics()->getVel().length(), 0.0f, 0.0f);
+		(*i)->setRotation(ballRotation);
 	}
 }

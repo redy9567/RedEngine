@@ -43,6 +43,10 @@ void GameListener::handleEvent(const Event& ev)
 			case KeyCode::F2:
 				game->onTogglePause();
 				break;
+
+			case KeyCode::Space:
+				game->fireCueBall();
+				break;
 			}
 		}
 		else if (eventUnion->keyboardEvent->getButtonState() == KeyState::Hold)
@@ -62,6 +66,22 @@ void GameListener::handleEvent(const Event& ev)
 			case KeyCode::K:
 			case KeyCode::L:
 				game->handleCameraMovement(eventUnion->keyboardEvent->getKey());
+				break;
+
+			case KeyCode::Up:
+				game->increaseShotPower();
+				break;
+
+			case KeyCode::Down:
+				game->decreaseShotPower();
+				break;
+
+			case KeyCode::Right:
+				game->increaseShotAngle();
+				break;
+
+			case KeyCode::Left:
+				game->decreaseShotAngle();
 				break;
 			}
 		}

@@ -4,6 +4,7 @@ PhysicsData3D::PhysicsData3D()
 {
     mPos = Vector3D::Zero();
     mVel = Vector3D::Zero();
+    mAcc = Vector3D::Zero();
 
     mInverseMass = 1.0f;
     mRotation = Vector3D::Zero();
@@ -18,6 +19,7 @@ PhysicsData3D::PhysicsData3D(Vector3D pos, Vector3D vel,
 {
     mPos = pos;
     mVel = vel;
+    mAcc = Vector3D::Zero();
 
     mInverseMass = (mass == 0.0f) ? 0.0f : 1.0f / mass;
     mRotation = rot;
@@ -32,7 +34,7 @@ void PhysicsData3D::integrate(float deltaTime)
     mPos += mVel * deltaTime;
     mRotation += mRotVel * deltaTime;
 
-    Vector3D acc = mForceAccumulator * mInverseMass;
+    Vector3D acc = mAcc + (mForceAccumulator * mInverseMass);
     Vector3D rotAcc = mTorqueAccumulator * mInverseMass;
 
     mVel += acc * deltaTime;
