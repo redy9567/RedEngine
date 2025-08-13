@@ -2,6 +2,24 @@
 #include <fstream>
 #include <vector>
 
+class RTTIType; //Forward declare, since complex RTTI types will have FieldInfos, that point to other RTTI types that they contain (creating a circular declaration loop)
+
+
+// Info related characteristics for a given field in a compound RTTI object
+class RTTIFieldInfo
+{
+private:
+	RTTIFieldInfo() = delete;
+	~RTTIFieldInfo() {}; //Doesn't hold ownership of the RTTITypes
+
+	RTTIFieldInfo(RTTIType* type, std::string fieldName) : mType(type), mFieldName(fieldName) {}
+
+	RTTIType* mType;
+	std::string mFieldName;
+};
+
+
+// Two types, primative ones, and complex ones defined by a set of fields
 class RTTIType
 {
 public:
@@ -20,6 +38,8 @@ private:
 	bool mIsPrimitiveType;
 };
 
+
+
 class RTTIField
 {
 private:
@@ -32,6 +52,8 @@ private:
 	std::string mFieldName;
 	void* mValue;
 };
+
+
 
 class RTTIObject
 {
@@ -48,6 +70,8 @@ private:
 	std::string mObjectName;
 	std::vector<RTTIField*> mFields;
 };
+
+
 
 class RTTISystem
 {
@@ -71,6 +95,8 @@ private:
 
 };
 
+
+
 class TestObject
 {
 private:
@@ -79,6 +105,8 @@ private:
 	float mFloat;
 	std::string mString;
 };
+
+
 
 class ObjectSerializer
 {
