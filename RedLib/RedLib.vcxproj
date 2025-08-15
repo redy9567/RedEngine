@@ -143,6 +143,7 @@
     <ClInclude Include="Header Files\Matrix4D.h" />
     <ClInclude Include="Header Files\MemoryTracker.h" />
     <ClInclude Include="Header Files\ObjectSerializer.h" />
+    <ClInclude Include="Header Files\RTTI.h" />
     <ClInclude Include="Header Files\Timer.h" />
     <ClInclude Include="Header Files\Trackable.h" />
     <ClInclude Include="Header Files\Vector2D.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Source Files\Matrix4D.cpp" />
     <ClCompile Include="Source Files\MemoryTracker.cpp" />
     <ClCompile Include="Source Files\ObjectSerializer.cpp" />
+    <ClCompile Include="Source Files\RTTI.cpp" />
     <ClCompile Include="Source Files\Timer.cpp" />
     <ClCompile Include="Source Files\Trackable.cpp" />
     <ClCompile Include="Source Files\Vector2D.cpp" />
