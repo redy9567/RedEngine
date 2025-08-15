@@ -55,6 +55,16 @@ void RTTISystem::cleanupInstance()
 	}
 }
 
+template<typename T>
+RTTIType* RTTISystem::getRTTITypeFor(RTTIObject* obj)
+{
+	for (std::vector<RTTIType*>::iterator i = mRegisteredTypes.begin(); i != mRegisteredTypes.end(); ++i)
+	{
+		if ((*i)->mTypeInfoHash == typeid(*obj).hash_code)
+			return *i;
+	}
+}
+
 RTTISystem::RTTISystem()
 {
 	RTTIType* boolRTTI = createRTTIType<bool>("bool", true);

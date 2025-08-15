@@ -36,6 +36,7 @@ private:
 	std::string mTypeName;
 	std::size_t mTypeInfoHash;
 	bool mIsPrimitiveType;
+	std::vector<RTTIFieldInfo> mRTTIFieldInfos;
 };
 
 
@@ -48,8 +49,7 @@ private:
 
 	RTTIField(RTTIType* type, std::string fieldName, void* value);
 
-	RTTIType* mType;
-	std::string mFieldName;
+	RTTIFieldInfo* mInfo;
 	void* mValue;
 };
 
@@ -80,7 +80,10 @@ public:
 	void cleanupInstance();
 
 	template<typename T>
-	void registerRTTIObjectClass(std::string );
+	RTTIType* getRTTITypeFor(RTTIObject* obj);
+
+	//template<typename T>
+	//void registerRTTIObjectClass(std::string );
 
 private:
 	RTTISystem();
