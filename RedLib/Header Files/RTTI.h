@@ -10,28 +10,35 @@ class RTTIFieldInfo
 {
 	friend class RTTIObject;
 
-protected:
-	RTTIFieldInfo(RTTIType* type, std::string fieldName) : mType(type), mFieldName(fieldName) {}
+public:
+	RTTIFieldInfo(RTTIType* type, std::string fieldName, char valueOffset) : mType(type), mFieldName(fieldName), mValueOffset(mValueOffset) {}
 	virtual ~RTTIFieldInfo() {}; //Doesn't hold ownership of the RTTITypes
+
+	RTTIType* getFieldType() { return mType; }
+	std::string getFieldName() { return mFieldName; }
 
 private:
 	RTTIFieldInfo() = delete;
 
 	RTTIType* mType;
 	std::string mFieldName;
+	char mValueOffset;
 };
 
 
 // FieldInfo that represents the name for an RTTIType. This must be unique and everyone RTTIType is required to have one of these.
-class RTTINameFieldInfo : RTTIFieldInfo
+class RTTINameFieldInfo : public RTTIFieldInfo
 {
 	friend class RTTIObject;
 
-private:
+public:
 	RTTINameFieldInfo(std::string rttiTypeName);
-
-	RTTINameFieldInfo() = delete;
 	~RTTINameFieldInfo() {};
+
+	std::string getRTTITypeName() { return mRTTITypeName; }
+
+private:
+	RTTINameFieldInfo() = delete;
 
 	std::string mRTTITypeName;
 };
@@ -75,15 +82,18 @@ private:
 
 class RTTIObject
 {
+	friend class RTTISystem;
+
 public:
 	virtual ~RTTIObject() {};
 
 	RTTIType* getType();
 
-private:
+protected:
 	RTTIObject();
 
-	virtual void defineRTTIObject() = 0;
+private:
+	virtual std::vector<RTTIFieldInfo> defineRTTIObject() = 0;
 
 	std::string mObjectName;
 	std::vector<RTTIField*> mFields;
@@ -106,10 +116,13 @@ private:
 	RTTISystem();
 	~RTTISystem() {};
 
-	void registerRTTIObjectClass(std::stri);
+	void registerRTTIObjectClass(RTTIObject* obj);
 
 	template<typename T>
 	RTTIType* createRTTIType(std::string typeName, bool isPrimitiveType = false);
+
+	template<typename T>
+	RTTIType* createRTTIType(T& typeExample, std::string typeName);
 
 	static RTTISystem* mspInstance;
 
@@ -119,9 +132,15 @@ private:
 
 
 
-class TestObject
+class TestObject : public RTTIObject
 {
+public:
+	TestObject(bool b, int i, float f, std::string s) : mBool(b), mInt(i), mFloat(f), mString(s) {}
+	~TestObject() {}
+
 private:
+	std::vector<RTTIFieldInfo> defineRTTIObject();
+
 	bool mBool;
 	int mInt;
 	float mFloat;

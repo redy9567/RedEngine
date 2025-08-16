@@ -7,14 +7,11 @@ using namespace std;
 
 RTTISystem* RTTISystem::mspInstance = nullptr;
 
+const string RTTI_NAME_FIELD_INFO = "RTTITypeName";
+
 RTTINameFieldInfo::RTTINameFieldInfo(string rttiTypeName)
-	: RTTIFieldInfo(RTTISystem::getInstance()->getRTTIType<string>(), "RTTITypeName"),
+	: RTTIFieldInfo(RTTISystem::getInstance()->getRTTIType<string>(), RTTI_NAME_FIELD_INFO, 0),
 	mRTTITypeName(rttiTypeName)
-{
-
-}
-
-RTTIType::~RTTIType()
 {
 
 }
@@ -63,7 +60,7 @@ RTTIType* RTTISystem::getRTTITypeFor(RTTIObject* obj)
 	}
 
 	//If it doesn't exist register it
-
+	registerRTTIObjectClass(obj);
 }
 
 template<typename T>
@@ -93,8 +90,52 @@ RTTISystem::RTTISystem()
 	mRegisteredTypes.push_back(stringRTTI);
 }
 
+void RTTISystem::registerRTTIObjectClass(RTTIObject* obj)
+{
+	vector<RTTIFieldInfo> rttiInfo = obj->defineRTTIObject();
+
+	//Search for the RTTINameField and extract the name of the RTTI that we are registering
+	string rttiName = "";
+	for (vector<RTTIFieldInfo>::iterator i = rttiInfo.begin(); i != rttiInfo.end(); ++i)
+	{
+		if ((*i).getFieldName() == RTTI_NAME_FIELD_INFO)
+		{
+			rttiName = ((RTTINameFieldInfo*)&(*i))->getRTTITypeName();
+
+			rttiInfo.erase(i);
+			break;
+		}
+	}
+
+	//Create the new RTTIType
+	RTTIType* newRTTI = createRTTIType(*obj, rttiName);
+	newRTTI->mRTTIFieldInfos = rttiInfo;
+	
+	mRegisteredTypes.push_back(newRTTI);
+
+}
+
 template<typename T>
 RTTIType* RTTISystem::createRTTIType(std::string typeName, bool isPrimitiveType)
 {
 	return new RTTIType(typeName, typeid(T).hash_code(), isPrimitiveType);
+}
+
+template<typename T>
+RTTIType* RTTISystem::createRTTIType(T& typeExample, std::string typeName)
+{
+	return new RTTIType(typeName, typeid(T).hash_code(), false);
+}
+
+vector<RTTIFieldInfo> TestObject::defineRTTIObject()
+{
+	vector<RTTIFieldInfo> rttiLayout;
+
+	rttiLayout.push_back(RTTINameFieldInfo("TestObject"));
+	rttiLayout.push_back(RTTIFieldInfo(RTTISystem::getInstance()->getRTTIType<bool>(), "BoolF1", (char*)this - (char*)&mBool));
+	rttiLayout.push_back(RTTIFieldInfo(RTTISystem::getInstance()->getRTTIType<int>(), "Int", (char*)this - (char*)&mInt));
+	rttiLayout.push_back(RTTIFieldInfo(RTTISystem::getInstance()->getRTTIType<float>(), "Floooat", (char*)this - (char*)&mFloat));
+	rttiLayout.push_back(RTTIFieldInfo(RTTISystem::getInstance()->getRTTIType<string>(), "Str", (char*)this - (char*)&mString));
+
+	return rttiLayout;
 }
