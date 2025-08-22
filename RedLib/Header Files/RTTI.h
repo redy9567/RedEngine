@@ -85,7 +85,7 @@ class RTTIObject
 	friend class RTTISystem;
 
 public:
-	virtual ~RTTIObject() {};
+	virtual ~RTTIObject();
 
 	RTTIType* getType();
 
@@ -112,11 +112,18 @@ public:
 	template<typename T>
 	RTTIType* getRTTIType();
 
+	void registerRTTIObjectClass(RTTIObject* obj);
+
+	void notifyRTTIObjectDestruct(RTTIObject* obj);
+
+	void update();
+
 private:
 	RTTISystem();
 	~RTTISystem() {};
 
-	void registerRTTIObjectClass(RTTIObject* obj);
+	bool isRTTITypeRegisteredForObject(RTTIObject* obj);
+	void internalRegisterRTTIObjectClass(RTTIObject* obj);
 
 	template<typename T>
 	RTTIType* createRTTIType(std::string typeName, bool isPrimitiveType = false);
@@ -126,6 +133,7 @@ private:
 
 	static RTTISystem* mspInstance;
 
+	std::vector<RTTIObject*> mObjectsWithUnregisteredTypes;
 	std::vector<RTTIType*> mRegisteredTypes;
 
 };

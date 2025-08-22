@@ -23,6 +23,8 @@ int main()
 
     RTTISystem* rttiSys = RTTISystem::getInstance();
 
+    rttiSys->update();
+
     //Play Game
     Game::getInstance()->init(screenWidth, screenHeight, 60, true);
     Game::getInstance()->startGame();

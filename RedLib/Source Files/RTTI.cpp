@@ -30,7 +30,12 @@ RTTIType* RTTIObject::getType()
 
 RTTIObject::RTTIObject()
 {
-	getType(); //Calling the getType function, will register this RTTIClass when it doesn't exist
+	RTTISystem::getInstance()->registerRTTIObjectClass(this);
+}
+
+RTTIObject::~RTTIObject()
+{
+	RTTISystem::getInstance()->notifyRTTIObjectDestruct(this);
 }
 
 RTTISystem* RTTISystem::getInstance()
@@ -52,29 +57,65 @@ void RTTISystem::cleanupInstance()
 
 RTTIType* RTTISystem::getRTTITypeFor(RTTIObject* obj)
 {
+	update();
+
 	//Look up if the RTTI type is registered
-	for (std::vector<RTTIType*>::iterator i = mRegisteredTypes.begin(); i != mRegisteredTypes.end(); ++i)
+	for (vector<RTTIType*>::iterator i = mRegisteredTypes.begin(); i != mRegisteredTypes.end(); ++i)
 	{
 		if ((*i)->mTypeInfoHash == typeid(*obj).hash_code())
 			return *i;
 	}
 
-	//If it doesn't exist register it
-	registerRTTIObjectClass(obj);
+	//If it doesn't exist, throw an assert.
+	assert(false);
 }
 
 template<typename T>
 RTTIType* RTTISystem::getRTTIType()
 {
+	update();
+
 	//Look up if the RTTI type is registered
-	for (std::vector<RTTIType*>::iterator i = mRegisteredTypes.begin(); i != mRegisteredTypes.end(); ++i)
+	for (vector<RTTIType*>::iterator i = mRegisteredTypes.begin(); i != mRegisteredTypes.end(); ++i)
 	{
 		if ((*i)->mTypeInfoHash == typeid(T).hash_code())
 			return *i;
 	}
 
-	//If it doesn't exist, throw an assert. (Maybe we want this to lazy register later?)
+	//If it doesn't exist, throw an assert.
 	assert(false);
+}
+
+void RTTISystem::registerRTTIObjectClass(RTTIObject* obj)
+{
+	if (!isRTTITypeRegisteredForObject(obj))
+		mObjectsWithUnregisteredTypes.push_back(obj);
+}
+
+void RTTISystem::notifyRTTIObjectDestruct(RTTIObject* obj)
+{
+	//If this class was on the list of objects to be registered, remove it to prevent dangling pointers.
+	for (vector<RTTIObject*>::iterator i = mObjectsWithUnregisteredTypes.begin(); i != mObjectsWithUnregisteredTypes.end(); ++i)
+	{
+		if (*i == obj)
+		{
+			mObjectsWithUnregisteredTypes.erase(i);
+			break;
+		}
+	}
+}
+
+void RTTISystem::update()
+{
+	//We are now going to register any RTTITypes that are waiting to be registered.
+
+	for (vector<RTTIObject*>::iterator i = mObjectsWithUnregisteredTypes.begin(); i != mObjectsWithUnregisteredTypes.end(); ++i)
+	{
+		if (!isRTTITypeRegisteredForObject(*i))
+			internalRegisterRTTIObjectClass(*i);
+	}
+
+	mObjectsWithUnregisteredTypes.clear();
 }
 
 RTTISystem::RTTISystem()
@@ -90,7 +131,19 @@ RTTISystem::RTTISystem()
 	mRegisteredTypes.push_back(stringRTTI);
 }
 
-void RTTISystem::registerRTTIObjectClass(RTTIObject* obj)
+bool RTTISystem::isRTTITypeRegisteredForObject(RTTIObject* obj)
+{
+	//Look up if the RTTI type is registered
+	for (std::vector<RTTIType*>::iterator i = mRegisteredTypes.begin(); i != mRegisteredTypes.end(); ++i)
+	{
+		if ((*i)->mTypeInfoHash == typeid(*obj).hash_code())
+			return true;
+	}
+
+	return false;
+}
+
+void RTTISystem::internalRegisterRTTIObjectClass(RTTIObject* obj)
 {
 	vector<RTTIFieldInfo> rttiInfo = obj->defineRTTIObject();
 
